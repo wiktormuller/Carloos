@@ -4,12 +4,12 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:42617",
-      "sslPort": 44363
+      "applicationUrl": "http://localhost:21107",
+      "sslPort": 44330
     }
   },
   "profiles": {
-    "JobJetRestApi": {
+    "JobJetRestApi.Web": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
