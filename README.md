@@ -1,2 +1,2 @@
-# Carloos
-Program do obsługi serwisu naprawczego samochodów
+# JobJet
+Interaktywna mapa do szukania pracy oraz tworzenia ogłoszeń o pracę.
