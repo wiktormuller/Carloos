@@ -1,0 +1,42 @@
+.app{
+    display: flex;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: column;
+    border:  solid red 5px;
+    width: 3vw;
+    height: 100vh;
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;    
+}
+
+.sub-container{
+    display: flex;   
+}
+
+.header{
+    display: flex;    
+    border:  solid orange 5px;
+    width: 95vw;
+    height: 7.5vh;
+}
+
+.data{
+    display: flex;    
+    border:  solid blue 5px; 
+    flex-direction: column; 
+    width: 35vw;
+    height: 92.5vh;  
+}
+
+.map{
+    width: 60vw;
+    height: 92.5vh;
+    border:  solid green 5px;  
+
+}
