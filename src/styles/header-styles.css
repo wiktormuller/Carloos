@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+.header__unregistered-user, .header__registered-user{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 25vw;
+    text-decoration: none!important;
+    letter-spacing: normal;
+    background: red;
+}
+
+.header__logo{
+    font-family: 'Lobster', cursive;
+    font-size: 5em;
+    letter-spacing: 0.1em;
+    text-decoration: underline;
+    
+}
+
+.header__btn{
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1.25em;
+    width: 35%;
+}

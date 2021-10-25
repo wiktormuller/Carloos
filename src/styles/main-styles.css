@@ -1,7 +1,8 @@
-body, html, .root {
+body, html, #root {
     height: 100vh;
     padding: 0;
     margin: 0;
+    background-color: azure;
   }
 
 .app{
@@ -16,7 +17,6 @@ body, html, .root {
     background: navy;
     width: 4vw;
     height: 100vh;
-    
 }
 
 .main-container{
@@ -32,9 +32,12 @@ body, html, .root {
 }
 
 .header{
-    display: flex;    
+    display: flex;   
+    align-items: center; 
+    justify-content: space-between;
     height: 10vh;
     background: orange;
+    padding-left: 1%;
 }
 
 .data{

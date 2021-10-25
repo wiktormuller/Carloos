@@ -1,0 +1,13 @@
+.data__input-data{
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    background: aqua;
+}
+
+.data__filter-data{
+    display: flex;
+    width: 100%;
+    height: 25vh;
+    background: lightsalmon;
+}
