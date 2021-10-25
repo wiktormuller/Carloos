@@ -1,12 +1,10 @@
-import './styles/main-styles.css';
+import "./styles/main-styles.css";
 
 import { useState /*, useEffect*/ } from "react";
 import { Navbar } from "./components/Navbar.jsx";
 import { Container } from "./components/Container.jsx";
 
-
 function App() {
-
   const [userLogInState, setUserLogInState] = useState(false);
 
   return (
