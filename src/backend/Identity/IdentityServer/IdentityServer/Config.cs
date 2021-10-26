@@ -8,7 +8,7 @@ using IdentityServer4.Test;
 
 namespace IdentityServer
 {
-    public static class Configuration
+    public static class Config
   {
     public static List<TestUser> Users
     {
