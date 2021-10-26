@@ -4,4 +4,17 @@
         <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Component\User\Application\Repository" />
+      <Folder Include="Component\User\Application\Service" />
+      <Folder Include="Component\User\Application\UseCase" />
+      <Folder Include="Component\User\Application\Validation" />
+      <Folder Include="Component\User\Domain\Entity" />
+      <Folder Include="Component\User\Domain\ValueObject" />
+      <Folder Include="Entities" />
+      <Folder Include="Interfaces" />
+      <Folder Include="Port" />
+      <Folder Include="UseCases" />
+    </ItemGroup>
+
 </Project>
