@@ -29,8 +29,9 @@ namespace JobJetRestApi.Web
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication("Bearer", options =>
                 {
-                    options.ApiName = "weatherapi";
-                    options.Authority = "https://localhost:5003";
+                    options.ApiName = "jobjetapi";
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false; // For dev purposes
                 });
             
             services.AddControllers();
@@ -54,6 +55,7 @@ namespace JobJetRestApi.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
