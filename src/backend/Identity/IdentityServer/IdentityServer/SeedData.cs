@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using IdentityModel;
+using IdentityServer.Data;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.EntityFramework.Storage;
@@ -17,13 +18,13 @@ namespace IdentityServer
     public static void EnsureSeedData(string connectionString)
     {
       var services = new ServiceCollection();
-      /*services.AddLogging();
+      services.AddLogging();
       services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlite(connectionString));
 
       services.AddIdentity<IdentityUser, IdentityRole>()
-        .AddEntityFrameworkStores<ConfigurationDbContext>()
-        .AddDefaultTokenProviders();*/
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
       services.AddOperationalDbContext(options =>
       {
@@ -44,7 +45,12 @@ namespace IdentityServer
 
         var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
         context.Database.Migrate();
+
         EnsureSeedData(context);
+
+        var ctx = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        ctx.Database.Migrate();
+        EnsureUsers(scope);
       }
     }
 
