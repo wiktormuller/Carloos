@@ -1,10 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Web", "JobJetRestApi.Web\JobJetRestApi.Web.csproj", "{7B109886-D7F4-461D-96DB-1822E75A20DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Web", "JobJetRestApi.Web\JobJetRestApi.Web.csproj", "{4FBAEC7E-39C9-4964-82FE-AC86DB728BFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Core", "JobJetRestApi.Core\JobJetRestApi.Core.csproj", "{D9791ECC-1C14-461E-9BF8-60CEC035F0D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Domain", "JobJetRestApi.Domain\JobJetRestApi.Domain.csproj", "{A300D638-027C-4CBA-8999-2388E0A4FA10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Infrastructure", "JobJetRestApi.Infrastructure\JobJetRestApi.Infrastructure.csproj", "{08E0EDF4-AED3-45EB-92FC-8285AC67EA59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Application", "JobJetRestApi.Application\JobJetRestApi.Application.csproj", "{9149DDBB-3CBE-4542-B7D6-726CC3352984}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Infrastructure", "JobJetRestApi.Infrastructure\JobJetRestApi.Infrastructure.csproj", "{56F58215-6F8A-43CD-BB8D-B86C1C401C42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,17 +14,21 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7B109886-D7F4-461D-96DB-1822E75A20DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B109886-D7F4-461D-96DB-1822E75A20DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B109886-D7F4-461D-96DB-1822E75A20DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B109886-D7F4-461D-96DB-1822E75A20DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9791ECC-1C14-461E-9BF8-60CEC035F0D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9791ECC-1C14-461E-9BF8-60CEC035F0D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9791ECC-1C14-461E-9BF8-60CEC035F0D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9791ECC-1C14-461E-9BF8-60CEC035F0D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08E0EDF4-AED3-45EB-92FC-8285AC67EA59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08E0EDF4-AED3-45EB-92FC-8285AC67EA59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08E0EDF4-AED3-45EB-92FC-8285AC67EA59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08E0EDF4-AED3-45EB-92FC-8285AC67EA59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FBAEC7E-39C9-4964-82FE-AC86DB728BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FBAEC7E-39C9-4964-82FE-AC86DB728BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FBAEC7E-39C9-4964-82FE-AC86DB728BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FBAEC7E-39C9-4964-82FE-AC86DB728BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A300D638-027C-4CBA-8999-2388E0A4FA10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A300D638-027C-4CBA-8999-2388E0A4FA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A300D638-027C-4CBA-8999-2388E0A4FA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A300D638-027C-4CBA-8999-2388E0A4FA10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9149DDBB-3CBE-4542-B7D6-726CC3352984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9149DDBB-3CBE-4542-B7D6-726CC3352984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9149DDBB-3CBE-4542-B7D6-726CC3352984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9149DDBB-3CBE-4542-B7D6-726CC3352984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56F58215-6F8A-43CD-BB8D-B86C1C401C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56F58215-6F8A-43CD-BB8D-B86C1C401C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56F58215-6F8A-43CD-BB8D-B86C1C401C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56F58215-6F8A-43CD-BB8D-B86C1C401C42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
