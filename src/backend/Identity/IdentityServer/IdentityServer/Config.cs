@@ -131,18 +131,20 @@ namespace IdentityServer
         {
           ClientId = "js",
           ClientName = "JavaScript Client",
-          AllowedGrantTypes = GrantTypes.Code,
-          RequireClientSecret = false,
+          AllowedGrantTypes = GrantTypes.Implicit,
+          AllowAccessTokensViaBrowser = true,
+          AccessTokenType = AccessTokenType.Jwt,
 
-          RedirectUris =           { "https://localhost:5003/callback.html" },
-          PostLogoutRedirectUris = { "https://localhost:5003/index.html" },
-          AllowedCorsOrigins =     { "https://localhost:5003" },
+          RedirectUris =           { "https://localhost:5005/callback.html" },
+          PostLogoutRedirectUris = { "https://localhost:5005/index.html" },
+          AllowedCorsOrigins =     { "https://localhost:5005" },
+          RequireClientSecret = false,
 
           AllowedScopes =
           {
             IdentityServerConstants.StandardScopes.OpenId,
             IdentityServerConstants.StandardScopes.Profile,
-            "jobjetapi"
+            "jobjetapi.read"
           }
         }
       };

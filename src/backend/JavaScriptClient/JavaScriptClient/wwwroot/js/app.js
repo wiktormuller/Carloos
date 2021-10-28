@@ -22,9 +22,9 @@ var config = {
     authority: "https://localhost:5001",
     client_id: "js",
     redirect_uri: "https://localhost:5005/callback.html",
-    response_type: "code",
-    scope:"openid profile jobjetapi",
-    post_logout_redirect_uri : "https://localhost:5005/index.html",
+    response_type: "id_token token",
+    scope:"openid profile jobjetapi.read",
+    post_logout_redirect_uri : "https://localhost:5005/index.html"
 };
 var mgr = new Oidc.UserManager(config);
 
@@ -45,7 +45,7 @@ function login() {
 
 function api() {
     mgr.getUser().then(function (user) {
-        var url = "https://localhost:5001/identity";
+        var url = "https://localhost:5003/identity";
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url);

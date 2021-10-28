@@ -35,6 +35,17 @@ namespace IdentityServer
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("https://localhost:5005")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+            
             services.AddIdentityServer()
                 .AddAspNetIdentity<IdentityUser>()
                 .AddConfigurationStore(options =>
@@ -48,6 +59,8 @@ namespace IdentityServer
                         opt => opt.MigrationsAssembly(migrationAssembly));
                 })
                 .AddDeveloperSigningCredential();
+            
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,12 +72,18 @@ namespace IdentityServer
             }
 
             app.UseRouting();
+            
+            app.UseCors("default");
+            
+            app.UseRouting();
+            
+            app.UseStaticFiles();
+            
             app.UseIdentityServer(); // IS4 is a piece of middleware
+            
+            app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
-            });
+            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
         }
     }
 }
