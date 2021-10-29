@@ -13,4 +13,8 @@
       <Folder Include="UseCases\JobOffers\QueriesHandlers" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\JobJetRestApi.Domain\JobJetRestApi.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

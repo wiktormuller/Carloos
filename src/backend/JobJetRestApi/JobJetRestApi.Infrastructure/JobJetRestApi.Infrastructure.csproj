@@ -13,4 +13,8 @@
       <Folder Include="Services" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\JobJetRestApi.Application\JobJetRestApi.Application.csproj" />
+    </ItemGroup>
+
 </Project>
