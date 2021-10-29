@@ -9,6 +9,7 @@
       <Folder Include="Enums" />
       <Folder Include="Events" />
       <Folder Include="Exceptions" />
+      <Folder Include="Services" />
       <Folder Include="ValueObjects" />
     </ItemGroup>
 

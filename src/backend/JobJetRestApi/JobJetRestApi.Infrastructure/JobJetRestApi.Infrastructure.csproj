@@ -5,7 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Repository" />
+      <Folder Include="Persistance\Configurations" />
+      <Folder Include="Persistance\DbContexts" />
+      <Folder Include="Persistance\Migrations" />
+      <Folder Include="Persistance\Seeders" />
+      <Folder Include="Repositories" />
+      <Folder Include="Services" />
     </ItemGroup>
 
 </Project>
