@@ -34,6 +34,17 @@ namespace JobJetRestApi.Web
                     options.RequireHttpsMetadata = false; // For dev purposes
                 });
             
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("https://localhost:5005")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -54,6 +65,8 @@ namespace JobJetRestApi.Web
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors("default");
 
             app.UseAuthentication();
             app.UseAuthorization();

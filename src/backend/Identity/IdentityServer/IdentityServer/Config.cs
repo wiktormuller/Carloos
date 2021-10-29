@@ -125,6 +125,28 @@ namespace IdentityServer
           RequireConsent = true,
           AllowPlainTextPkce = false
         },
+        
+        // JavaScript Client
+        new Client
+        {
+          ClientId = "js",
+          ClientName = "JavaScript Client",
+          AllowedGrantTypes = GrantTypes.Implicit,
+          AllowAccessTokensViaBrowser = true,
+          AccessTokenType = AccessTokenType.Jwt,
+
+          RedirectUris =           { "https://localhost:5005/callback.html" },
+          PostLogoutRedirectUris = { "https://localhost:5005/index.html" },
+          AllowedCorsOrigins =     { "https://localhost:5005" },
+          RequireClientSecret = false,
+
+          AllowedScopes =
+          {
+            IdentityServerConstants.StandardScopes.OpenId,
+            IdentityServerConstants.StandardScopes.Profile,
+            "jobjetapi.read"
+          }
+        }
       };
   }
 }
