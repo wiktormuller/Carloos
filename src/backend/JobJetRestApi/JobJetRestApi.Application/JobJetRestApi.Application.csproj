@@ -5,15 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Mappings" />
-      <Folder Include="Ports" />
-      <Folder Include="UseCases\JobOffers\Commands" />
-      <Folder Include="UseCases\JobOffers\CommandsHandlers" />
-      <Folder Include="UseCases\JobOffers\Queries" />
-      <Folder Include="UseCases\JobOffers\QueriesHandlers" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\JobJetRestApi.Domain\JobJetRestApi.Domain.csproj" />
     </ItemGroup>
 
