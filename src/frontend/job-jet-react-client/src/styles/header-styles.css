@@ -20,7 +20,7 @@
 }
 
 .header__btn {
-  background-color: azure;
+  background-color: #f7f7f7;
   cursor: pointer;
   width: 35%;
   padding: 12px 20px;
@@ -29,7 +29,14 @@
   border-radius: 25px;
   text-align: center;
   outline: transparent;
-  -webkit-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-  -moz-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  -webkit-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.8);
+  -moz-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.8);
+  box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.8);
+}
+
+.header__btn:hover {
+  background: #ffffff;
+  -webkit-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 1);
+  box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 1);
 }

@@ -4,7 +4,7 @@ html,
   height: 100vh;
   padding: 0;
   margin: 0;
-  background-color: azure;
+  background-color: #f5f5f5;
 }
 
 .app {
@@ -19,9 +19,9 @@ html,
   background: navy;
   width: 4vw;
   height: 100vh;
-  -webkit-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-  -moz-box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  -webkit-box-shadow: 25px 25px 25px -10px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 25px 25px 25px -10px rgba(66, 68, 90, 1);
+  box-shadow: 25px 25px 25px -10px rgba(66, 68, 90, 1);
 }
 
 .main-container {
