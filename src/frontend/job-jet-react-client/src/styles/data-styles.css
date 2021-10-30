@@ -21,7 +21,8 @@
   word-wrap: break-word;
 }
 
-.data__filter-data--btn {
+.data__filter-data--btn,
+.data__filter-data--btn--clicked {
   background: #f7f7f7;
   cursor: pointer;
   padding: 12px 20px;
@@ -32,6 +33,10 @@
   -webkit-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.8);
   -moz-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.8);
   box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.8);
+}
+
+.data__filter-data--btn--clicked {
+  background: lightskyblue;
 }
 
 input[type="text"],
@@ -64,6 +69,20 @@ input[type="text"]:hover,
 
 .data__filter-data--btn:active {
   background: #eeeeee;
+  -webkit-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.1);
+  -moz-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.1);
+  box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.1);
+}
+
+.data__filter-data--btn--clicked:hover {
+  background: #98dffb;
+  -webkit-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 1);
+  box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 1);
+}
+
+.data__filter-data--btn--clicked:active {
+  background: #76bdea;
   -webkit-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.1);
   -moz-box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.1);
   box-shadow: 25px 25px 25px 0px rgba(66, 68, 90, 0.1);
