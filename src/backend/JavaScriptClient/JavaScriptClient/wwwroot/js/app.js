@@ -52,6 +52,7 @@ function api() {
         xhr.onload = function () {
             log(xhr.status, JSON.parse(xhr.responseText));
         }
+        //console.log(user.access_token);
         xhr.setRequestHeader("Authorization", "Bearer " + user.access_token);
         xhr.send();
     });

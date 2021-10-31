@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace JobJetRestApi.Web
@@ -26,11 +27,13 @@ namespace JobJetRestApi.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
+            
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication("Bearer", options =>
                 {
                     options.ApiName = "jobjetapi";
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "https://localhost:5001"; // How to force https?
                     options.RequireHttpsMetadata = false; // For dev purposes
                 });
             

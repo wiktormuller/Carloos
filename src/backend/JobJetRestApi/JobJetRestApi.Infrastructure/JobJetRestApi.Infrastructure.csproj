@@ -5,12 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Persistance\Configurations" />
-      <Folder Include="Persistance\DbContexts" />
       <Folder Include="Persistance\Migrations" />
-      <Folder Include="Persistance\Seeders" />
-      <Folder Include="Repositories" />
-      <Folder Include="Services" />
     </ItemGroup>
 
     <ItemGroup>
