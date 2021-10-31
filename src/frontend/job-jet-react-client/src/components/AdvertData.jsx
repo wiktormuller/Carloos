@@ -1,13 +1,9 @@
 import '../styles/data-styles.css';
 import { AdvertSynopsis } from "./AdvertSynopsis"
 
-export const AdvertData = () => {
+export const AdvertData = (props) => {
 
-    const adsArray = [
-      {id:1, title:"Praca Trójmiasto", localization:"Trójmiasto", salary:"5000-7500", date:"20-10-2021", description:"Poszukiwany Junior Web Developer do pracy na pół etatu"}
-    ];
-
-    const renderedArray = adsArray.map(
+    const renderedArray = props.adsArray.map(
       (ad) => {
         return <AdvertSynopsis 
             key={ad.id} 
@@ -16,6 +12,9 @@ export const AdvertData = () => {
             salary={ad.salary}
             date={ad.date}
             description={ad.description}
+            skills={ad.skills}
+            skillsArray={props.skillsArray}
+            localizationArray={props.localizationArray}
             >
             </AdvertSynopsis>
       }
