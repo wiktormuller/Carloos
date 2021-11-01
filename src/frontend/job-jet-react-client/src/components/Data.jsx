@@ -1,14 +1,15 @@
 import '../styles/main-styles.css';
+import { useState } from "react";
 import { InputData } from "./InputData";
 import { FilterData } from "./FilterData";
 import { AdvertData } from './AdvertData';
 
 export const Data = () => {
 
-  const localizationArray = [
-    {id:1, name:"Gdańsk"}, {id:2, name:"Gdynia"}, {id:3, name:"Sopot"}, 
-    {id:4, name:"Warszawa"}, {id:5, name:"Łódź"}, {id:6, name:"Poznań"}, 
-    {id:7, name:"Wrocław"}, {id:8, name:"Kraków"}, {id:9, name:"Szczecin"}
+  const localizationArray = [{id:1, name:"Szukaj wszędzie"},
+    {id:2, name:"Gdańsk"}, {id:3, name:"Gdynia"}, {id:4, name:"Sopot"}, 
+    {id:5, name:"Warszawa"}, {id:6, name:"Łódź"}, {id:7, name:"Poznań"}, 
+    {id:8, name:"Wrocław"}, {id:9, name:"Kraków"}, {id:10, name:"Szczecin"}
   ]
 
   const skillsArray = [
@@ -23,11 +24,42 @@ export const Data = () => {
     ,{id:2, title:"Senior security specialist", localization:4, salary:"15000-25000 PLN", date:"28-10-2021", description:"Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.", skills:[8,17,18,20]}
   ];
 
+  const [searchedAds, setSearchedAds] = useState(adsArray);
+  const [searchedInput, setSearchedInput] = useState("");
+  const [searchedLocalization, setSearchedLocalization] = useState("");
+
+  const filterData = () => {
+    if(searchedInput !== ""){
+      const filteredData = adsArray.filter((ad) => {
+        return (
+          ad.title
+            .toLowerCase()
+            .trim()
+            .includes(searchedInput.toLowerCase().trim()) ||
+          ad.description
+            .toLowerCase()
+            .trim()
+            .includes(searchedInput.toLowerCase().trim())
+        );
+      });
+      setSearchedAds(filteredData);
+    }
+    if(searchedInput === ""){
+      setSearchedAds(adsArray);
+    }
+    if(searchedLocalization !== 0){
+      console.log(searchedLocalization)
+    }
+    if(searchedLocalization !== 0){
+      console.log(searchedLocalization)    
+    }
+  };
+
   return (
     <div className="data">
-      <InputData localizationArray={localizationArray}></InputData>
+      <InputData localizationArray={localizationArray} setSearchedInput={setSearchedInput} setSearchedLocalization={setSearchedLocalization} filterData={filterData}></InputData>
       <FilterData skillsArray={skillsArray}></FilterData>
-      <AdvertData localizationArray={localizationArray} skillsArray={skillsArray} adsArray={adsArray}></AdvertData>
+      <AdvertData localizationArray={localizationArray} skillsArray={skillsArray} adsArray={searchedAds}></AdvertData>
     </div>
     );
 }

@@ -3,9 +3,18 @@ import '../styles/data-styles.css';
 
 export const InputData = (props) => {
 
+
+  const updateSearchedInput = (value) => {
+    props.setSearchedInput(value);
+  };
+
+  const updateSearchedLocalizations = (value) => {
+    props.setSearchedLocalization(value)
+  }
+
   const renderedArray = props.localizationArray.map(
     (city) => {
-      return <option key={city.id} value={city.id}>{city.name}</option>
+      return <option key={city.id} value={city.name}>{city.name}</option>
     }
   )
 
@@ -17,8 +26,18 @@ export const InputData = (props) => {
           id="text"
           name="text"
           placeholder="Wyszukaj"
+          onChange={(e) => {
+            updateSearchedInput(e.target.value);
+            props.filterData()
+            }
+          }
+          
         />
-        <select id="search" className="custom-select">
+        <select id="search" className="custom-select" onChange={(e) => {
+            updateSearchedLocalizations(e.target.value);
+            props.filterData()
+            }
+        }>
           {renderedArray}
         </select>
       </form>
