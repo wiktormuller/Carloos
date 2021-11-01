@@ -1,4 +1,5 @@
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,9 @@ namespace JobJetRestApi.Web
             // IdentityModelEventSource.ShowPII = true;
             services.AddDbContext<JobJetDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
-            
+
+            services.AddMediatR(typeof(Startup));
+
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication("Bearer", options =>
                 {
