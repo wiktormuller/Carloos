@@ -1,4 +1,6 @@
+using FluentValidation.AspNetCore;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
+using JobJetRestApi.Infrastructure.Validators;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +29,8 @@ namespace JobJetRestApi.Web
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMediatR(typeof(Startup));
+
+            services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateJobOfferRequestValidator>());
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication("Bearer", options =>
