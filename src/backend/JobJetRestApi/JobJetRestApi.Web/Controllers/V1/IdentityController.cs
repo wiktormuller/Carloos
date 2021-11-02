@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace JobJetRestApi.Web.Controllers
+namespace JobJetRestApi.Web.Controllers.V1
 {
     [Route("Identity")]
     [Authorize]

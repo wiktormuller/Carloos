@@ -1,6 +1,6 @@
 ﻿namespace JobJetRestApi.Domain.Entities
 {
-    public class CountryISO
+    public class CountryIso
     {
         public int Id { get; }
         public string Name { get; }
