@@ -27,10 +27,12 @@ export const Data = () => {
   const [searchedAds, setSearchedAds] = useState(adsArray);
   const [searchedInput, setSearchedInput] = useState("");
   const [searchedLocalization, setSearchedLocalization] = useState("");
+  const [searchedSkills] = useState([]);
 
   const filterData = () => {
+    let filteredData = [];
     if(searchedInput !== ""){
-      const filteredData = adsArray.filter((ad) => {
+      filteredData = adsArray.filter((ad) => {
         return (
           ad.title
             .toLowerCase()
@@ -48,17 +50,22 @@ export const Data = () => {
       setSearchedAds(adsArray);
     }
     if(searchedLocalization !== 0){
-      console.log(searchedLocalization)
+      // console.log(searchedLocalization)
     }
     if(searchedLocalization !== 0){
-      console.log(searchedLocalization)    
+      // console.log(searchedLocalization)    
+    }
+    if(searchedSkills.length > 0){
+      let checker = (arr, target) => target.every(v => arr.includes(v));
+      filteredData = adsArray.filter(ad => checker(ad.skills,searchedSkills) === true);
+      setSearchedAds(filteredData);
     }
   };
 
   return (
     <div className="data">
       <InputData localizationArray={localizationArray} setSearchedInput={setSearchedInput} setSearchedLocalization={setSearchedLocalization} filterData={filterData}></InputData>
-      <FilterData skillsArray={skillsArray}></FilterData>
+      <FilterData skillsArray={skillsArray} searchedSkills={searchedSkills} filterData={filterData}></FilterData>
       <AdvertData localizationArray={localizationArray} skillsArray={skillsArray} adsArray={searchedAds}></AdvertData>
     </div>
     );

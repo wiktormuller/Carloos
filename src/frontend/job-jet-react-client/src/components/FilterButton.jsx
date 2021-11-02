@@ -44,9 +44,18 @@ export const FilterButton = (props) => {
       if (active === true) {
         setClicked("--clicked");
         setActive(false);
+        props.searchedSkills.push(props.id);
+        props.filterData();
       }
       else {
         setClicked("");
+        const arr = props.searchedSkills;
+        for( var i = 0; i < arr.length; i++){ 
+          if ( arr[i] === props.id) { 
+            props.searchedSkills.splice(i, 1);
+            props.filterData();
+          }
+        }
       }
     };
   
