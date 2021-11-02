@@ -28,14 +28,12 @@ export const InputData = (props) => {
           placeholder="Wyszukaj"
           onChange={(e) => {
             updateSearchedInput(e.target.value);
-            props.filterData()
             }
           }
           
         />
         <select id="search" className="custom-select" onChange={(e) => {
             updateSearchedLocalizations(e.target.value);
-            props.filterData()
             }
         }>
           {renderedArray}
