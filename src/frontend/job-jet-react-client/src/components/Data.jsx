@@ -8,19 +8,29 @@ import { localizationArray, skillsArray, adsArray } from "./../data/arrays"
 export const Data = () => {
 
   const [searchedInput, setSearchedInput] = useState("");
-  const [searchedLocalization, setSearchedLocalization] = useState("");
+  const [searchedLocalization, setSearchedLocalization] = useState("1");
   const [searchedSkills, setSearchedSkills] = useState([]);
 
-  let searchedAds = adsArray;
+  let searchedAds;
+  let searchedAdsByLocalization;
+  let searchedAdsClone;
   let filteredData = [];
-  if(searchedLocalization !== 0){
-    console.log(searchedLocalization)
+  if(searchedLocalization !== "1"){
+    filteredData = adsArray.filter(ad => String(ad.localization) === searchedLocalization);
+    searchedAds = filteredData;
   }
-  if(searchedLocalization === 0){
-    console.log(searchedLocalization)    
+  if(searchedLocalization === "1"){
+    searchedAds = adsArray;
   }
+  searchedAdsByLocalization = [...searchedAds];
+  if(searchedSkills.length > 0){
+    let checker = (arr, target) => target.every(v => arr.includes(v));
+    filteredData = searchedAdsByLocalization.filter(ad => checker(ad.skills,searchedSkills) === true);
+    searchedAds = filteredData;
+  }
+  searchedAdsClone = [...searchedAds];
   if(searchedInput !== ""){
-    filteredData = adsArray.filter((ad) => {
+    filteredData = searchedAds.filter((ad) => {
       return (
         ad.title
           .toLowerCase()
@@ -35,14 +45,8 @@ export const Data = () => {
     searchedAds = filteredData;
   }
   if(searchedInput === ""){
-    searchedAds = adsArray;
+    searchedAds = searchedAdsClone;
   }
-  if(searchedSkills.length > 0){
-    let checker = (arr, target) => target.every(v => arr.includes(v));
-    filteredData = adsArray.filter(ad => checker(ad.skills,searchedSkills) === true);
-    searchedAds = filteredData;
-  }
-  
 
   return (
     <div className="data">

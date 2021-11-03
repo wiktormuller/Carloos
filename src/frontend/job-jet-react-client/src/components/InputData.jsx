@@ -14,7 +14,7 @@ export const InputData = (props) => {
 
   const renderedArray = props.localizationArray.map(
     (city) => {
-      return <option key={city.id} value={city.name}>{city.name}</option>
+      return <option key={city.id} value={city.id}>{city.name}</option>
     }
   )
 
