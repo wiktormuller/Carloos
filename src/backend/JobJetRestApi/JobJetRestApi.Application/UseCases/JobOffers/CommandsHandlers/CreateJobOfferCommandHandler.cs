@@ -9,7 +9,9 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
     {
         public Task<int> Handle(CreateJobOfferCommand request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var jobOfferId = 123;
+            
+            return Task.FromResult(jobOfferId);
         }
     }
 }

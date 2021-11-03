@@ -27,6 +27,10 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
         public async Task<ActionResult<IEnumerable<string>>> Get()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             return new string[] { "value1", "value2"};
         }
         
@@ -51,7 +55,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var command = new CreateJobOfferCommand
@@ -79,18 +83,57 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task Put(int id, [FromBody] UpdateJobOfferRequest request)
+        public async Task<ActionResult> Put(int id, [FromBody] UpdateJobOfferRequest request)
         {
-            
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var command = new UpdateJobOfferCommand
+            (
+                id,
+                request.Name,
+                request.Description,
+                request.SalaryFrom,
+                request.SalaryTo,
+                request.TechnologyTypeId,
+                request.SeniorityId,
+                request.EmploymentTypeId,
+                request.Address.Town,
+                request.Address.Street,
+                request.Address.ZipCode,
+                request.Address.CountryIsoId
+            );
+
+            try
+            {
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
         
         // DELETE api/job-offers/5
         [HttpDelete(ApiRoutes.JobOffers.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            
+            var command = new DeleteJobOfferCommand(id);
+
+            try
+            {
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
     }
 }
