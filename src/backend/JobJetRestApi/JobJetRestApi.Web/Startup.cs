@@ -1,9 +1,12 @@
 using FluentValidation.AspNetCore;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
+using JobJetRestApi.Infrastructure.Services;
 using JobJetRestApi.Infrastructure.Validators;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +35,15 @@ namespace JobJetRestApi.Web
 
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateJobOfferRequestValidator>());
 
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IPageUriService>(o => // Here we get the base URL of the application http(s)://www.jobjet.com
+            {
+                var accessor = o.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var uri = request.Scheme + "://" + request.Host.ToUriComponent();
+                return new PageUriService(uri);
+            });
+            
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication("Bearer", options =>
                 {

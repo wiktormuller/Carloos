@@ -1,4 +1,4 @@
-﻿namespace JobJetRestApi.Web.Contracts.V1.Responses
+﻿namespace JobJetRestApi.Application.Contracts.V1.Responses
 {
     public class Result<T>
     {

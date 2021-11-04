@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Requests;
+using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
+using JobJetRestApi.Web.Contracts.V1.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,23 +19,31 @@ namespace JobJetRestApi.Web.Controllers.V1
     public class JobOffersController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IPageUriService _pageUriService;
 
-        public JobOffersController(IMediator mediator)
+        public JobOffersController(IMediator mediator, 
+            IPageUriService pageUriService)
         {
             _mediator = mediator;
+            _pageUriService = pageUriService;
         }
 
         // GET api/job-offers
         [HttpGet(ApiRoutes.JobOffers.GetAll)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
-        public async Task<ActionResult<IEnumerable<string>>> Get()
+        public async Task<ActionResult<PagedResponse<JobOfferResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return new string[] { "value1", "value2"};
+
+            var route = Request.Path.Value;
+            var totalRecords = 100;
+            var data = new List<JobOfferResponse>();
+
+            return Ok(PagedResponse<JobOfferResponse>.CreatePagedResponse(data, filter, totalRecords, _pageUriService, route));
         }
         
         // GET api/job-offers/5

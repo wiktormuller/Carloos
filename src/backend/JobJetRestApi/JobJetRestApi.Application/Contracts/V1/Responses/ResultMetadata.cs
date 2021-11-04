@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JobJetRestApi.Web.Contracts.V1.Responses
+namespace JobJetRestApi.Application.Contracts.V1.Responses
 {
     public class ResultMetadata
     {
@@ -10,30 +10,30 @@ namespace JobJetRestApi.Web.Contracts.V1.Responses
         public int TotalPages { get; }
         public int TotalRecords { get; }
         
-        //public Uri NextPage { get; }
-        //public Uri PreviousPage { get; }
+        public Uri NextPage { get; }
+        public Uri PreviousPage { get; }
         
-        //public Uri FirstPage { get; }
-        //public Uri LastPage { get; }
+        public Uri FirstPage { get; }
+        public Uri LastPage { get; }
 
         public ResultMetadata(
             int pageNumber, 
             int pageSize,
             int totalPages,
-            int totalRecords/*, 
+            int totalRecords, 
             Uri nextPage,
             Uri previousPage, 
             Uri firstPage, 
-            Uri lastPage*/)
+            Uri lastPage)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
             TotalPages = totalPages;
             TotalRecords = totalRecords;
-            //NextPage = nextPage;
-            //PreviousPage = previousPage;
-            //FirstPage = firstPage;
-            //LastPage = lastPage;
+            NextPage = nextPage;
+            PreviousPage = previousPage;
+            FirstPage = firstPage;
+            LastPage = lastPage;
         }
     }
 }

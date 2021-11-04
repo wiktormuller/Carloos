@@ -5,6 +5,6 @@ namespace JobJetRestApi.Application.Ports
 {
     public interface IPageUriService
     {
-        public Uri GetPageUri(PaginationFilter paginationFilter, string route);
+        public Uri GetPageUri(PaginationFilter filter, string route);
     }
 }

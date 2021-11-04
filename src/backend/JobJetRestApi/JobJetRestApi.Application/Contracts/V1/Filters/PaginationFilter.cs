@@ -2,22 +2,25 @@
 {
     public class PaginationFilter
     {
-        private const int MinimalOffset = 0;
-        private const int MaximumLimit = 100;
+        //private const int MinimalOffset = 0;
+        //private const int MaximumLimit = 100;
+
+        private const int MinimalPageNumber = 1;
+        private const int MaximalPageSize = 100;
         
-        public int Offset { get; set; }
-        public int Limit { get; set; }
+        public int PageNumber { get; }
+        public int PageSize { get; }
 
         public PaginationFilter()
         {
-            Offset = MinimalOffset;
-            Limit = MaximumLimit;
+            PageNumber = MinimalPageNumber;
+            PageSize = MaximalPageSize;
         }
 
-        public PaginationFilter(int offset, int limit)
+        public PaginationFilter(int pageNumber, int pageSize)
         {
-            Offset = (offset < MinimalOffset) ? MinimalOffset : offset;
-            Limit = (limit > MaximumLimit) ? MaximumLimit : limit;
+            PageNumber = (pageNumber < MinimalPageNumber) ? MinimalPageNumber : pageNumber;
+            PageSize = (pageSize > MaximalPageSize) ? MaximalPageSize : pageSize;
         }
     }
 }
