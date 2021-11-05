@@ -8,7 +8,6 @@ using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
-using JobJetRestApi.Web.Contracts.V1.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
