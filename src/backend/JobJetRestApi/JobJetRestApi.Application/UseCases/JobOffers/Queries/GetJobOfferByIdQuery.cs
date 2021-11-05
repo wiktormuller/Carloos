@@ -1,4 +1,4 @@
-﻿using JobJetRestApi.Web.Contracts.V1.Responses;
+﻿using JobJetRestApi.Application.Contracts.V1.Responses;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.Queries

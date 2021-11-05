@@ -9,6 +9,9 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
         
         public int TotalPages { get; }
         public int TotalRecords { get; }
+
+        public bool HasPrevious => PageNumber > 1;
+        public bool HasNext => PageNumber < TotalPages;
         
         public Uri NextPage { get; }
         public Uri PreviousPage { get; }

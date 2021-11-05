@@ -2,14 +2,13 @@
 {
     public class PaginationFilter
     {
-        //private const int MinimalOffset = 0;
-        //private const int MaximumLimit = 100;
-
         private const int MinimalPageNumber = 1;
         private const int MaximalPageSize = 100;
         
         public int PageNumber { get; }
         public int PageSize { get; }
+        
+        public string OrderBy { get; set; } // To implement
 
         public PaginationFilter()
         {

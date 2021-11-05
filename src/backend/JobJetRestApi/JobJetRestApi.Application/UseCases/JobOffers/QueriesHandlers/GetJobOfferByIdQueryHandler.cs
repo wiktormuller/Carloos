@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
-using JobJetRestApi.Web.Contracts.V1.Responses;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.QueriesHandlers
