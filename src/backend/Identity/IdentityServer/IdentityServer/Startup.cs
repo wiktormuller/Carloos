@@ -1,9 +1,11 @@
 using System.Reflection;
 using IdentityServer.Data;
+using IdentityServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +35,8 @@ namespace IdentityServer
                 options.UseSqlServer(connectionString, sqlOptions => sqlOptions.MigrationsAssembly(migrationAssembly)));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
             
             services.AddCors(options =>
             {
@@ -59,8 +62,12 @@ namespace IdentityServer
                         opt => opt.MigrationsAssembly(migrationAssembly));
                 })
                 .AddDeveloperSigningCredential();
+
+            services.AddTransient<IEmailSender, EmailSenderService>();
             
             services.AddControllersWithViews();
+            
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,15 +82,22 @@ namespace IdentityServer
             
             app.UseCors("default");
             
-            app.UseRouting();
-            
             app.UseStaticFiles();
             
+            app.UseRouting();
+
             app.UseIdentityServer(); // IS4 is a piece of middleware
             
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
