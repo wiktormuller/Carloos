@@ -7,7 +7,7 @@ export const FilterData = (props) => {
 
     const renderedArray = props.skillsArray.map(
       (skill) => {
-        return <FilterButton key={skill.id} id={skill.id} name={skill.name} icon={skill.icon} color={skill.color} searchedSkills={props.searchedSkills} filterData={props.filterData}/>
+        return <FilterButton key={skill.id} id={skill.id} name={skill.name} icon={skill.icon} color={skill.color} searchedSkills={props.searchedSkills} setSearchedSkills={props.setSearchedSkills} filterData={props.filterData}/>
       }
     )
 

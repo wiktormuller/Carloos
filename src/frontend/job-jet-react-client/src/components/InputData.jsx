@@ -14,7 +14,7 @@ export const InputData = (props) => {
 
   const renderedArray = props.localizationArray.map(
     (city) => {
-      return <option key={city.id} value={city.name}>{city.name}</option>
+      return <option key={city.id} value={city.id}>{city.name}</option>
     }
   )
 
@@ -28,14 +28,12 @@ export const InputData = (props) => {
           placeholder="Wyszukaj"
           onChange={(e) => {
             updateSearchedInput(e.target.value);
-            props.filterData()
             }
           }
           
         />
         <select id="search" className="custom-select" onChange={(e) => {
             updateSearchedLocalizations(e.target.value);
-            props.filterData()
             }
         }>
           {renderedArray}
