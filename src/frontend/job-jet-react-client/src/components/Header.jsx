@@ -2,16 +2,16 @@ import '../styles/main-styles.css';
 import '../styles/header-styles.css';
 
 
-export const Header = ({userLogInState, setUserLogInState}) => {
+export const Header = (props) => {
     const checkUserLogInState = () => {
-      if(!userLogInState){
+      if(!props.userLogInState){
         return (
         <div className="header__unregistered-user">
           <button className="header__btn">Rejestracja</button>
           <button className="header__btn">Logowanie</button>
         </div>      
         )
-      } else if(!!userLogInState) {
+      } else if(!!props.userLogInState) {
         return(
           <div className="header__registered-user">   
           <button className="header__btn">Profil</button>
