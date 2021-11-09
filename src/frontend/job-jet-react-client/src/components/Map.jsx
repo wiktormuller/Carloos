@@ -4,11 +4,17 @@ import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import {adsArray} from '../data/arrays'
+import {localizationArray} from '../data/arrays'
 
 export const Map = () =>{
-  const center = [52.006376,19.025167] ;
-  const zoom = 6.8;
+  var center = [52.006376,19.025167] ;
+  var zoom = 6.8;
   var skill = 0;
+  const filteredLocalization = localizationArray.filter(loc => (loc.id===1 ))
+  filteredLocalization.map(loc => (
+    center=[loc.lat,loc.lng],
+    zoom=loc.zoom
+  ))
   
   return (
     <MapContainer className="map" center={center} zoom={zoom} scrollWheelZoom={true}>
