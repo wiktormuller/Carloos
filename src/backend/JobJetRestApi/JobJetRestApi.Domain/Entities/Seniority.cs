@@ -2,7 +2,7 @@
 {
     public class Seniority
     {
-        public int Id { get; }
-        public int Name { get; }
+        public int Id { get; private set; }
+        public int Name { get; private set; }
     }
 }
