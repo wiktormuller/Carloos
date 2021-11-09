@@ -38,6 +38,7 @@ html,
 .sub-container {
   display: flex;
   height: 90vh;
+  width: 180vh;
 }
 
 .header {
