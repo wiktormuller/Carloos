@@ -38,7 +38,7 @@ html,
 .sub-container {
   display: flex;
   height: 90vh;
-  width: 180vh;
+  width: 96vw;
 }
 
 .header {

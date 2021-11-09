@@ -3,13 +3,12 @@ import React from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import {adsArray} from '../data/arrays'
-import {localizationArray} from '../data/arrays'
+import {adsArray, localizationArray} from '../data/arrays'
 
 export const Map = () =>{
-  var center = [52.006376,19.025167] ;
-  var zoom = 6.8;
-  var skill = 0;
+  let center = [52.006376,19.025167] ;
+  let zoom = 6.8;
+  let skill = 0;
   const filteredLocalization = localizationArray.filter(loc => (loc.id===1 ))
   filteredLocalization.map(loc => (
     center=[loc.lat,loc.lng],
