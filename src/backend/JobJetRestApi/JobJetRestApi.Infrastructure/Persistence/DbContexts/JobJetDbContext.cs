@@ -31,7 +31,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         // Entities
         public DbSet<JobOffer> JobOffers { get; set; }
         public DbSet<TechnologyType> TechnologyTypes { get; set; }
-        public DbSet<CountryIso> Countries { get; set; }
+        public DbSet<Country> Countries { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Seniority> SeniorityLevels { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
