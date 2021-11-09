@@ -5,10 +5,16 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
 {
     public class JobJetDbContext : DbContext
     {
+        public JobJetDbContext()
+        {
+            
+        }
+        
         public JobJetDbContext(DbContextOptions<JobJetDbContext> options) : base(options)
         {
         }
 
+        /*
         // The OnConfiguring() method allows us to select and configure the data source to be used with a context using DbContextOptionsBuilder.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -20,11 +26,12 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         {
             base.OnModelCreating(modelBuilder);
         }
+        */
 
         // Entities
         public DbSet<JobOffer> JobOffers { get; set; }
         public DbSet<TechnologyType> TechnologyTypes { get; set; }
-        public DbSet<CountryIso> Countries { get; set; }
+        public DbSet<Country> Countries { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Seniority> SeniorityLevels { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }

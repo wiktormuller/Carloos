@@ -2,12 +2,12 @@
 {
     public class Address
     {
-        public int Id { get; }
-        public CountryIso CountryIso { get; }
-        public string Town { get; }
-        public string Street { get; }
-        public string ZipCode { get; }
-        public decimal Latitude { get; }
-        public decimal Longitude { get; }
+        public int Id { get; private set; } // Without private setter it can be only set via constructor but not by class methods
+        public Country Country { get; private set; }
+        public string Town { get; private set; }
+        public string Street { get; private set; }
+        public string ZipCode { get; private set; }
+        public decimal Latitude { get; private set; }
+        public decimal Longitude { get; private set; }
     }
 }

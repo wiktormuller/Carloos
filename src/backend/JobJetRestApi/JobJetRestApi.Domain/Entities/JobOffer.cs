@@ -2,14 +2,14 @@
 {
     public class JobOffer // Aggregate root
     {
-        public int Id { get; }
-        public string Name { get; }
-        public string Description { get; }
-        public decimal SalaryFrom { get; }
-        public decimal SalaryTo { get; }
-        public Address Address { get; }
-        public TechnologyType TechnologyType { get; }
-        public Seniority Seniority { get; }
-        public EmploymentType EmploymentType { get; }
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public decimal SalaryFrom { get; private set; }
+        public decimal SalaryTo { get; private set; }
+        public Address Address { get; private set; }
+        public TechnologyType TechnologyType { get; private set; }
+        public Seniority Seniority { get; private set; }
+        public EmploymentType EmploymentType { get; private set; }
     }
 }
