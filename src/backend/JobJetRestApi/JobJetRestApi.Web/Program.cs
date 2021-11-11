@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Persistence.Seeders;
+using JobJetRestApi.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,7 @@ namespace JobJetRestApi.Web
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
-                //.MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
@@ -42,14 +43,7 @@ namespace JobJetRestApi.Web
                 try
                 {
                     Log.Information("Seeding database...");
-                
-                    using (var scope = host.Services.CreateScope())
-                    {
-                        var services = scope.ServiceProvider;
-                        var context = services.GetService<JobJetDbContext>();
-                        await JobJetContextSeeder.SeedAsync(context);
-                    }
-                
+                    await host.SeedJobJetContext<JobJetDbContext>();
                     Log.Information("Done seeding database.");
                 }
                 catch (Exception e)
