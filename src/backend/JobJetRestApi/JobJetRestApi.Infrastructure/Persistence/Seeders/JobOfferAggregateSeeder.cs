@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -22,13 +21,13 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
             // THINK ABOUT THE ORDER! Use logger here or in the program?
             try
             {
-                if (!await context.JobOffers.AnyAsync())
+                if (!await context.Currencies.AnyAsync())
                 {
-                    await context.JobOffers.AddRangeAsync(
-                        GetPredefinedJobOffers());
+                    await context.Currencies.AddRangeAsync(
+                        GetPredefinedCurrencies());
                     await context.SaveChangesAsync();
                 }
-            
+                
                 if (!await context.SeniorityLevels.AnyAsync())
                 {
                     await context.SeniorityLevels.AddRangeAsync(
@@ -57,12 +56,23 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     await context.SaveChangesAsync();
                 }
 
+                /*
                 if (!await context.Addresses.AnyAsync())
                 {
                     await context.Addresses.AddRangeAsync(
                         GetPredefinedAddresses());
                     await context.SaveChangesAsync();
                 }
+                */
+                
+                /*
+                if (!await context.JobOffers.AnyAsync())
+                {
+                    await context.JobOffers.AddRangeAsync(
+                        GetPredefinedJobOffers());
+                    await context.SaveChangesAsync();
+                }
+                */
             }
             catch (Exception e)
             {
@@ -73,34 +83,118 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
             }
         }
 
-        private static IEnumerable<Address> GetPredefinedAddresses()
+        private static IEnumerable<Currency> GetPredefinedCurrencies()
         {
-            return new List<Address>();
+            return new List<Currency>
+            {
+                new Currency("Polish złoty", "PLN", 985),
+                new Currency("Euro", "EUR", 978),
+                new Currency("United States dollar", "USD", 840),
+                new Currency("Pound sterling", "GBP", 826),
+                new Currency("Swiss franc", "CHF", 756)
+            };
         }
 
         private static IEnumerable<Country> GetPredefinedCountries()
         {
-            return new List<Country>();
+            return new List<Country>
+            {
+                new Country("Poland", "PL", "POL", 616),
+                new Country("United Kingdom", "GB", "GBR", 826),
+                new Country("Germany", "DE", "DEU", 276),
+                new Country("Switzerland", "CH", "CHE", 756),
+                new Country("Belgium", "BE", "BEL", 056)
+            };
         }
 
         private static IEnumerable<EmploymentType> GetPredefinedEmploymentTypes()
         {
-            return new List<EmploymentType>();
+            return new List<EmploymentType>
+            {
+                new EmploymentType("B2B"),
+                new EmploymentType("Permanent"),
+                new EmploymentType("Mandate Contract")
+            };
         }
 
         private static IEnumerable<TechnologyType> GetPredefinedTechnologyTypes()
         {
-            return new List<TechnologyType>();
+            return new List<TechnologyType>
+            {
+                new TechnologyType("All"),
+                new TechnologyType("JS"),
+                new TechnologyType("HTML"),
+                new TechnologyType("PHP"),
+                new TechnologyType("Ruby"),
+                new TechnologyType("Python"),
+                new TechnologyType("Java"),
+                new TechnologyType(".NET"),
+                new TechnologyType("Scala"),
+                new TechnologyType("C"),
+                new TechnologyType("Mobile"),
+                new TechnologyType("Testing"),
+                new TechnologyType("DevOps"),
+                new TechnologyType("DevOps"),
+                new TechnologyType("Admin"),
+                new TechnologyType("UX/UI"),
+                new TechnologyType("PM"),
+                new TechnologyType("Game"),
+                new TechnologyType("Analytics"),
+                new TechnologyType("Security"),
+                new TechnologyType("Data"),
+                new TechnologyType("Go"),
+                new TechnologyType("Support"),
+                new TechnologyType("ERP"),
+                new TechnologyType("Architecture"),
+                new TechnologyType("Other")
+            };
         }
 
         private static IEnumerable<Seniority> GetPredefinedSeniorityLevels()
         {
-            return new List<Seniority>();
+            return new List<Seniority>
+            {
+                new Seniority("Intern"),
+                new Seniority("Junior"),
+                new Seniority("Mid"),
+                new Seniority("Senior")
+            };
         }
 
+        /*
         private static IEnumerable<JobOffer> GetPredefinedJobOffers()
         {
-            return new List<JobOffer>();
+            return new List<JobOffer>
+            {
+                new JobOffer(
+                    ".NET Junior Engineer",
+                    @"Required experience and skills:
+                      Very good knowledge of C#
+                      Experience with MySQL/ MS SQL
+                      Experience in object-oriented programming
+                      At least 2 years' experience in a similar position 
+                      Good command of English (at least B1 level)",
+                    10500,
+                    15200,
+                    new Address(
+                        new Country("Poland", "PL", "POL", 616),
+                        "Kościerzyna",
+                        "Długa 1",
+                        "83-400",
+                        54.121783M,
+                        17.977314M),
+                    new TechnologyType(".NET"),
+                    new Seniority("Junior"),
+                    new EmploymentType("B2B"))
+            };
         }
+        */
+        
+        /*
+        private static IEnumerable<Address> GetPredefinedAddresses()
+        {
+            return new List<Address>();
+        }
+        */
     }
 }
