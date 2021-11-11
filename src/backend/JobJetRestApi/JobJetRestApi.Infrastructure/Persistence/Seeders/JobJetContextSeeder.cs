@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Persistence.Seeders
 {
-    public class JobOfferAggregateSeeder
+    public class JobJetContextSeeder
     {
         public static async Task SeedAsync(JobJetDbContext context, int retryCounter = 0)
         {

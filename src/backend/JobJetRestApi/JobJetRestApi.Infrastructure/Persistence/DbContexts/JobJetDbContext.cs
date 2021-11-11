@@ -20,13 +20,19 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         {
             base.OnConfiguring(optionsBuilder);
         }
+        */
 
         // The OnModelCreating() method allows us to configure the model using ModelBuilder Fluent API.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<JobOffer>().Property(j => j.SalaryFrom).HasPrecision(10, 2);
+            modelBuilder.Entity<JobOffer>().Property(j => j.SalaryTo).HasPrecision(10, 2);
+
+            modelBuilder.Entity<Address>().Property(a => a.Latitude).HasPrecision(9, 6);
+            modelBuilder.Entity<Address>().Property(a => a.Longitude).HasPrecision(9,6);
         }
-        */
 
         // Entities
         public DbSet<JobOffer> JobOffers { get; set; }
