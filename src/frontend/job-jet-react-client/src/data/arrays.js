@@ -16,4 +16,14 @@ export const skillsArray = [
 export const adsArray = [
     {id:1, title:"Junior Web Developer", localization:2, salary:"5000-7500 PLN", date:"20-10-2021", description:"Poszukiwany Junior Web Developer do pracy. Po okresie próbnym możliwa praca zdalna", skills:[1,2,3], lat: 54.35, lng: 18.633}
     ,{id:2, title:"Senior security specialist", localization:5, salary:"15000-25000 PLN", date:"28-10-2021", description:"Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.", skills:[8,17,18,20], lat: 52.217, lng: 21}
-    ];
+    // ,{id:2, title:"Senior security specialist", localization:5, salary:"15000-25000 PLN", date:"28-10-2021", description:"Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.", skills:[8,17,18,20], lat: 52.217, lng: 21}
+    // ,{id:2, title:"Senior security specialist", localization:5, salary:"15000-25000 PLN", date:"28-10-2021", description:"Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.", skills:[8,17,18,20], lat: 52.217, lng: 21}
+    // ,{id:2, title:"Senior security specialist", localization:5, salary:"15000-25000 PLN", date:"28-10-2021", description:"Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.", skills:[8,17,18,20], lat: 52.217, lng: 21}
+    // ,{id:2, title:"Senior security specialist", localization:5, salary:"15000-25000 PLN", date:"28-10-2021", description:"Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.", skills:[8,17,18,20], lat: 52.217, lng: 21}
+    // ,{id:2, title:"Senior security specialist", localization:5, salary:"15000-25000 PLN", date:"28-10-2021", description:"Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.", skills:[8,17,18,20], lat: 52.217, lng: 21}
+
+
+
+
+
+];

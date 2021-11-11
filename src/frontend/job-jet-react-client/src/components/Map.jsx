@@ -3,6 +3,7 @@ import React from 'react';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import '../styles/main-styles.css';
 
 export const Map = (props) =>{
   let center = [52.006376,19.025167] ;
