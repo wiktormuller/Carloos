@@ -35,5 +35,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Seniority> SeniorityLevels { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
+        
+        public DbSet<Currency> Currencies { get; set; }
     }
 }
