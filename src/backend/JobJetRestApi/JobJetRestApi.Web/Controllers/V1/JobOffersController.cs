@@ -81,7 +81,8 @@ namespace JobJetRestApi.Web.Controllers.V1
                 request.Address.Town,
                 request.Address.Street,
                 request.Address.ZipCode,
-                request.Address.CountryIsoId
+                request.Address.CountryIsoId,
+                request.CurrencyId
             );
 
             var jobOfferId = await _mediator.Send(command);
@@ -107,14 +108,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 request.Name,
                 request.Description,
                 request.SalaryFrom,
-                request.SalaryTo,
-                request.TechnologyTypeId,
-                request.SeniorityId,
-                request.EmploymentTypeId,
-                request.Address.Town,
-                request.Address.Street,
-                request.Address.ZipCode,
-                request.Address.CountryIsoId
+                request.SalaryTo
             );
 
             try

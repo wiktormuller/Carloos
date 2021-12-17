@@ -1,4 +1,6 @@
-﻿namespace JobJetRestApi.Domain.Entities
+﻿using System;
+
+namespace JobJetRestApi.Domain.Entities
 {
     public class JobOffer // Aggregate root
     {
@@ -21,7 +23,7 @@
         public int EmploymentTypeId { get; set; }
         public EmploymentType EmploymentType { get; private set; }
         
-        public int CurrencyId { get; private set; }
+        public int CurrencyId { get; set; }
         public Currency Currency { get; private set; }
 
         private JobOffer() {} // For EF purposes
@@ -33,7 +35,8 @@
             Address address, 
             TechnologyType technologyType,
             Seniority seniority, 
-            EmploymentType employmentType)
+            EmploymentType employmentType,
+            Currency currency)
         {
             Name = name;
             Description = description;
@@ -43,6 +46,15 @@
             TechnologyType = technologyType;
             Seniority = seniority;
             EmploymentType = employmentType;
+            Currency = currency;
+        }
+
+        public void UpdateBasicInformation(string name, string description, decimal salaryFrom, decimal salaryTo)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Description = description ?? throw new ArgumentNullException(nameof(description));
+            SalaryFrom = salaryFrom == 0.0M ? throw new ArgumentException(nameof(salaryFrom)) : salaryFrom;
+            SalaryTo = salaryTo == 0.0M ? throw new ArgumentException(nameof(salaryTo)) : salaryTo;
         }
     }
 }
