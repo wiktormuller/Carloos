@@ -6,9 +6,5 @@
         public string Description { get; set; }
         public decimal SalaryFrom { get; set; }
         public decimal SalaryTo { get; set; }
-        public CreateAddressRequest Address { get; set; }
-        public int TechnologyTypeId { get; set; }
-        public int SeniorityId { get; set; }
-        public int EmploymentTypeId { get; set; }
     }
 }

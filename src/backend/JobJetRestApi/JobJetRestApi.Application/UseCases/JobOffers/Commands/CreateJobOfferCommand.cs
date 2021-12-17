@@ -11,6 +11,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
         public int TechnologyTypeId { get; }
         public int SeniorityId { get; }
         public int EmploymentTypeId { get; }
+        public int CurrencyId { get; }
         public string Town { get; }
         public string Street { get; }
         public string ZipCode { get; }
@@ -27,7 +28,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
             string town,
             string street,
             string zipCode,
-            int countryIsoId)
+            int countryIsoId,
+            int currencyId)
         {
             Name = name;
             Description = description;
@@ -40,6 +42,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
             Street = street;
             ZipCode = zipCode;
             CountryIsoId = countryIsoId;
+            CurrencyId = currencyId;
         }
     }
 }

@@ -10,5 +10,6 @@
         public int TechnologyTypeId { get; set; }
         public int SeniorityId { get; set; }
         public int EmploymentTypeId { get; set; }
+        public int CurrencyId { get; set; }
     }
 }

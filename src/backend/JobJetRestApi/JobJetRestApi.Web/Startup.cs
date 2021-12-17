@@ -1,6 +1,12 @@
+using System;
 using FluentValidation.AspNetCore;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.Ports;
+using JobJetRestApi.Application.UseCases.JobOffers.Commands;
+using JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers;
+using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
+using JobJetRestApi.Infrastructure.Repositories;
 using JobJetRestApi.Infrastructure.Services;
 using JobJetRestApi.Infrastructure.Validators;
 using MediatR;
@@ -31,10 +37,22 @@ namespace JobJetRestApi.Web
             services.AddDbContext<JobJetDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(AppDomain.CurrentDomain.Load("JobJetRestApi.Application"));
 
+            services.AddScoped<IJobOfferRepository, JobOfferRepository>();
+            services.AddScoped<ISeniorityRepository, SeniorityRepository>();
+            services.AddScoped<ITechnologyTypeRepository, TechnologyTypeRepository>();
+            services.AddScoped<IEmploymentTypeRepository, EmploymentTypeRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IGeocodingService, GeocodingService>();
+            
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateJobOfferRequestValidator>());
 
+            services.AddHttpClient();
+
+            services.Configure<GeocodingOptions>(Configuration.GetSection(GeocodingOptions.Geocoding));
+            
             services.AddHttpContextAccessor();
             services.AddSingleton<IPageUriService>(o => // Here we get the base URL of the application http(s)://www.jobjet.com
             {
