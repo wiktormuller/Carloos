@@ -60,6 +60,11 @@
             public const string Delete = Base + "/employment-types";
         }
 
+        public static class Roads
+        {
+            public const string Get = Base + "/roads/{coordinates}";
+        }
+
         /*
         public static class Identity
         {
