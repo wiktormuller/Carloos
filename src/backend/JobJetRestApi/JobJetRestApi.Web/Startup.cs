@@ -46,12 +46,14 @@ namespace JobJetRestApi.Web
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<IGeocodingService, GeocodingService>();
+            services.AddScoped<IRouteService, RouteService>();
             
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateJobOfferRequestValidator>());
 
             services.AddHttpClient();
 
             services.Configure<GeocodingOptions>(Configuration.GetSection(GeocodingOptions.Geocoding));
+            services.Configure<GeoRouteOptions>(Configuration.GetSection(GeoRouteOptions.GeoRoute));
             
             services.AddHttpContextAccessor();
             services.AddSingleton<IPageUriService>(o => // Here we get the base URL of the application http(s)://www.jobjet.com

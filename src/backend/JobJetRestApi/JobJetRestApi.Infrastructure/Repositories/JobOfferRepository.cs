@@ -28,7 +28,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext.JobOffers.Add(jobOffer);
             var jobOfferId = _jobJetDbContext.SaveChanges();
 
-            return jobOfferId;
+            return jobOffer.Id;
         }
 
         public void Update()
