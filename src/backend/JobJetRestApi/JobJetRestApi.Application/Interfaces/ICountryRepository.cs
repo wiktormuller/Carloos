@@ -1,10 +1,16 @@
-﻿using JobJetRestApi.Domain.Entities;
+﻿using System.Threading.Tasks;
+using JobJetRestApi.Domain.Entities;
 
 namespace JobJetRestApi.Application.Interfaces
 {
     public interface ICountryRepository
     {
-        public Country GetById(int id);
-        public bool Exists(int id);
+        Task<Country> GetById(int id);
+        Task<bool> Exists(int id);
+        Task<bool> Exists(string name);
+        Task<bool> Exists(string name, string alpha2Code, string alpha3Code, int numericCode);
+        Task<int> Create(Country country);
+        Task Update();
+        Task Delete(Country country);
     }
 }

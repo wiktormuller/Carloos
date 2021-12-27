@@ -22,5 +22,10 @@ namespace JobJetRestApi.Domain.Entities
             Alpha3Code = alpha3Code;
             NumericCode = numericCode;
         }
+
+        public void UpdateName(string name)
+        {
+            Name = name;
+        }
     }
 }

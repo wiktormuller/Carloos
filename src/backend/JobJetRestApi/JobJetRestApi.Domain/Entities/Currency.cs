@@ -20,5 +20,10 @@ namespace JobJetRestApi.Domain.Entities
             IsoCode = isoCode;
             IsoNumber = isoNumber;
         }
+
+        public void UpdateName(string name)
+        {
+            Name = name;
+        }
     }
 }

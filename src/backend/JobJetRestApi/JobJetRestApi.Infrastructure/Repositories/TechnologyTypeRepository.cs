@@ -1,6 +1,9 @@
-﻿using JobJetRestApi.Application.Interfaces;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Repositories
 {
@@ -13,14 +16,40 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext = jobJetDbContext;
         }
 
-        public TechnologyType GetById(int id)
+        public async Task<TechnologyType> GetById(int id)
         {
-            return _jobJetDbContext.TechnologyTypes.Find(id);
+            return await _jobJetDbContext.TechnologyTypes.FindAsync(id);
         }
 
-        public bool Exists(int id)
+        public async Task<bool> Exists(int id)
         {
-            return GetById(id) is not null;
+            return await GetById(id) is not null;
+        }
+        public async Task<bool> Exists(string name)
+        {
+            var technologyType = await _jobJetDbContext.TechnologyTypes
+                .FirstOrDefaultAsync(x => x.Name == name);
+
+            return technologyType is not null;
+        }
+
+        public async Task<int> Create(TechnologyType technologyType)
+        {
+            await _jobJetDbContext.TechnologyTypes.AddAsync(technologyType);
+            await _jobJetDbContext.SaveChangesAsync();
+
+            return technologyType.Id;
+        }
+
+        public async Task Update()
+        {
+            await _jobJetDbContext.SaveChangesAsync();
+        }
+
+        public async Task Delete(TechnologyType technologyType)
+        {
+            _jobJetDbContext.Remove(technologyType);
+            await _jobJetDbContext.SaveChangesAsync();
         }
     }
 }

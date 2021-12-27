@@ -38,6 +38,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
+            // @TODO - Pagination and filtering?
             var route = Request.Path.Value;
             var totalRecords = 100;
             var data = new List<SeniorityLevelResponse>();
@@ -51,7 +52,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> Get(int id)
+        public async Task<ActionResult<SeniorityLevelResponse>> Get(int id)
         {
             var query = new GetSeniorityLevelByIdQuery(id);
             var result = await _mediator.Send(query);
@@ -70,7 +71,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new CreateSeniorityLevelCommand();
+            var command = new CreateSeniorityLevelCommand(request.Name);
 
             var seniorityLevelId = await _mediator.Send(command);
             
@@ -89,7 +90,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new UpdateSeniorityLevelCommand(id);
+            var command = new UpdateSeniorityLevelCommand(id, request.Name);
 
             try
             {

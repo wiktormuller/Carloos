@@ -15,7 +15,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
         public string Town { get; }
         public string Street { get; }
         public string ZipCode { get; }
-        public int CountryIsoId { get; }
+        public int CountryId { get; }
 
         public CreateJobOfferCommand(
             string name, 
@@ -28,7 +28,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
             string town,
             string street,
             string zipCode,
-            int countryIsoId,
+            int countryId,
             int currencyId)
         {
             Name = name;
@@ -41,7 +41,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
             Town = town;
             Street = street;
             ZipCode = zipCode;
-            CountryIsoId = countryIsoId;
+            CountryId = countryId;
             CurrencyId = currencyId;
         }
     }

@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.EmploymentType.Queries;
 using MediatR;
 
@@ -8,16 +10,26 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.QueriesHandlers
 {
     public class GetEmploymentTypeByIdQueryHandler : IRequestHandler<GetEmploymentTypeByIdQuery, EmploymentTypeResponse>
     {
-        public GetEmploymentTypeByIdQueryHandler()
+        private readonly IEmploymentTypeRepository _employmentTypeRepository;
+        
+        public GetEmploymentTypeByIdQueryHandler(IEmploymentTypeRepository employmentTypeRepository)
         {
-            
+            _employmentTypeRepository = employmentTypeRepository;
         }
 
-        public Task<EmploymentTypeResponse> Handle(GetEmploymentTypeByIdQuery request, CancellationToken cancellationToken)
+        public async Task<EmploymentTypeResponse> Handle(GetEmploymentTypeByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = new EmploymentTypeResponse();
+            if (! await _employmentTypeRepository.Exists(request.Id))
+            {
+                throw new ArgumentException(nameof(request.Id));
+                // @TODO - Throw Domain Exception
+            }
 
-            return Task.FromResult(result);
+            var employmentType = await _employmentTypeRepository.GetById(request.Id);
+            
+            var result = new EmploymentTypeResponse(employmentType.Id, employmentType.Name);
+
+            return result;
         }
     }
 }

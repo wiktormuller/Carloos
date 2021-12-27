@@ -37,27 +37,27 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
 
         public async Task<int> Handle(CreateJobOfferCommand request, CancellationToken cancellationToken)
         {
-            if (!_seniorityRepository.Exists(request.SeniorityId))
+            if (! await _seniorityRepository.Exists(request.SeniorityId))
             {
                 throw SeniorityLevelNotFoundException.ForId(request.SeniorityId);
             }
 
-            if (!_technologyTypeRepository.Exists(request.TechnologyTypeId))
+            if (! await _technologyTypeRepository.Exists(request.TechnologyTypeId))
             {
                 throw TechnologyTypeNotFoundException.ForId(request.TechnologyTypeId);
             }
 
-            if (!_employmentTypeRepository.Exists(request.EmploymentTypeId))
+            if (! await _employmentTypeRepository.Exists(request.EmploymentTypeId))
             {
                 throw EmploymentTypeNotFoundException.ForId(request.EmploymentTypeId);
             }
 
-            if (!_countryRepository.Exists(request.CountryIsoId))
+            if (! await _countryRepository.Exists(request.CountryId))
             {
-                throw CountryNotFoundException.ForId(request.CountryIsoId);
+                throw CountryNotFoundException.ForId(request.CountryId);
             }
 
-            if (!_currencyRepository.Exists(request.CurrencyId))
+            if (! await _currencyRepository.Exists(request.CurrencyId))
             {
                 throw CurrencyNotFoundException.ForId(request.CurrencyId);
             }
@@ -70,16 +70,16 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 throw InvalidAddressException.Default(addressFromInput);
             }
             
-            var country = _countryRepository.GetById(request.CountryIsoId);
+            var country = await _countryRepository.GetById(request.CountryId);
             var address = new Address(country, request.Town, request.Street, request.ZipCode, addressCoords.Latitude, addressCoords.Longitude);
 
-            var technologyType = _technologyTypeRepository.GetById(request.TechnologyTypeId);
+            var technologyType = await _technologyTypeRepository.GetById(request.TechnologyTypeId);
 
-            var seniorityLevel = _seniorityRepository.GetById(request.SeniorityId);
+            var seniorityLevel = await _seniorityRepository.GetById(request.SeniorityId);
 
-            var employmentType = _employmentTypeRepository.GetById(request.EmploymentTypeId);
+            var employmentType = await _employmentTypeRepository.GetById(request.EmploymentTypeId);
 
-            var currency = _currencyRepository.GetById(request.CurrencyId);
+            var currency = await _currencyRepository.GetById(request.CurrencyId);
             
             var jobOffer = new JobOffer(
                 request.Name,

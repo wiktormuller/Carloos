@@ -2,6 +2,6 @@
 {
     public class CreateSeniorityLevelRequest
     {
-        
+        public string Name { get; set; }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class UpdateEmploymentTypeRequest
     {
-        
+        public string Name { get; set; }
     }
 }

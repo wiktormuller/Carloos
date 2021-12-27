@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.EmploymentType.Commands;
 using MediatR;
 
@@ -7,16 +9,26 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.CommandsHandlers
 {
     public class CreateEmploymentTypeCommandHandler : IRequestHandler<CreateEmploymentTypeCommand, int>
     {
-        public CreateEmploymentTypeCommandHandler()
+        private readonly IEmploymentTypeRepository _employmentTypeRepository;
+        
+        public CreateEmploymentTypeCommandHandler(IEmploymentTypeRepository employmentTypeRepository)
         {
-            
+            _employmentTypeRepository = employmentTypeRepository;
         }
 
-        public Task<int> Handle(CreateEmploymentTypeCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateEmploymentTypeCommand request, CancellationToken cancellationToken)
         {
-            var result = 123;
+            if (await _employmentTypeRepository.Exists(request.Name))
+            {
+                throw new ArgumentException(nameof(request.Name));
+                // @TODO - Throw Domain Exception
+            }
 
-            return Task.FromResult(result);
+            var employmentType = new Domain.Entities.EmploymentType(request.Name);
+
+            await _employmentTypeRepository.Create(employmentType);
+
+            return employmentType.Id;
         }
     }
 }

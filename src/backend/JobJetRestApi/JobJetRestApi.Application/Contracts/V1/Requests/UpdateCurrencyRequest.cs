@@ -2,6 +2,6 @@
 {
     public class UpdateCurrencyRequest
     {
-        
+        public string Name { get; set; }
     }
 }

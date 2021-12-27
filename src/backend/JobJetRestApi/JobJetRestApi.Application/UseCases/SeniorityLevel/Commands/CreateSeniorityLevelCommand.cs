@@ -4,9 +4,11 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.Commands
 {
     public class CreateSeniorityLevelCommand : IRequest<int>
     {
-        public CreateSeniorityLevelCommand()
+        public string Name { get; private set; }
+        
+        public CreateSeniorityLevelCommand(string name)
         {
-            
+            Name = name;
         }
     }
 }

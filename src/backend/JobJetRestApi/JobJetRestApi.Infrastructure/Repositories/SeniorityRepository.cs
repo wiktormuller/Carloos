@@ -1,6 +1,8 @@
-﻿using JobJetRestApi.Application.Interfaces;
+﻿using System.Threading.Tasks;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Repositories
 {
@@ -13,14 +15,41 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext = jobJetDbContext;
         }
 
-        public Seniority GetById(int id)
+        public async Task<Seniority> GetById(int id)
         {
-            return _jobJetDbContext.SeniorityLevels.Find(id);
+            return await _jobJetDbContext.SeniorityLevels.FindAsync(id);
         }
 
-        public bool Exists(int id)
+        public async Task<bool> Exists(int id)
         {
-            return GetById(id) is not null;
+            return await GetById(id) is not null;
+        }
+
+        public async Task<bool> Exists(string name)
+        {
+            var seniorityLevel = await _jobJetDbContext.SeniorityLevels
+                .FirstOrDefaultAsync(x => x.Name == name);
+
+            return seniorityLevel is not null;
+        }
+
+        public async Task<int> Create(Seniority seniority)
+        {
+            await _jobJetDbContext.AddAsync(seniority);
+            await _jobJetDbContext.SaveChangesAsync();
+
+            return seniority.Id;
+        }
+
+        public async Task Update()
+        {
+            await _jobJetDbContext.SaveChangesAsync();
+        }
+
+        public async Task Delete(Seniority seniority)
+        {
+            _jobJetDbContext.Remove(seniority);
+            await _jobJetDbContext.SaveChangesAsync();
         }
     }
 }

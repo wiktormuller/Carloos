@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
 using MediatR;
 
@@ -7,14 +9,26 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
 {
     public class DeleteSeniorityLevelCommandHandler : IRequestHandler<DeleteSeniorityLevelCommand>
     {
-        public DeleteSeniorityLevelCommandHandler()
+        private readonly ISeniorityRepository _seniorityRepository;
+        
+        public DeleteSeniorityLevelCommandHandler(ISeniorityRepository seniorityRepository)
         {
-            
+            _seniorityRepository = seniorityRepository;
         }
         
-        public Task<Unit> Handle(DeleteSeniorityLevelCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteSeniorityLevelCommand request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(Unit.Value);
+            if (!await _seniorityRepository.Exists(request.Id))
+            {
+                throw new ArgumentException(nameof(request.Id));
+                // @TODO - Throw Domain Exception
+            }
+
+            var seniority = await _seniorityRepository.GetById(request.Id);
+            
+            await _seniorityRepository.Delete(seniority);
+            
+            return Unit.Value;
         }
     }
 }
