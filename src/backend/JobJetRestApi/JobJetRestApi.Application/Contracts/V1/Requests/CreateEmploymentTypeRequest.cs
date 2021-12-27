@@ -2,6 +2,6 @@
 {
     public class CreateEmploymentTypeRequest
     {
-        
+        public string Name { get; set; }
     }
 }

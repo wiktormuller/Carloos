@@ -37,6 +37,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
+            // @TODO - Pagination and filtering?
             var route = Request.Path.Value;
             var totalRecords = 100;
             var data = new List<EmploymentTypeResponse>();
@@ -50,7 +51,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> Get(int id)
+        public async Task<ActionResult<EmploymentTypeResponse>> Get(int id)
         {
             var query = new GetEmploymentTypeByIdQuery(id);
             var result = await _mediator.Send(query);
@@ -69,7 +70,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new CreateEmploymentTypeCommand();
+            var command = new CreateEmploymentTypeCommand(request.Name);
 
             var employmentTypeId = await _mediator.Send(command);
 
@@ -88,7 +89,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new UpdateEmploymentTypeCommand(id);
+            var command = new UpdateEmploymentTypeCommand(id, request.Name);
 
             try
             {

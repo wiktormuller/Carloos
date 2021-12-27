@@ -13,5 +13,7 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
         public string TechnologyType { get; set; }
         public string Seniority { get; set; }
         public string EmploymentType { get; set; }
+        
+        // @TODO - Implement constructor
     }
 }

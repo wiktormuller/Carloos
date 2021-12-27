@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.TechnologyType.Queries;
 using MediatR;
 
@@ -8,16 +10,26 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.QueriesHandlers
 {
     public class GetTechnologyTypeByIdQueryHandler : IRequestHandler<GetTechnologyTypeByIdQuery, TechnologyTypeResponse>
     {
-        public GetTechnologyTypeByIdQueryHandler()
+        private readonly ITechnologyTypeRepository _technologyTypeRepository;
+        
+        public GetTechnologyTypeByIdQueryHandler(ITechnologyTypeRepository technologyTypeRepository)
         {
-            
+            _technologyTypeRepository = technologyTypeRepository;
         }
         
-        public Task<TechnologyTypeResponse> Handle(GetTechnologyTypeByIdQuery request, CancellationToken cancellationToken)
+        public async Task<TechnologyTypeResponse> Handle(GetTechnologyTypeByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = new TechnologyTypeResponse();
+            if (!await _technologyTypeRepository.Exists(request.Id))
+            {
+                throw new ArgumentException(nameof(request.Id));
+                // @TODO - Throw Domain Exception
+            }
+            
+            var technologyType = await _technologyTypeRepository.GetById(request.Id);
 
-            return Task.FromResult(result);
+            var result = new TechnologyTypeResponse(technologyType.Id, technologyType.Name);
+
+            return result;
         }
     }
 }

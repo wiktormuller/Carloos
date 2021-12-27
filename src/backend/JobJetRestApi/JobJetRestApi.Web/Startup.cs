@@ -50,7 +50,8 @@ namespace JobJetRestApi.Web
             
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateJobOfferRequestValidator>());
 
-            services.AddHttpClient();
+            services.AddHttpClient<IGeocodingService, GeocodingService>();
+            services.AddHttpClient<IRouteService, RouteService>();
 
             services.Configure<GeocodingOptions>(Configuration.GetSection(GeocodingOptions.Geocoding));
             services.Configure<GeoRouteOptions>(Configuration.GetSection(GeoRouteOptions.GeoRoute));

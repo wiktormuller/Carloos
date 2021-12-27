@@ -38,6 +38,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
+            // @TODO - Pagination and filtering?
             var route = Request.Path.Value;
             var totalRecords = 100;
             var data = new List<TechnologyTypeResponse>();
@@ -51,7 +52,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> Get(int id)
+        public async Task<ActionResult<TechnologyTypeResponse>> Get(int id)
         {
             var query = new GetTechnologyTypeByIdQuery(id);
             var result = await _mediator.Send(query);
@@ -70,7 +71,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new CreateTechnologyTypeCommand();
+            var command = new CreateTechnologyTypeCommand(request.Name);
 
             var technologyTypeId = await _mediator.Send(command);
 
@@ -89,7 +90,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new UpdateTechnologyTypeCommand(id);
+            var command = new UpdateTechnologyTypeCommand(id, request.Name);
 
             try
             {

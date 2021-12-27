@@ -38,8 +38,8 @@ namespace JobJetRestApi.Infrastructure.Repositories
 
         public void Delete(int id)
         {
-            var jobJetDbContext = GetById(id);
-            _jobJetDbContext.Remove(jobJetDbContext);
+            var jobOffer = GetById(id);
+            _jobJetDbContext.Remove(jobOffer);
 
             _jobJetDbContext.SaveChanges();
         }

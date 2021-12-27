@@ -1,10 +1,15 @@
-﻿using JobJetRestApi.Domain.Entities;
+﻿using System.Threading.Tasks;
+using JobJetRestApi.Domain.Entities;
 
 namespace JobJetRestApi.Application.Interfaces
 {
     public interface ISeniorityRepository
     {
-        public Seniority GetById(int id);
-        public bool Exists(int id);
+        Task<Seniority> GetById(int id);
+        Task<bool> Exists(int id);
+        Task<bool> Exists(string name);
+        Task<int> Create(Seniority seniority);
+        Task Update();
+        Task Delete(Seniority seniority);
     }
 }

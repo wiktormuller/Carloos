@@ -2,6 +2,6 @@
 {
     public class UpdateTechnologyTypeRequest
     {
-        
+        public string Name { get; set; }
     }
 }

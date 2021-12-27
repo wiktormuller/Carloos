@@ -2,6 +2,6 @@
 {
     public class CreateTechnologyTypeRequest
     {
-        
+        public string Name { get; set; }
     }
 }

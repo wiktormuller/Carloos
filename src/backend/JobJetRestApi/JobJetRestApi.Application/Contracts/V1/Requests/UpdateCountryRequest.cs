@@ -2,6 +2,6 @@
 {
     public class UpdateCountryRequest
     {
-        
+        public string Name { get; set; }
     }
 }

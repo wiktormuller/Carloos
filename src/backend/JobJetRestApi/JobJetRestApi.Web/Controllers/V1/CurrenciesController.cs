@@ -38,6 +38,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
+            // @TODO - Pagination and filtering?
             var route = Request.Path.Value;
             var totalRecords = 100;
             var data = new List<CurrencyResponse>();
@@ -51,7 +52,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> Get(int id)
+        public async Task<ActionResult<CurrencyResponse>> Get(int id)
         {
             var query = new GetCurrencyByIdQuery(id);
             var result = await _mediator.Send(query);
@@ -70,7 +71,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new CreateCurrencyCommand();
+            var command = new CreateCurrencyCommand(request.Name, request.IsoCode, request.IsoNumber);
 
             var currencyId = await _mediator.Send(command);
 
@@ -89,7 +90,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new UpdateCurrencyCommand(id);
+            var command = new UpdateCurrencyCommand(id, request.Name);
 
             try
             {
