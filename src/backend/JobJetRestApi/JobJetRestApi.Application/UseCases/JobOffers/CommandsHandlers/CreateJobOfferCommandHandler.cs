@@ -93,7 +93,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 currency
                 );
 
-            var jobOfferId = _jobOfferRepository.Create(jobOffer);
+            var jobOfferId = await _jobOfferRepository.Create(jobOffer);
 
             return jobOfferId;
         }

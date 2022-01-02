@@ -1,13 +1,14 @@
-﻿using JobJetRestApi.Domain.Entities;
+﻿using System.Threading.Tasks;
+using JobJetRestApi.Domain.Entities;
 
 namespace JobJetRestApi.Application.Interfaces
 {
     public interface IJobOfferRepository
     {
-        public JobOffer GetById(int id);
-        public bool Exists(int id);
-        public int Create(JobOffer jobOffer);
-        public void Update();
-        public void Delete(int id);
+        Task<JobOffer> GetById(int id);
+        Task<bool> Exists(int id);
+        Task<int> Create(JobOffer jobOffer);
+        Task Update();
+        Task Delete(int id);
     }
 }
