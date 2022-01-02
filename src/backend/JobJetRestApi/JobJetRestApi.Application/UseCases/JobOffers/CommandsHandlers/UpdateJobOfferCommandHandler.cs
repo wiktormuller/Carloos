@@ -16,19 +16,19 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             _jobOfferRepository = jobOfferRepository;
         }
 
-        public Task<Unit> Handle(UpdateJobOfferCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateJobOfferCommand request, CancellationToken cancellationToken)
         {
-            if (!_jobOfferRepository.Exists(request.Id))
+            if (! await _jobOfferRepository.Exists(request.Id))
             {
                 throw JobOfferNotFoundException.ForId(request.Id);
             }
 
-            var jobOffer = _jobOfferRepository.GetById(request.Id);
+            var jobOffer = await _jobOfferRepository.GetById(request.Id);
             jobOffer.UpdateBasicInformation(request.Name, request.Description, request.SalaryFrom, request.SalaryTo);
 
-            _jobOfferRepository.Update();
-            
-            return Task.FromResult(Unit.Value);
+            await _jobOfferRepository.Update();
+
+            return Unit.Value;
         }
     }
 }

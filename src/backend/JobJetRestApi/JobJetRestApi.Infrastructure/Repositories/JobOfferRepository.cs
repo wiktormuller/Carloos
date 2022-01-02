@@ -1,4 +1,5 @@
-﻿using JobJetRestApi.Application.Interfaces;
+﻿using System.Threading.Tasks;
+using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 
@@ -13,35 +14,35 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext = jobJetDbContext;
         }
 
-        public JobOffer GetById(int id)
+        public async Task<JobOffer> GetById(int id)
         {
-            return _jobJetDbContext.JobOffers.Find(id);
+            return await _jobJetDbContext.JobOffers.FindAsync(id);
         }
 
-        public bool Exists(int id)
+        public async Task<bool> Exists(int id)
         {
-            return GetById(id) is not null;
+            return await GetById(id) is not null;
         }
 
-        public int Create(JobOffer jobOffer)
+        public async Task<int> Create(JobOffer jobOffer)
         {
-            _jobJetDbContext.JobOffers.Add(jobOffer);
-            var jobOfferId = _jobJetDbContext.SaveChanges();
+            await _jobJetDbContext.JobOffers.AddAsync(jobOffer);
+            var jobOfferId = await _jobJetDbContext.SaveChangesAsync();
 
             return jobOffer.Id;
         }
 
-        public void Update()
+        public async Task Update()
         {
-            _jobJetDbContext.SaveChanges();
+            await _jobJetDbContext.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var jobOffer = GetById(id);
+            var jobOffer = await GetById(id);
             _jobJetDbContext.Remove(jobOffer);
 
-            _jobJetDbContext.SaveChanges();
+            await _jobJetDbContext.SaveChangesAsync();
         }
     }
 }

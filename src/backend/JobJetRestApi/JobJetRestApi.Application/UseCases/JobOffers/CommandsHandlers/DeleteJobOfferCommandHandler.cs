@@ -16,16 +16,16 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             _jobOfferRepository = jobOfferRepository;
         }
 
-        public Task<Unit> Handle(DeleteJobOfferCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteJobOfferCommand request, CancellationToken cancellationToken)
         {
-            if (!_jobOfferRepository.Exists(request.Id))
+            if (! await _jobOfferRepository.Exists(request.Id))
             {
                 throw JobOfferNotFoundException.ForId(request.Id);
             }
 
-            _jobOfferRepository.Delete(request.Id);
-            
-            return Task.FromResult(Unit.Value);
+            await _jobOfferRepository.Delete(request.Id);
+
+            return Unit.Value;
         }
     }
 }
