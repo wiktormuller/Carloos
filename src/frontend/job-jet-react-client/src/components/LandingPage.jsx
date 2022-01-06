@@ -9,12 +9,12 @@ import { Map } from "./map/Map.jsx";
 export const LandingPage = (props) => {
   return (
     <div className="main-container">
-      <Header
-        userLogInState={props.userLogInState}
-        setUserLogInState={props.setUserLogInState}
-      ></Header>
-      <div className="sub-container">
-        <Router>
+      <Router>
+        <Header
+          userLogInState={props.userLogInState}
+          setUserLogInState={props.setUserLogInState}
+        ></Header>
+        <div className="sub-container">
           <Routes>
             <Route
               path="/"
@@ -32,12 +32,12 @@ export const LandingPage = (props) => {
             />
             <Route path="/details" element={<AdvertDetails />} />
           </Routes>
-        </Router>
-        <Map
-          localizationArray={props.localizationArray}
-          adsArray={props.adsArray}
-        ></Map>
-      </div>
+          <Map
+            localizationArray={props.localizationArray}
+            adsArray={props.adsArray}
+          ></Map>
+        </div>
+      </Router>
     </div>
   );
 };

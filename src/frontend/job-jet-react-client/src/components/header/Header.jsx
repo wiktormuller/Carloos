@@ -1,4 +1,5 @@
 import "./header-styles.css";
+import { Link } from "react-router-dom";
 
 export const Header = (props) => {
   const checkUserLogInState = () => {
@@ -21,7 +22,9 @@ export const Header = (props) => {
 
   return (
     <div className="header">
-      <p className="header__logo">JobJet</p>
+      <Link className="custom-link" to="/">
+        <p className="header__logo">JobJet</p>
+      </Link>
       {checkUserLogInState()}
     </div>
   );

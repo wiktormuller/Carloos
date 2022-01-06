@@ -169,3 +169,15 @@ input[type="text"]:hover,
   border-radius: 25px;
   width: 12.5%;
 }
+
+.custom-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: initial;
+  margin-bottom: 0;
+  width: initial;
+  height: initial;
+  text-decoration: none;
+  color: initial;
+}
