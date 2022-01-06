@@ -29,9 +29,10 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/countries
         [HttpGet(ApiRoutes.Countries.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<CountryResponse>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(PagedResponse<CountryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<CountryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
-        public async Task<ActionResult<PagedResponse<CountryResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<CountryResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
@@ -39,12 +40,16 @@ namespace JobJetRestApi.Web.Controllers.V1
             }
 
             // @TODO - Pagination and filtering?
-            var route = Request.Path.Value;
-            var totalRecords = 100;
-            var data = new List<CountryResponse>();
+            //var route = Request.Path.Value;
+            //var totalRecords = 100;
+            //var data = new List<CountryResponse>();
 
-            return Ok(PagedResponse<CountryResponse>.CreatePagedResponse(data, filter, totalRecords, _pageUriService,
-                route));
+            //return Ok(PagedResponse<CountryResponse>.CreatePagedResponse(data, filter, totalRecords, _pageUriService,
+            //    route));
+
+            var query = new GetAllCountriesQuery();
+            
+            return Ok(await _mediator.Send(query));
         }
         
         // GET api/countries/5

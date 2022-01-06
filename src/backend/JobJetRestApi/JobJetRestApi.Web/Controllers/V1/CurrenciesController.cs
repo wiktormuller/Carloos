@@ -29,9 +29,10 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/currencies
         [HttpGet(ApiRoutes.Currencies.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<CurrencyResponse>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(PagedResponse<CurrencyResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<CurrencyResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
-        public async Task<ActionResult<PagedResponse<CurrencyResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<CurrencyResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
@@ -39,12 +40,16 @@ namespace JobJetRestApi.Web.Controllers.V1
             }
 
             // @TODO - Pagination and filtering?
-            var route = Request.Path.Value;
-            var totalRecords = 100;
-            var data = new List<CurrencyResponse>();
+            //var route = Request.Path.Value;
+            //var totalRecords = 100;
+            //var data = new List<CurrencyResponse>();
 
-            return Ok(PagedResponse<CurrencyResponse>.CreatePagedResponse(data, filter, totalRecords,
-                _pageUriService, route));
+            // Ok(PagedResponse<CurrencyResponse>.CreatePagedResponse(data, filter, totalRecords,
+            //    _pageUriService, route));
+            
+            var query = new GetAllCurrenciesQuery();
+            
+            return Ok(await _mediator.Send(query));
         }
         
         // GET api/currencies/5

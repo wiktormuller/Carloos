@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Repositories
 {
@@ -17,6 +19,11 @@ namespace JobJetRestApi.Infrastructure.Repositories
         public async Task<JobOffer> GetById(int id)
         {
             return await _jobJetDbContext.JobOffers.FindAsync(id);
+        }
+
+        public async Task<List<JobOffer>> GetAll()
+        {
+            return await _jobJetDbContext.JobOffers.ToListAsync();
         }
 
         public async Task<bool> Exists(int id)

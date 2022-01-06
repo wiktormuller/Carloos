@@ -29,9 +29,10 @@ namespace JobJetRestApi.Web.Controllers.V1
 
         // GET api/job-offers
         [HttpGet(ApiRoutes.JobOffers.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
-        public async Task<ActionResult<PagedResponse<JobOfferResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
@@ -39,11 +40,16 @@ namespace JobJetRestApi.Web.Controllers.V1
             }
 
             // @TODO - Pagination and filtering?
-            var route = Request.Path.Value;
-            var totalRecords = 100;
-            var data = new List<JobOfferResponse>();
+            //var route = Request.Path.Value;
+            //var totalRecords = 100;
+            //var data = new List<JobOfferResponse>();
 
-            return Ok(PagedResponse<JobOfferResponse>.CreatePagedResponse(data, filter, totalRecords, _pageUriService, route));
+            //return Ok(PagedResponse<JobOfferResponse>.CreatePagedResponse(data, filter, totalRecords, _pageUriService, 
+            //    route));
+            
+            var query = new GetAllJobOffersQuery();
+            
+            return Ok(await _mediator.Send(query));
         }
         
         // GET api/job-offers/5
@@ -51,7 +57,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<string>> Get(int id)
+        public async Task<ActionResult<JobOfferResponse>> Get(int id)
         {
             var query = new GetJobOfferByIdQuery(id);
             var result = await _mediator.Send(query);

@@ -29,9 +29,10 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/technology-types
         [HttpGet(ApiRoutes.TechnologyTypes.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<TechnologyTypeResponse>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(PagedResponse<TechnologyTypeResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<TechnologyTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
-        public async Task<ActionResult<PagedResponse<TechnologyTypeResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<TechnologyTypeResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
@@ -39,12 +40,16 @@ namespace JobJetRestApi.Web.Controllers.V1
             }
 
             // @TODO - Pagination and filtering?
-            var route = Request.Path.Value;
-            var totalRecords = 100;
-            var data = new List<TechnologyTypeResponse>();
+            //var route = Request.Path.Value;
+            //var totalRecords = 100;
+            //var data = new List<TechnologyTypeResponse>();
 
-            return Ok(PagedResponse<TechnologyTypeResponse>.CreatePagedResponse(data, filter, totalRecords,
-                _pageUriService, route));
+            //return Ok(PagedResponse<TechnologyTypeResponse>.CreatePagedResponse(data, filter, totalRecords,
+            //    _pageUriService, route));
+            
+            var query = new GetAllTechnologyTypesQuery();
+            
+            return Ok(await _mediator.Send(query));
         }
         
         // GET api/technology-types/5

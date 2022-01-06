@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -19,6 +20,11 @@ namespace JobJetRestApi.Infrastructure.Repositories
         public async Task<Currency> GetById(int id)
         {
             return await _jobJetDbContext.Currencies.FindAsync(id);
+        }
+
+        public async Task<List<Currency>> GetAll()
+        {
+            return await _jobJetDbContext.Currencies.ToListAsync();
         }
 
         public async Task<bool> Exists(int id)

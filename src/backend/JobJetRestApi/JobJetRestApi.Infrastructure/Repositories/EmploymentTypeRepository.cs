@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -18,6 +19,11 @@ namespace JobJetRestApi.Infrastructure.Repositories
         public async Task<EmploymentType> GetById(int id)
         {
             return await _jobJetDbContext.EmploymentTypes.FindAsync(id);
+        }
+
+        public async Task<List<EmploymentType>> GetAll()
+        {
+            return await _jobJetDbContext.EmploymentTypes.ToListAsync();
         }
 
         public async Task<bool> Exists(int id)
