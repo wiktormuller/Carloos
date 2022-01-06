@@ -1,5 +1,4 @@
 import "./styles/main-styles.css";
-
 import { useState /*, useEffect*/ } from "react";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";

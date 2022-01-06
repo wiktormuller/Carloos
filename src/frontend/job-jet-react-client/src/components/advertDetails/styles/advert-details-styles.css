@@ -50,7 +50,7 @@
 
 .header__primary {
   font-weight: bolder;
-  font-size: 2em;
+  font-size: 1.75em;
   /* line-height: 2em; */
 }
 
@@ -96,4 +96,42 @@
 .highlighted-btn:hover {
   background: #ffffff;
   color: #007296;
+}
+
+.advert-details__advanced {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 25vh;
+  width: calc(90% + 40px);
+  padding: 0;
+  margin: 20px 0;
+  /* background: lightsalmon; */
+}
+
+.advert-details__advanced--row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50%;
+  width: 100%;
+  /* background: blue; */
+  padding: 0;
+  margin: 0;
+}
+
+.advert-details__advanced--tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: calc(85% - 20px);
+  width: calc(49% - 40px);
+  padding: 10px 20px;
+  background: #ffffff;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  color: #333333;
+  /* margin: 10px; */
 }
