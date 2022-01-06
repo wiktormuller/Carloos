@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -18,6 +19,11 @@ namespace JobJetRestApi.Infrastructure.Repositories
         public async Task<Country> GetById(int id)
         {
             return await _jobJetDbContext.Countries.FindAsync(id);
+        }
+
+        public async Task<List<Country>> GetAll()
+        {
+            return await _jobJetDbContext.Countries.ToListAsync();
         }
 
         public async Task<bool> Exists(int id)

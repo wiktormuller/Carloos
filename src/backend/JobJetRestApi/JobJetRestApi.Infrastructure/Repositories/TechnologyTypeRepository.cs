@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
@@ -19,6 +20,11 @@ namespace JobJetRestApi.Infrastructure.Repositories
         public async Task<TechnologyType> GetById(int id)
         {
             return await _jobJetDbContext.TechnologyTypes.FindAsync(id);
+        }
+
+        public async Task<List<TechnologyType>> GetAll()
+        {
+            return await _jobJetDbContext.TechnologyTypes.ToListAsync();
         }
 
         public async Task<bool> Exists(int id)

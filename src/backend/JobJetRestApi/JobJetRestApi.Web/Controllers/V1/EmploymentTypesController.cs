@@ -28,9 +28,10 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/employment-types
         [HttpGet(ApiRoutes.EmploymentTypes.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<EmploymentTypeResponse>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(PagedResponse<EmploymentTypeResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<EmploymentTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
-        public async Task<ActionResult<PagedResponse<EmploymentTypeResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<EmploymentTypeResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
@@ -38,12 +39,16 @@ namespace JobJetRestApi.Web.Controllers.V1
             }
 
             // @TODO - Pagination and filtering?
-            var route = Request.Path.Value;
-            var totalRecords = 100;
-            var data = new List<EmploymentTypeResponse>();
+            //var route = Request.Path.Value;
+            //var totalRecords = 100;
+            //var data = new List<EmploymentTypeResponse>();
 
-            return Ok(PagedResponse<EmploymentTypeResponse>.CreatePagedResponse(data, filter, totalRecords,
-                _pageUriService, route));
+            //return Ok(PagedResponse<EmploymentTypeResponse>.CreatePagedResponse(data, filter, totalRecords,
+            //    _pageUriService, route));
+            
+            var query = new GetAllEmploymentTypesQuery();
+            
+            return Ok(await _mediator.Send(query));
         }
         
         // GET api/employment-types/5

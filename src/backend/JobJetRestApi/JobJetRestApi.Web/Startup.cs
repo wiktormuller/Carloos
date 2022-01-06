@@ -97,11 +97,12 @@ namespace JobJetRestApi.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JobJetRestApi.Web v1"));
             }
+            
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JobJetRestApi.Web v1"));
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection(); // Docker cannot serve the app with this middleware, why?
 
             app.UseRouting();
             
