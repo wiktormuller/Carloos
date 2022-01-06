@@ -20,6 +20,7 @@ export const Data = (props) => {
         localizationArray={props.localizationArray}
         skillsArray={props.skillsArray}
         adsArray={props.adsArray}
+        setAdvertDetails={props.setAdvertDetails}
       ></AdvertData>
     </div>
   );

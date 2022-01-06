@@ -1,5 +1,5 @@
 import "../styles/main-styles.css";
-// import { useState /*, useEffect*/ } from "react";
+import { useState /*, useEffect*/ } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header } from "./header/Header.jsx";
 import { Data } from "./data/Data.jsx";
@@ -7,6 +7,7 @@ import { AdvertDetails } from "./advertDetails/AdvertDetails.jsx";
 import { Map } from "./map/Map.jsx";
 
 export const LandingPage = (props) => {
+  const [advertDetails, setAdvertDetails] = useState({});
   return (
     <div className="main-container">
       <Router>
@@ -27,11 +28,16 @@ export const LandingPage = (props) => {
                   setSearchedInput={props.setSearchedInput}
                   setSearchedLocalization={props.setSearchedLocalization}
                   setSearchedSkills={props.setSearchedSkills}
+                  setAdvertDetails={setAdvertDetails}
                 />
               }
             />
-            <Route path="/details" element={<AdvertDetails />} />
+            <Route
+              path="/details"
+              element={<AdvertDetails advertDetails={advertDetails} />}
+            />
           </Routes>
+
           <Map
             localizationArray={props.localizationArray}
             adsArray={props.adsArray}

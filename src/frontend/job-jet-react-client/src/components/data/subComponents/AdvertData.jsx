@@ -4,8 +4,17 @@ import { AdvertSynopsis } from "./AdvertSynopsis";
 
 export const AdvertData = (props) => {
   const renderedArray = props.adsArray.map((ad) => {
+    const handleClick = () => {
+      props.setAdvertDetails({
+        title: ad.title,
+        address: ad.address,
+        conditions: ad.conditions,
+        description: ad.description,
+        advancedDataArray: ad.advancedDataArray,
+      });
+    };
     return (
-      <Link className="custom-link" to="/details">
+      <Link className="custom-link" to="/details" onClick={handleClick}>
         <AdvertSynopsis
           key={ad.id}
           title={ad.title}
