@@ -1,6 +1,10 @@
-import "../../styles/main-styles.css";
-import "./advertDetails-styles.css";
+import "./styles/advert-details-styles.css";
+import { BasicDetails } from "./subComponents/BasicDetails";
 
 export const AdvertDetails = () => {
-  return <div className="advert-details"></div>;
+  return (
+    <div className="advert-details">
+      <BasicDetails />
+    </div>
+  );
 };
