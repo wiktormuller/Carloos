@@ -1,6 +1,18 @@
 import "./../styles/advert-details-styles.css";
 
 export const BasicDetails = (props) => {
+  const handleClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+        },
+        () => {
+          alert("Błąd. Nie można pobrać lokalizacji");
+        }
+      );
+    }
+  };
   return (
     <div className="advert-details__basic">
       <div className="advert-details__basic--container">
@@ -18,7 +30,9 @@ export const BasicDetails = (props) => {
       <div className="advert-details__basic--buttons">
         <div className="buttons">
           <button className="btn primary-btn">Aplikuj</button>
-          <button className="btn highlighted-btn">Pokaż drogę do pracy</button>
+          <button className="btn highlighted-btn" onClick={handleClick}>
+            Pokaż drogę do pracy
+          </button>
         </div>
       </div>
     </div>
