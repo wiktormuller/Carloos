@@ -17,19 +17,6 @@ html,
   width: 100vw;
 }
 
-.navbar {
-  display: flex;
-  flex-direction: column;
-  background: #007296;
-  width: 100px;
-  height: 100vh;
-}
-
-.map {
-  width: calc(100vw - 900px);
-  height: 90vh;
-}
-
 .main-container {
   display: flex;
   flex-direction: column;
@@ -41,22 +28,4 @@ html,
   display: flex;
   height: 90vh;
   width: calc(100vw - 100px);
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 10vh;
-  /* background: orange; */
-  padding-left: 1%;
-}
-
-.data {
-  display: flex;
-  flex-direction: column;
-  width: 800px;
-  padding: 0;
-  margin: 0;
-  /* background: limegreen; */
 }

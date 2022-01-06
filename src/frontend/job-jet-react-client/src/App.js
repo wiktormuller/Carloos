@@ -1,9 +1,9 @@
 import "./styles/main-styles.css";
 
 import { useState /*, useEffect*/ } from "react";
-import { Navbar } from "./components/Navbar.jsx";
-import { Container } from "./components/Container.jsx";
-import { localizationArray, skillsArray, adsArray } from "./data/arrays"
+import { Navbar } from "./components/navbar/Navbar.jsx";
+import { LandingPage } from "./components/LandingPage.jsx";
+import { localizationArray, skillsArray, adsArray } from "./data/arrays";
 
 function App() {
   const [userLogInState, setUserLogInState] = useState(false);
@@ -16,21 +16,25 @@ function App() {
   let searchedAdsByLocalization;
   let searchedAdsClone;
   let filteredData = [];
-  if(searchedLocalization !== "1"){
-    filteredData = adsArray.filter(ad => String(ad.localization) === searchedLocalization);
+  if (searchedLocalization !== "1") {
+    filteredData = adsArray.filter(
+      (ad) => String(ad.localization) === searchedLocalization
+    );
     searchedAds = filteredData;
   }
-  if(searchedLocalization === "1"){
+  if (searchedLocalization === "1") {
     searchedAds = adsArray;
   }
   searchedAdsByLocalization = [...searchedAds];
-  if(searchedSkills.length > 0){
-    let checker = (arr, target) => target.every(v => arr.includes(v));
-    filteredData = searchedAdsByLocalization.filter(ad => checker(ad.skills,searchedSkills) === true);
+  if (searchedSkills.length > 0) {
+    let checker = (arr, target) => target.every((v) => arr.includes(v));
+    filteredData = searchedAdsByLocalization.filter(
+      (ad) => checker(ad.skills, searchedSkills) === true
+    );
     searchedAds = filteredData;
   }
   searchedAdsClone = [...searchedAds];
-  if(searchedInput !== ""){
+  if (searchedInput !== "") {
     filteredData = searchedAds.filter((ad) => {
       return (
         ad.title
@@ -45,24 +49,24 @@ function App() {
     });
     searchedAds = filteredData;
   }
-  if(searchedInput === ""){
+  if (searchedInput === "") {
     searchedAds = searchedAdsClone;
   }
 
   return (
     <div className="app">
       <Navbar></Navbar>
-      <Container
+      <LandingPage
         userLogInState={userLogInState}
         setUserLogInState={setUserLogInState}
-        localizationArray={localizationArray} 
+        localizationArray={localizationArray}
         skillsArray={skillsArray}
         adsArray={searchedAds}
-        searchedSkills={searchedSkills} 
-        setSearchedInput={setSearchedInput} 
+        searchedSkills={searchedSkills}
+        setSearchedInput={setSearchedInput}
         setSearchedLocalization={setSearchedLocalization}
         setSearchedSkills={setSearchedSkills}
-      ></Container>
+      ></LandingPage>
     </div>
   );
 }
