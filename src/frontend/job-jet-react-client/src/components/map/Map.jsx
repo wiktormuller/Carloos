@@ -9,6 +9,11 @@ export const Map = (props) => {
   let zoom = 6.8;
   let skill = 0;
 
+  //informacje o geolokacji użytkownika:
+  console.log(props.geoLocation);
+  //informacje o geolokacji miejsca pracy:
+  console.log(props.advertLocation);
+
   const filteredLocalization = props.localizationArray.filter(
     (loc) => loc.id === 1
   );

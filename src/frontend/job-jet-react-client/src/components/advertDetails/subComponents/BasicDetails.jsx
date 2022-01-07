@@ -5,7 +5,10 @@ export const BasicDetails = (props) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position);
+          props.setGeoLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
         },
         () => {
           alert("Błąd. Nie można pobrać lokalizacji");

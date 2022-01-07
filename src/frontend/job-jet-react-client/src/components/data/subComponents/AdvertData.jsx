@@ -12,6 +12,10 @@ export const AdvertData = (props) => {
         description: ad.description,
         advancedDataArray: ad.advancedDataArray,
       });
+      props.setAdvertLocation({
+        lat: ad.lat,
+        lng: ad.lng,
+      });
     };
     return (
       <Link className="custom-link" to="/details" onClick={handleClick}>

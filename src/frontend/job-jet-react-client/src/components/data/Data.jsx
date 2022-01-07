@@ -21,6 +21,7 @@ export const Data = (props) => {
         skillsArray={props.skillsArray}
         adsArray={props.adsArray}
         setAdvertDetails={props.setAdvertDetails}
+        setAdvertLocation={props.setAdvertLocation}
       ></AdvertData>
     </div>
   );

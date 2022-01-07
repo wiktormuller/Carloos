@@ -8,6 +8,8 @@ import { Map } from "./map/Map.jsx";
 
 export const LandingPage = (props) => {
   const [advertDetails, setAdvertDetails] = useState({});
+  const [geoLocation, setGeoLocation] = useState({});
+  const [advertLocation, setAdvertLocation] = useState({});
   return (
     <div className="main-container">
       <Router>
@@ -29,18 +31,26 @@ export const LandingPage = (props) => {
                   setSearchedLocalization={props.setSearchedLocalization}
                   setSearchedSkills={props.setSearchedSkills}
                   setAdvertDetails={setAdvertDetails}
+                  setAdvertLocation={setAdvertLocation}
                 />
               }
             />
             <Route
               path="/details"
-              element={<AdvertDetails advertDetails={advertDetails} />}
+              element={
+                <AdvertDetails
+                  advertDetails={advertDetails}
+                  setGeoLocation={setGeoLocation}
+                />
+              }
             />
           </Routes>
 
           <Map
             localizationArray={props.localizationArray}
             adsArray={props.adsArray}
+            geoLocation={geoLocation}
+            advertLocation={advertLocation}
           ></Map>
         </div>
       </Router>

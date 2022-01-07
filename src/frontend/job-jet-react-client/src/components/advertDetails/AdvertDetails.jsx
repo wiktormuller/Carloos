@@ -10,6 +10,7 @@ export const AdvertDetails = (props) => {
         title={props.advertDetails.title}
         address={props.advertDetails.address}
         conditions={props.advertDetails.conditions}
+        setGeoLocation={props.setGeoLocation}
       />
       <AdvancedDetails
         advancedDataArray={props.advertDetails.advancedDataArray}
