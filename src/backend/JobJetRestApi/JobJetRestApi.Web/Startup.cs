@@ -36,9 +36,7 @@ namespace JobJetRestApi.Web
             // IdentityModelEventSource.ShowPII = true;
             services.AddDbContext<JobJetDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddMediatR(AppDomain.CurrentDomain.Load("JobJetRestApi.Application"));
-
+            
             services.AddScoped<IJobOfferRepository, JobOfferRepository>();
             services.AddScoped<ISeniorityRepository, SeniorityRepository>();
             services.AddScoped<ITechnologyTypeRepository, TechnologyTypeRepository>();
@@ -50,11 +48,13 @@ namespace JobJetRestApi.Web
             
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateJobOfferRequestValidator>());
 
-            services.AddHttpClient<IGeocodingService, GeocodingService>();
-            services.AddHttpClient<IRouteService, RouteService>();
+            //services.AddHttpClient<IGeocodingService, GeocodingService>();
+            //services.AddHttpClient<IRouteService, RouteService>();
 
             services.Configure<GeocodingOptions>(Configuration.GetSection(GeocodingOptions.Geocoding));
             services.Configure<GeoRouteOptions>(Configuration.GetSection(GeoRouteOptions.GeoRoute));
+            
+            services.AddMediatR(AppDomain.CurrentDomain.Load("JobJetRestApi.Application"));
             
             services.AddHttpContextAccessor();
             services.AddSingleton<IPageUriService>(o => // Here we get the base URL of the application http(s)://www.jobjet.com
@@ -96,8 +96,9 @@ namespace JobJetRestApi.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
+            app.UseDeveloperExceptionPage();
             
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JobJetRestApi.Web v1"));
