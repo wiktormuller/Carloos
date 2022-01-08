@@ -56,6 +56,13 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     await context.SaveChangesAsync();
                 }
 
+                if (!await context.Companies.AnyAsync())
+                {
+                    await context.Companies.AddRangeAsync(
+                        GetPredefinedCompanies());
+                    await context.SaveChangesAsync();
+                }
+
                 /*
                 if (!await context.Addresses.AnyAsync())
                 {
@@ -158,6 +165,29 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                 new Seniority("Junior"),
                 new Seniority("Mid"),
                 new Seniority("Senior")
+            };
+        }
+
+        private static IEnumerable<Company> GetPredefinedCompanies()
+        {
+            return new List<Company>
+            {
+                new Company("Apple Computer Company", "Apple", 
+                    "Apple Inc. is an American multinational technology company that specializes in consumer " +
+                    "electronics, computer software and online services. Apple is the largest information technology company by revenue",
+                    147000, "Cupertino, California, United States"),
+                new Company("Advanced Micro Devices", "AMD",
+                    "Advanced Micro Devices, Inc. (AMD) is an American multinational semiconductor company " +
+                    "based in Santa Clara, California, that develops computer processors and related technologies for " +
+                    "business and consumer markets. While it initially manufactured its own processors.",
+                    15500,
+                    "Sunnyvale, California, United States"),
+                new Company("Nvidia Corporation", "Nvidia",
+                    "Nvidia Corporation[note 1] (/ɛnˈvɪdiə/ en-VID-ee-ə) is an American multinational technology" +
+                    " company incorporated in Delaware and based in Santa Clara, California.[2] It designs graphics processing units" +
+                    " (GPUs) for the gaming and professional markets, as well as system on a chip units (SoCs) for the mobile computing and automotive market.",
+                    18100,
+                    "Santa Clara, California, United States")
             };
         }
 
