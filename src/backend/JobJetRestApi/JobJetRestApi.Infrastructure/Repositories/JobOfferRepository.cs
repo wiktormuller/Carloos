@@ -44,11 +44,9 @@ namespace JobJetRestApi.Infrastructure.Repositories
             await _jobJetDbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(JobOffer jobOffer)
         {
-            var jobOffer = await GetById(id);
             _jobJetDbContext.Remove(jobOffer);
-
             await _jobJetDbContext.SaveChangesAsync();
         }
     }

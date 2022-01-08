@@ -59,6 +59,15 @@
             public const string Update = Base + "/employment-types/{id}";
             public const string Delete = Base + "/employment-types";
         }
+        
+        public static class Companies
+        {
+            public const string GetAll = Base + "/companies";
+            public const string Get = Base + "/companies/{id}";
+            public const string Create = Base + "/companies";
+            public const string Update = Base + "/companies/{id}";
+            public const string Delete = Base + "/companies";
+        }
 
         public static class Roads
         {

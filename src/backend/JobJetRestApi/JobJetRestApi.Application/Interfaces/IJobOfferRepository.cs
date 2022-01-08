@@ -11,6 +11,6 @@ namespace JobJetRestApi.Application.Interfaces
         Task<bool> Exists(int id);
         Task<int> Create(JobOffer jobOffer);
         Task Update();
-        Task Delete(int id);
+        Task Delete(JobOffer jobOffer);
     }
 }
