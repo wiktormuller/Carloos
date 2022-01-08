@@ -23,7 +23,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 throw JobOfferNotFoundException.ForId(request.Id);
             }
 
-            await _jobOfferRepository.Delete(request.Id);
+            var jobOffer = await _jobOfferRepository.GetById(request.Id);
+            await _jobOfferRepository.Delete(jobOffer);
 
             return Unit.Value;
         }
