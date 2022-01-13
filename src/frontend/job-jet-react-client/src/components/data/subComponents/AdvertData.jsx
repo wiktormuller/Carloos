@@ -18,9 +18,13 @@ export const AdvertData = (props) => {
       });
     };
     return (
-      <Link className="custom-link" to="/details" onClick={handleClick}>
+      <Link
+        key={ad.id}
+        className="custom-link"
+        to="/details"
+        onClick={handleClick}
+      >
         <AdvertSynopsis
-          key={ad.id}
           title={ad.title}
           localization={ad.localization}
           salary={ad.salary}
