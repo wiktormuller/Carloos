@@ -2,7 +2,7 @@ import "./map-styles.css";
 // import React from "react";
 import { React, useState, useEffect } from "react";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup,Polyline,useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 export const Map = (props) => {
@@ -14,21 +14,34 @@ export const Map = (props) => {
   console.log(props.geoLocation);
   //informacje o geolokacji miejsca pracy:
   console.log(props.advertLocation);
-
-  const url =
-    "https://jobjet.azurewebsites.net/api/v1/roads/17.9666195%2C54.1228639%3B17.968999%2C54.118802";
-
-  const [options, setOptions] = useState({});
+  let coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`
+  console.log(coordinates)
+  let url =`https://jobjet.azurewebsites.net/api/v1/roads/`+coordinates;
+  const [options, setOptions] = useState([]);
   useEffect(() => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
         setOptions(data);
       });
-  }, []);
-
+  }, [url]);
+  
   console.log(options);
 
+const FlyToCoords=()=>{
+  const map = useMap();
+  if(props.geoLocation.lng!==undefined)
+  {
+    map.flyTo([((props.advertLocation.lat+props.geoLocation.lat)/2),((props.advertLocation.lng+props.geoLocation.lng)/2)],8)
+    return null;
+  }
+  else if(props.advertLocation.lng!==undefined)
+  {
+  map.flyTo([props.advertLocation.lat,props.advertLocation.lng],14)
+  return null;
+  }
+  else return null;
+}
   const filteredLocalization = props.localizationArray.filter(
     (loc) => loc.id === 1
   );
@@ -37,6 +50,7 @@ export const Map = (props) => {
     (loc) => ((center = [loc.lat, loc.lng]), (zoom = loc.zoom))
   );
 
+  
   const filteredAdverts = props.adsArray.map(
     (ad) => (
       // eslint-disable-next-line no-sequences
@@ -49,6 +63,7 @@ export const Map = (props) => {
             iconSize: new L.Point(60, 75),
           })}
           position={[ad.lat, ad.lng]}
+          
         >
           <Popup position={[ad.lat, ad.lng]}>
             <div>
@@ -68,11 +83,13 @@ export const Map = (props) => {
       zoom={zoom}
       scrollWheelZoom={true}
     >
+      <FlyToCoords/>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {filteredAdverts}
+      <Polyline positions={options.map((loc) => {return [loc.latitude, loc.longitude];})}></Polyline>
     </MapContainer>
   );
 };
