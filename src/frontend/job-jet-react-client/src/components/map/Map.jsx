@@ -32,7 +32,7 @@ const FlyToCoords=()=>{
   const map = useMap();
   if(props.geoLocation.lng!==undefined)
   {
-    map.flyTo([((props.advertLocation.lat+props.geoLocation.lat)/2),((props.advertLocation.lng+props.geoLocation.lng)/2)],8)
+    map.flyTo([((props.advertLocation.lat+props.geoLocation.lat)/2),((props.advertLocation.lng+props.geoLocation.lng)/2)],(11-(options.length*0.0009)))
     return null;
   }
   else if(props.advertLocation.lng!==undefined)
