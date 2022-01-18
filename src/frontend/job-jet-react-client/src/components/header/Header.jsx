@@ -20,9 +20,24 @@ export const Header = (props) => {
     }
   };
 
+const handleClick=()=>{
+  props.setGeoLocation({
+    lat: undefined, 
+    lng: undefined,
+  })
+  props.setAdvertLocation({
+    lat: 52.006376, 
+    lng: 19.025167,
+  })
+}
+
+
+
+
+
   return (
     <div className="header">
-      <Link className="custom-link" to="/">
+      <Link className="custom-link" to="/" onClick={handleClick}>
         <p className="header__logo">JobJet</p>
       </Link>
       {checkUserLogInState()}

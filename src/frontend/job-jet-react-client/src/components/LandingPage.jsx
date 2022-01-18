@@ -16,6 +16,8 @@ export const LandingPage = (props) => {
         <Header
           userLogInState={props.userLogInState}
           setUserLogInState={props.setUserLogInState}
+          setGeoLocation={setGeoLocation}
+          setAdvertLocation={setAdvertLocation}
         ></Header>
         <div className="sub-container">
           <Routes>

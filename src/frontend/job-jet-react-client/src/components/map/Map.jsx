@@ -9,12 +9,14 @@ export const Map = (props) => {
   let center = [52.006376, 19.025167];
   let zoom = 6.8;
   let skill = 0;
+  let coordinates
 
-  //informacje o geolokacji użytkownika:
-  console.log(props.geoLocation);
-  //informacje o geolokacji miejsca pracy:
-  console.log(props.advertLocation);
-  let coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`
+  if ((props.geoLocation.lng===undefined)&&(props.advertLocation.lng===undefined))
+  coordinates=`${center[1]}%2C${center[0]}%3B${center[1]}%2C${center[0]}`
+  else if(props.geoLocation.lng===undefined)
+  coordinates = `${props.advertLocation.lng}%2C${props.advertLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`
+else coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`
+
   console.log(coordinates)
   let url =`https://jobjet.azurewebsites.net/api/v1/roads/`+coordinates;
   const [options, setOptions] = useState([]);
@@ -26,21 +28,24 @@ export const Map = (props) => {
       });
   }, [url]);
   
-  console.log(options);
+console.log(1===2)
 
 const FlyToCoords=()=>{
   const map = useMap();
-  if(props.geoLocation.lng!==undefined)
+  if(props.advertLocation.lat===center[0])
+  {
+  map.flyTo([props.advertLocation.lat,props.advertLocation.lng],zoom)
+  }
+  else if(props.geoLocation.lng!==undefined)
   {
     map.flyTo([((props.advertLocation.lat+props.geoLocation.lat)/2),((props.advertLocation.lng+props.geoLocation.lng)/2)],(11-(options.length*0.0009)))
-    return null;
   }
   else if(props.advertLocation.lng!==undefined)
   {
   map.flyTo([props.advertLocation.lat,props.advertLocation.lng],14)
-  return null;
   }
-  else return null;
+ 
+ return null;
 }
   const filteredLocalization = props.localizationArray.filter(
     (loc) => loc.id === 1
@@ -89,7 +94,10 @@ const FlyToCoords=()=>{
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {filteredAdverts}
+      1===2? 
       <Polyline positions={options.map((loc) => {return [loc.latitude, loc.longitude];})}></Polyline>
+      :null
+      
     </MapContainer>
   );
 };
