@@ -2,23 +2,34 @@ import "./map-styles.css";
 // import React from "react";
 import { React, useState, useEffect } from "react";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup,Polyline,useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 export const Map = (props) => {
   let center = [52.006376, 19.025167];
   let zoom = 6.8;
   let skill = 0;
-  let coordinates
+  let coordinates;
 
-  if ((props.geoLocation.lng===undefined)&&(props.advertLocation.lng===undefined))
-  coordinates=`${center[1]}%2C${center[0]}%3B${center[1]}%2C${center[0]}`
-  else if(props.geoLocation.lng===undefined)
-  coordinates = `${props.advertLocation.lng}%2C${props.advertLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`
-else coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`
+  if (
+    props.geoLocation.lng === undefined &&
+    props.advertLocation.lng === undefined
+  )
+    coordinates = `${center[1]}%2C${center[0]}%3B${center[1]}%2C${center[0]}`;
+  else if (props.geoLocation.lng === undefined)
+    coordinates = `${props.advertLocation.lng}%2C${props.advertLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`;
+  else
+    coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`;
 
-  console.log(coordinates)
-  let url =`https://jobjet.azurewebsites.net/api/v1/roads/`+coordinates;
+  console.log(coordinates);
+  let url = `https://jobjet.azurewebsites.net/api/v1/roads/` + coordinates;
   const [options, setOptions] = useState([]);
   useEffect(() => {
     fetch(url)
@@ -27,26 +38,27 @@ else coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${prop
         setOptions(data);
       });
   }, [url]);
-  
-console.log(1===2)
 
-const FlyToCoords=()=>{
-  const map = useMap();
-  if(props.advertLocation.lat===center[0])
-  {
-  map.flyTo([props.advertLocation.lat,props.advertLocation.lng],zoom)
-  }
-  else if(props.geoLocation.lng!==undefined)
-  {
-    map.flyTo([((props.advertLocation.lat+props.geoLocation.lat)/2),((props.advertLocation.lng+props.geoLocation.lng)/2)],(11-(options.length*0.0009)))
-  }
-  else if(props.advertLocation.lng!==undefined)
-  {
-  map.flyTo([props.advertLocation.lat,props.advertLocation.lng],14)
-  }
- 
- return null;
-}
+  console.log(1 === 2);
+
+  const FlyToCoords = () => {
+    const map = useMap();
+    if (props.advertLocation.lat === center[0]) {
+      map.flyTo([props.advertLocation.lat, props.advertLocation.lng], zoom);
+    } else if (props.geoLocation.lng !== undefined) {
+      map.flyTo(
+        [
+          (props.advertLocation.lat + props.geoLocation.lat) / 2,
+          (props.advertLocation.lng + props.geoLocation.lng) / 2,
+        ],
+        11 - options.length * 0.0009
+      );
+    } else if (props.advertLocation.lng !== undefined) {
+      map.flyTo([props.advertLocation.lat, props.advertLocation.lng], 14);
+    }
+
+    return null;
+  };
   const filteredLocalization = props.localizationArray.filter(
     (loc) => loc.id === 1
   );
@@ -55,7 +67,6 @@ const FlyToCoords=()=>{
     (loc) => ((center = [loc.lat, loc.lng]), (zoom = loc.zoom))
   );
 
-  
   const filteredAdverts = props.adsArray.map(
     (ad) => (
       // eslint-disable-next-line no-sequences
@@ -68,7 +79,6 @@ const FlyToCoords=()=>{
             iconSize: new L.Point(60, 75),
           })}
           position={[ad.lat, ad.lng]}
-          
         >
           <Popup position={[ad.lat, ad.lng]}>
             <div>
@@ -88,16 +98,19 @@ const FlyToCoords=()=>{
       zoom={zoom}
       scrollWheelZoom={true}
     >
-      <FlyToCoords/>
+      <FlyToCoords />
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {filteredAdverts}
-      1===2? 
-      <Polyline positions={options.map((loc) => {return [loc.latitude, loc.longitude];})}></Polyline>
+      1===2?
+      <Polyline
+        positions={options.map((loc) => {
+          return [loc.latitude, loc.longitude];
+        })}
+      ></Polyline>
       :null
-      
     </MapContainer>
   );
 };
