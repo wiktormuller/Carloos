@@ -29,4 +29,6 @@ EXPOSE 5002
 EXPOSE 5003
 COPY --from=build-env /app/JobJetRestApi.Web/out .
 ENTRYPOINT ["dotnet", "JobJetRestApi.Web.dll"]
-#CMD ["/seed"]
+
+# Argument for seeding data
+CMD ["/seed"]
