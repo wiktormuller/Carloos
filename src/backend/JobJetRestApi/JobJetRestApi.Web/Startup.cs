@@ -43,6 +43,7 @@ namespace JobJetRestApi.Web
             services.AddScoped<IEmploymentTypeRepository, EmploymentTypeRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IGeocodingService, GeocodingService>();
             services.AddScoped<IRouteService, RouteService>();
             
@@ -104,7 +105,11 @@ namespace JobJetRestApi.Web
 
             app.UseRouting();
             
-            app.UseCors("default");
+            //app.UseCors("default"); // Refers to services.AddCors
+            app.UseCors(builder => builder
+                 .AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();
