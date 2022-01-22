@@ -78,3 +78,15 @@ export const adsArray = [
     lng: 21,
   },
 ];
+
+export const navbarLinksTable = [
+  { id: 1, name: "Strona główna", iconName: "BsSearch", path: "/" },
+  { id: 2, name: "O nas", iconName: "DiCss3", color: "#4169e1", path: "/" },
+  {
+    id: 3,
+    name: "Pracuj z nami",
+    iconName: "DiJavascript",
+    path: "/",
+  },
+  { id: 4, name: "Kontakt", iconName: "SiTypescript", path: "/" },
+];

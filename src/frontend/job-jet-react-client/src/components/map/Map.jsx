@@ -28,7 +28,6 @@ export const Map = (props) => {
   else
     coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`;
 
-  console.log(coordinates);
   let url = `https://jobjet.azurewebsites.net/api/v1/roads/` + coordinates;
   let [options, setOptions] = useState([]);
   useEffect(() => {
@@ -39,12 +38,9 @@ export const Map = (props) => {
       });
   }, [url]);
 
-  console.log(options);
   if (options.length === 2) {
     options = [];
   }
-
-  console.log(1 === 2);
 
   const FlyToCoords = () => {
     const map = useMap();

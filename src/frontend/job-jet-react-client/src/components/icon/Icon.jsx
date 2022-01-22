@@ -15,13 +15,13 @@ const nameMapping = {
 };
 
 export const Icon = (props) => {
-  const { iconName, size, color } = props;
+  const { iconName, size, color, className } = props;
 
   const Icon = nameMapping[iconName.slice(0, 2)][iconName];
 
   return (
-    <div style={{ fontSize: size, color: color }}>
+    <span className={className} style={{ fontSize: size, color: color }}>
       <Icon />
-    </div>
+    </span>
   );
 };
