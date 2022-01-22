@@ -80,13 +80,18 @@ export const adsArray = [
 ];
 
 export const navbarLinksTable = [
-  { id: 1, name: "Strona główna", iconName: "BsSearch", path: "/" },
-  { id: 2, name: "O nas", iconName: "DiCss3", color: "#4169e1", path: "/" },
+
+ 
+  { id: 1, name: "Wyszukaj", iconName: "BsSearch", path: "/" },
+  { id: 2, name: "Oferty", iconName: "IoDocumentTextOutline", path: "/" },
   {
     id: 3,
-    name: "Pracuj z nami",
-    iconName: "DiJavascript",
+    name: "Pogoda",
+    iconName: "TiWeatherStormy",
     path: "/",
   },
-  { id: 4, name: "Kontakt", iconName: "SiTypescript", path: "/" },
+  { id: 4, name: "Analityka", iconName: "DiGoogleAnalytics", path: "/" },
+  { id: 5, name: "Opcje", iconName: "IoSettingsOutline", path: "/" },
+  { id: 6, name: "Biuletyn", iconName: "IoNewspaperOutline", path: "/" },
+
 ];
