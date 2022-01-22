@@ -36,6 +36,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.QueriesHandlers
                 jobOffer.Address.Id,
                 jobOffer.Address.Country.Name,
                 jobOffer.Address.Town,
+                jobOffer.Address.Street,
                 jobOffer.Address.ZipCode,
                 jobOffer.Address.Latitude,
                 jobOffer.Address.Longitude,

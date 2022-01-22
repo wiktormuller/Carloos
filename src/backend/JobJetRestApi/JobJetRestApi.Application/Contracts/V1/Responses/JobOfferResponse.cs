@@ -13,7 +13,7 @@
         public string EmploymentType { get; private set; }
 
         public JobOfferResponse(int id, string name, string description, decimal salaryFrom, decimal salaryTo, 
-            int addressId, string countryName, string town, string zipCode, decimal latitude, decimal longitude,
+            int addressId, string countryName, string town, string street, string zipCode, decimal latitude, decimal longitude,
             string technologyType, string seniority, string employmentType)
         {
             Id = id;
@@ -24,7 +24,7 @@
             TechnologyType = technologyType;
             Seniority = seniority;
             EmploymentType = employmentType;
-            Address = new AddressResponse(addressId, countryName, town, zipCode, latitude, longitude);
+            Address = new AddressResponse(addressId, countryName, town, street, zipCode, latitude, longitude);
         }
     }
 }
