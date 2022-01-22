@@ -18,12 +18,24 @@ namespace JobJetRestApi.Infrastructure.Repositories
 
         public async Task<JobOffer> GetById(int id)
         {
-            return await _jobJetDbContext.JobOffers.FindAsync(id);
+            return await _jobJetDbContext.JobOffers
+                .Include(jobOffer => jobOffer.Address)
+                .Include(jobOffer => jobOffer.Currency)
+                .Include(jobOffer => jobOffer.Seniority)
+                .Include(jobOffer => jobOffer.EmploymentType)
+                .Include(jobOffer => jobOffer.TechnologyType)
+                .FirstOrDefaultAsync(jobOffer => jobOffer.Id == id);
         }
 
         public async Task<List<JobOffer>> GetAll()
         {
-            return await _jobJetDbContext.JobOffers.ToListAsync();
+            return await _jobJetDbContext.JobOffers
+                .Include(jobOffer => jobOffer.Address)
+                .Include(jobOffer => jobOffer.Currency)
+                .Include(jobOffer => jobOffer.Seniority)
+                .Include(jobOffer => jobOffer.EmploymentType)
+                .Include(jobOffer => jobOffer.TechnologyType)
+                .ToListAsync();
         }
 
         public async Task<bool> Exists(int id)
