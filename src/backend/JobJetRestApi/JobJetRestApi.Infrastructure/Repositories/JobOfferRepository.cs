@@ -30,7 +30,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
         public async Task<List<JobOffer>> GetAll()
         {
             return await _jobJetDbContext.JobOffers
-                .Include(jobOffer => jobOffer.Address)
+                .Include(jobOffer => jobOffer.Address.Country)
                 .Include(jobOffer => jobOffer.Currency)
                 .Include(jobOffer => jobOffer.Seniority)
                 .Include(jobOffer => jobOffer.EmploymentType)
