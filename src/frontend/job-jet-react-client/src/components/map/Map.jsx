@@ -30,7 +30,7 @@ export const Map = (props) => {
 
   console.log(coordinates);
   let url = `https://jobjet.azurewebsites.net/api/v1/roads/` + coordinates;
-  const [options, setOptions] = useState([]);
+  let [options, setOptions] = useState([]);
   useEffect(() => {
     fetch(url)
       .then((response) => response.json())
@@ -38,6 +38,11 @@ export const Map = (props) => {
         setOptions(data);
       });
   }, [url]);
+
+  console.log(options);
+  if (options.length === 2) {
+    options = [];
+  }
 
   console.log(1 === 2);
 
@@ -104,13 +109,11 @@ export const Map = (props) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {filteredAdverts}
-      1===2?
       <Polyline
         positions={options.map((loc) => {
           return [loc.latitude, loc.longitude];
         })}
       ></Polyline>
-      :null
     </MapContainer>
   );
 };
