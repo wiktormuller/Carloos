@@ -1,7 +1,7 @@
 .data {
   display: flex;
   flex-direction: column;
-  width: 800px;
+  min-width: min(30vw, 800px);
   padding: 0;
   margin: 0;
   /* background: limegreen; */
@@ -23,6 +23,7 @@
   height: 100%;
   padding: 0;
   margin: 0;
+  /* background: blue; */
 }
 
 input[type="text"],
@@ -36,6 +37,7 @@ input[type="text"],
   width: 35%;
   font-family: "Open Sans", sans-serif;
   box-shadow: 0px 2px 8px rgba(0, 114, 150, 0.16);
+  /* background: blue; */
 }
 
 .custom-select {
@@ -71,12 +73,13 @@ input[type="text"]:hover,
   box-shadow: 0px 2px 8px rgba(0, 114, 150, 0.16);
   cursor: pointer;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.05em;
+  font-size: min(1.3vh, 17px);
   padding: 7.5px 10px;
   margin: 5px 5px;
-  border-radius: 20px;
+  border-radius: 2vh;
   height: 5vh;
-  width: 140px;
+  min-width: min(30vw, 140px);
+  /* background: blue; */
 }
 
 .data__filter-data--btn--clicked {
@@ -180,61 +183,4 @@ input[type="text"]:hover,
   height: initial;
   text-decoration: none;
   color: initial;
-}
-
-@media only screen and (min-width: 1680px) and (max-width: 1919px) {
-  .data__filter-data--btn,
-  .data__filter-data--btn--clicked {
-    font-size: 1em;
-    padding: 6px 15px 16px;
-    width: 140px;
-  }
-}
-@media only screen and (min-width: 1600px) and (max-width: 1679px) {
-  .data__filter-data--btn,
-  .data__filter-data--btn--clicked {
-    font-size: 0.95em;
-    padding: 6px 15px 30px;
-    width: 130px;
-  }
-}
-@media only screen and (min-width: 1366px) and (max-width: 1599px) {
-  .data__filter-data--btn,
-  .data__filter-data--btn--clicked {
-    font-size: 0.8em;
-    padding: 6px 15px 30px;
-    width: 120px;
-  }
-}
-@media only screen and (min-width: 1280px) and (max-width: 1365px) {
-  .data__filter-data--btn,
-  .data__filter-data--btn--clicked {
-    font-size: 0.8em;
-    padding: 6px 15px 35px;
-    width: 110px;
-  }
-}
-@media only screen and (min-width: 1024px) and (max-width: 1279px) {
-  .data__filter-data--btn,
-  .data__filter-data--btn--clicked {
-    font-size: 0.68em;
-    padding: 6px 15px 40px;
-    width: 100px;
-  }
-}
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
-  .data__filter-data--btn,
-  .data__filter-data--btn--clicked {
-    font-size: 0.55em;
-    padding: 6px 15px 45px;
-    width: 90px;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .data__filter-data--btn,
-  .data__filter-data--btn--clicked {
-    font-size: 0.5em;
-    padding: 6px 15px 50px;
-    width: 80px;
-  }
 }

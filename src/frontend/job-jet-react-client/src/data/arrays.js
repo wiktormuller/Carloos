@@ -77,11 +77,49 @@ export const adsArray = [
     lat: 52.217,
     lng: 21,
   },
+  {
+    id: 3,
+    title: "Senior Business Analyst",
+    localization: 9,
+    salary: "15000-25000 PLN",
+    date: "28-10-2021",
+    address: "Józefińska 10, 30-529 Kraków",
+    conditions: "7000-10000 netto/miesięcznie, B2B",
+    description:
+      "Specjalistę z dziedziny procesów biznesowych zatrudnię od zaraz. Praca w młodym, dynamicznym zespole!",
+    skills: [19, 20],
+    advancedDataArray: [
+      { name: "Firma:", value: "SafeData S.A." },
+      { name: "Praca skupiona na:", value: "Utrzymaniu infrastruktury" },
+      { name: "Poziom doświadczenia", value: "Mid/Senior" },
+      { name: "Liczba pracowników", value: "120+" },
+    ],
+    lat: 50.04587,
+    lng: 19.94991,
+  },
+  {
+    id: 4,
+    title: "Junior Embedded Systems Developer",
+    localization: 7,
+    salary: "4000-6000 PLN",
+    date: "23-01-2022",
+    address: "Głogowska 90, 60-262 Poznań",
+    conditions: "7000-10000 netto/miesięcznie, B2B",
+    description:
+      "Poszukujemy młodego, zdolnego specjalisty do rozwojów systemów embedded. Bardzo szerokie możliwości rozwoju!",
+    skills: [6, 20],
+    advancedDataArray: [
+      { name: "Firma:", value: "MirekSoft Sp. z.o.o." },
+      { name: "Praca skupiona na:", value: "Rozwoju systemów" },
+      { name: "Poziom doświadczenia", value: "Junior" },
+      { name: "Liczba pracowników", value: "15" },
+    ],
+    lat: 52.39325,
+    lng: 16.89741,
+  },
 ];
 
 export const navbarLinksTable = [
-
- 
   { id: 1, name: "Wyszukaj", iconName: "BsSearch", path: "/" },
   { id: 2, name: "Oferty", iconName: "IoDocumentTextOutline", path: "/" },
   {
@@ -93,5 +131,4 @@ export const navbarLinksTable = [
   { id: 4, name: "Analityka", iconName: "DiGoogleAnalytics", path: "/" },
   { id: 5, name: "Opcje", iconName: "IoSettingsOutline", path: "/" },
   { id: 6, name: "Biuletyn", iconName: "IoNewspaperOutline", path: "/" },
-
 ];

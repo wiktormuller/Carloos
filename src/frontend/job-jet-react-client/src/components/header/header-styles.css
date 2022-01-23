@@ -13,15 +13,14 @@
   justify-content: space-around;
   align-items: center;
   height: 100%;
-  width: 20vw;
+  width: 20%;
   text-decoration: none !important;
   letter-spacing: normal;
-  /* background: red; */
 }
 
 .header__logo {
   font-family: "Lobster", cursive;
-  font-size: 4em;
+  font-size: 6vh;
   letter-spacing: 0.1em;
   text-decoration: underline;
 }
@@ -30,11 +29,12 @@
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.23);
   box-shadow: 0px 2px 8px rgba(0, 114, 150, 0.16);
-  border-radius: 20px;
+  border-radius: 3vh;
   cursor: pointer;
-  width: 35%;
-  padding: 12px 20px;
-  font-size: 1rem;
+  min-width: min(35%, 7vw);
+  height: 40%;
+  padding: 1vh 1vh;
+  font-size: 1.5vh;
   text-align: center;
   font-family: "Open Sans", sans-serif;
 }
@@ -48,61 +48,4 @@
 .header__btn:active {
   background: #ddd;
   transition: background-color 0.1s;
-}
-
-@media only screen and (min-width: 1680px) and (max-width: 1919px) {
-  .header__logo {
-    font-size: 5em;
-  }
-  .header__btn {
-    font-size: 1rem;
-  }
-}
-@media only screen and (min-width: 1600px) and (max-width: 1679px) {
-  .header__logo {
-    font-size: 4.5em;
-  }
-  .header__btn {
-    font-size: 0.95rem;
-  }
-}
-@media only screen and (min-width: 1366px) and (max-width: 1599px) {
-  .header__logo {
-    font-size: 4em;
-  }
-  .header__btn {
-    font-size: 0.9rem;
-  }
-}
-@media only screen and (min-width: 1280px) and (max-width: 1365px) {
-  .header__logo {
-    font-size: 3.5em;
-  }
-  .header__btn {
-    font-size: 0.85rem;
-  }
-}
-@media only screen and (min-width: 1024px) and (max-width: 1279px) {
-  .header__logo {
-    font-size: 3em;
-  }
-  .header__btn {
-    font-size: 0.8rem;
-  }
-}
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
-  .header__logo {
-    font-size: 2.5em;
-  }
-  .header__btn {
-    font-size: 0.75rem;
-  }
-}
-@media only screen and (max-width: 767px) {
-  .header__logo {
-    font-size: 2em;
-  }
-  .header__btn {
-    font-size: 0.7rem;
-  }
 }
