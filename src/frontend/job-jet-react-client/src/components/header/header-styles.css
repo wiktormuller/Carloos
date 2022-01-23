@@ -49,3 +49,60 @@
   background: #ddd;
   transition: background-color 0.1s;
 }
+
+@media only screen and (min-width: 1680px) and (max-width: 1919px) {
+  .header__logo {
+    font-size: 5em;
+  }
+  .header__btn {
+    font-size: 1rem;
+  }
+}
+@media only screen and (min-width: 1600px) and (max-width: 1679px) {
+  .header__logo {
+    font-size: 4.5em;
+  }
+  .header__btn {
+    font-size: 0.95rem;
+  }
+}
+@media only screen and (min-width: 1366px) and (max-width: 1599px) {
+  .header__logo {
+    font-size: 4em;
+  }
+  .header__btn {
+    font-size: 0.9rem;
+  }
+}
+@media only screen and (min-width: 1280px) and (max-width: 1365px) {
+  .header__logo {
+    font-size: 3.5em;
+  }
+  .header__btn {
+    font-size: 0.85rem;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1279px) {
+  .header__logo {
+    font-size: 3em;
+  }
+  .header__btn {
+    font-size: 0.8rem;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .header__logo {
+    font-size: 2.5em;
+  }
+  .header__btn {
+    font-size: 0.75rem;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .header__logo {
+    font-size: 2em;
+  }
+  .header__btn {
+    font-size: 0.7rem;
+  }
+}
