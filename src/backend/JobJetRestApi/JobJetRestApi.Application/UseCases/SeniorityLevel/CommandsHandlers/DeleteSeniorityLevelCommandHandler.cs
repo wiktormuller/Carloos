@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
 using MediatR;
+using JobJetRestApi.Application.Exceptions;
 
 namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
 {
@@ -20,8 +20,7 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
         {
             if (!await _seniorityRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw SeniorityLevelNotFoundException.ForId(request.Id);
             }
 
             var seniority = await _seniorityRepository.GetById(request.Id);

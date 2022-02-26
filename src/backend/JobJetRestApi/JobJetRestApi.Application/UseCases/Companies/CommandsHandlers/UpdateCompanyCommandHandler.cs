@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Companies.Commands;
 using MediatR;
@@ -16,18 +16,18 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
             _companyRepository = companyRepository;
         }
         
+        /// <exception cref="CompanyNotFoundException"></exception>
+        /// <exception cref="CompanyAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
         {
             if (!await _companyRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw CompanyNotFoundException.ForId(request.Id);
             }
 
             if (await _companyRepository.Exists(request.Name))
             {
-                throw new ArgumentException(nameof(request.Name));
-                // @TODO - Throw Domain Exception
+                throw CompanyAlreadyExistsException.ForName(request.Name);
             }
 
             var company = await _companyRepository.GetById(request.Id);

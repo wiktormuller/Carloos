@@ -32,7 +32,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }
-            catch (Exception e) // Handle exceptions
+            catch (Exception e) // @TODO Implement exceptions
             {
                 return BadRequest(e.Message);
             }

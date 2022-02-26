@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Domain.Entities;
-using JobJetRestApi.Domain.Exceptions;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
@@ -35,6 +35,12 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             _currencyRepository = currencyRepository;
         }
 
+        /// <exception cref="SeniorityLevelNotFoundException"></exception>
+        /// <exception cref="TechnologyTypeNotFoundException"></exception>
+        /// <exception cref="EmploymentTypeNotFoundException"></exception>
+        /// <exception cref="CountryNotFoundException"></exception>
+        /// <exception cref="CurrencyNotFoundException"></exception>
+        /// <exception cref="InvalidAddressException"></exception>
         public async Task<int> Handle(CreateJobOfferCommand request, CancellationToken cancellationToken)
         {
             if (! await _seniorityRepository.Exists(request.SeniorityId))

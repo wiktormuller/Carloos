@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
 using MediatR;
@@ -17,12 +17,12 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.QueriesHandlers
             _jobOfferRepository = jobOfferRepository;
         }
 
+        /// <exception cref="JobOfferNotFoundException"></exception>
         public async Task<JobOfferResponse> Handle(GetJobOfferByIdQuery request, CancellationToken cancellationToken)
         {
             if (!await _jobOfferRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @ TODO - Throw Domain Exception
+                throw JobOfferNotFoundException.ForId(request.Id);
             }
 
             var jobOffer = await _jobOfferRepository.GetById(request.Id);

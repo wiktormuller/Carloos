@@ -1,4 +1,4 @@
-﻿namespace JobJetRestApi.Domain.Exceptions
+﻿namespace JobJetRestApi.Application.Exceptions
 {
     public class InvalidAddressException : System.Exception
     {

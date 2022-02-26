@@ -1,9 +1,10 @@
 ﻿using JobJetRestApi.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
 {
-    public class JobJetDbContext : DbContext
+    public class JobJetDbContext : IdentityDbContext<User, Role, int>
     {
         public JobJetDbContext()
         {
@@ -14,13 +15,12 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         {
         }
 
-        /*
+        
         // The OnConfiguring() method allows us to select and configure the data source to be used with a context using DbContextOptionsBuilder.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
         }
-        */
 
         // The OnModelCreating() method allows us to configure the model using ModelBuilder Fluent API.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,5 +43,6 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
 using JobJetRestApi.Domain.Entities;
@@ -16,13 +16,13 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
         {
             _seniorityRepository = seniorityRepository;
         }
-
+        
+        /// <exception cref="SeniorityLevelAlreadyExistsException"></exception>
         public async Task<int> Handle(CreateSeniorityLevelCommand request, CancellationToken cancellationToken)
         {
             if (await _seniorityRepository.Exists(request.Name))
             {
-                throw new ArgumentException(nameof(request.Name));
-                // @TODO - Throw Domain Exception
+                throw SeniorityLevelAlreadyExistsException.ForName(request.Name);
             }
 
             var seniorityLevel = new Seniority(request.Name);

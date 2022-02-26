@@ -1,15 +1,10 @@
 ﻿using FluentValidation;
 using JobJetRestApi.Application.Contracts.V1.Requests;
 
-namespace JobJetRestApi.Infrastructure.Validators
+namespace JobJetRestApi.Application.Validators
 {
     public class CreateAddressRequestValidator : AbstractValidator<CreateAddressRequest>
     {
-        public string Town { get; set; }
-        public string Street { get; set; }
-        public string ZipCode { get; set; }
-        public int CountryIsoId { get; set; }
-
         public CreateAddressRequestValidator()
         {
             RuleFor(request => request.Town)
@@ -23,6 +18,9 @@ namespace JobJetRestApi.Infrastructure.Validators
             RuleFor(request => request.ZipCode)
                 .NotNull()
                 .Length(1, 20);
+
+            RuleFor(request => request.CountryIsoId)
+                .GreaterThan(0);
         }
     }
 }

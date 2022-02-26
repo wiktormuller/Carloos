@@ -1,6 +1,8 @@
-﻿namespace JobJetRestApi.Application.Contracts.V1.Requests
+﻿using JobJetRestApi.Application.Validators;
+
+namespace JobJetRestApi.Application.Contracts.V1.Requests
 {
-    public class CreateJobOfferRequest // : Validator<CreateJobOfferRequestValidator>
+    public class CreateJobOfferRequest
     {
         public string Name { get; set; }
         public string Description { get; set; }

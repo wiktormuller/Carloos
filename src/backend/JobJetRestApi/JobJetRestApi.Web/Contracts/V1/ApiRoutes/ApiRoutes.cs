@@ -12,7 +12,7 @@
             public const string Get = Base + "/job-offers/{id}";
             public const string Create = Base + "/job-offers";
             public const string Update = Base + "/job-offers/{id}";
-            public const string Delete = Base + "/job-offers";
+            public const string Delete = Base + "/job-offers/{id}";
         }
 
         public static class TechnologyTypes
@@ -21,7 +21,7 @@
             public const string Get = Base + "/technolog-types/{id}";
             public const string Create = Base + "/technolog-types";
             public const string Update = Base + "/technolog-types/{id}";
-            public const string Delete = Base + "/technolog-types";
+            public const string Delete = Base + "/technolog-types/{id}";
         }
 
         public static class Currencies
@@ -30,7 +30,7 @@
             public const string Get = Base + "/currencies/{id}";
             public const string Create = Base + "/currencies";
             public const string Update = Base + "/currencies/{id}";
-            public const string Delete = Base + "/currencies";
+            public const string Delete = Base + "/currencies/{id}";
         }
 
         public static class SeniorityLevels
@@ -39,7 +39,7 @@
             public const string Get = Base + "/seniority-levels/{id}";
             public const string Create = Base + "/seniority-levels";
             public const string Update = Base + "/seniority-levels/{id}";
-            public const string Delete = Base + "/seniority-levels";
+            public const string Delete = Base + "/seniority-levels/{id}";
         }
 
         public static class Countries
@@ -48,7 +48,7 @@
             public const string Get = Base + "/countries/{id}";
             public const string Create = Base + "/countries";
             public const string Update = Base + "/countries/{id}";
-            public const string Delete = Base + "/countries";
+            public const string Delete = Base + "/countries/{id}";
         }
 
         public static class EmploymentTypes
@@ -57,7 +57,7 @@
             public const string Get = Base + "/employment-types/{id}";
             public const string Create = Base + "/employment-types";
             public const string Update = Base + "/employment-types/{id}";
-            public const string Delete = Base + "/employment-types";
+            public const string Delete = Base + "/employment-types/{id}";
         }
         
         public static class Companies
@@ -66,7 +66,16 @@
             public const string Get = Base + "/companies/{id}";
             public const string Create = Base + "/companies";
             public const string Update = Base + "/companies/{id}";
-            public const string Delete = Base + "/companies";
+            public const string Delete = Base + "/companies/{id}";
+        }
+
+        public static class Users
+        {
+            public const string GetAll = Base + "/users";
+            public const string Get = Base + "/users/{id}";
+            public const string Create = Base + "users";
+            public const string Update = Base + "/users/{id}";
+            public const string Delete = Base + "users/{id}";
         }
 
         public static class Roads

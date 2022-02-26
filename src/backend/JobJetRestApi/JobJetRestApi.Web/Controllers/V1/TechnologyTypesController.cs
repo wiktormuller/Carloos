@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Requests;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.TechnologyType.Commands;
 using JobJetRestApi.Application.UseCases.TechnologyType.Queries;
@@ -60,9 +60,16 @@ namespace JobJetRestApi.Web.Controllers.V1
         public async Task<ActionResult<TechnologyTypeResponse>> Get(int id)
         {
             var query = new GetTechnologyTypeByIdQuery(id);
-            var result = await _mediator.Send(query);
 
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (TechnologyTypeNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
         
         // POST api/technology-types
@@ -78,9 +85,15 @@ namespace JobJetRestApi.Web.Controllers.V1
 
             var command = new CreateTechnologyTypeCommand(request.Name);
 
-            var technologyTypeId = await _mediator.Send(command);
-
-            return CreatedAtAction(nameof(Get), new { Id = technologyTypeId });
+            try
+            {
+                var technologyTypeId = await _mediator.Send(command);
+                return CreatedAtAction(nameof(Get), new { Id = technologyTypeId });
+            }
+            catch (TechnologyTypeAlreadyExistsException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         
         // PUT api/technology-types/5
@@ -102,9 +115,13 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (TechnologyTypeNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
+            }
+            catch (TechnologyTypeAlreadyExistsException e)
+            {
+                return BadRequest(e.Message);
             }
         }
         
@@ -121,9 +138,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (TechnologyTypeNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
         }
     }

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Companies.Commands;
 using JobJetRestApi.Domain.Entities;
@@ -17,12 +17,12 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
             _companyRepository = companyRepository;
         }
         
+        /// <exception cref="CompanyAlreadyExistsException"></exception>
         public async Task<int> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
         {
             if (await _companyRepository.Exists(request.Name))
             {
-                throw new ArgumentException(nameof(request.Name));
-                // @TODO - Throw Domain Exception
+                throw CompanyAlreadyExistsException.ForName(request.Name);
             }
 
             var company = new Company(request.Name, request.ShortName, request.Description, request.NumberOfPeople, request.CityName);

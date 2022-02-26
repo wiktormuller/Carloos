@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Requests;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Queries;
@@ -60,9 +60,16 @@ namespace JobJetRestApi.Web.Controllers.V1
         public async Task<ActionResult<SeniorityLevelResponse>> Get(int id)
         {
             var query = new GetSeniorityLevelByIdQuery(id);
-            var result = await _mediator.Send(query);
 
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (SeniorityLevelNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
         
         // POST api/seniority-levels
@@ -78,9 +85,15 @@ namespace JobJetRestApi.Web.Controllers.V1
 
             var command = new CreateSeniorityLevelCommand(request.Name);
 
-            var seniorityLevelId = await _mediator.Send(command);
-            
-            return CreatedAtAction(nameof(Get), new { Id = seniorityLevelId });
+            try
+            {
+                var seniorityLevelId = await _mediator.Send(command);
+                return CreatedAtAction(nameof(Get), new { Id = seniorityLevelId });
+            }
+            catch (SeniorityLevelAlreadyExistsException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         
         // PUT api/seniority-levels/5
@@ -102,9 +115,13 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (SeniorityLevelNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
+            }
+            catch (SeniorityLevelAlreadyExistsException e)
+            {
+                return BadRequest(e.Message);
             }
         }
         
@@ -121,9 +138,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (EmploymentTypeAlreadyExistsException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
         }
     }

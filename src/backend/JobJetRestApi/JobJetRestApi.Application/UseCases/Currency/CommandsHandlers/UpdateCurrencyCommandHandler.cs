@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Currency.Commands;
 using MediatR;
@@ -16,18 +16,18 @@ namespace JobJetRestApi.Application.UseCases.Currency.CommandsHandlers
             _currencyRepository = currencyRepository;
         }
 
+        /// <exception cref="CurrencyNotFoundException"></exception>
+        /// <exception cref="CurrencyAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
         {
             if (! await _currencyRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw CurrencyNotFoundException.ForId(request.Id);
             }
 
             if (await _currencyRepository.Exists(request.Name))
             {
-                throw new ArgumentException(nameof(request.Name));
-                // @TODO - Throw Domain Exception
+                throw CurrencyAlreadyExistsException.ForName(request.Name);
             }
 
             var currency = await _currencyRepository.GetById(request.Id);

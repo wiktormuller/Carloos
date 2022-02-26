@@ -2,17 +2,16 @@ using System;
 using FluentValidation.AspNetCore;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.Ports;
-using JobJetRestApi.Application.UseCases.JobOffers.Commands;
-using JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers;
+using JobJetRestApi.Application.Validators;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Repositories;
 using JobJetRestApi.Infrastructure.Services;
-using JobJetRestApi.Infrastructure.Validators;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,7 +46,7 @@ namespace JobJetRestApi.Web
             services.AddScoped<IGeocodingService, GeocodingService>();
             services.AddScoped<IRouteService, RouteService>();
             
-            services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateJobOfferRequestValidator>());
+            services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>());
 
             services.Configure<GeocodingOptions>(Configuration.GetSection(GeocodingOptions.Geocoding));
             services.Configure<GeoRouteOptions>(Configuration.GetSection(GeoRouteOptions.GeoRoute));
@@ -62,6 +61,11 @@ namespace JobJetRestApi.Web
                 var uri = request.Scheme + "://" + request.Host.ToUriComponent();
                 return new PageUriService(uri);
             });
+            
+            // For Identity
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<JobJetDbContext>()
+                .AddDefaultTokenProviders();
             
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication("Bearer", options =>

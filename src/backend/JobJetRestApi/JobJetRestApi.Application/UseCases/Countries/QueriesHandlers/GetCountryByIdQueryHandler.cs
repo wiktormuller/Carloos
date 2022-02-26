@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Countries.Queries;
 using MediatR;
@@ -21,8 +21,7 @@ namespace JobJetRestApi.Application.UseCases.Countries.QueriesHandlers
         {
             if (! await _countryRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw CountryNotFoundException.ForId(request.Id);
             }
 
             var country = await _countryRepository.GetById(request.Id);
