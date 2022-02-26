@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.TechnologyType.Queries;
 using MediatR;
@@ -17,12 +17,12 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.QueriesHandlers
             _technologyTypeRepository = technologyTypeRepository;
         }
         
+        /// <exception cref="TechnologyTypeNotFoundException"></exception>
         public async Task<TechnologyTypeResponse> Handle(GetTechnologyTypeByIdQuery request, CancellationToken cancellationToken)
         {
             if (!await _technologyTypeRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw TechnologyTypeNotFoundException.ForId(request.Id);
             }
             
             var technologyType = await _technologyTypeRepository.GetById(request.Id);

@@ -21,6 +21,7 @@ namespace JobJetRestApi.Application.UseCases.Roads.QueriesHandlers
             _routeService = routeService;
         }
 
+        /// <exception cref="ArgumentException"></exception>
         public async Task<List<RoadResponse>> Handle(GetRoadBetweenCoordinatesQuery request, CancellationToken cancellationToken)
         {
             var indexOfSemicolon = request.Coordinates.IndexOf(';');

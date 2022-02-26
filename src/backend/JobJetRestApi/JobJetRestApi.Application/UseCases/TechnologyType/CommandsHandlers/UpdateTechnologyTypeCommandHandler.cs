@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.TechnologyType.Commands;
 using MediatR;
+using JobJetRestApi.Application.Exceptions;
 
 namespace JobJetRestApi.Application.UseCases.TechnologyType.CommandsHandlers
 {
@@ -16,18 +16,18 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.CommandsHandlers
             _technologyTypeRepository = technologyTypeRepository;
         }
 
+        /// <exception cref="TechnologyTypeNotFoundException"></exception>
+        /// <exception cref="TechnologyTypeAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateTechnologyTypeCommand request, CancellationToken cancellationToken)
         {
-            if (await _technologyTypeRepository.Exists(request.Id))
+            if (! await _technologyTypeRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw TechnologyTypeNotFoundException.ForId(request.Id);
             }
 
             if (await _technologyTypeRepository.Exists(request.Name))
             {
-                throw new ArgumentException(request.Name);
-                // @TODO - Throw Domain Exception
+                throw TechnologyTypeAlreadyExistsException.ForName(request.Name);
             }
 
             var technologyType = await _technologyTypeRepository.GetById(request.Id);

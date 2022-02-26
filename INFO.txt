@@ -1,0 +1,23 @@
+dotnet ef migrations add InitialidentityServerMigration -c PersistedGrantDbContext
+dotnet ef migrations add InitialIdentityServerMigration -c ConfigurationDbContext
+
+dotnet ef database update -c PersistedGrantDbContext
+dotnet ef database update -c ConfigurationDbContext
+
+
+dotnet run bin/Debug/net5.0/IdentityServer /seed
+
+dotnet install -g dotnet-aspnet-codegenerator
+dotnet aspnet-codegenerator identity -dc IdentityServer.Data.ApplicationDbContext --files "Account.Register;Account.RegisterConfirmation"
+
+dotnet ef migrations add InitialJobJetMigration --project ../JobJetRestApi.Infrastructure -o ../JobJetRestApi.Infrastructure/Persistence/Migrations
+dotnet ef database update --project ../JobJetRestApi.Infrastructure
+
+
+docker build -f JobJetRestApi.Web/Dockerfile -t jobjetrestapiimage .
+docker run -p 5002:5002 -p 5003:5003 wiktormuller/jobjet
+
+
+IS: 5000, 5001s
+API: 5002, 5003s
+JS: 5004, 5005s

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using MediatR;
@@ -17,12 +17,12 @@ namespace JobJetRestApi.Application.UseCases.Companies.QueriesHandlers
             _companyRepository = companyRepository;
         }
         
+        /// <exception cref="CompanyNotFoundException"></exception>
         public async Task<CompanyResponse> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
         {
             if (!await _companyRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw CompanyNotFoundException.ForId(request.Id);
             }
 
             var company = await _companyRepository.GetById(request.Id);

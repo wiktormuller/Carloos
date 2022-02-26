@@ -1,4 +1,4 @@
-﻿namespace JobJetRestApi.Domain.Exceptions
+﻿namespace JobJetRestApi.Application.Exceptions
 {
     public class SeniorityLevelNotFoundException : System.Exception
     {
@@ -6,5 +6,8 @@
 
         public static SeniorityLevelNotFoundException ForId(int id) =>
             new SeniorityLevelNotFoundException($"Seniority level with Id: #{id} not found.");
+
+        public static SeniorityLevelNotFoundException ForName(string name) =>
+            new SeniorityLevelNotFoundException($"Seniority level with name: '{name}' not found.");
     }
 }

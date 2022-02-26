@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Currency.Commands;
 using MediatR;
@@ -20,8 +20,7 @@ namespace JobJetRestApi.Application.UseCases.Currency.CommandsHandlers
         {
             if (! await _currencyRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw CurrencyNotFoundException.ForId(request.Id);
             }
 
             var currency = await _currencyRepository.GetById(request.Id);

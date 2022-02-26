@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Countries.Commands;
 using MediatR;
+using JobJetRestApi.Application.Exceptions;
 
 namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
 {
@@ -16,18 +16,18 @@ namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
             _countryRepository = countryRepository;
         }
 
+        /// <exception cref="CountryNotFoundException"></exception>
+        /// <exception cref="CountryAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
         {
             if (!await _countryRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw CountryNotFoundException.ForId(request.Id);
             }
 
             if (await _countryRepository.Exists(request.Name))
             {
-                throw new ArgumentException(nameof(request.Name));
-                // @TODO - Throw Domain Exception
+                throw CountryAlreadyExistsException.ForName(request.Name);
             }
 
             var country = await _countryRepository.GetById(request.Id);

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Countries.Commands;
 using JobJetRestApi.Domain.Entities;
@@ -16,13 +16,13 @@ namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
         {
             _countryRepository = countryRepository;
         }
-
+        
+        /// <exception cref="CountryAlreadyExistsException"></exception>
         public async Task<int> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
         {
             if (await _countryRepository.Exists(request.Name, request.Alpha2Code, request.Alpha2Code, request.NumericCode))
             {
-                throw new ArgumentException(nameof(request.Name));
-                // @TODO - Throw Domain Exception
+                throw CountryAlreadyExistsException.ForName(request.Name);
             }
 
             var country = new Country(request.Name, request.Alpha2Code, request.Alpha3Code, request.NumericCode);

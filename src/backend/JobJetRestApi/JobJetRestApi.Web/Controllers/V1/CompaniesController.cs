@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Requests;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.Companies.Commands;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
@@ -56,9 +56,15 @@ namespace JobJetRestApi.Web.Controllers.V1
         public async Task<ActionResult<CompanyResponse>> Get(int id)
         {
             var query = new GetCompanyByIdQuery(id);
-            var result = await _mediator.Send(query);
-
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (CompanyNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
         
         // POST api/companies
@@ -74,9 +80,15 @@ namespace JobJetRestApi.Web.Controllers.V1
 
             var command = new CreateCompanyCommand(request.Name, request.ShortName, request.Description, request.NumberOfPeople, request.CityName);
 
-            var companyId = await _mediator.Send(command);
-
-            return CreatedAtAction(nameof(Get), new {Id = companyId});
+            try
+            {
+                var companyId = await _mediator.Send(command);
+                return CreatedAtAction(nameof(Get), new {Id = companyId});
+            }
+            catch (CompanyAlreadyExistsException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         
         // PUT api/companies/5
@@ -98,9 +110,13 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (CompanyNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
+            }
+            catch (CompanyAlreadyExistsException e)
+            {
+                return BadRequest(e.Message);
             }
         }
         
@@ -117,9 +133,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (CompanyNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
         }
     }

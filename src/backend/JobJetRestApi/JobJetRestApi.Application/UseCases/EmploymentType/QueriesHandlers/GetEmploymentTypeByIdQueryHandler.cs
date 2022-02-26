@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.EmploymentType.Queries;
 using MediatR;
@@ -17,12 +17,12 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.QueriesHandlers
             _employmentTypeRepository = employmentTypeRepository;
         }
 
+        /// <exception cref="EmploymentTypeNotFoundException"></exception>
         public async Task<EmploymentTypeResponse> Handle(GetEmploymentTypeByIdQuery request, CancellationToken cancellationToken)
         {
             if (! await _employmentTypeRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw EmploymentTypeNotFoundException.ForId(request.Id);
             }
 
             var employmentType = await _employmentTypeRepository.GetById(request.Id);

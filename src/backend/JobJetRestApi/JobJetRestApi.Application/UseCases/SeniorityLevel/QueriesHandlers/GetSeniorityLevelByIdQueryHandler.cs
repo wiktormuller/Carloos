@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Queries;
 using MediatR;
+using JobJetRestApi.Application.Exceptions;
 
 namespace JobJetRestApi.Application.UseCases.SeniorityLevel.QueriesHandlers
 {
@@ -17,12 +17,12 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.QueriesHandlers
             _seniorityRepository = seniorityRepository;
         }
         
+        /// <exception cref="SeniorityLevelNotFoundException"></exception>
         public async Task<SeniorityLevelResponse> Handle(GetSeniorityLevelByIdQuery request, CancellationToken cancellationToken)
         {
             if (!await _seniorityRepository.Exists(request.Id))
             {
-                throw new ArgumentException(nameof(request.Id));
-                // @TODO - Throw Domain Exception
+                throw SeniorityLevelNotFoundException.ForId(request.Id);
             }
 
             var seniorityLevel = await _seniorityRepository.GetById(request.Id);

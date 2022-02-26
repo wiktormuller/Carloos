@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
-using JobJetRestApi.Domain.Exceptions;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers

@@ -80,6 +80,8 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     await context.SaveChangesAsync();
                 }
                 */
+                
+                //@TODO - Add user data seed
             }
             catch (Exception e)
             {

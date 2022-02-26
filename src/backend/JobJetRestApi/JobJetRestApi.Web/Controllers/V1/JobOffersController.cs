@@ -11,6 +11,7 @@ using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using JobJetRestApi.Application.Exceptions;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
@@ -60,9 +61,16 @@ namespace JobJetRestApi.Web.Controllers.V1
         public async Task<ActionResult<JobOfferResponse>> Get(int id)
         {
             var query = new GetJobOfferByIdQuery(id);
-            var result = await _mediator.Send(query);
 
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (JobOfferNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
         
         // POST api/job-offers
@@ -92,9 +100,20 @@ namespace JobJetRestApi.Web.Controllers.V1
                 request.CurrencyId
             );
 
-            var jobOfferId = await _mediator.Send(command);
-
-            return CreatedAtAction(nameof(Get), new { Id = jobOfferId });
+            try
+            {
+                var jobOfferId = await _mediator.Send(command);
+                return CreatedAtAction(nameof(Get), new { Id = jobOfferId });
+            }
+            catch (Exception e) when (e is SeniorityLevelNotFoundException
+                || e is TechnologyTypeNotFoundException
+                || e is EmploymentTypeNotFoundException
+                || e is CountryNotFoundException
+                || e is CurrencyNotFoundException
+                || e is InvalidAddressException)
+            {
+                return BadRequest(e.Message);
+            }
         }
         
         // PUT api/job-offers/5
@@ -123,9 +142,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (JobOfferNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
         }
         
@@ -142,9 +161,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (Exception e)
+            catch (JobOfferNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
         }
     }

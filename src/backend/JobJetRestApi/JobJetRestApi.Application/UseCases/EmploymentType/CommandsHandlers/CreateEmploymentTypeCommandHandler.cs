@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.EmploymentType.Commands;
 using MediatR;
@@ -16,12 +16,12 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.CommandsHandlers
             _employmentTypeRepository = employmentTypeRepository;
         }
 
+        /// <exception cref="EmploymentTypeAlreadyExistsException"></exception>
         public async Task<int> Handle(CreateEmploymentTypeCommand request, CancellationToken cancellationToken)
         {
             if (await _employmentTypeRepository.Exists(request.Name))
             {
-                throw new ArgumentException(nameof(request.Name));
-                // @TODO - Throw Domain Exception
+                throw EmploymentTypeAlreadyExistsException.ForName(request.Name);
             }
 
             var employmentType = new Domain.Entities.EmploymentType(request.Name);

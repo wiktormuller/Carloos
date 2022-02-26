@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
-using JobJetRestApi.Domain.Exceptions;
 using MediatR;
+using JobJetRestApi.Application.Exceptions;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
 {
@@ -16,6 +16,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             _jobOfferRepository = jobOfferRepository;
         }
 
+        /// <exception cref="JobOfferNotFoundException"></exception>
         public async Task<Unit> Handle(UpdateJobOfferCommand request, CancellationToken cancellationToken)
         {
             if (! await _jobOfferRepository.Exists(request.Id))
