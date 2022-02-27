@@ -45,6 +45,7 @@ namespace JobJetRestApi.Web
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IGeocodingService, GeocodingService>();
             services.AddScoped<IRouteService, RouteService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>());
 
@@ -52,6 +53,8 @@ namespace JobJetRestApi.Web
             services.Configure<GeoRouteOptions>(Configuration.GetSection(GeoRouteOptions.GeoRoute));
             
             services.AddMediatR(AppDomain.CurrentDomain.Load("JobJetRestApi.Application"));
+            
+            services.AddMemoryCache();
             
             services.AddHttpContextAccessor();
             services.AddSingleton<IPageUriService>(o => // Here we get the base URL of the application http(s)://www.jobjet.com

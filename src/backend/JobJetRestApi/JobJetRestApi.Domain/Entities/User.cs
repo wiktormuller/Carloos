@@ -4,10 +4,14 @@ namespace JobJetRestApi.Domain.Entities
 {
     public class User : IdentityUser<int>
     {
+        private User() : base()
+        {
+        }
+        
         public User(string email, string username)
         {
-            base.Email = email;
-            base.UserName = username;
+            Email = email;
+            UserName = username;
         }
         
         public void UpdateName(string name)

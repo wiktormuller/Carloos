@@ -17,11 +17,11 @@
 
         public static class TechnologyTypes
         {
-            public const string GetAll = Base + "/technolog-types";
-            public const string Get = Base + "/technolog-types/{id}";
-            public const string Create = Base + "/technolog-types";
-            public const string Update = Base + "/technolog-types/{id}";
-            public const string Delete = Base + "/technolog-types/{id}";
+            public const string GetAll = Base + "/technology-types";
+            public const string Get = Base + "/technology-types/{id}";
+            public const string Create = Base + "/technology-types";
+            public const string Update = Base + "/technology-types/{id}";
+            public const string Delete = Base + "/technology-types/{id}";
         }
 
         public static class Currencies
@@ -73,9 +73,9 @@
         {
             public const string GetAll = Base + "/users";
             public const string Get = Base + "/users/{id}";
-            public const string Create = Base + "users";
+            public const string Create = Base + "/users";
             public const string Update = Base + "/users/{id}";
-            public const string Delete = Base + "users/{id}";
+            public const string Delete = Base + "/users/{id}";
         }
 
         public static class Roads

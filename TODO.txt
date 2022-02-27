@@ -1,20 +1,14 @@
 JobJet Todo:
 
-- command/query handlers implementation for all use cases
 - implement guards for contructor arguments
 - add option for domain job offers - fullyRemote/partlyRemote/Office
-+ add endpoint to generate route between two points
+- change format of coordinates when calculating the path
 - validation of domain models
-- validation of request models
 - implement health check
-+ integrate with OSRM API 
-+ integrate with Google Geocoding API
 - decide how to implement user management
 - move application to docker container
 
-- exception handlers
 - simpler builders in services (osrm, google)
-- finish other endpoints for job offers
 - protect google API key!
 
 

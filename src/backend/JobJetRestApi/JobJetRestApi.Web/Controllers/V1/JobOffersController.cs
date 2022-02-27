@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Requests;
 using JobJetRestApi.Application.Contracts.V1.Responses;
@@ -24,8 +25,8 @@ namespace JobJetRestApi.Web.Controllers.V1
         public JobOffersController(IMediator mediator, 
             IPageUriService pageUriService)
         {
-            _mediator = mediator;
-            _pageUriService = pageUriService;
+            _mediator = Guard.Against.Null(mediator, nameof(mediator));
+            _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
         }
 
         // GET api/job-offers
