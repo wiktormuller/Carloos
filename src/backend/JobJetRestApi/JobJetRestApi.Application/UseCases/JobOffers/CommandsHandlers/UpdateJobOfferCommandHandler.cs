@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using MediatR;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
 
         public UpdateJobOfferCommandHandler(IJobOfferRepository jobOfferRepository)
         {
-            _jobOfferRepository = jobOfferRepository;
+            _jobOfferRepository = Guard.Against.Null(jobOfferRepository, nameof(jobOfferRepository));
         }
 
         /// <exception cref="JobOfferNotFoundException"></exception>

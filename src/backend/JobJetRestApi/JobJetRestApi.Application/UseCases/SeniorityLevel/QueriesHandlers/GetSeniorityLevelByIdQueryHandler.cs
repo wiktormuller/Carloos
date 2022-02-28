@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Queries;
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.QueriesHandlers
         
         public GetSeniorityLevelByIdQueryHandler(ISeniorityRepository seniorityRepository)
         {
-            _seniorityRepository = seniorityRepository;
+            _seniorityRepository = Guard.Against.Null(seniorityRepository, nameof(seniorityRepository));
         }
         
         /// <exception cref="SeniorityLevelNotFoundException"></exception>

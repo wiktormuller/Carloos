@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.EmploymentType.Commands;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.CommandsHandlers
         
         public DeleteEmploymentTypeCommandHandler(IEmploymentTypeRepository employmentTypeRepository)
         {
-            _employmentTypeRepository = employmentTypeRepository;
+            _employmentTypeRepository = Guard.Against.Null(employmentTypeRepository, nameof(employmentTypeRepository));
         }
         
         /// <exception cref="EmploymentTypeNotFoundException"></exception>

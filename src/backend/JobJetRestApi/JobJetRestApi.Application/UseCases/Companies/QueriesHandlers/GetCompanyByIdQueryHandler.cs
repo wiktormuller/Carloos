@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Application.UseCases.Companies.QueriesHandlers
         
         public GetCompanyByIdQueryHandler(ICompanyRepository companyRepository)
         {
-            _companyRepository = companyRepository;
+            _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
         }
         
         /// <exception cref="CompanyNotFoundException"></exception>

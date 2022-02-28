@@ -1,5 +1,6 @@
 using System;
 using FluentValidation.AspNetCore;
+using HealthChecks.UI.Client;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.Validators;
@@ -7,8 +8,10 @@ using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Repositories;
 using JobJetRestApi.Infrastructure.Services;
+using JobJetRestApi.Web.Installers;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace JobJetRestApi.Web
 {
@@ -32,6 +36,8 @@ namespace JobJetRestApi.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InstallServicesInAssembly(Configuration);
+            
             // IdentityModelEventSource.ShowPII = true;
             services.AddDbContext<JobJetDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -55,6 +61,14 @@ namespace JobJetRestApi.Web
             services.AddMediatR(AppDomain.CurrentDomain.Load("JobJetRestApi.Application"));
             
             services.AddMemoryCache();
+
+            // services.AddHealthChecks()
+            //     .AddCheck("JobJetDB", new SqlConnectionHealthCheck(Configuration["ConnectionString"]),
+            //         HealthStatus.Unhealthy,
+            //         new string[] {"jobjetdb"});
+            
+            services.AddHealthChecksUI()
+                .AddInMemoryStorage();
             
             services.AddHttpContextAccessor();
             services.AddSingleton<IPageUriService>(o => // Here we get the base URL of the application http(s)://www.jobjet.com
@@ -89,7 +103,11 @@ namespace JobJetRestApi.Web
                 });
             });
             
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+            {
+                x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "JobJetRestApi.Web", Version = "v1"});
@@ -121,7 +139,17 @@ namespace JobJetRestApi.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+
+                endpoints.MapHealthChecks("/health-checks", new HealthCheckOptions()
+                {
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                
+                endpoints.MapHealthChecksUI(config => config.UIPath = "/health-checks-ui");
+            });
         }
     }
 }

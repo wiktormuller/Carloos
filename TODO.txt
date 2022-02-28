@@ -1,13 +1,11 @@
 JobJet Todo:
 
-- implement guards for contructor arguments
-- add option for domain job offers - fullyRemote/partlyRemote/Office
+- add option for domain job offers - fullyRemote/partlyRemote/Office (enum problems?)
 - change format of coordinates when calculating the path
 - validation of domain models
-- implement health check
 - decide how to implement user management
 - move application to docker container
-
+- use domain events, for example when new user will register
 - simpler builders in services (osrm, google)
 - protect google API key!
 

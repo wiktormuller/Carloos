@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
@@ -26,13 +27,13 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             IGeocodingService geocodingService, 
             ICurrencyRepository currencyRepository)
         {
-            _jobOfferRepository = jobOfferRepository;
-            _seniorityRepository = seniorityRepository;
-            _technologyTypeRepository = technologyTypeRepository;
-            _employmentTypeRepository = employmentTypeRepository;
-            _countryRepository = countryRepository;
-            _geocodingService = geocodingService;
-            _currencyRepository = currencyRepository;
+            _jobOfferRepository = Guard.Against.Null(jobOfferRepository, nameof(jobOfferRepository));
+            _seniorityRepository = Guard.Against.Null(seniorityRepository, nameof(seniorityRepository));
+            _technologyTypeRepository = Guard.Against.Null(technologyTypeRepository, nameof(technologyTypeRepository));
+            _employmentTypeRepository = Guard.Against.Null(employmentTypeRepository, nameof(employmentTypeRepository));
+            _countryRepository = Guard.Against.Null(countryRepository, nameof(countryRepository));
+            _geocodingService = Guard.Against.Null(geocodingService, nameof(geocodingService));
+            _currencyRepository = Guard.Against.Null(currencyRepository, nameof(currencyRepository));
         }
 
         /// <exception cref="SeniorityLevelNotFoundException"></exception>

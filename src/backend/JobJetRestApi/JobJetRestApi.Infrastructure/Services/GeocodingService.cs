@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Dtos.GeocodingService;
@@ -22,7 +23,7 @@ namespace JobJetRestApi.Infrastructure.Services
         public GeocodingService(IHttpClientFactory httpClientFactory, 
             IOptions<GeocodingOptions> options)
         {
-            _httpClientFactory = httpClientFactory;
+            _httpClientFactory = Guard.Against.Null(httpClientFactory, nameof(httpClientFactory));
             _options = options.Value;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
 using MediatR;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
         
         public DeleteSeniorityLevelCommandHandler(ISeniorityRepository seniorityRepository)
         {
-            _seniorityRepository = seniorityRepository;
+            _seniorityRepository = Guard.Against.Null(seniorityRepository, nameof(seniorityRepository));
         }
         
         public async Task<Unit> Handle(DeleteSeniorityLevelCommand request, CancellationToken cancellationToken)

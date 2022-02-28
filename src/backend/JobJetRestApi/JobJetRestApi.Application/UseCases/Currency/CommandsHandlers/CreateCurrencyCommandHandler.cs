@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Currency.Commands;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Application.UseCases.Currency.CommandsHandlers
         
         public CreateCurrencyCommandHandler(ICurrencyRepository currencyRepository)
         {
-            _currencyRepository = currencyRepository;
+            _currencyRepository = Guard.Against.Null(currencyRepository, nameof(currencyRepository));
         }
         
         /// <exception cref="CurrencyNotFoundException"></exception>

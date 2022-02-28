@@ -4,6 +4,7 @@ using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Repositories
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
 
         public CurrencyRepository(JobJetDbContext jobJetDbContext)
         {
-            _jobJetDbContext = jobJetDbContext;
+            _jobJetDbContext = Guard.Against.Null(jobJetDbContext, nameof(jobJetDbContext));
         }
 
         public async Task<Currency> GetById(int id)
