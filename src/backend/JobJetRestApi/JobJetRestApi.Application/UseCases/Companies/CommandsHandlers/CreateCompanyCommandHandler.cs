@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Companies.Commands;
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
         
         public CreateCompanyCommandHandler(ICompanyRepository companyRepository)
         {
-            _companyRepository = companyRepository;
+            _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
         }
         
         /// <exception cref="CompanyAlreadyExistsException"></exception>

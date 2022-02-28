@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Requests;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Users.Commands;
 using JobJetRestApi.Application.UseCases.Users.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
@@ -16,11 +18,13 @@ namespace JobJetRestApi.Web.Controllers.V1
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IPageUriService _pageUriService;
         private readonly IMediator _mediator;
         
-        public UsersController(IMediator mediator)
+        public UsersController(IMediator mediator, IPageUriService pageUriService)
         {
-            _mediator = mediator;
+            _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
+            _mediator = Guard.Against.Null(mediator, nameof(mediator));
         }
         
         // GET api/users

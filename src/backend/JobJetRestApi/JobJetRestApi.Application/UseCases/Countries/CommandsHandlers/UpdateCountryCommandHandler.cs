@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Countries.Commands;
 using MediatR;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
 
         public UpdateCountryCommandHandler(ICountryRepository countryRepository)
         {
-            _countryRepository = countryRepository;
+            _countryRepository = Guard.Against.Null(countryRepository, nameof(countryRepository));
         }
 
         /// <exception cref="CountryNotFoundException"></exception>

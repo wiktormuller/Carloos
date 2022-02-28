@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Countries.Commands;
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
         
         public CreateCountryCommandHandler(ICountryRepository countryRepository)
         {
-            _countryRepository = countryRepository;
+            _countryRepository = Guard.Against.Null(countryRepository, nameof(countryRepository));
         }
         
         /// <exception cref="CountryAlreadyExistsException"></exception>

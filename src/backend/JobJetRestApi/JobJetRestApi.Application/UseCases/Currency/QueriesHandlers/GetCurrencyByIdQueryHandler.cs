@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Currency.Queries;
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Application.UseCases.Currency.QueriesHandlers
 
         public GetCurrencyByIdQueryHandler(ICurrencyRepository currencyRepository)
         {
-            _currencyRepository = currencyRepository;
+            _currencyRepository = Guard.Against.Null(currencyRepository, nameof(currencyRepository));
         }
 
         public async Task<CurrencyResponse> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)

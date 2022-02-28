@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.TechnologyType.Commands;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.CommandsHandlers
         
         public DeleteTechnologyTypeCommandHandler(ITechnologyTypeRepository technologyTypeRepository)
         {
-            _technologyTypeRepository = technologyTypeRepository;
+            _technologyTypeRepository = Guard.Against.Null(technologyTypeRepository, nameof(technologyTypeRepository));
         }
         
         public async Task<Unit> Handle(DeleteTechnologyTypeCommand request, CancellationToken cancellationToken)

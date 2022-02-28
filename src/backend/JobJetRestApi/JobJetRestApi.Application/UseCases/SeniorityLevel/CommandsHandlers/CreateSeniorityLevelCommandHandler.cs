@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
         
         public CreateSeniorityLevelCommandHandler(ISeniorityRepository seniorityRepository)
         {
-            _seniorityRepository = seniorityRepository;
+            _seniorityRepository = Guard.Against.Null(seniorityRepository, nameof(seniorityRepository));
         }
         
         /// <exception cref="SeniorityLevelAlreadyExistsException"></exception>

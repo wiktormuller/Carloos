@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
         
         public CompanyRepository(JobJetDbContext jobJetDbContext)
         {
-            _jobJetDbContext = jobJetDbContext;
+            _jobJetDbContext = Guard.Against.Null(jobJetDbContext, nameof(jobJetDbContext));
         }
 
         public async Task<Company> GetById(int id)

@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.TechnologyType.Commands;
 using MediatR;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.CommandsHandlers
 
         public UpdateTechnologyTypeCommandHandler(ITechnologyTypeRepository technologyTypeRepository)
         {
-            _technologyTypeRepository = technologyTypeRepository;
+            _technologyTypeRepository = Guard.Against.Null(technologyTypeRepository, nameof(technologyTypeRepository));
         }
 
         /// <exception cref="TechnologyTypeNotFoundException"></exception>

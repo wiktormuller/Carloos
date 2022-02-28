@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +14,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
         
         public UserRepository(UserManager<User> userManager)
         {
-            _userManager = userManager;
+            _userManager = Guard.Against.Null(userManager, nameof(userManager));
         }
 
         public async Task<bool> Exists(string email)

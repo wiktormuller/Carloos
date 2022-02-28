@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -14,7 +15,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
 
         public TechnologyTypeRepository(JobJetDbContext jobJetDbContext)
         {
-            _jobJetDbContext = jobJetDbContext;
+            _jobJetDbContext = Guard.Against.Null(jobJetDbContext, nameof(jobJetDbContext));
         }
 
         public async Task<TechnologyType> GetById(int id)

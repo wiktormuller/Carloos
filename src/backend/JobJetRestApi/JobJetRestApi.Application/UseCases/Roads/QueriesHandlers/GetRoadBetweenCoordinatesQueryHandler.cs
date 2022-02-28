@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Roads.Queries;
@@ -18,7 +19,7 @@ namespace JobJetRestApi.Application.UseCases.Roads.QueriesHandlers
 
         public GetRoadBetweenCoordinatesQueryHandler(IRouteService routeService)
         {
-            _routeService = routeService;
+            _routeService = Guard.Against.Null(routeService, nameof(routeService));
         }
 
         /// <exception cref="ArgumentException"></exception>

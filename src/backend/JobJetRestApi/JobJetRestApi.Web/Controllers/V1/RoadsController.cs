@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.UseCases.Roads.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
@@ -16,7 +17,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         public RoadsController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = Guard.Against.Null(mediator, nameof(mediator));
         }
         
         // GET api/roads/{coordinates}
