@@ -1,6 +1,7 @@
 ﻿using JobJetRestApi.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
 {
@@ -32,6 +33,9 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
 
             modelBuilder.Entity<Address>().Property(a => a.Latitude).HasPrecision(9, 6);
             modelBuilder.Entity<Address>().Property(a => a.Longitude).HasPrecision(9,6);
+
+            modelBuilder.Entity<JobOffer>().Property(entity => entity.WorkSpecification)
+                .HasConversion(new EnumToStringConverter<WorkSpecification>());
         }
 
         // Entities

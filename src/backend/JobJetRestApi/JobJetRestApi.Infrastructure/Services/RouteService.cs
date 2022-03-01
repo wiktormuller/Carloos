@@ -29,17 +29,14 @@ namespace JobJetRestApi.Infrastructure.Services
         public async Task<List<GeoPoint>> GetPointsBetweenTwoGeoPoints(GeoPoint firstGeoPoint, GeoPoint secondGeoPoint)
         {
             StringBuilder fullUriBuilder = new(_options.BaseUri);
-            fullUriBuilder.Append(firstGeoPoint.Longitude.ToString(new CultureInfo("en-US")));
-            fullUriBuilder.Append(',');
-            fullUriBuilder.Append(firstGeoPoint.Latitude.ToString(new CultureInfo("en-US")));
-            fullUriBuilder.Append(';');
-            fullUriBuilder.Append(secondGeoPoint.Longitude.ToString(new CultureInfo("en-US")));
-            fullUriBuilder.Append(',');
-            fullUriBuilder.Append(secondGeoPoint.Latitude.ToString(new CultureInfo("en-US")));
-            fullUriBuilder.Append('?');
-            fullUriBuilder.Append("geometries=geojson");
-            fullUriBuilder.Append('&');
-            fullUriBuilder.Append("overview=full");
+            fullUriBuilder.Replace("{firstPointLongitude}", 
+                firstGeoPoint.Longitude.ToString(new CultureInfo("en-US")));
+            fullUriBuilder.Replace("{firstPointLatitude}", 
+                firstGeoPoint.Latitude.ToString(new CultureInfo("en-US")));
+            fullUriBuilder.Replace("{secondPointLongitude}", 
+                secondGeoPoint.Longitude.ToString(new CultureInfo("en-US")));
+            fullUriBuilder.Replace("{secondPointLatitude}", 
+                secondGeoPoint.Latitude.ToString(new CultureInfo("en-US")));
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, fullUriBuilder.ToString())
             {
