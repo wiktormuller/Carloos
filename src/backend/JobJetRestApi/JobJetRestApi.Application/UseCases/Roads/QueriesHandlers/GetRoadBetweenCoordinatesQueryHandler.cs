@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Roads.Queries;
 using JobJetRestApi.Domain.Entities;
@@ -25,11 +26,13 @@ namespace JobJetRestApi.Application.UseCases.Roads.QueriesHandlers
         /// <exception cref="ArgumentException"></exception>
         public async Task<List<RoadResponse>> Handle(GetRoadBetweenCoordinatesQuery request, CancellationToken cancellationToken)
         {
+            // The format or request coordinates is:
+            // firstPointLongitude,firstPointLatitude;secondPointLongitude,secondPointLatitude
+            
             var indexOfSemicolon = request.Coordinates.IndexOf(';');
             if (indexOfSemicolon == -1)
             {
-                throw new ArgumentException();
-                //return IncorrectDelimiterOfCoordinatesException.ForCoordinates(request.Coordinates);
+                throw IncorrectDelimiterOfCoordinatesException.ForCoordinates(request.Coordinates);
             }
 
             var firstCoordinatesPair = request.Coordinates.Substring(0, indexOfSemicolon);

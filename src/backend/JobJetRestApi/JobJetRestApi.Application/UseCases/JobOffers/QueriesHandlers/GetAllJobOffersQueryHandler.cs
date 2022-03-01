@@ -46,7 +46,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.QueriesHandlers
                 .Select(x => new JobOfferResponse(
                     x.Id, x.Name, x.Description, x.SalaryFrom, x.SalaryTo, x.Address.Id, x.Address.Country.Name,
                     x.Address.Town, x.Address.Street, x.Address.ZipCode, x.Address.Latitude, x.Address.Longitude, x.TechnologyType.Name, 
-                    x.Seniority.Name, x.EmploymentType.Name))
+                    x.Seniority.Name, x.EmploymentType.Name, x.WorkSpecification))
                 .ToList();
         }
     }

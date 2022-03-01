@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.Roads.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
 using MediatR;
@@ -33,7 +33,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }
-            catch (Exception e) // @TODO Implement exceptions
+            catch (IncorrectDelimiterOfCoordinatesException e)
             {
                 return BadRequest(e.Message);
             }

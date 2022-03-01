@@ -1,4 +1,5 @@
 ﻿using System;
+using Ardalis.GuardClauses;
 
 namespace JobJetRestApi.Domain.Entities
 {
@@ -9,6 +10,8 @@ namespace JobJetRestApi.Domain.Entities
         public string Description { get; private set; }
         public decimal SalaryFrom { get; private set; }
         public decimal SalaryTo { get; private set; }
+        
+        public WorkSpecification WorkSpecification { get; private set; }
         
         // Relationships
         public int AddressId { get; set; } // Non nullable relationship
@@ -36,7 +39,8 @@ namespace JobJetRestApi.Domain.Entities
             TechnologyType technologyType,
             Seniority seniority, 
             EmploymentType employmentType,
-            Currency currency)
+            Currency currency,
+            WorkSpecification workSpecification)
         {
             Name = name;
             Description = description;
@@ -47,14 +51,15 @@ namespace JobJetRestApi.Domain.Entities
             Seniority = seniority;
             EmploymentType = employmentType;
             Currency = currency;
+            WorkSpecification = workSpecification;
         }
 
         public void UpdateBasicInformation(string name, string description, decimal salaryFrom, decimal salaryTo)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Description = description ?? throw new ArgumentNullException(nameof(description));
-            SalaryFrom = salaryFrom == 0.0M ? throw new ArgumentException(nameof(salaryFrom)) : salaryFrom;
-            SalaryTo = salaryTo == 0.0M ? throw new ArgumentException(nameof(salaryTo)) : salaryTo;
+            Name = Guard.Against.Null(name, nameof(name));
+            Description = Guard.Against.Null(description, nameof(description));
+            SalaryFrom = Guard.Against.Zero(salaryFrom, nameof(salaryFrom));
+            SalaryTo = Guard.Against.Zero(salaryTo, nameof(salaryTo));
         }
     }
 }

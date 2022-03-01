@@ -13,5 +13,6 @@ namespace JobJetRestApi.Application.Contracts.V1.Requests
         public int SeniorityId { get; set; }
         public int EmploymentTypeId { get; set; }
         public int CurrencyId { get; set; }
+        public string WorkSpecification { get; set; }
     }
 }

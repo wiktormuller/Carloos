@@ -98,7 +98,8 @@ namespace JobJetRestApi.Web.Controllers.V1
                 request.Address.Street,
                 request.Address.ZipCode,
                 request.Address.CountryIsoId,
-                request.CurrencyId
+                request.CurrencyId,
+                request.WorkSpecification
             );
 
             try

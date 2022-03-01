@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
@@ -44,6 +45,11 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
         /// <exception cref="InvalidAddressException"></exception>
         public async Task<int> Handle(CreateJobOfferCommand request, CancellationToken cancellationToken)
         {
+            if(!Enum.TryParse<WorkSpecification>(request.WorkSpecification, true, out WorkSpecification workSpecification))
+            {
+                throw IncorrectWorkSpecificationException.ForName(request.WorkSpecification);
+            }
+            
             if (! await _seniorityRepository.Exists(request.SeniorityId))
             {
                 throw SeniorityLevelNotFoundException.ForId(request.SeniorityId);
@@ -87,7 +93,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             var employmentType = await _employmentTypeRepository.GetById(request.EmploymentTypeId);
 
             var currency = await _currencyRepository.GetById(request.CurrencyId);
-            
+
             var jobOffer = new JobOffer(
                 request.Name,
                 request.Description,
@@ -97,7 +103,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 technologyType,
                 seniorityLevel,
                 employmentType,
-                currency
+                currency,
+                workSpecification
                 );
 
             var jobOfferId = await _jobOfferRepository.Create(jobOffer);

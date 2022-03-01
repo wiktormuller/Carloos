@@ -21,28 +21,28 @@ namespace JobJetRestApi.Web.Installers
             
             // Google Geocoding API
             .AddUrlGroup(
-                new Uri("https://google.com"),
+                new Uri("https://maps.googleapis.com/maps/api/geocode/json?address=warszawa"),
                 "Google Geocoding API - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"googlegeocodingapi"})
             
             // Project OSRM API
             .AddUrlGroup(
-                new Uri("https://google.com"),
+                new Uri("http://router.project-osrm.org/route/v1/driving/54.369201,18.483172;54.370176,18.460660?geometries=geojson&overview=full"),
                 "Project OSRM API - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"projectosrmapi"})
             
             // Identity Server
             .AddUrlGroup(
-                new Uri("https://google.com"),
+                new Uri("https://google.com"), // @TODO
                 "Identity Server - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"identityserver"})
             
             // React client
             .AddUrlGroup(
-                new Uri("https://google.com"),
+                new Uri("https://google.com"), // @TODO
                 "JobJet React Client - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"jobjetreactclient"});

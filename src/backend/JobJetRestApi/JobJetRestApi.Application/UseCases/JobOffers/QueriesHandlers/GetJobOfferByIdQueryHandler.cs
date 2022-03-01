@@ -43,7 +43,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.QueriesHandlers
                 jobOffer.Address.Longitude,
                 jobOffer.TechnologyType.Name,
                 jobOffer.Seniority.Name,
-                jobOffer.EmploymentType.Name);
+                jobOffer.EmploymentType.Name,
+                jobOffer.WorkSpecification);
 
             return result;
         }

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Interfaces;
@@ -30,8 +28,8 @@ namespace JobJetRestApi.Infrastructure.Services
         public async Task<AddressCoords> ConvertAddressIntoCoords(string address)
         {
             StringBuilder fullUriBuilder = new(_options.BaseUri);
-            fullUriBuilder.Append(address);
-            fullUriBuilder.Append($"&key={_options.ApiKey}");
+            fullUriBuilder.Replace("{addressPlaceholder}", address);
+            fullUriBuilder.Replace("{apiKeyPlaceholder}", _options.ApiKey);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, fullUriBuilder.ToString())
             {
@@ -59,7 +57,6 @@ namespace JobJetRestApi.Infrastructure.Services
                         Convert.ToDecimal(firstResult.Geometry.Location.Lat));
                 }
             }
-            
             return null;
         }
     }
