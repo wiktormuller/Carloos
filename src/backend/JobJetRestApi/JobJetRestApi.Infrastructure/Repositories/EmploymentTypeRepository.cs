@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -17,22 +17,22 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext = Guard.Against.Null(jobJetDbContext, nameof(jobJetDbContext));
         }
 
-        public async Task<EmploymentType> GetById(int id)
+        public async Task<EmploymentType> GetByIdAsync(int id)
         {
             return await _jobJetDbContext.EmploymentTypes.FindAsync(id);
         }
 
-        public async Task<List<EmploymentType>> GetAll()
+        public async Task<List<EmploymentType>> GetAllAsync()
         {
             return await _jobJetDbContext.EmploymentTypes.ToListAsync();
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            return await GetById(id) is not null;
+            return await GetByIdAsync(id) is not null;
         }
 
-        public async Task<bool> Exists(string name)
+        public async Task<bool> ExistsAsync(string name)
         {
             var employmentType = await _jobJetDbContext.EmploymentTypes
                 .FirstOrDefaultAsync(x => x.Name == name);
@@ -40,7 +40,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return employmentType is not null;
         }
 
-        public async Task<int> Create(EmploymentType employmentType)
+        public async Task<int> CreateAsync(EmploymentType employmentType)
         {
             await _jobJetDbContext.AddAsync(employmentType);
             await _jobJetDbContext.SaveChangesAsync();
@@ -48,7 +48,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return employmentType.Id;
         }
 
-        public async Task Delete(EmploymentType employmentType)
+        public async Task DeleteAsync(EmploymentType employmentType)
         {
             _jobJetDbContext.EmploymentTypes.Remove(employmentType);
             await _jobJetDbContext.SaveChangesAsync();

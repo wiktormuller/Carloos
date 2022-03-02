@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.TechnologyType.Queries;
 using MediatR;
 
@@ -21,12 +21,12 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.QueriesHandlers
         /// <exception cref="TechnologyTypeNotFoundException"></exception>
         public async Task<TechnologyTypeResponse> Handle(GetTechnologyTypeByIdQuery request, CancellationToken cancellationToken)
         {
-            if (!await _technologyTypeRepository.Exists(request.Id))
+            if (!await _technologyTypeRepository.ExistsAsync(request.Id))
             {
                 throw TechnologyTypeNotFoundException.ForId(request.Id);
             }
             
-            var technologyType = await _technologyTypeRepository.GetById(request.Id);
+            var technologyType = await _technologyTypeRepository.GetByIdAsync(request.Id);
 
             var result = new TechnologyTypeResponse(technologyType.Id, technologyType.Name);
 

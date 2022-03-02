@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Companies.Commands;
 using JobJetRestApi.Domain.Entities;
 using MediatR;
+using JobJetRestApi.Application.Repositories;
 
 namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
 {
@@ -21,13 +21,13 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
         /// <exception cref="CompanyAlreadyExistsException"></exception>
         public async Task<int> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
         {
-            if (await _companyRepository.Exists(request.Name))
+            if (await _companyRepository.ExistsAsync(request.Name))
             {
                 throw CompanyAlreadyExistsException.ForName(request.Name);
             }
 
             var company = new Company(request.Name, request.ShortName, request.Description, request.NumberOfPeople, request.CityName);
-            await _companyRepository.Create(company);
+            await _companyRepository.CreateAsync(company);
 
             return company.Id;
         }

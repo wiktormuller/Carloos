@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
 using MediatR;
 
@@ -21,12 +21,12 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.QueriesHandlers
         /// <exception cref="JobOfferNotFoundException"></exception>
         public async Task<JobOfferResponse> Handle(GetJobOfferByIdQuery request, CancellationToken cancellationToken)
         {
-            if (!await _jobOfferRepository.Exists(request.Id))
+            if (!await _jobOfferRepository.ExistsAsync(request.Id))
             {
                 throw JobOfferNotFoundException.ForId(request.Id);
             }
 
-            var jobOffer = await _jobOfferRepository.GetById(request.Id);
+            var jobOffer = await _jobOfferRepository.GetByIdAsync(request.Id);
             
             var result = new JobOfferResponse(
                 jobOffer.Id,

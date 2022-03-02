@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Users.Queries;
 using MediatR;
 
@@ -19,12 +19,12 @@ namespace JobJetRestApi.Application.UseCases.Users.QueriesHandlers
 
         public async Task<UserResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            if (!await _userRepository.Exists(request.Id))
+            if (!await _userRepository.ExistsAsync(request.Id))
             {
                 throw UserNotFoundException.ForId(request.Id);
             }
 
-            var user = await _userRepository.GetById(request.Id);
+            var user = await _userRepository.GetByIdAsync(request.Id);
 
             var result = new UserResponse(user.Id, user.UserName, user.Email);
 

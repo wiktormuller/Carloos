@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -17,22 +17,22 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext = Guard.Against.Null(jobJetDbContext, nameof(jobJetDbContext));
         }
 
-        public async Task<Company> GetById(int id)
+        public async Task<Company> GetByIdAsync(int id)
         {
             return await _jobJetDbContext.Companies.FindAsync(id);
         }
 
-        public async Task<List<Company>> GetAll()
+        public async Task<List<Company>> GetAllAsync()
         {
             return await _jobJetDbContext.Companies.ToListAsync();
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            return await GetById(id) is not null;
+            return await GetByIdAsync(id) is not null;
         }
         
-        public async Task<bool> Exists(string name)
+        public async Task<bool> ExistsAsync(string name)
         {
             var company = await _jobJetDbContext.Companies
                 .FirstOrDefaultAsync(x => x.Name == name);
@@ -40,7 +40,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return company is not null;
         }
 
-        public async Task<int> Create(Company company)
+        public async Task<int> CreateAsync(Company company)
         {
             await _jobJetDbContext.Companies.AddAsync(company);
             await _jobJetDbContext.SaveChangesAsync();
@@ -48,12 +48,12 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return company.Id;
         }
 
-        public async Task Update()
+        public async Task UpdateAsync()
         {
             await _jobJetDbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(Company company)
+        public async Task DeleteAsync(Company company)
         {
             _jobJetDbContext.Companies.Remove(company);
             await _jobJetDbContext.SaveChangesAsync();

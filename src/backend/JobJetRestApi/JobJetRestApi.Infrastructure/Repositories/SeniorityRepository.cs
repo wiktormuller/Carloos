@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -17,22 +17,22 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext = Guard.Against.Null(jobJetDbContext, nameof(jobJetDbContext));
         }
 
-        public async Task<Seniority> GetById(int id)
+        public async Task<Seniority> GetByIdAsync(int id)
         {
             return await _jobJetDbContext.SeniorityLevels.FindAsync(id);
         }
 
-        public async Task<List<Seniority>> GetAll()
+        public async Task<List<Seniority>> GetAllAsync()
         {
             return  await _jobJetDbContext.SeniorityLevels.ToListAsync();
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            return await GetById(id) is not null;
+            return await GetByIdAsync(id) is not null;
         }
 
-        public async Task<bool> Exists(string name)
+        public async Task<bool> ExistsAsync(string name)
         {
             var seniorityLevel = await _jobJetDbContext.SeniorityLevels
                 .FirstOrDefaultAsync(x => x.Name == name);
@@ -40,7 +40,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return seniorityLevel is not null;
         }
 
-        public async Task<int> Create(Seniority seniority)
+        public async Task<int> CreateAsync(Seniority seniority)
         {
             await _jobJetDbContext.AddAsync(seniority);
             await _jobJetDbContext.SaveChangesAsync();
@@ -48,12 +48,12 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return seniority.Id;
         }
 
-        public async Task Update()
+        public async Task UpdateAsync()
         {
             await _jobJetDbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(Seniority seniority)
+        public async Task DeleteAsync(Seniority seniority)
         {
             _jobJetDbContext.Remove(seniority);
             await _jobJetDbContext.SaveChangesAsync();

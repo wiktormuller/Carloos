@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.UseCases.Companies.Commands;
 using MediatR;
+using JobJetRestApi.Application.Repositories;
 
 namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
 {
@@ -20,13 +20,13 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
         /// <exception cref="CompanyNotFoundException"></exception>
         public async Task<Unit> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
         {
-            if (!await _companyRepository.Exists(request.Id))
+            if (!await _companyRepository.ExistsAsync(request.Id))
             {
                 throw CompanyNotFoundException.ForId(request.Id);
             }
 
-            var company = await _companyRepository.GetById(request.Id);
-            await _companyRepository.Delete(company);
+            var company = await _companyRepository.GetByIdAsync(request.Id);
+            await _companyRepository.DeleteAsync(company);
 
             return Unit.Value;
         }

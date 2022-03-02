@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Currency.Queries;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
@@ -30,7 +30,7 @@ namespace JobJetRestApi.Application.UseCases.Currency.QueriesHandlers
             
             if (!_memoryCache.TryGetValue(cacheKey, out List<Domain.Entities.Currency> currencies))
             {
-                currencies = await _currencyRepository.GetAll();
+                currencies = await _currencyRepository.GetAllAsync();
                 
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {

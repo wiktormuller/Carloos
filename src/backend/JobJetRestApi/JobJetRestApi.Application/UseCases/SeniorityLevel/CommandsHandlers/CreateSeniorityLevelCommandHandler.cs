@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
 using JobJetRestApi.Domain.Entities;
 using MediatR;
@@ -21,14 +21,14 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
         /// <exception cref="SeniorityLevelAlreadyExistsException"></exception>
         public async Task<int> Handle(CreateSeniorityLevelCommand request, CancellationToken cancellationToken)
         {
-            if (await _seniorityRepository.Exists(request.Name))
+            if (await _seniorityRepository.ExistsAsync(request.Name))
             {
                 throw SeniorityLevelAlreadyExistsException.ForName(request.Name);
             }
 
             var seniorityLevel = new Seniority(request.Name);
 
-            await _seniorityRepository.Create(seniorityLevel);
+            await _seniorityRepository.CreateAsync(seniorityLevel);
 
             return seniorityLevel.Id;
         }

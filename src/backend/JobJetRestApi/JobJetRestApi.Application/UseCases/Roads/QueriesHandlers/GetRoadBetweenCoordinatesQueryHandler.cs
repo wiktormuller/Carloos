@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Roads.Queries;
 using JobJetRestApi.Domain.Entities;
 using MediatR;
@@ -44,7 +44,7 @@ namespace JobJetRestApi.Application.UseCases.Roads.QueriesHandlers
             var firstGeoPoint = new GeoPoint(firstCoordinateTuple.longitude, firstCoordinateTuple.latitude);
             var secondGeoPoint = new GeoPoint(secondCoordinateTuple.longitude, secondCoordinateTuple.latitude);
 
-            var pointsBetweenTwoGeoPoints = await _routeService.GetPointsBetweenTwoGeoPoints(firstGeoPoint, secondGeoPoint);
+            var pointsBetweenTwoGeoPoints = await _routeService.GetPointsBetweenTwoGeoPointsAsync(firstGeoPoint, secondGeoPoint);
 
             var result = pointsBetweenTwoGeoPoints
                 .Select(geoPoint => new RoadResponse

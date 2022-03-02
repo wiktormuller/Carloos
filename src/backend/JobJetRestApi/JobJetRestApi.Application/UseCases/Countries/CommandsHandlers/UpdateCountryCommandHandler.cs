@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Countries.Commands;
 using MediatR;
 using JobJetRestApi.Application.Exceptions;
@@ -21,20 +21,20 @@ namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
         /// <exception cref="CountryAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
         {
-            if (!await _countryRepository.Exists(request.Id))
+            if (!await _countryRepository.ExistsAsync(request.Id))
             {
                 throw CountryNotFoundException.ForId(request.Id);
             }
 
-            if (await _countryRepository.Exists(request.Name))
+            if (await _countryRepository.ExistsAsync(request.Name))
             {
                 throw CountryAlreadyExistsException.ForName(request.Name);
             }
 
-            var country = await _countryRepository.GetById(request.Id);
+            var country = await _countryRepository.GetByIdAsync(request.Id);
             country.UpdateName(request.Name);
 
-            await _countryRepository.Update();
+            await _countryRepository.UpdateAsync();
             
             return Unit.Value;
         }

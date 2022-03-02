@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.TechnologyType.Commands;
 using MediatR;
 using JobJetRestApi.Application.Exceptions;
@@ -21,21 +21,21 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.CommandsHandlers
         /// <exception cref="TechnologyTypeAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateTechnologyTypeCommand request, CancellationToken cancellationToken)
         {
-            if (! await _technologyTypeRepository.Exists(request.Id))
+            if (! await _technologyTypeRepository.ExistsAsync(request.Id))
             {
                 throw TechnologyTypeNotFoundException.ForId(request.Id);
             }
 
-            if (await _technologyTypeRepository.Exists(request.Name))
+            if (await _technologyTypeRepository.ExistsAsync(request.Name))
             {
                 throw TechnologyTypeAlreadyExistsException.ForName(request.Name);
             }
 
-            var technologyType = await _technologyTypeRepository.GetById(request.Id);
+            var technologyType = await _technologyTypeRepository.GetByIdAsync(request.Id);
 
             technologyType.UpdateName(request.Name);
 
-            await _technologyTypeRepository.Update();
+            await _technologyTypeRepository.UpdateAsync();
 
             return Unit.Value;
         }

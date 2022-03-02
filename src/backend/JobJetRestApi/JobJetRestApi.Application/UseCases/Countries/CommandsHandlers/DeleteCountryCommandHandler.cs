@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Countries.Commands;
 using MediatR;
 
@@ -19,13 +19,13 @@ namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
 
         public async Task<Unit> Handle(DeleteCountryCommand request, CancellationToken cancellationToken)
         {
-            if (!await _countryRepository.Exists(request.Id))
+            if (!await _countryRepository.ExistsAsync(request.Id))
             {
                 throw CountryNotFoundException.ForId(request.Id);
             }
 
-            var country = await _countryRepository.GetById(request.Id);
-            await _countryRepository.Delete(country);
+            var country = await _countryRepository.GetByIdAsync(request.Id);
+            await _countryRepository.DeleteAsync(country);
             
             return Unit.Value;
         }

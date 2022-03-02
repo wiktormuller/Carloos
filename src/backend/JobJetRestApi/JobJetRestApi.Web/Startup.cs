@@ -1,9 +1,7 @@
 using System;
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
-using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Application.Ports;
-using JobJetRestApi.Application.Validators;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Repositories;
@@ -21,6 +19,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using JobJetRestApi.Application.Repositories;
+using JobJetRestApi.Application.UseCases.Companies.Queries;
+using JobJetRestApi.Application.Validators.RequestsValidators;
+using JobJetRestApi.Infrastructure.Dtos;
+using JobJetRestApi.Infrastructure.Factories;
+using JobJetRestApi.Infrastructure.Queries;
 
 namespace JobJetRestApi.Web
 {
@@ -36,6 +40,8 @@ namespace JobJetRestApi.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // @TODO - Split services into separate files
+            
             services.InstallServicesInAssembly(Configuration);
             
             // IdentityModelEventSource.ShowPII = true;
@@ -52,20 +58,20 @@ namespace JobJetRestApi.Web
             services.AddScoped<IGeocodingService, GeocodingService>();
             services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<ICompanyQueries, CompanyQueries>();
+            services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
+            
             
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>());
 
             services.Configure<GeocodingOptions>(Configuration.GetSection(GeocodingOptions.Geocoding));
             services.Configure<GeoRouteOptions>(Configuration.GetSection(GeoRouteOptions.GeoRoute));
+            services.Configure<DatabaseOptions>(Configuration.GetSection(DatabaseOptions.ConnectionStrings));
             
             services.AddMediatR(AppDomain.CurrentDomain.Load("JobJetRestApi.Application"));
             
             services.AddMemoryCache();
-
-            // services.AddHealthChecks()
-            //     .AddCheck("JobJetDB", new SqlConnectionHealthCheck(Configuration["ConnectionString"]),
-            //         HealthStatus.Unhealthy,
-            //         new string[] {"jobjetdb"});
             
             services.AddHealthChecksUI()
                 .AddInMemoryStorage();

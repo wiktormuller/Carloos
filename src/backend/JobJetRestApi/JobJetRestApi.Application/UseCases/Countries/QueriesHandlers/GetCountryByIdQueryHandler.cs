@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Countries.Queries;
 using MediatR;
 
@@ -20,12 +20,12 @@ namespace JobJetRestApi.Application.UseCases.Countries.QueriesHandlers
 
         public async Task<CountryResponse> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
         {
-            if (! await _countryRepository.Exists(request.Id))
+            if (! await _countryRepository.ExistsAsync(request.Id))
             {
                 throw CountryNotFoundException.ForId(request.Id);
             }
 
-            var country = await _countryRepository.GetById(request.Id);
+            var country = await _countryRepository.GetByIdAsync(request.Id);
 
             var result = new CountryResponse(country.Id, country.Name, country.Alpha2Code);
 
