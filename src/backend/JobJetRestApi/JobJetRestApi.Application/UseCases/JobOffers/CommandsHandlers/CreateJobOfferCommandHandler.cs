@@ -3,7 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Ports;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Domain.Entities;
 using MediatR;
@@ -50,49 +51,49 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 throw IncorrectWorkSpecificationException.ForName(request.WorkSpecification);
             }
             
-            if (! await _seniorityRepository.Exists(request.SeniorityId))
+            if (! await _seniorityRepository.ExistsAsync(request.SeniorityId))
             {
                 throw SeniorityLevelNotFoundException.ForId(request.SeniorityId);
             }
 
-            if (! await _technologyTypeRepository.Exists(request.TechnologyTypeId))
+            if (! await _technologyTypeRepository.ExistsAsync(request.TechnologyTypeId))
             {
                 throw TechnologyTypeNotFoundException.ForId(request.TechnologyTypeId);
             }
 
-            if (! await _employmentTypeRepository.Exists(request.EmploymentTypeId))
+            if (! await _employmentTypeRepository.ExistsAsync(request.EmploymentTypeId))
             {
                 throw EmploymentTypeNotFoundException.ForId(request.EmploymentTypeId);
             }
 
-            if (! await _countryRepository.Exists(request.CountryId))
+            if (! await _countryRepository.ExistsAsync(request.CountryId))
             {
                 throw CountryNotFoundException.ForId(request.CountryId);
             }
 
-            if (! await _currencyRepository.Exists(request.CurrencyId))
+            if (! await _currencyRepository.ExistsAsync(request.CurrencyId))
             {
                 throw CurrencyNotFoundException.ForId(request.CurrencyId);
             }
 
             var addressFromInput = request.Street + " " + request.ZipCode + " " + request.Town;
 
-            var addressCoords = await _geocodingService.ConvertAddressIntoCoords(addressFromInput);
+            var addressCoords = await _geocodingService.ConvertAddressIntoCoordsAsync(addressFromInput);
             if (addressCoords is null)
             {
                 throw InvalidAddressException.Default(addressFromInput);
             }
             
-            var country = await _countryRepository.GetById(request.CountryId);
+            var country = await _countryRepository.GetByIdAsync(request.CountryId);
             var address = new Address(country, request.Town, request.Street, request.ZipCode, addressCoords.Latitude, addressCoords.Longitude);
 
-            var technologyType = await _technologyTypeRepository.GetById(request.TechnologyTypeId);
+            var technologyType = await _technologyTypeRepository.GetByIdAsync(request.TechnologyTypeId);
 
-            var seniorityLevel = await _seniorityRepository.GetById(request.SeniorityId);
+            var seniorityLevel = await _seniorityRepository.GetByIdAsync(request.SeniorityId);
 
-            var employmentType = await _employmentTypeRepository.GetById(request.EmploymentTypeId);
+            var employmentType = await _employmentTypeRepository.GetByIdAsync(request.EmploymentTypeId);
 
-            var currency = await _currencyRepository.GetById(request.CurrencyId);
+            var currency = await _currencyRepository.GetByIdAsync(request.CurrencyId);
 
             var jobOffer = new JobOffer(
                 request.Name,
@@ -107,7 +108,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 workSpecification
                 );
 
-            var jobOfferId = await _jobOfferRepository.Create(jobOffer);
+            var jobOfferId = await _jobOfferRepository.CreateAsync(jobOffer);
 
             return jobOfferId;
         }

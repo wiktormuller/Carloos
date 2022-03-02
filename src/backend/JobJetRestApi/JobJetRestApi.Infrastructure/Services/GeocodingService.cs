@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Dtos.GeocodingService;
 using Microsoft.Net.Http.Headers;
@@ -25,7 +25,7 @@ namespace JobJetRestApi.Infrastructure.Services
             _options = options.Value;
         }
 
-        public async Task<AddressCoords> ConvertAddressIntoCoords(string address)
+        public async Task<AddressCoords> ConvertAddressIntoCoordsAsync(string address)
         {
             StringBuilder fullUriBuilder = new(_options.BaseUri);
             fullUriBuilder.Replace("{addressPlaceholder}", address);

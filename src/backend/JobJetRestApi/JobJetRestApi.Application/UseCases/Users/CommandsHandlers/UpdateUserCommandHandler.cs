@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Users.Commands;
 using MediatR;
 
@@ -18,16 +18,16 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
         
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            if (!await _userRepository.Exists(request.Id))
+            if (!await _userRepository.ExistsAsync(request.Id))
             {
                 throw UserNotFoundException.ForId(request.Id);
             }
 
-            var user = await _userRepository.GetById(request.Id);
+            var user = await _userRepository.GetByIdAsync(request.Id);
 
             user.UpdateName(request.Name);
 
-            await _userRepository.Update(user);
+            await _userRepository.UpdateAsync(user);
 
             return Unit.Value;
         }

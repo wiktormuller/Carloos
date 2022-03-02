@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -19,37 +20,34 @@ namespace JobJetRestApi.Web.Controllers.V1
     public class CompaniesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ICompanyQueries _companyQueries;
         private readonly IPageUriService _pageUriService;
         
-        public CompaniesController(IMediator mediator, IPageUriService pageUriService)
+        public CompaniesController(IMediator mediator, IPageUriService pageUriService, ICompanyQueries companyQueries)
         {
+            _companyQueries = companyQueries;
             _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
             _mediator = Guard.Against.Null(mediator, nameof(mediator));
         }
         
         // GET api/companies
         [HttpGet(ApiRoutes.Companies.GetAll)]
-        //[ProducesResponseType(typeof(PagedResponse<CountryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<CountryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<CountryResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<CompanyResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            // @TODO - Pagination and filtering?
-            //var route = Request.Path.Value;
-            //var totalRecords = 100;
-            //var data = new List<CountryResponse>();
-
-            //return Ok(PagedResponse<CountryResponse>.CreatePagedResponse(data, filter, totalRecords, _pageUriService,
-            //    route));
-
-            var query = new GetAllCompaniesQuery();
             
-            return Ok(await _mediator.Send(query));
+            var companies = await _companyQueries.GetAllCompaniesAsync(filter);
+            
+            var route = Request.Path.Value;
+
+            return Ok(PagedResponse<CompanyResponse>.CreatePagedResponse(
+                companies.ToList(), "", true, null, filter, 666, _pageUriService, route));
         }
         
         // GET api/companies/5

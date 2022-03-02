@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.TechnologyType.Queries;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
@@ -30,7 +30,7 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.QueriesHandlers
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<Domain.Entities.TechnologyType> technologyTypes))
             {
-                technologyTypes = await _technologyTypeRepository.GetAll();
+                technologyTypes = await _technologyTypeRepository.GetAllAsync();
                 
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {

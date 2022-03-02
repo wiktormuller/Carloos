@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Currency.Queries;
 using MediatR;
 using JobJetRestApi.Application.Exceptions;
@@ -20,12 +20,12 @@ namespace JobJetRestApi.Application.UseCases.Currency.QueriesHandlers
 
         public async Task<CurrencyResponse> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)
         {
-            if (! await _currencyRepository.Exists(request.Id))
+            if (! await _currencyRepository.ExistsAsync(request.Id))
             {
                 throw CurrencyNotFoundException.ForId(request.Id);
             }
 
-            var currency = await _currencyRepository.GetById(request.Id);
+            var currency = await _currencyRepository.GetByIdAsync(request.Id);
             
             var result = new CurrencyResponse(currency.Id, currency.Name, currency.IsoCode);
 

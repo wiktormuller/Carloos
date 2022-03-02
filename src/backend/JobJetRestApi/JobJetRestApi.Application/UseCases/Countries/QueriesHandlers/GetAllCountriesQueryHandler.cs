@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Countries.Queries;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
@@ -30,7 +30,7 @@ namespace JobJetRestApi.Application.UseCases.Countries.QueriesHandlers
             
             if (!_memoryCache.TryGetValue(cacheKey, out List<Domain.Entities.Country> countries))
             {
-                countries = await _countryRepository.GetAll();
+                countries = await _countryRepository.GetAllAsync();
                 
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {

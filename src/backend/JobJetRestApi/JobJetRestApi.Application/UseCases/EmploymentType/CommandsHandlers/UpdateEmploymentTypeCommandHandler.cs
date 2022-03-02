@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.EmploymentType.Commands;
 using MediatR;
 
@@ -21,17 +21,17 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.CommandsHandlers
         /// <exception cref="EmploymentTypeAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateEmploymentTypeCommand request, CancellationToken cancellationToken)
         {
-            if (!await _employmentTypeRepository.Exists(request.Id))
+            if (!await _employmentTypeRepository.ExistsAsync(request.Id))
             {
                 throw EmploymentTypeNotFoundException.ForId(request.Id);
             }
 
-            if (await _employmentTypeRepository.Exists(request.Name))
+            if (await _employmentTypeRepository.ExistsAsync(request.Name))
             {
                 throw EmploymentTypeAlreadyExistsException.ForName(request.Name);
             }
 
-            var employmentType = await _employmentTypeRepository.GetById(request.Id);
+            var employmentType = await _employmentTypeRepository.GetByIdAsync(request.Id);
             employmentType.UpdateName(request.Name);
             
             return Unit.Value;

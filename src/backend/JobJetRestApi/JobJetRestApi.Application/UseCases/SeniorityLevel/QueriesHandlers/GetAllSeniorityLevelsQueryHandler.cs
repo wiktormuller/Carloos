@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Queries;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
@@ -30,7 +30,7 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.QueriesHandlers
 
             if (!_memoryCache.TryGetValue(cacheKey, out List<Domain.Entities.Seniority> seniorityLevels))
             {
-                seniorityLevels = await _seniorityRepository.GetAll();
+                seniorityLevels = await _seniorityRepository.GetAllAsync();
                 
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {

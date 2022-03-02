@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.EmploymentType.Commands;
 using MediatR;
 
@@ -20,14 +20,14 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.CommandsHandlers
         /// <exception cref="EmploymentTypeAlreadyExistsException"></exception>
         public async Task<int> Handle(CreateEmploymentTypeCommand request, CancellationToken cancellationToken)
         {
-            if (await _employmentTypeRepository.Exists(request.Name))
+            if (await _employmentTypeRepository.ExistsAsync(request.Name))
             {
                 throw EmploymentTypeAlreadyExistsException.ForName(request.Name);
             }
 
             var employmentType = new Domain.Entities.EmploymentType(request.Name);
 
-            await _employmentTypeRepository.Create(employmentType);
+            await _employmentTypeRepository.CreateAsync(employmentType);
 
             return employmentType.Id;
         }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.EmploymentType.Queries;
 using MediatR;
 
@@ -21,12 +21,12 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.QueriesHandlers
         /// <exception cref="EmploymentTypeNotFoundException"></exception>
         public async Task<EmploymentTypeResponse> Handle(GetEmploymentTypeByIdQuery request, CancellationToken cancellationToken)
         {
-            if (! await _employmentTypeRepository.Exists(request.Id))
+            if (! await _employmentTypeRepository.ExistsAsync(request.Id))
             {
                 throw EmploymentTypeNotFoundException.ForId(request.Id);
             }
 
-            var employmentType = await _employmentTypeRepository.GetById(request.Id);
+            var employmentType = await _employmentTypeRepository.GetByIdAsync(request.Id);
             
             var result = new EmploymentTypeResponse(employmentType.Id, employmentType.Name);
 

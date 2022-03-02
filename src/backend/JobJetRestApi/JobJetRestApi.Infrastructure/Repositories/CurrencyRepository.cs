@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using JobJetRestApi.Application.Interfaces;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using JobJetRestApi.Application.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Repositories
@@ -18,22 +17,22 @@ namespace JobJetRestApi.Infrastructure.Repositories
             _jobJetDbContext = Guard.Against.Null(jobJetDbContext, nameof(jobJetDbContext));
         }
 
-        public async Task<Currency> GetById(int id)
+        public async Task<Currency> GetByIdAsync(int id)
         {
             return await _jobJetDbContext.Currencies.FindAsync(id);
         }
 
-        public async Task<List<Currency>> GetAll()
+        public async Task<List<Currency>> GetAllAsync()
         {
             return await _jobJetDbContext.Currencies.ToListAsync();
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            return await GetById(id) is not null;
+            return await GetByIdAsync(id) is not null;
         }
 
-        public async Task<bool> Exists(string isoCode, int isoNumber)
+        public async Task<bool> ExistsAsync(string isoCode, int isoNumber)
         {
             var currency = await _jobJetDbContext.Currencies
                 .FirstOrDefaultAsync(x => x.IsoCode == isoCode || x.IsoNumber == isoNumber);
@@ -41,7 +40,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return currency is not null;
         }
 
-        public async Task<bool> Exists(string name)
+        public async Task<bool> ExistsAsync(string name)
         {
             var currency = await _jobJetDbContext.Currencies
                 .FirstOrDefaultAsync(x => x.Name == name);
@@ -49,7 +48,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return currency is not null;
         }
 
-        public async Task<int> Create(Currency currency)
+        public async Task<int> CreateAsync(Currency currency)
         {
             await _jobJetDbContext.AddAsync(currency);
             await _jobJetDbContext.SaveChangesAsync();
@@ -57,12 +56,12 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return currency.Id;
         }
 
-        public async Task Update()
+        public async Task UpdateAsync()
         {
             await _jobJetDbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(Currency currency)
+        public async Task DeleteAsync(Currency currency)
         {
             _jobJetDbContext.Currencies.Remove(currency);
             await _jobJetDbContext.SaveChangesAsync();

@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Dtos.RouteService;
 using Microsoft.Extensions.Options;
@@ -26,7 +26,7 @@ namespace JobJetRestApi.Infrastructure.Services
             _options = options.Value;
         }
 
-        public async Task<List<GeoPoint>> GetPointsBetweenTwoGeoPoints(GeoPoint firstGeoPoint, GeoPoint secondGeoPoint)
+        public async Task<List<GeoPoint>> GetPointsBetweenTwoGeoPointsAsync(GeoPoint firstGeoPoint, GeoPoint secondGeoPoint)
         {
             StringBuilder fullUriBuilder = new(_options.BaseUri);
             fullUriBuilder.Replace("{firstPointLongitude}", 

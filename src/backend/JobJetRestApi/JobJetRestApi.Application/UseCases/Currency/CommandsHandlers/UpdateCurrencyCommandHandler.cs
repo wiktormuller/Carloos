@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Currency.Commands;
 using MediatR;
 
@@ -21,20 +21,20 @@ namespace JobJetRestApi.Application.UseCases.Currency.CommandsHandlers
         /// <exception cref="CurrencyAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
         {
-            if (! await _currencyRepository.Exists(request.Id))
+            if (! await _currencyRepository.ExistsAsync(request.Id))
             {
                 throw CurrencyNotFoundException.ForId(request.Id);
             }
 
-            if (await _currencyRepository.Exists(request.Name))
+            if (await _currencyRepository.ExistsAsync(request.Name))
             {
                 throw CurrencyAlreadyExistsException.ForName(request.Name);
             }
 
-            var currency = await _currencyRepository.GetById(request.Id);
+            var currency = await _currencyRepository.GetByIdAsync(request.Id);
             currency.UpdateName(request.Name);
 
-            await _currencyRepository.Update();
+            await _currencyRepository.UpdateAsync();
             
             return Unit.Value;
         }

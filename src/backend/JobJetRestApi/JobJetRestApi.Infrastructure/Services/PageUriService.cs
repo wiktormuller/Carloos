@@ -16,9 +16,17 @@ namespace JobJetRestApi.Infrastructure.Services
         
         public Uri GetPageUri(PaginationFilter filter, string route)
         {
-            var _enpointUri = new Uri(_baseUri + route);
-            var modifiedUri = QueryHelpers.AddQueryString(_enpointUri.ToString(), "pageNumber", filter.PageNumber.ToString());
-            modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "pageSize", filter.PageSize.ToString());
+            var endpointUri = new Uri(_baseUri + route);
+            
+            var modifiedUri = QueryHelpers.AddQueryString(
+                endpointUri.ToString(), 
+                "pageNumber", 
+                filter.PageNumber.ToString());
+            
+            modifiedUri = QueryHelpers.AddQueryString(
+                modifiedUri, 
+                "pageSize", 
+                filter.PageSize.ToString());
             
             return new Uri(modifiedUri);
         }

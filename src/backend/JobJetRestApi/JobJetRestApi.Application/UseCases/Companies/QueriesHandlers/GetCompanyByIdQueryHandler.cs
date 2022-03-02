@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Interfaces;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using MediatR;
 
@@ -21,12 +21,12 @@ namespace JobJetRestApi.Application.UseCases.Companies.QueriesHandlers
         /// <exception cref="CompanyNotFoundException"></exception>
         public async Task<CompanyResponse> Handle(GetCompanyByIdQuery request, CancellationToken cancellationToken)
         {
-            if (!await _companyRepository.Exists(request.Id))
+            if (!await _companyRepository.ExistsAsync(request.Id))
             {
                 throw CompanyNotFoundException.ForId(request.Id);
             }
 
-            var company = await _companyRepository.GetById(request.Id);
+            var company = await _companyRepository.GetByIdAsync(request.Id);
 
             var result = new CompanyResponse(company.Id, company.Name, company.ShortName, company.Description, company.NumberOfPeople, company.CityName);
 

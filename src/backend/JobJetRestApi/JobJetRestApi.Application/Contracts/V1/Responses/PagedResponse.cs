@@ -7,10 +7,13 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
 {
     public class PagedResponse<T>
     {
+        public Response<T> Response { get; }
         public ResultMetadata Metadata { get; }
-        public Result<T> Results { get; }
 
         private PagedResponse(T data,
+            string message,
+            bool succeeded,
+            string[] errors,
             int pageNumber, 
             int pageSize, 
             int totalPages, 
@@ -20,7 +23,12 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
             Uri firstPage,
             Uri lastPage)
         {
-            Results = new Result<T>(data);
+            Response = new Response<T>(
+                data, 
+                message, 
+                succeeded, 
+                errors);
+            
             Metadata = new ResultMetadata(
                 pageNumber, 
                 pageSize, 
@@ -34,6 +42,9 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
         
         public static PagedResponse<List<T>> CreatePagedResponse<T>(
             List<T> pagedData,
+            string message,
+            bool succeeded,
+            string[] errors,
             PaginationFilter paginationFilter,
             int totalRecords,
             IPageUriService pageUriService,
@@ -53,7 +64,10 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
             var lastPage = pageUriService.GetPageUri(new PaginationFilter(roundedTotalPages, paginationFilter.PageSize), route);
             
             return new PagedResponse<List<T>>(
-                pagedData, 
+                pagedData,
+                message,
+                succeeded,
+                errors,
                 paginationFilter.PageNumber, 
                 paginationFilter.PageSize, 
                 roundedTotalPages, 
