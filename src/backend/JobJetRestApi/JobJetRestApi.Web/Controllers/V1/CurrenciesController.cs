@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -19,38 +20,36 @@ namespace JobJetRestApi.Web.Controllers.V1
     public class CurrenciesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ICurrencyQueries _currencyQueries;
         private readonly IPageUriService _pageUriService;
         
         public CurrenciesController(IMediator mediator,
-            IPageUriService pageUriService)
+            IPageUriService pageUriService,
+            ICurrencyQueries currencyQueries)
         {
+            _currencyQueries = Guard.Against.Null(currencyQueries, nameof(currencyQueries));
             _mediator = Guard.Against.Null(mediator, nameof(mediator));
             _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
         }
         
         // GET api/currencies
         [HttpGet(ApiRoutes.Currencies.GetAll)]
-        //[ProducesResponseType(typeof(PagedResponse<CurrencyResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<CurrencyResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<CurrencyResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<CurrencyResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            // @TODO - Pagination and filtering?
-            //var route = Request.Path.Value;
-            //var totalRecords = 100;
-            //var data = new List<CurrencyResponse>();
-
-            // Ok(PagedResponse<CurrencyResponse>.CreatePagedResponse(data, filter, totalRecords,
-            //    _pageUriService, route));
             
-            var query = new GetAllCurrenciesQuery();
+            var currencies = await _currencyQueries.GetAllCurrenciesAsync(filter);
             
-            return Ok(await _mediator.Send(query));
+            var route = Request.Path.Value;
+
+            return Ok(PagedResponse<CurrencyResponse>.CreatePagedResponse(
+                currencies.ToList(), "", true, null, filter, 666, _pageUriService, route));
         }
         
         // GET api/currencies/5

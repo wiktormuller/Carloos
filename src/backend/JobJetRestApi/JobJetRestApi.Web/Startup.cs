@@ -21,6 +21,12 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
+using JobJetRestApi.Application.UseCases.Countries.Queries;
+using JobJetRestApi.Application.UseCases.Currency.Queries;
+using JobJetRestApi.Application.UseCases.EmploymentType.Queries;
+using JobJetRestApi.Application.UseCases.JobOffers.Queries;
+using JobJetRestApi.Application.UseCases.SeniorityLevel.Queries;
+using JobJetRestApi.Application.UseCases.TechnologyType.Queries;
 using JobJetRestApi.Application.Validators.RequestsValidators;
 using JobJetRestApi.Infrastructure.Dtos;
 using JobJetRestApi.Infrastructure.Factories;
@@ -60,6 +66,13 @@ namespace JobJetRestApi.Web
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<ICompanyQueries, CompanyQueries>();
+            services.AddScoped<ICountryQueries, CountryQueries>();
+            services.AddScoped<ICurrencyQueries, CurrencyQueries>();
+            services.AddScoped<IEmploymentTypeQueries, EmploymentTypeQueries>();
+            services.AddScoped<IJobOfferQueries, JobOfferQueries>();
+            services.AddScoped<ISeniorityLevelQueries, SeniorityLevelQueries>();
+            services.AddScoped<ITechnologyTypeQueries, TechnologyTypeQueries>();
+            
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
             
             

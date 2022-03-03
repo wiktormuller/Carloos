@@ -2,50 +2,48 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using Dapper;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
-using JobJetRestApi.Application.UseCases.Companies.Queries;
-using Dapper;
+using JobJetRestApi.Application.UseCases.Currency.Queries;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace JobJetRestApi.Infrastructure.Queries
 {
-    public class CompanyQueries : ICompanyQueries
+    public class CurrencyQueries : ICurrencyQueries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly IMemoryCache _memoryCache;
         
-        public CompanyQueries(ISqlConnectionFactory sqlConnectionFactory, 
+        public CurrencyQueries(ISqlConnectionFactory sqlConnectionFactory, 
             IMemoryCache memoryCache)
         {
-            _memoryCache = Guard.Against.Null(memoryCache, nameof(memoryCache));
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
+            _memoryCache = memoryCache;
         }
         
-        public async Task<IEnumerable<CompanyResponse>> GetAllCompaniesAsync(PaginationFilter paginationFilter)
+        public async Task<IEnumerable<CurrencyResponse>> GetAllCurrenciesAsync(PaginationFilter paginationFilter)
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
             const string query = @"
                 SELECT 
-                    [Company].Id,
-                    [Company].Name,
-                    [Company].ShortName,
-                    [Company].Description,
-                    [Company].NumberOfPeople,
-                    [Company].CityName 
-                FROM [Companies] AS [Company] 
-                ORDER BY [Company].Id 
+                    [Currency].Id,
+                    [Currency].Name,
+                    [Currency].IsoCode,
+                    [Currency].IsoNumber
+                FROM [Currencies] AS [Currency] 
+                ORDER BY [Currency].Id 
                 OFFSET @OffsetRows ROWS
                 FETCH NEXT @FetchRows ROWS ONLY;"
                 ;
             
-            var cacheKey = "companiesKey";
+            var cacheKey = "currenciesKey";
             
-            if (!_memoryCache.TryGetValue(cacheKey, out IEnumerable<CompanyResponse> companies))
+            if (!_memoryCache.TryGetValue(cacheKey, out IEnumerable<CurrencyResponse> currencies))
             {
-                companies = await connection.QueryAsync<CompanyResponse>(query, new
+                currencies = await connection.QueryAsync<CurrencyResponse>(query, new
                 {
                     OffsetRows = paginationFilter.PageNumber,
                     FetchRows = paginationFilter.PageSize
@@ -58,10 +56,10 @@ namespace JobJetRestApi.Infrastructure.Queries
                     SlidingExpiration = TimeSpan.FromMinutes(2)
                 };
             
-                _memoryCache.Set(cacheKey, companies, cacheExpiryOptions);
+                _memoryCache.Set(cacheKey, currencies, cacheExpiryOptions);
             }
 
-            return companies;
+            return currencies;
         }
     }
 }

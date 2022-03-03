@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -19,37 +20,35 @@ namespace JobJetRestApi.Web.Controllers.V1
     public class EmploymentTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IEmploymentTypeQueries _employmentTypeQueries;
         private readonly IPageUriService _pageUriService;
         
-        public EmploymentTypesController(IMediator mediator, IPageUriService pageUriService)
+        public EmploymentTypesController(IMediator mediator, IPageUriService pageUriService,
+            IEmploymentTypeQueries employmentTypeQueries)
         {
+            _employmentTypeQueries = Guard.Against.Null(employmentTypeQueries, nameof(employmentTypeQueries));
             _mediator = Guard.Against.Null(mediator, nameof(mediator));
             _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
         }
         
         // GET api/employment-types
         [HttpGet(ApiRoutes.EmploymentTypes.GetAll)]
-        //[ProducesResponseType(typeof(PagedResponse<EmploymentTypeResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<EmploymentTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<EmploymentTypeResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<EmploymentTypeResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            // @TODO - Pagination and filtering?
-            //var route = Request.Path.Value;
-            //var totalRecords = 100;
-            //var data = new List<EmploymentTypeResponse>();
-
-            //return Ok(PagedResponse<EmploymentTypeResponse>.CreatePagedResponse(data, filter, totalRecords,
-            //    _pageUriService, route));
             
-            var query = new GetAllEmploymentTypesQuery();
+            var employmentTypes = await _employmentTypeQueries.GetAllEmploymentTypesAsync(filter);
             
-            return Ok(await _mediator.Send(query));
+            var route = Request.Path.Value;
+
+            return Ok(PagedResponse<EmploymentTypeResponse>.CreatePagedResponse(
+                employmentTypes.ToList(), "", true, null, filter, 666, _pageUriService, route));
         }
         
         // GET api/employment-types/5

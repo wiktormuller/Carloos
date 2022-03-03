@@ -21,7 +21,7 @@ namespace JobJetRestApi.Web.Installers
             
             // Google Geocoding API
             .AddUrlGroup(
-                new Uri("https://maps.googleapis.com/maps/api/geocode/json?address=warszawa"),
+                new Uri("https://google.com"), // @TODO
                 "Google Geocoding API - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"googlegeocodingapi"})
