@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -20,38 +21,36 @@ namespace JobJetRestApi.Web.Controllers.V1
     public class JobOffersController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IJobOfferQueries _jobOfferQueries;
         private readonly IPageUriService _pageUriService;
 
         public JobOffersController(IMediator mediator, 
-            IPageUriService pageUriService)
+            IPageUriService pageUriService, 
+            IJobOfferQueries jobOfferQueries)
         {
+            _jobOfferQueries = Guard.Against.Null(jobOfferQueries, nameof(jobOfferQueries));
             _mediator = Guard.Against.Null(mediator, nameof(mediator));
             _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
         }
 
         // GET api/job-offers
         [HttpGet(ApiRoutes.JobOffers.GetAll)]
-        //[ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<JobOfferResponse>),StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            // @TODO - Pagination and filtering?
-            //var route = Request.Path.Value;
-            //var totalRecords = 100;
-            //var data = new List<JobOfferResponse>();
-
-            //return Ok(PagedResponse<JobOfferResponse>.CreatePagedResponse(data, filter, totalRecords, _pageUriService, 
-            //    route));
             
-            var query = new GetAllJobOffersQuery();
+            var jobOffers = await _jobOfferQueries.GetAllJobOffersAsync(filter);
             
-            return Ok(await _mediator.Send(query));
+            var route = Request.Path.Value;
+
+            return Ok(PagedResponse<JobOfferResponse>.CreatePagedResponse(
+                jobOffers.ToList(), "", true, null, filter, 666, _pageUriService, route));
         }
         
         // GET api/job-offers/5

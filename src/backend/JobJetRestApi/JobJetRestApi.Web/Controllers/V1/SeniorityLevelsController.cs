@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -19,38 +20,36 @@ namespace JobJetRestApi.Web.Controllers.V1
     public class SeniorityLevelsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ISeniorityLevelQueries _seniorityLevelQueries;
         private readonly IPageUriService _pageUriService;
         
         public SeniorityLevelsController(IMediator mediator, 
-            IPageUriService pageUriService)
+            IPageUriService pageUriService, 
+            ISeniorityLevelQueries seniorityLevelQueries)
         {
+            _seniorityLevelQueries = Guard.Against.Null(seniorityLevelQueries, nameof(seniorityLevelQueries));
             _mediator = Guard.Against.Null(mediator, nameof(mediator));
             _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
         }
         
         // GET api/seniority-levels
         [HttpGet(ApiRoutes.SeniorityLevels.GetAll)]
-        //[ProducesResponseType(typeof(PagedResponse<SeniorityLevelResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<SeniorityLevelResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<SeniorityLevelResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<SeniorityLevelResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            // @TODO - Pagination and filtering?
-            //var route = Request.Path.Value;
-            //var totalRecords = 100;
-            //var data = new List<SeniorityLevelResponse>();
-
-            //return Ok(PagedResponse<SeniorityLevelResponse>.CreatePagedResponse(data, filter, totalRecords,
-            //    _pageUriService, route));
             
-            var query = new GetAllSeniorityLevelsQuery();
+            var seniorityLevels = await _seniorityLevelQueries.GetAllSeniorityLevelsAsync(filter);
             
-            return Ok(await _mediator.Send(query));
+            var route = Request.Path.Value;
+
+            return Ok(PagedResponse<SeniorityLevelResponse>.CreatePagedResponse(
+                seniorityLevels.ToList(), "", true, null, filter, 666, _pageUriService, route));
         }
 
         // GET api/seniority-levels/5

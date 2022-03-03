@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -19,38 +20,36 @@ namespace JobJetRestApi.Web.Controllers.V1
     public class TechnologyTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ITechnologyTypeQueries _technologyTypeQueries;
         private readonly IPageUriService _pageUriService;
         
         public TechnologyTypesController(IMediator mediator, 
-            IPageUriService pageUriService)
+            IPageUriService pageUriService, 
+            ITechnologyTypeQueries technologyTypeQueries)
         {
+            _technologyTypeQueries = Guard.Against.Null(technologyTypeQueries, nameof(technologyTypeQueries));
             _mediator = Guard.Against.Null(mediator, nameof(mediator));
             _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
         }
         
         // GET api/technology-types
         [HttpGet(ApiRoutes.TechnologyTypes.GetAll)]
-        //[ProducesResponseType(typeof(PagedResponse<TechnologyTypeResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<TechnologyTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<TechnologyTypeResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // For filter validation
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<TechnologyTypeResponse>>> Get([FromQuery] PaginationFilter filter)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            // @TODO - Pagination and filtering?
-            //var route = Request.Path.Value;
-            //var totalRecords = 100;
-            //var data = new List<TechnologyTypeResponse>();
-
-            //return Ok(PagedResponse<TechnologyTypeResponse>.CreatePagedResponse(data, filter, totalRecords,
-            //    _pageUriService, route));
             
-            var query = new GetAllTechnologyTypesQuery();
+            var technologyTypes = await _technologyTypeQueries.GetAllTechnologyTypesAsync(filter);
             
-            return Ok(await _mediator.Send(query));
+            var route = Request.Path.Value;
+
+            return Ok(PagedResponse<TechnologyTypeResponse>.CreatePagedResponse(
+                technologyTypes.ToList(), "", true, null, filter, 666, _pageUriService, route));
         }
         
         // GET api/technology-types/5
