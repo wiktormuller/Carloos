@@ -5,6 +5,7 @@ using Ardalis.GuardClauses;
 using Dapper;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.Currency.Queries;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
@@ -60,6 +61,35 @@ namespace JobJetRestApi.Infrastructure.Queries
             }
 
             return currencies;
+        }
+
+        /// <exception cref="CurrencyNotFoundException"></exception>
+        public async Task<CurrencyResponse> GetCurrencyByIdAsync(int id)
+        {
+            using var connection = _sqlConnectionFactory.GetOpenConnection();
+
+            const string query = @"
+                SELECT 
+                    [Currency].Id,
+                    [Currency].Name,
+                    [Currency].IsoCode,
+                    [Currency].IsoNumber
+                FROM [Currencies] AS [Currency] 
+                WHERE [Currency].Id = @Id
+                ORDER BY [Currency].Id;"
+                ;
+            
+            var currency = await connection.QueryFirstOrDefaultAsync<CurrencyResponse>(query, new
+            {
+                Id = id
+            });
+
+            if (currency is null)
+            {
+                throw CurrencyNotFoundException.ForId(id);
+            }
+
+            return currency;
         }
     }
 }

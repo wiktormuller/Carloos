@@ -8,5 +8,6 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Queries
     public interface IJobOfferQueries
     {
         Task<IEnumerable<JobOfferResponse>> GetAllJobOffersAsync(PaginationFilter paginationFilter);
+        Task<JobOfferResponse> GetJobOfferByIdAsync(int id);
     }
 }

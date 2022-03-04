@@ -5,6 +5,7 @@ using Ardalis.GuardClauses;
 using Dapper;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.Countries.Queries;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
@@ -61,6 +62,36 @@ namespace JobJetRestApi.Infrastructure.Queries
             }
 
             return countries;
+        }
+
+        /// <exception cref="CountryNotFoundException"></exception>
+        public async Task<CountryResponse> GetCountryByIdAsync(int id)
+        {
+            using var connection = _sqlConnectionFactory.GetOpenConnection();
+
+            const string query = @"
+                SELECT 
+                    [Country].Id,
+                    [Country].Name,
+                    [Country].Alpha2Code,
+                    [Country].Alpha3Code,
+                    [Country].NumericCode 
+                FROM [Countries] AS [Country] 
+                WHERE [Country].Id = @Id
+                ORDER BY [Country].Id;"
+                ;
+            
+            var country = await connection.QueryFirstOrDefaultAsync<CountryResponse>(query, new
+            {
+                Id = id
+            });
+
+            if (country is null)
+            {
+                throw CountryNotFoundException.ForId(id);
+            }
+
+            return country;
         }
     }
 }

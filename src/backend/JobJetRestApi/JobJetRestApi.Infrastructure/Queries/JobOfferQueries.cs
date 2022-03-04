@@ -5,6 +5,7 @@ using Ardalis.GuardClauses;
 using Dapper;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
@@ -84,6 +85,60 @@ namespace JobJetRestApi.Infrastructure.Queries
             }
 
             return jobOffers;
+        }
+
+        /// <exception cref="JobOfferNotFoundException"></exception>
+        public async Task<JobOfferResponse> GetJobOfferByIdAsync(int id)
+        {
+            using var connection = _sqlConnectionFactory.GetOpenConnection();
+
+            const string query = @"
+                SELECT 
+                    [JobOffer].Id,
+                    [JobOffer].Name,
+                    [JobOffer].Description,
+                    [JobOffer].SalaryFrom,
+                    [JobOffer].SalaryTo,
+                    [JobOffer].SalaryTo,
+                    [JobOffer].WorkSpecification,
+                    [Address].Id,
+                    [Address].Town,
+                    [Address].Street,
+                    [Address].ZipCode,
+                    [Address].Latitude,
+                    [Address].Longitude,
+                    [TechnologyType].Id,
+                    [TechnologyType].Name,
+                    [Seniority].Id,
+                    [Seniority].Name,
+                    [EmploymentType].Id,
+                    [EmploymentType].Name 
+                FROM [JobOffers] AS [JobOffer] 
+                LEFT JOIN Addresses AS [Address]
+                    ON [JobOffers].AddressId = [Addresses].Id
+                LEFT JOIN TechnologyTypes AS [TechnologyType]
+                    ON [JobOffers].TechnologyTypeId = [TechnologyTypes].Id
+                LEFT JOIN SeniorityLevels AS [Seniority]
+                    ON [JobOffers].SeniorityId = [SeniorityLevels].Id
+                LEFT JOIN EmploymentTypes AS [EmploymentType]
+                    ON [JobOffers].EmploymentTypeId = [SeniorityLevels].Id
+                
+                ORDER BY [JobOffer].Id 
+                OFFSET @OffsetRows ROWS
+                FETCH NEXT @FetchRows ROWS ONLY;"
+                ;
+            
+            var jobOffer = await connection.QueryFirstOrDefaultAsync<JobOfferResponse>(query, new
+            {
+                Id = id
+            });
+
+            if (jobOffer is null)
+            {
+                throw JobOfferNotFoundException.ForId(id);
+            }
+
+            return jobOffer;
         }
     }
 }

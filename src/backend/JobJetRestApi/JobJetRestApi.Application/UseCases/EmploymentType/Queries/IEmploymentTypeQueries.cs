@@ -8,5 +8,6 @@ namespace JobJetRestApi.Application.UseCases.EmploymentType.Queries
     public interface IEmploymentTypeQueries
     {
         Task<IEnumerable<EmploymentTypeResponse>> GetAllEmploymentTypesAsync(PaginationFilter paginationFilter);
+        Task<EmploymentTypeResponse> GetEmploymentTypeByIdAsync(int id);
     }
 }

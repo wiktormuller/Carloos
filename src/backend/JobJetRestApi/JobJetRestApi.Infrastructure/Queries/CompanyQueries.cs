@@ -6,6 +6,7 @@ using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using Dapper;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -62,6 +63,37 @@ namespace JobJetRestApi.Infrastructure.Queries
             }
 
             return companies;
+        }
+
+        /// <exception cref="CompanyNotFoundException"></exception>
+        public async Task<CompanyResponse> GetCompanyByIdAsync(int id)
+        {
+            using var connection = _sqlConnectionFactory.GetOpenConnection();
+
+            const string query = @"
+                SELECT 
+                    [Company].Id,
+                    [Company].Name,
+                    [Company].ShortName,
+                    [Company].Description,
+                    [Company].NumberOfPeople,
+                    [Company].CityName 
+                FROM [Companies] AS [Company] 
+                WHERE [Company].Id = @Id
+                ORDER BY [Company].Id;"
+                ;
+            
+            var company = await connection.QueryFirstOrDefaultAsync<CompanyResponse>(query, new
+            {
+                Id = id
+            });
+
+            if (company is null)
+            {
+                throw CompanyNotFoundException.ForId(id);
+            }
+
+            return company;
         }
     }
 }

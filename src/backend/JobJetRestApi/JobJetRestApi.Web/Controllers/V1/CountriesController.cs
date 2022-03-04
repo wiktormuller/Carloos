@@ -59,11 +59,9 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CountryResponse>> Get(int id)
         {
-            var query = new GetCountryByIdQuery(id);
-
             try
             {
-                var result = await _mediator.Send(query);
+                var result = await _countryQueries.GetCountryByIdAsync(id);
                 return Ok(result);
             }
             catch (CountryNotFoundException e)

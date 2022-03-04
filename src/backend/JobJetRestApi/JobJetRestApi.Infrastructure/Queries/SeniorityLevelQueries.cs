@@ -5,6 +5,7 @@ using Ardalis.GuardClauses;
 using Dapper;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Queries;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
@@ -58,6 +59,32 @@ namespace JobJetRestApi.Infrastructure.Queries
             }
 
             return seniorityLevels;
+        }
+
+        public async Task<SeniorityLevelResponse> GetSeniorityLevelByIdAsync(int id)
+        {
+            using var connection = _sqlConnectionFactory.GetOpenConnection();
+
+            const string query = @"
+                SELECT 
+                    [SeniorityLevel].Id,
+                    [SeniorityLevel].Name
+                FROM [SeniorityLevels] AS [SeniorityLevel] 
+                WHERE [SeniorityLevel.Id = @Id
+                ORDER BY [SeniorityLevel].Id;"
+                ;
+            
+            var seniorityLevel = await connection.QueryFirstOrDefaultAsync<SeniorityLevelResponse>(query, new
+            {
+                Id = id
+            });
+
+            if (seniorityLevel is null)
+            {
+                throw SeniorityLevelNotFoundException.ForId(id);
+            }
+
+            return seniorityLevel;
         }
     }
 }

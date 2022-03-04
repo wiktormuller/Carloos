@@ -57,10 +57,9 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CompanyResponse>> Get(int id)
         {
-            var query = new GetCompanyByIdQuery(id);
             try
             {
-                var result = await _mediator.Send(query);
+                var result = await _companyQueries.GetCompanyByIdAsync(id);
                 return Ok(result);
             }
             catch (CompanyNotFoundException e)

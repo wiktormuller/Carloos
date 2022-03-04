@@ -5,6 +5,7 @@ using Ardalis.GuardClauses;
 using Dapper;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
+using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.TechnologyType.Queries;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
@@ -58,6 +59,32 @@ namespace JobJetRestApi.Infrastructure.Queries
             }
 
             return technologyTypes;
+        }
+
+        public async Task<TechnologyTypeResponse> GetTechnologyTypeByIdAsync(int id)
+        {
+            using var connection = _sqlConnectionFactory.GetOpenConnection();
+
+            const string query = @"
+                SELECT 
+                    [TechnologyType].Id,
+                    [TechnologyType].Name
+                FROM [TechnologyTypes] AS [TechnologyType] 
+                WHERE [TechnologyType].Id = @Id
+                ORDER BY [TechnologyType].Id;"
+                ;
+            
+            var technologyType = await connection.QueryFirstOrDefaultAsync<TechnologyTypeResponse>(query, new
+            {
+                Id = id
+            });
+
+            if (technologyType is null)
+            {
+                throw TechnologyTypeNotFoundException.ForId(id);
+            }
+
+            return technologyType;
         }
     }
 }
