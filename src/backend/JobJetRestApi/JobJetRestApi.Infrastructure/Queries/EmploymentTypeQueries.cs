@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
+using JobJetRestApi.Application.Common.Config;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.EmploymentType.Queries;
 using JobJetRestApi.Infrastructure.Factories;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace JobJetRestApi.Infrastructure.Queries
 {
     public class EmploymentTypeQueries : IEmploymentTypeQueries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
-        private readonly IMemoryCache _memoryCache;
+        private readonly ICacheService _cacheService;
         
         public EmploymentTypeQueries(ISqlConnectionFactory sqlConnectionFactory, 
-            IMemoryCache memoryCache)
+            ICacheService cacheService)
         {
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
-            _memoryCache = memoryCache;
+            _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
         }
 
         public async Task<IEnumerable<EmploymentTypeResponse>> GetAllEmploymentTypesAsync(PaginationFilter paginationFilter)
@@ -38,24 +38,17 @@ namespace JobJetRestApi.Infrastructure.Queries
                 FETCH NEXT @FetchRows ROWS ONLY;"
                 ;
             
-            var cacheKey = "employmentTypesKey";
-            
-            if (!_memoryCache.TryGetValue(cacheKey, out IEnumerable<EmploymentTypeResponse> employmentTypes))
+            var employmentTypes = _cacheService.Get<IEnumerable<EmploymentTypeResponse>>(CacheKeys.EmploymentTypesListKey);
+                
+            if (employmentTypes is null)
             {
                 employmentTypes = await connection.QueryAsync<EmploymentTypeResponse>(query, new
                 {
                     OffsetRows = paginationFilter.PageNumber,
                     FetchRows = paginationFilter.PageSize
                 });
-                
-                var cacheExpiryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpiration = DateTime.Now.AddMinutes(5),
-                    Priority = CacheItemPriority.High,
-                    SlidingExpiration = TimeSpan.FromMinutes(2)
-                };
-            
-                _memoryCache.Set(cacheKey, employmentTypes, cacheExpiryOptions);
+
+                _cacheService.Add(employmentTypes, CacheKeys.EmploymentTypesListKey);
             }
 
             return employmentTypes;

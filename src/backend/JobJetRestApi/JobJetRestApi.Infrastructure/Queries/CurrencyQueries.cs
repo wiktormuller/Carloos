@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
+using JobJetRestApi.Application.Common.Config;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Currency.Queries;
 using JobJetRestApi.Infrastructure.Factories;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace JobJetRestApi.Infrastructure.Queries
 {
     public class CurrencyQueries : ICurrencyQueries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
-        private readonly IMemoryCache _memoryCache;
+        private readonly ICacheService _cacheService;
         
         public CurrencyQueries(ISqlConnectionFactory sqlConnectionFactory, 
-            IMemoryCache memoryCache)
+            ICacheService cacheService)
         {
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
-            _memoryCache = memoryCache;
+            _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
         }
         
         public async Task<IEnumerable<CurrencyResponse>> GetAllCurrenciesAsync(PaginationFilter paginationFilter)
@@ -40,24 +40,17 @@ namespace JobJetRestApi.Infrastructure.Queries
                 FETCH NEXT @FetchRows ROWS ONLY;"
                 ;
             
-            var cacheKey = "currenciesKey";
-            
-            if (!_memoryCache.TryGetValue(cacheKey, out IEnumerable<CurrencyResponse> currencies))
+            var currencies = _cacheService.Get<IEnumerable<CurrencyResponse>>(CacheKeys.CurrenciesListKey);
+                
+            if (currencies is null)
             {
                 currencies = await connection.QueryAsync<CurrencyResponse>(query, new
                 {
                     OffsetRows = paginationFilter.PageNumber,
                     FetchRows = paginationFilter.PageSize
                 });
-                
-                var cacheExpiryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpiration = DateTime.Now.AddMinutes(5),
-                    Priority = CacheItemPriority.High,
-                    SlidingExpiration = TimeSpan.FromMinutes(2)
-                };
-            
-                _memoryCache.Set(cacheKey, currencies, cacheExpiryOptions);
+
+                _cacheService.Add(currencies, CacheKeys.CurrenciesListKey);
             }
 
             return currencies;

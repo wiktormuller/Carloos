@@ -6,7 +6,9 @@ using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using Dapper;
+using JobJetRestApi.Application.Common.Config;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Infrastructure.Factories;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -15,12 +17,12 @@ namespace JobJetRestApi.Infrastructure.Queries
     public class CompanyQueries : ICompanyQueries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
-        private readonly IMemoryCache _memoryCache;
+        private readonly ICacheService _cacheService;
         
         public CompanyQueries(ISqlConnectionFactory sqlConnectionFactory, 
-            IMemoryCache memoryCache)
+            ICacheService cacheService)
         {
-            _memoryCache = Guard.Against.Null(memoryCache, nameof(memoryCache));
+            _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
         }
         
@@ -41,25 +43,18 @@ namespace JobJetRestApi.Infrastructure.Queries
                 OFFSET @OffsetRows ROWS
                 FETCH NEXT @FetchRows ROWS ONLY;"
                 ;
-            
-            var cacheKey = "companiesKey";
-            
-            if (!_memoryCache.TryGetValue(cacheKey, out IEnumerable<CompanyResponse> companies))
+
+            var companies = _cacheService.Get<IEnumerable<CompanyResponse>>(CacheKeys.CompaniesListKey);
+                
+            if (companies is null)
             {
                 companies = await connection.QueryAsync<CompanyResponse>(query, new
                 {
                     OffsetRows = paginationFilter.PageNumber,
                     FetchRows = paginationFilter.PageSize
                 });
-                
-                var cacheExpiryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpiration = DateTime.Now.AddMinutes(5),
-                    Priority = CacheItemPriority.High,
-                    SlidingExpiration = TimeSpan.FromMinutes(2)
-                };
-            
-                _memoryCache.Set(cacheKey, companies, cacheExpiryOptions);
+
+                _cacheService.Add(companies, CacheKeys.CompaniesListKey);
             }
 
             return companies;
@@ -82,6 +77,8 @@ namespace JobJetRestApi.Infrastructure.Queries
                 WHERE [Company].Id = @Id
                 ORDER BY [Company].Id;"
                 ;
+            
+            // @TODO - Implement caching for job offers per id?
             
             var company = await connection.QueryFirstOrDefaultAsync<CompanyResponse>(query, new
             {
