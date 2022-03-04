@@ -60,11 +60,9 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<JobOfferResponse>> Get(int id)
         {
-            var query = new GetJobOfferByIdQuery(id);
-
             try
             {
-                var result = await _mediator.Send(query);
+                var result = await _jobOfferQueries.GetJobOfferByIdAsync(id);
                 return Ok(result);
             }
             catch (JobOfferNotFoundException e)

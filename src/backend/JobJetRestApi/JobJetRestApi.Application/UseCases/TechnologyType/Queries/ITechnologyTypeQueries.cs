@@ -8,5 +8,6 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.Queries
     public interface ITechnologyTypeQueries
     {
         Task<IEnumerable<TechnologyTypeResponse>> GetAllTechnologyTypesAsync(PaginationFilter paginationFilter);
+        Task<TechnologyTypeResponse> GetTechnologyTypeByIdAsync(int id);
     }
 }

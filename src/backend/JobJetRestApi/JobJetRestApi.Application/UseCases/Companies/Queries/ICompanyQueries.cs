@@ -8,5 +8,6 @@ namespace JobJetRestApi.Application.UseCases.Companies.Queries
     public interface ICompanyQueries
     {
         Task<IEnumerable<CompanyResponse>> GetAllCompaniesAsync(PaginationFilter paginationFilter);
+        Task<CompanyResponse> GetCompanyByIdAsync(int id);
     }
 }

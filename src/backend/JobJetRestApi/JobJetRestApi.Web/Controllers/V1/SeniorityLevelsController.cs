@@ -59,11 +59,9 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SeniorityLevelResponse>> Get(int id)
         {
-            var query = new GetSeniorityLevelByIdQuery(id);
-
             try
             {
-                var result = await _mediator.Send(query);
+                var result = await _seniorityLevelQueries.GetSeniorityLevelByIdAsync(id);
                 return Ok(result);
             }
             catch (SeniorityLevelNotFoundException e)

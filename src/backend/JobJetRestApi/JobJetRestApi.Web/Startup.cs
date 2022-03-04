@@ -61,9 +61,11 @@ namespace JobJetRestApi.Web
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICurrencyRepository, CurrencyRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            
             services.AddScoped<IGeocodingService, GeocodingService>();
             services.AddScoped<IRouteService, RouteService>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICacheService, CacheService>();
 
             services.AddScoped<ICompanyQueries, CompanyQueries>();
             services.AddScoped<ICountryQueries, CountryQueries>();

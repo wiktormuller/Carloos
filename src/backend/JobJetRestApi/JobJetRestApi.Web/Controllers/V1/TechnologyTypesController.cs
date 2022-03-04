@@ -59,11 +59,9 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TechnologyTypeResponse>> Get(int id)
         {
-            var query = new GetTechnologyTypeByIdQuery(id);
-
             try
             {
-                var result = await _mediator.Send(query);
+                var result = await _technologyTypeQueries.GetTechnologyTypeByIdAsync(id);
                 return Ok(result);
             }
             catch (TechnologyTypeNotFoundException e)

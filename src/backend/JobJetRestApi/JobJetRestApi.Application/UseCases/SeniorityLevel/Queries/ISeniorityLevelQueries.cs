@@ -8,5 +8,6 @@ namespace JobJetRestApi.Application.UseCases.SeniorityLevel.Queries
     public interface ISeniorityLevelQueries
     {
         Task<IEnumerable<SeniorityLevelResponse>> GetAllSeniorityLevelsAsync(PaginationFilter paginationFilter);
+        Task<SeniorityLevelResponse> GetSeniorityLevelByIdAsync(int id);
     }
 }

@@ -8,5 +8,6 @@ namespace JobJetRestApi.Application.UseCases.Currency.Queries
     public interface ICurrencyQueries
     {
         Task<IEnumerable<CurrencyResponse>> GetAllCurrenciesAsync(PaginationFilter paginationFilter);
+        Task<CurrencyResponse> GetCurrencyByIdAsync(int id);
     }
 }
