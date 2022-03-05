@@ -1,9 +1,9 @@
 JobJet Todo:
 
 - implement filtering in endpoint for lists of entities (by techStack, by seniority, by salary, by employmentType, searching by title, description and other text data - use some type of elastic search?)
-- move queries to getById to infrastructure layer and use Dapper?
-- implement caching logic as a service
 - split services into many files
+- how to connect company with job offer
+- push migrations
 
 - decide how to implement user management
 - protect google API key!

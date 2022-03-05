@@ -10,6 +10,9 @@ namespace JobJetRestApi.Web.Installers
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddHealthChecksUI()
+                .AddInMemoryStorage();
+            
             services.AddHealthChecks()
 
             // Azure storage
