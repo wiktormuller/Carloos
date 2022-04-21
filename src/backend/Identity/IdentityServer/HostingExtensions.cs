@@ -1,10 +1,16 @@
+using System.Text;
 using Duende.IdentityServer;
 using IdentityServer;
+using IdentityServer.Domain;
 using IdentityServer.Pages.Admin.ApiScopes;
 using IdentityServer.Pages.Admin.Clients;
 using IdentityServer.Pages.Admin.IdentityScopes;
+using IdentityServer.Persistence.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 namespace IdentityServer;
@@ -33,7 +39,7 @@ internal static class HostingExtensions
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = b =>
-                    b.UseSqlite(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName));
+                    b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName));
             })
             // this is something you will want in production to reduce load on and requests to the DB
             //.AddConfigurationStoreCache()
@@ -42,14 +48,42 @@ internal static class HostingExtensions
             .AddOperationalStore(options =>
             {
                 options.ConfigureDbContext = b =>
-                    b.UseSqlite(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName));
+                    b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName));
 
                 // this enables automatic token cleanup. this is optional.
                 options.EnableTokenCleanup = true;
                 options.RemoveConsumedTokens = true;
             });
+        
+        // For application db context
+        builder.Services.AddDbContext<JobJetIdentityDbContext>(options => 
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        
+        // For asp net core identity
+        builder.Services.AddIdentity<User, Role>()
+            .AddEntityFrameworkStores<JobJetIdentityDbContext>()
+            .AddDefaultTokenProviders();
 
-        builder.Services.AddAuthentication()
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;  
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;  
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            // Adding Jwt Bearer  
+            .AddJwtBearer(options =>  
+            {  
+                options.SaveToken = true;  
+                options.RequireHttpsMetadata = false;  
+                options.TokenValidationParameters = new TokenValidationParameters() // @TODO Is this part correct?
+                {  
+                    ValidateIssuer = true,  
+                    ValidateAudience = true,  
+                    ValidAudience = builder.Configuration["JWT:ValidAudience"],  
+                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],  
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))  
+                };  
+            })
             .AddGoogle(options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
@@ -91,9 +125,15 @@ internal static class HostingExtensions
         app.UseStaticFiles();
         app.UseRouting();
         app.UseIdentityServer();
+        app.UseAuthentication();
         app.UseAuthorization();
         
-        app.MapRazorPages()
+        app.UseEndpoints(endpoints =>  
+        {  
+            endpoints.MapControllers();  
+        });
+        
+        app.MapRazorPages() // @TODO Should I remove it?
             .RequireAuthorization();
 
         return app;
