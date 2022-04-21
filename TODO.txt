@@ -1,18 +1,9 @@
-JobJet Todo:
-
-- implement filtering in endpoint for lists of entities (by techStack, by seniority, by salary, by employmentType, searching by title, description and other text data - use some type of elastic search?)
-- split services into many files
-- how to connect company with job offer
-- push migrations
-
-- decide how to implement user management
-- protect google API key!
-- use domain events, for example when new user will register
-- validation of domain models
-- move application to docker container
-
 dotnet dev-certs https --trust
 
+54.369201, 18.483172
+54.370176, 18.460660
+
+http://router.project-osrm.org/route/v1/driving/54.369201,18.483172;54.370176,18.460660?geometries=geojson&overview=full
 
 1.1. Improve generating links
 1.2. Remove the pageUriService dependency from controller
