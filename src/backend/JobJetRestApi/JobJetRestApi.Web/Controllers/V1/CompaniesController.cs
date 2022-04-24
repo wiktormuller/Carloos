@@ -11,11 +11,15 @@ using JobJetRestApi.Application.UseCases.Companies.Commands;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
+    [Authorize]
+    //[Authorize(Roles = "Admin")]
+    //[Authorize(Policy = "CEO_Only")]
     [ApiController]
     public class CompaniesController : ControllerBase
     {

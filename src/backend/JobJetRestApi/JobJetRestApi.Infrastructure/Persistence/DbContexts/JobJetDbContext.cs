@@ -7,10 +7,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
 {
     public class JobJetDbContext : IdentityDbContext<User, Role, int>
     {
-        public JobJetDbContext()
-        {
-            
-        }
+        public JobJetDbContext() {}
         
         public JobJetDbContext(DbContextOptions<JobJetDbContext> options) : base(options)
         {
@@ -42,7 +39,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         public DbSet<JobOffer> JobOffers { get; set; }
         public DbSet<TechnologyType> TechnologyTypes { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Address> Addresses { get; set; } // Does it make sense?
+        public DbSet<Address> Addresses { get; set; } //@TODO - Does it make sense?
         public DbSet<Seniority> SeniorityLevels { get; set; }
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
         public DbSet<Currency> Currencies { get; set; }

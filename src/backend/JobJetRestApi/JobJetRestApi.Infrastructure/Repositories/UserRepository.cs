@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Repositories;
@@ -43,6 +44,11 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return await _userManager.FindByIdAsync(id.ToString());
         }
 
+        public Task<User> GetByEmailAsync(string email)
+        {
+            return _userManager.FindByEmailAsync(email);
+        }
+
         public async Task<List<User>> GetAllAsync()
         {
             return await _userManager.Users.ToListAsync();
@@ -53,6 +59,18 @@ namespace JobJetRestApi.Infrastructure.Repositories
             var user = await GetByIdAsync(id);
 
             await _userManager.DeleteAsync(user);
+        }
+
+        public async Task<List<string>> GetUserRoles(User user)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            return userRoles.ToList();
+        }
+
+        public async Task AssignRoleToUser(User user, Role role)
+        {
+            var userToUpdate = await _userManager.FindByIdAsync(user.Id.ToString());
+            await _userManager.AddToRoleAsync(user, role.Name);
         }
     }
 }
