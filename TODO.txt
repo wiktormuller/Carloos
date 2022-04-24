@@ -1,9 +1,12 @@
-dotnet dev-certs https --trust
+Users own zero to many companies:
+    - add companies to domain object and db schema
 
-54.369201, 18.483172
-54.370176, 18.460660
+Companies own all their job offers:
+    - add owner (user) to db schema and domain object
 
-http://router.project-osrm.org/route/v1/driving/54.369201,18.483172;54.370176,18.460660?geometries=geojson&overview=full
+Job offers own all the rest data.
+
+What about scopes during authorization? What is it actually?
 
 1.1. Improve generating links
 1.2. Remove the pageUriService dependency from controller

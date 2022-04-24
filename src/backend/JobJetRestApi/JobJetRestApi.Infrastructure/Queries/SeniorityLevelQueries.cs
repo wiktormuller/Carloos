@@ -63,7 +63,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [SeniorityLevel].Id,
                     [SeniorityLevel].Name
                 FROM [SeniorityLevels] AS [SeniorityLevel] 
-                WHERE [SeniorityLevel.Id = @Id
+                WHERE [SeniorityLevel.Id] = @Id
                 ORDER BY [SeniorityLevel].Id;"
                 ;
             

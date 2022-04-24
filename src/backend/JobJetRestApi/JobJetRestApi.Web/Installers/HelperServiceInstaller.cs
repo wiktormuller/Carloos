@@ -29,16 +29,13 @@ namespace JobJetRestApi.Web.Installers
             services.AddScoped<IGeocodingService, GeocodingService>();
             services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IJwtService, JwtService>();
 
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
             
             services.AddMediatR(AppDomain.CurrentDomain.Load("JobJetRestApi.Application"));
             services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CreateUserRequestValidator>());
             services.AddMemoryCache();
-            
-            // IdentityModelEventSource.ShowPII = true;
-            services.AddDbContext<JobJetDbContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         }
     }
 }

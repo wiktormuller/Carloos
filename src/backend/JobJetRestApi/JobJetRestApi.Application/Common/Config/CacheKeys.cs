@@ -22,5 +22,8 @@
         
         public const string TechnologyTypesListKey = "technologyTypesListKey";
         public const string TechnologyTypeKey = "technologyTypeKey";
+
+        public const string RolesListKey = "rolesListKey";
+        public const string RoleKey = "roleKey";
     }
 }

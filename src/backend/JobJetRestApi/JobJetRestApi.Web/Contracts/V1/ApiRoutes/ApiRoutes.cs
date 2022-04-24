@@ -78,18 +78,26 @@
             public const string Delete = Base + "/users/{id}";
         }
 
+        public static class Roles
+        {
+            public const string GetAll = Base + "/roles";
+            public const string Get = Base + "/users/{id}";
+            public const string Create = Base + "/roles";
+            public const string AssignToUser = Base + "/roles/{id}/users/{userId}";
+        }
+
         public static class Roads
         {
             public const string Get = Base + "/roads/{coordinates}";
         }
 
-        /*
-        public static class Identity
+        
+        public static class Auth
         {
-            public const string Login = Base + "/identity/login";
-            public const string Register = Base + "/identity/register";
-            public const string Refresh = Base + "/identity/refresh";
+            public const string Identity = Base + "/auth/identity";
+            public const string Login = Base + "/auth/login";
+            public const string Register = Base + "/auth/register";
+            public const string Refresh = Base + "/auth/refresh";
         }
-        */
     }
 }
