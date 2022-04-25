@@ -10,11 +10,13 @@ using JobJetRestApi.Application.UseCases.Roles.Commands;
 using JobJetRestApi.Application.UseCases.Roles.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1;
 
+[Authorize(Roles = "Admin")]
 [ApiController]
 public class RolesController : ControllerBase
 {

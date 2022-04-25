@@ -11,11 +11,13 @@ using JobJetRestApi.Application.UseCases.Currency.Commands;
 using JobJetRestApi.Application.UseCases.Currency.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class CurrenciesController : ControllerBase
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
@@ -20,6 +21,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
         private readonly ICountryRepository _countryRepository;
         private readonly IGeocodingService _geocodingService;
         private readonly ICurrencyRepository _currencyRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ICompanyRepository _companyRepository;
 
         public CreateJobOfferCommandHandler(IJobOfferRepository jobOfferRepository, 
             ISeniorityRepository seniorityRepository, 
@@ -27,8 +30,12 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             IEmploymentTypeRepository employmentTypeRepository, 
             ICountryRepository countryRepository, 
             IGeocodingService geocodingService, 
-            ICurrencyRepository currencyRepository)
+            ICurrencyRepository currencyRepository, 
+            IUserRepository userRepository, 
+            ICompanyRepository companyRepository)
         {
+            _userRepository = userRepository;
+            _companyRepository = companyRepository;
             _jobOfferRepository = Guard.Against.Null(jobOfferRepository, nameof(jobOfferRepository));
             _seniorityRepository = Guard.Against.Null(seniorityRepository, nameof(seniorityRepository));
             _technologyTypeRepository = Guard.Against.Null(technologyTypeRepository, nameof(technologyTypeRepository));
@@ -46,6 +53,12 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
         /// <exception cref="InvalidAddressException"></exception>
         public async Task<int> Handle(CreateJobOfferCommand request, CancellationToken cancellationToken)
         {
+            var company = await _companyRepository.GetByIdAsync(request.CompanyId);
+            if (company is null)
+            {
+                throw CompanyNotFoundException.ForId(request.CompanyId);
+            }
+            
             if(!Enum.TryParse<WorkSpecification>(request.WorkSpecification, true, out WorkSpecification workSpecification))
             {
                 throw IncorrectWorkSpecificationException.ForName(request.WorkSpecification);
@@ -107,10 +120,18 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 currency,
                 workSpecification
                 );
+            
+            var user = await _userRepository.GetByIdAsync(request.UserId);
+            user.AddJobOffer(company, jobOffer);
+            
+            await _userRepository.UpdateAsync(user);
 
-            var jobOfferId = await _jobOfferRepository.CreateAsync(jobOffer);
+            /*var jobOfferId = user.Companies
+                .First(actualCompany => actualCompany.Id == request.CompanyId).JobOffers
+                .First(actualJobOffer => actualJobOffer.Name == jobOffer.Name)
+                .Id;*/
 
-            return jobOfferId;
+            return jobOffer.Id; // @TODO - Is it enough?
         }
     }
 }

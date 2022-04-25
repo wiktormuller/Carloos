@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -14,6 +16,9 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
@@ -72,6 +77,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // POST api/job-offers
+        [Authorize(Roles = "User")]
         [HttpPost(ApiRoutes.JobOffers.Create)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -82,8 +88,12 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+
             var command = new CreateJobOfferCommand
             (
+                currentUserId,
+                request.CompanyId,
                 request.Name,
                 request.Description,
                 request.SalaryFrom,
@@ -105,17 +115,21 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return CreatedAtAction(nameof(Get), new { Id = jobOfferId });
             }
             catch (Exception e) when (e is SeniorityLevelNotFoundException
-                || e is TechnologyTypeNotFoundException
-                || e is EmploymentTypeNotFoundException
-                || e is CountryNotFoundException
-                || e is CurrencyNotFoundException
-                || e is InvalidAddressException)
+                or TechnologyTypeNotFoundException
+                or EmploymentTypeNotFoundException
+                or CountryNotFoundException
+                or CurrencyNotFoundException
+                or InvalidAddressException
+                or CannotCreateJobOfferException
+                or UserCannotHaveCompaniesWithTheSameNamesException
+                or CompanyNotFoundException)
             {
                 return BadRequest(e.Message);
             }
         }
         
         // PUT api/job-offers/5
+        [Authorize(Roles = "User")] // @TODO - check if job offers belongs to user company
         [HttpPut(ApiRoutes.JobOffers.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -148,6 +162,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // DELETE api/job-offers/5
+        [Authorize(Roles = "User")] // @TODO - check if job offers belongs to user company
         [HttpDelete(ApiRoutes.JobOffers.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

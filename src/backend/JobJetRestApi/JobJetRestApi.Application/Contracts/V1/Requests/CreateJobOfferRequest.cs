@@ -4,6 +4,7 @@ namespace JobJetRestApi.Application.Contracts.V1.Requests
 {
     public class CreateJobOfferRequest
     {
+        public int CompanyId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal SalaryFrom { get; set; }

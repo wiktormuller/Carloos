@@ -26,7 +26,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             }
 
             var jobOffer = await _jobOfferRepository.GetByIdAsync(request.Id);
-            jobOffer.UpdateBasicInformation(request.Name, request.Description, request.SalaryFrom, request.SalaryTo);
+            jobOffer.UpdateBasicInformation(request.Description, request.SalaryFrom, request.SalaryTo);
 
             await _jobOfferRepository.UpdateAsync();
 

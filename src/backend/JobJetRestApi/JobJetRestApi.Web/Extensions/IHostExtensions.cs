@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Persistence.Seeders;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,8 @@ namespace JobJetRestApi.Web.Extensions
             
             var services = scope.ServiceProvider;
             var context = services.GetService<JobJetDbContext>();
-            await JobJetContextSeeder.SeedAsync(context);
+            var userRepository = services.GetService<IUserRepository>();
+            await JobJetContextSeeder.SeedAsync(context, userRepository);
 
             return host;
         }
