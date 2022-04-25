@@ -11,6 +11,8 @@ dotnet run bin/Debug/net5.0/IdentityServer /seed
 ceo@jobjet.com
 Password123!
 
+http://localhost:5002/health-checks
+http://localhost:5002/health-checks-ui#/healthchecks
 
 dotnet dev-certs https --trust
 

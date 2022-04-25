@@ -16,11 +16,11 @@ namespace JobJetRestApi.Web.Installers
             services.AddHealthChecks()
 
             // Azure storage
-            .AddCheck(
+            /*.AddCheck(
                 "JobJetAzureStorageDB - Check",
                 new AzureSqlConnectionHealthCheck(configuration.GetConnectionString("DefaultConnection")),
                 HealthStatus.Unhealthy,
-                new string[] {"jobjetazurestoragedb"})
+                new string[] {"jobjetazurestoragedb"})*/
             
             // Google Geocoding API
             .AddUrlGroup(
@@ -35,13 +35,6 @@ namespace JobJetRestApi.Web.Installers
                 "Project OSRM API - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"projectosrmapi"})
-            
-            // Identity Server
-            .AddUrlGroup(
-                new Uri("https://google.com"), // @TODO
-                "Identity Server - Check",
-                HealthStatus.Unhealthy,
-                new string[] {"identityserver"})
             
             // React client
             .AddUrlGroup(

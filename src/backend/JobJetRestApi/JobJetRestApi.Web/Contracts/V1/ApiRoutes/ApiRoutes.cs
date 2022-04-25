@@ -81,7 +81,7 @@
         public static class Roles
         {
             public const string GetAll = Base + "/roles";
-            public const string Get = Base + "/users/{id}";
+            public const string Get = Base + "/roles/{id}";
             public const string Create = Base + "/roles";
             public const string AssignToUser = Base + "/roles/{id}/users/{userId}";
         }

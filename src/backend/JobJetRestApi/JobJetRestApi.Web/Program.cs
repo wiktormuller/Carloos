@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
-using JobJetRestApi.Infrastructure.Persistence.Seeders;
 using JobJetRestApi.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -53,7 +48,7 @@ namespace JobJetRestApi.Web
             }
 
             Log.Information("Starting host...");
-            host.Run();
+            await host.RunAsync();
 
             return 0;
         }
