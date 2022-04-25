@@ -4,6 +4,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
 {
     public class CreateJobOfferCommand : IRequest<int>
     {
+        public int UserId { get; }
+        public int CompanyId { get; }
         public string Name { get; }
         public string Description { get; }
         public decimal SalaryFrom { get; }
@@ -19,6 +21,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
         public string WorkSpecification { get; }
 
         public CreateJobOfferCommand(
+            int userId,
+            int companyId,
             string name, 
             string description, 
             decimal salaryFrom, 
@@ -33,6 +37,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
             int currencyId,
             string workSpecification)
         {
+            UserId = userId;
+            CompanyId = companyId;
             Name = name;
             Description = description;
             SalaryFrom = salaryFrom;

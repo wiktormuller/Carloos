@@ -8,6 +8,9 @@ dotnet ef database update -c ConfigurationDbContext
 dotnet run bin/Debug/net5.0/IdentityServer /seed
 
 
+ceo@jobjet.com
+Password123!
+
 
 dotnet dev-certs https --trust
 

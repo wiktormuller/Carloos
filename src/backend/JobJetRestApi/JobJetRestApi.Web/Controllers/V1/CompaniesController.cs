@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
@@ -9,6 +11,7 @@ using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Companies.Commands;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
+using JobJetRestApi.Domain.Exceptions;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
-    [Authorize]
-    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "User")]
     //[Authorize(Policy = "CEO_Only")]
     [ApiController]
     public class CompaniesController : ControllerBase
@@ -73,6 +75,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // POST api/companies
+        [Authorize(Roles = "User")] // @TODO - check if user do have company with the same name
         [HttpPost(ApiRoutes.Companies.Create)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -82,21 +85,31 @@ namespace JobJetRestApi.Web.Controllers.V1
             {
                 return BadRequest(ModelState);
             }
+            
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
 
-            var command = new CreateCompanyCommand(request.Name, request.ShortName, request.Description, request.NumberOfPeople, request.CityName);
+            var command = new CreateCompanyCommand(
+                currentUserId,
+                request.Name, 
+                request.ShortName,
+                request.Description, 
+                request.NumberOfPeople, 
+                request.CityName);
 
             try
             {
                 var companyId = await _mediator.Send(command);
                 return CreatedAtAction(nameof(Get), new {Id = companyId});
             }
-            catch (CompanyAlreadyExistsException e)
+            catch (Exception e) when(e is UserCannotHaveCompaniesWithTheSameNamesException 
+                or CompanyAlreadyExistsException)
             {
                 return BadRequest(e.Message);
             }
         }
         
         // PUT api/companies/5
+        [Authorize(Roles = "User")] // @TODO - check if company belongs to user
         [HttpPut(ApiRoutes.Companies.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -126,6 +139,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // DELETE api/companies/5
+        [Authorize(Roles = "User")] // @TODO - check if company belongs to user
         [HttpDelete(ApiRoutes.Companies.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -12,9 +12,12 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
     public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand, int>
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
         
-        public CreateCompanyCommandHandler(ICompanyRepository companyRepository)
+        public CreateCompanyCommandHandler(ICompanyRepository companyRepository, 
+            IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
         }
         
@@ -27,9 +30,15 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
             }
 
             var company = new Company(request.Name, request.ShortName, request.Description, request.NumberOfPeople, request.CityName);
-            await _companyRepository.CreateAsync(company);
+            
+            var user = await _userRepository.GetByIdAsync(request.UserId);
+            user.AddCompany(company);
 
-            return company.Id;
+            await _userRepository.UpdateAsync(user);
+
+            // var companyId = user.Companies.First(existingCompany => existingCompany.Name == request.Name).Id;
+
+            return company.Id; // @TODO - Is it enough?
         }
     }
 }

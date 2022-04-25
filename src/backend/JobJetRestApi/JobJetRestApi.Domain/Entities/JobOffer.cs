@@ -3,7 +3,7 @@ using Ardalis.GuardClauses;
 
 namespace JobJetRestApi.Domain.Entities
 {
-    public class JobOffer // Aggregate root
+    public class JobOffer
     {
         public int Id { get; private set; }
         public string Name { get; private set; }
@@ -54,9 +54,8 @@ namespace JobJetRestApi.Domain.Entities
             WorkSpecification = workSpecification;
         }
 
-        public void UpdateBasicInformation(string name, string description, decimal salaryFrom, decimal salaryTo)
+        public void UpdateBasicInformation(string description, decimal salaryFrom, decimal salaryTo)
         {
-            Name = Guard.Against.Null(name, nameof(name));
             Description = Guard.Against.Null(description, nameof(description));
             SalaryFrom = Guard.Against.Zero(salaryFrom, nameof(salaryFrom));
             SalaryTo = Guard.Against.Zero(salaryTo, nameof(salaryTo));

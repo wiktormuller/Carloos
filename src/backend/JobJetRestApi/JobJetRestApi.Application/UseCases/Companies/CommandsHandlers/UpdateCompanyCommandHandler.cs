@@ -32,7 +32,7 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
             }
 
             var company = await _companyRepository.GetByIdAsync(request.Id);
-            company.Update(request.Name, request.ShortName, request.Description, request.NumberOfPeople, request.CityName);
+            company.Update(request.Description, request.NumberOfPeople);
 
             await _companyRepository.UpdateAsync();
 

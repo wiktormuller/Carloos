@@ -8,6 +8,7 @@ using JobJetRestApi.Application.UseCases.Auth.Commands;
 using JobJetRestApi.Application.UseCases.Users.Commands;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1;
@@ -22,6 +23,7 @@ public class AuthController : Controller
         _mediator = mediator;
     }
 
+    [Authorize]
     [Route(ApiRoutes.Auth.Identity)]
     [HttpGet]
     public IActionResult Get()

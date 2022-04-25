@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
 {
     public class JobJetContextSeeder
     {
-        public static async Task SeedAsync(JobJetDbContext context, int retryCounter = 0)
+        public static async Task SeedAsync(JobJetDbContext context, IUserRepository userRepository, int retryCounter = 0)
         {
             var retryForAvailability = retryCounter;
             
@@ -55,31 +56,12 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                         GetPredefinedCountries());
                     await context.SaveChangesAsync();
                 }
-
-                if (!await context.Companies.AnyAsync())
-                {
-                    await context.Companies.AddRangeAsync(
-                        GetPredefinedCompanies());
-                    await context.SaveChangesAsync();
-                }
-
-                /*
-                if (!await context.Addresses.AnyAsync())
-                {
-                    await context.Addresses.AddRangeAsync(
-                        GetPredefinedAddresses());
-                    await context.SaveChangesAsync();
-                }
-                */
                 
-                /*
-                if (!await context.JobOffers.AnyAsync())
+                if (!await context.Users.AnyAsync())
                 {
-                    await context.JobOffers.AddRangeAsync(
-                        GetPredefinedJobOffers());
+                    await userRepository.CreateAsync(GetPredefinedAdminAccount(), "Password123!");
                     await context.SaveChangesAsync();
                 }
-                */
                 
                 //@TODO - Add user data seed
             }
@@ -87,9 +69,22 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
             {
                 if (retryForAvailability >= 10) throw;
                 retryForAvailability++;
-                await SeedAsync(context, retryForAvailability);
+                await SeedAsync(context, userRepository, retryForAvailability);
                 throw;
             }
+        }
+
+        private static User GetPredefinedAdminAccount()
+        {
+            var user = new User("ceo@jobjet.com", "CEO");
+            var companies = GetPredefinedCompanies();
+            
+            foreach (var company in companies)
+            {
+                user.AddCompany(company);
+            }
+
+            return user;
         }
 
         private static IEnumerable<Currency> GetPredefinedCurrencies()
@@ -192,41 +187,5 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     "Santa Clara, California, United States")
             };
         }
-
-        /*
-        private static IEnumerable<JobOffer> GetPredefinedJobOffers()
-        {
-            return new List<JobOffer>
-            {
-                new JobOffer(
-                    ".NET Junior Engineer",
-                    @"Required experience and skills:
-                      Very good knowledge of C#
-                      Experience with MySQL/ MS SQL
-                      Experience in object-oriented programming
-                      At least 2 years' experience in a similar position 
-                      Good command of English (at least B1 level)",
-                    10500,
-                    15200,
-                    new Address(
-                        new Country("Poland", "PL", "POL", 616),
-                        "Kościerzyna",
-                        "Długa 1",
-                        "83-400",
-                        54.121783M,
-                        17.977314M),
-                    new TechnologyType(".NET"),
-                    new Seniority("Junior"),
-                    new EmploymentType("B2B"))
-            };
-        }
-        */
-        
-        /*
-        private static IEnumerable<Address> GetPredefinedAddresses()
-        {
-            return new List<Address>();
-        }
-        */
     }
 }
