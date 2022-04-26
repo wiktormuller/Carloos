@@ -40,6 +40,9 @@ namespace JobJetRestApi.Domain.Entities
 
         public void Update(string description, int numberOfPeople)
         {
+            Guard.Against.Null(description, nameof(description));
+            Guard.Against.Null(numberOfPeople, nameof(numberOfPeople));
+            
             Description = description;
             NumberOfPeople = numberOfPeople;
         }

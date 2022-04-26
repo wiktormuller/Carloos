@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Administrator")]
 [ApiController]
 public class RolesController : ControllerBase
 {
@@ -105,8 +105,8 @@ public class RolesController : ControllerBase
 
         try
         {
-            var userRoleId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(Get), new {UserRoleId = userRoleId});
+            await _mediator.Send(command);
+            return Ok();
         }
         catch (RoleNotFoundException exception)
         {

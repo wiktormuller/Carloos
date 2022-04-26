@@ -11,9 +11,11 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
     public class DeleteCompanyCommandHandler : IRequestHandler<DeleteCompanyCommand>
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
         
-        public DeleteCompanyCommandHandler(ICompanyRepository companyRepository)
+        public DeleteCompanyCommandHandler(ICompanyRepository companyRepository, IUserRepository userRepository)
         {
+            _userRepository = Guard.Against.Null(userRepository, nameof(userRepository));
             _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
         }
         
@@ -25,8 +27,10 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
                 throw CompanyNotFoundException.ForId(request.Id);
             }
 
-            var company = await _companyRepository.GetByIdAsync(request.Id);
-            await _companyRepository.DeleteAsync(company);
+            var user = await _userRepository.GetByIdAsync(request.UserId);
+            user.DeleteCompany(request.Id);
+
+            await _userRepository.UpdateAsync(user);
 
             return Unit.Value;
         }

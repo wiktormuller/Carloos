@@ -19,7 +19,7 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, int>
     
     public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
-        if (!await _roleRepository.ExistsAsync(request.Name))
+        if (await _roleRepository.ExistsAsync(request.Name))
         {
             throw RoleAlreadyExistsException.ForName(request.Name);
         }

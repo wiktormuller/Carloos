@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     public class EmploymentTypesController : ControllerBase
     {
@@ -72,6 +71,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // POST api/employment-types
+        [Authorize(Roles = "Administrator")]
         [HttpPost(ApiRoutes.EmploymentTypes.Create)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -96,6 +96,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // PUT api/employment-types/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut(ApiRoutes.EmploymentTypes.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -125,6 +126,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // DELETE api/employment-types/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete(ApiRoutes.EmploymentTypes.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

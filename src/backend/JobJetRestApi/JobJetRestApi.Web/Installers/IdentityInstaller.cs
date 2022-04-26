@@ -57,14 +57,6 @@ namespace JobJetRestApi.Web.Installers
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-
-            /*services.AddAuthentication("Bearer")
-                .AddIdentityServerAuthentication("Bearer", options =>
-                {
-                    options.ApiName = "jobjetapi";
-                    options.Authority = "https://localhost:5001"; // How to force https?
-                    options.RequireHttpsMetadata = false; // For dev purposes
-                });*/
         }
     }
 }

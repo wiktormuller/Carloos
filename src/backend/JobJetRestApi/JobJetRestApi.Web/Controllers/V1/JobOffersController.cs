@@ -43,7 +43,8 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] PaginationFilter filter) 
+            // @TODO - Add filter for tech, country, seniorityLevel, onlyRemote
         {
             if (!ModelState.IsValid)
             {
@@ -129,7 +130,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // PUT api/job-offers/5
-        [Authorize(Roles = "User")] // @TODO - check if job offers belongs to user company
+        [Authorize(Roles = "User")] // @TODO - check if job offers belongs to user's company
         [HttpPut(ApiRoutes.JobOffers.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -140,6 +141,8 @@ namespace JobJetRestApi.Web.Controllers.V1
             {
                 return BadRequest(ModelState);
             }
+            
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
 
             var command = new UpdateJobOfferCommand
             (

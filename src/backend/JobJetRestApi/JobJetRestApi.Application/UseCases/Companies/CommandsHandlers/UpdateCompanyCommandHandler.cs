@@ -11,30 +11,26 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
     public class UpdateCompanyCommandHandler : IRequestHandler<UpdateCompanyCommand>
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly IUserRepository _userRepository;
         
-        public UpdateCompanyCommandHandler(ICompanyRepository companyRepository)
+        public UpdateCompanyCommandHandler(ICompanyRepository companyRepository, IUserRepository userRepository)
         {
+            _userRepository = Guard.Against.Null(userRepository, nameof(userRepository));
             _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
         }
         
         /// <exception cref="CompanyNotFoundException"></exception>
-        /// <exception cref="CompanyAlreadyExistsException"></exception>
         public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
         {
             if (!await _companyRepository.ExistsAsync(request.Id))
             {
                 throw CompanyNotFoundException.ForId(request.Id);
             }
+            
+            var user = await _userRepository.GetByIdAsync(request.UserId);
+            user.UpdateCompanyInformation(request.Id, request.Description, request.NumberOfPeople);
 
-            if (await _companyRepository.ExistsAsync(request.Name))
-            {
-                throw CompanyAlreadyExistsException.ForName(request.Name);
-            }
-
-            var company = await _companyRepository.GetByIdAsync(request.Id);
-            company.Update(request.Description, request.NumberOfPeople);
-
-            await _companyRepository.UpdateAsync();
+            await _userRepository.UpdateAsync(user);
 
             return Unit.Value;
         }
