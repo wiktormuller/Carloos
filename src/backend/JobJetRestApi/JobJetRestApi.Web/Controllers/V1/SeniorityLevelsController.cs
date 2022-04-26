@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     public class SeniorityLevelsController : ControllerBase
     {
@@ -73,6 +72,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // POST api/seniority-levels
+        [Authorize(Roles = "Administrator")]
         [HttpPost(ApiRoutes.SeniorityLevels.Create)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -97,6 +97,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // PUT api/seniority-levels/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut(ApiRoutes.SeniorityLevels.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -126,6 +127,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // DELETE api/seniority-levels/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete(ApiRoutes.SeniorityLevels.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

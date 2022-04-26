@@ -2,7 +2,7 @@
 {
     public class PaginationFilter // @TODO - Should it be abstract?
     {
-        private const int MinimalPageNumber = 1;
+        private const int MinimalPageNumber = 0;
         private const int MaximalPageSize = 100;
         
         public int PageNumber { get; }

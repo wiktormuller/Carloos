@@ -75,7 +75,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // POST api/companies
-        [Authorize(Roles = "User")] // @TODO - check if user do have company with the same name
+        [Authorize(Roles = "User")]
         [HttpPost(ApiRoutes.Companies.Create)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -109,7 +109,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // PUT api/companies/5
-        [Authorize(Roles = "User")] // @TODO - check if company belongs to user
+        [Authorize(Roles = "User")]
         [HttpPut(ApiRoutes.Companies.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -121,7 +121,13 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
             
-            var command = new UpdateCompanyCommand(id, request.Name, request.ShortName, request.Description, request.NumberOfPeople, request.CityName);
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+            
+            var command = new UpdateCompanyCommand(
+                currentUserId,
+                id,
+                request.Description, 
+                request.NumberOfPeople);
 
             try
             {
@@ -132,20 +138,22 @@ namespace JobJetRestApi.Web.Controllers.V1
             {
                 return NotFound(e.Message);
             }
-            catch (CompanyAlreadyExistsException e)
+            catch (Exception e) when (e is CannotUpdateCompanyInformationException)
             {
                 return BadRequest(e.Message);
             }
         }
         
         // DELETE api/companies/5
-        [Authorize(Roles = "User")] // @TODO - check if company belongs to user
+        [Authorize(Roles = "User")]
         [HttpDelete(ApiRoutes.Companies.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)
         {
-            var command = new DeleteCompanyCommand(id);
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+            
+            var command = new DeleteCompanyCommand(currentUserId, id);
 
             try
             {
@@ -155,6 +163,10 @@ namespace JobJetRestApi.Web.Controllers.V1
             catch (CompanyNotFoundException e)
             {
                 return NotFound(e.Message);
+            }
+            catch (CannotDeleteCompanyInformationException e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }

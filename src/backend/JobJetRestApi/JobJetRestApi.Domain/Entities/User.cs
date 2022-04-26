@@ -19,6 +19,31 @@ namespace JobJetRestApi.Domain.Entities
             return Companies.Any(company => company.Id == companyId);
         }
 
+        public void DeleteCompany(int companyId)
+        {
+            Guard.Against.Null(companyId, nameof(companyId));
+            
+            if (!IsOwnerOfCompany(companyId))
+            {
+                CannotDeleteCompanyInformationException.YouAreNotCompanyOwner(companyId);
+            }
+
+            Companies.RemoveAll(company => company.Id == companyId);
+        }
+
+        public void UpdateCompanyInformation(int companyId, string description, int numberOfPeople)
+        {
+            Guard.Against.Null(description, nameof(description));
+            Guard.Against.NegativeOrZero(numberOfPeople, nameof(numberOfPeople));
+            
+            if (!IsOwnerOfCompany(companyId))
+            {
+                CannotUpdateCompanyInformationException.YouAreNotCompanyOwner(companyId);
+            }
+
+            Companies.First(company => company.Id == companyId).Update(description, numberOfPeople);
+        }
+
         public void AddJobOffer(Company company, JobOffer jobOffer)
         {
             Guard.Against.Null(company, nameof(company));

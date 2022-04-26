@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrator")]
     [ApiController]
     public class UsersController : ControllerBase
     {

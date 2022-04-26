@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     public class TechnologyTypesController : ControllerBase
     {
@@ -73,6 +72,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // POST api/technology-types
+        [Authorize(Roles = "Administrator")]
         [HttpPost(ApiRoutes.TechnologyTypes.Create)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -97,6 +97,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // PUT api/technology-types/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut(ApiRoutes.TechnologyTypes.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -126,6 +127,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // DELETE api/technology-types/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete(ApiRoutes.TechnologyTypes.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
