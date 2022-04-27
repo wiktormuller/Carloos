@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ardalis.GuardClauses;
 using Dapper;
-using JobJetRestApi.Application.Common.Config;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Roles.Queries;
+using JobJetRestApi.Infrastructure.Configuration;
 using JobJetRestApi.Infrastructure.Factories;
 
 namespace JobJetRestApi.Infrastructure.Queries;
@@ -19,8 +20,8 @@ public class RoleQueries : IRoleQueries
     public RoleQueries(ISqlConnectionFactory sqlConnectionFactory, 
         ICacheService cacheService)
     {
-        _sqlConnectionFactory = sqlConnectionFactory;
-        _cacheService = cacheService;
+        _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
+        _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
     }
     
     public async Task<IEnumerable<RoleResponse>> GetAllRolesAsync(PaginationFilter paginationFilter)

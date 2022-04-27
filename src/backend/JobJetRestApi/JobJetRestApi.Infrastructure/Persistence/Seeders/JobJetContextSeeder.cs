@@ -63,7 +63,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     await context.SaveChangesAsync();
                 }
                 
-                //@TODO - Add user data seed
+                //@TODO - Connect user to specific role
             }
             catch (Exception e)
             {

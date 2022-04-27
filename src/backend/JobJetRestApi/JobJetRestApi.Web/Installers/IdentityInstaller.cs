@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Infrastructure.Options;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

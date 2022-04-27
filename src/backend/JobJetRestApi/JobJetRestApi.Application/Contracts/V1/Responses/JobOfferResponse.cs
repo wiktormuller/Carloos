@@ -1,4 +1,4 @@
-﻿using JobJetRestApi.Domain.Entities;
+﻿using JobJetRestApi.Domain.Enums;
 
 namespace JobJetRestApi.Application.Contracts.V1.Responses
 {

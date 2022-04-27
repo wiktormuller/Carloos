@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using Dapper;
-using JobJetRestApi.Application.Common.Config;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
+using JobJetRestApi.Infrastructure.Configuration;
 using JobJetRestApi.Infrastructure.Factories;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace JobJetRestApi.Infrastructure.Queries
 {
@@ -77,8 +75,6 @@ namespace JobJetRestApi.Infrastructure.Queries
                 WHERE [Company].Id = @Id
                 ORDER BY [Company].Id;"
                 ;
-            
-            // @TODO - Implement caching for job offers per id?
             
             var company = await connection.QueryFirstOrDefaultAsync<CompanyResponse>(query, new
             {

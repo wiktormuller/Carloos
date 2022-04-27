@@ -19,6 +19,40 @@ namespace JobJetRestApi.Domain.Entities
             return Companies.Any(company => company.Id == companyId);
         }
 
+        public bool IsOwnerOfJobOffer(int jobOfferId)
+        {
+            return Companies.Any(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId));
+        }
+
+        public void DeleteJobOffer(int jobOfferId)
+        {
+            if (!IsOwnerOfJobOffer(jobOfferId))
+            {
+                CannotDeleteJobOfferException.YouAreNotJobOfferOwner(jobOfferId);
+            }
+            
+            Companies.First(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId))
+                .DeleteJobOffer(jobOfferId);
+        }
+
+        public void UpdateJobOffer(int jobOfferId, string name, string description, decimal salaryFrom,
+            decimal salaryTo)
+        {
+            Guard.Against.NegativeOrZero(jobOfferId, nameof(jobOfferId));
+            Guard.Against.Null(name, nameof(name));
+            Guard.Against.Null(description, nameof(description));
+            Guard.Against.NegativeOrZero(salaryFrom, nameof(salaryFrom));
+            Guard.Against.NegativeOrZero(salaryTo, nameof(salaryTo));
+
+            if (!IsOwnerOfJobOffer(jobOfferId))
+            {
+                throw CannotUpdateJobOfferException.YouAreNotJobOfferOwner(jobOfferId);
+            }
+            
+            Companies.First(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId))
+                .UpdateJobOffer(jobOfferId, name, description, salaryFrom, salaryTo);
+        }
+
         public void DeleteCompany(int companyId)
         {
             Guard.Against.Null(companyId, nameof(companyId));

@@ -1,6 +1,6 @@
-﻿namespace JobJetRestApi.Domain.Entities
+﻿namespace JobJetRestApi.Infrastructure.Options
 {
-    public class DatabaseOptions // @TODO - Where to put files like this?
+    public class DatabaseOptions
     {
         public const string ConnectionStrings = "ConnectionStrings";
         

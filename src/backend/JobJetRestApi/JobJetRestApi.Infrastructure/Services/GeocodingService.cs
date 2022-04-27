@@ -8,6 +8,7 @@ using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Dtos.GeocodingService;
+using JobJetRestApi.Infrastructure.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Options;
 

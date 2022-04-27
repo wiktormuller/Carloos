@@ -1,6 +1,6 @@
-﻿namespace JobJetRestApi.Application.Common.Config
+﻿namespace JobJetRestApi.Infrastructure.Configuration
 {
-    public static class CacheKeys // @TODO - Where to put files like this one?
+    public static class CacheKeys
     {
         public const string CompaniesListKey = "companiesListKey";
         public const string CompanyKey = "companyKey";

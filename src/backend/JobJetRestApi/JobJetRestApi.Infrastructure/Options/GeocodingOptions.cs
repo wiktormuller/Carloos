@@ -1,6 +1,6 @@
-﻿namespace JobJetRestApi.Domain.Entities
+﻿namespace JobJetRestApi.Infrastructure.Options
 {
-    public class GeocodingOptions //@TODO - Remove it from here
+    public class GeocodingOptions
     {
         public const string Geocoding = "Geocoding";
         

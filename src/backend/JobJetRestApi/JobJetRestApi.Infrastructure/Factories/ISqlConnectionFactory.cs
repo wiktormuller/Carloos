@@ -2,7 +2,7 @@
 
 namespace JobJetRestApi.Infrastructure.Factories
 {
-    public interface ISqlConnectionFactory // @TODO - where to store interfaces like this one?
+    public interface ISqlConnectionFactory
     {
         IDbConnection GetOpenConnection();
     }

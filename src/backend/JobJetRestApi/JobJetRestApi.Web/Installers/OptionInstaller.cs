@@ -1,4 +1,5 @@
 ﻿using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Infrastructure.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

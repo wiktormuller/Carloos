@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Infrastructure.Options;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 
