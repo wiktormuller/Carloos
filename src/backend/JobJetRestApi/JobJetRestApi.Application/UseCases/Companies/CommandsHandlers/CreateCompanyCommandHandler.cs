@@ -36,9 +36,7 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
 
             await _userRepository.UpdateAsync(user);
 
-            // var companyId = user.Companies.First(existingCompany => existingCompany.Name == request.Name).Id;
-
-            return company.Id; // @TODO - Is it enough?
+            return company.Id;
         }
     }
 }

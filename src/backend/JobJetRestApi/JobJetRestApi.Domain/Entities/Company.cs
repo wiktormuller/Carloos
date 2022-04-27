@@ -26,6 +26,18 @@ namespace JobJetRestApi.Domain.Entities
             CityName = cityName;
         }
 
+        public void DeleteJobOffer(int jobOfferId)
+        {
+            Guard.Against.NegativeOrZero(jobOfferId, nameof(jobOfferId));
+            
+            if (!IsOwnerOfJobOffer(jobOfferId))
+            {
+                throw CannotDeleteJobOfferException.YouAreNotJobOfferOwner(jobOfferId);
+            }
+
+            JobOffers.RemoveAll(jobOffer => jobOffer.Id == jobOfferId);
+        }
+
         public void AddJobOffer(JobOffer jobOffer)
         {
             Guard.Against.Null(jobOffer, nameof(jobOffer));
@@ -38,6 +50,28 @@ namespace JobJetRestApi.Domain.Entities
             JobOffers.Add(jobOffer);
         }
 
+        public bool IsOwnerOfJobOffer(int jobOfferId)
+        {
+            return JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId);
+        }
+
+        public void UpdateJobOffer(int jobOfferId, string name, string description, decimal salaryFrom, decimal salaryTo)
+        {
+            Guard.Against.NegativeOrZero(jobOfferId, nameof(jobOfferId));
+            Guard.Against.Null(name, nameof(name));
+            Guard.Against.Null(description, nameof(description));
+            Guard.Against.NegativeOrZero(salaryFrom, nameof(salaryFrom));
+            Guard.Against.NegativeOrZero(salaryTo, nameof(salaryTo));
+            
+            if (!IsOwnerOfJobOffer(jobOfferId))
+            {
+                throw CannotUpdateJobOfferException.YouAreNotJobOfferOwner(jobOfferId);
+            }
+            
+            JobOffers.First(jobOffer => jobOffer.Id == jobOfferId)
+                .UpdateBasicInformation(name, description, salaryFrom, salaryTo);
+        }
+        
         public void Update(string description, int numberOfPeople)
         {
             Guard.Against.Null(description, nameof(description));

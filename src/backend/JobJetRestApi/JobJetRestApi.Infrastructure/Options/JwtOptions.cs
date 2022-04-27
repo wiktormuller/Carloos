@@ -1,4 +1,4 @@
-﻿namespace JobJetRestApi.Domain.Entities;
+﻿namespace JobJetRestApi.Infrastructure.Options;
 
 public class JwtOptions
 {

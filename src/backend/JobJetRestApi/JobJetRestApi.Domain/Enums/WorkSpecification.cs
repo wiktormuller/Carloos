@@ -1,4 +1,4 @@
-﻿namespace JobJetRestApi.Domain.Entities
+﻿namespace JobJetRestApi.Domain.Enums
 {
     public enum WorkSpecification
     {

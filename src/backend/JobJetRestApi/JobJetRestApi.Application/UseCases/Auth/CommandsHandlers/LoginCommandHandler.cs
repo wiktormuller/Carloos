@@ -34,7 +34,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
             throw AuthException.Default();
         }
 
-        var areCredentialsCorrect = await _userManager.CheckPasswordAsync(user, request.Password); // @TODO - Move to repo?
+        var areCredentialsCorrect = await _userManager.CheckPasswordAsync(user, request.Password); // @TODO - Move to repo
         if (!areCredentialsCorrect)
         {
             throw AuthException.Default();

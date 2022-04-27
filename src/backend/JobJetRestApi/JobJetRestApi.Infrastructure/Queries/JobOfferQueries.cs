@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
-using JobJetRestApi.Application.Common.Config;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
+using JobJetRestApi.Infrastructure.Configuration;
 using JobJetRestApi.Infrastructure.Factories;
 
 namespace JobJetRestApi.Infrastructure.Queries

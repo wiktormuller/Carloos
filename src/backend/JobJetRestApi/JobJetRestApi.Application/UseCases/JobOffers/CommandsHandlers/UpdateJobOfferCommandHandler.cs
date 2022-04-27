@@ -11,9 +11,12 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
     public class UpdateJobOfferCommandHandler : IRequestHandler<UpdateJobOfferCommand>
     {
         private readonly IJobOfferRepository _jobOfferRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UpdateJobOfferCommandHandler(IJobOfferRepository jobOfferRepository)
+        public UpdateJobOfferCommandHandler(IJobOfferRepository jobOfferRepository, 
+            IUserRepository userRepository)
         {
+            _userRepository = Guard.Against.Null(userRepository, nameof(userRepository));
             _jobOfferRepository = Guard.Against.Null(jobOfferRepository, nameof(jobOfferRepository));
         }
 
@@ -25,10 +28,15 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 throw JobOfferNotFoundException.ForId(request.Id);
             }
 
-            var jobOffer = await _jobOfferRepository.GetByIdAsync(request.Id);
-            jobOffer.UpdateBasicInformation(request.Description, request.SalaryFrom, request.SalaryTo);
+            var user = await _userRepository.GetByIdAsync(request.UserId);
+            user.UpdateJobOffer(
+                request.Id,
+                request.Name,
+                request.Description,
+                request.SalaryFrom,
+                request.SalaryTo);
 
-            await _jobOfferRepository.UpdateAsync();
+            await _userRepository.UpdateAsync(user);
 
             return Unit.Value;
         }

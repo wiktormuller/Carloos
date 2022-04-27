@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
@@ -8,6 +7,7 @@ using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Domain.Enums;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
@@ -34,8 +34,8 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             IUserRepository userRepository, 
             ICompanyRepository companyRepository)
         {
-            _userRepository = userRepository;
-            _companyRepository = companyRepository;
+            _userRepository = Guard.Against.Null(userRepository, nameof(userRepository));
+            _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
             _jobOfferRepository = Guard.Against.Null(jobOfferRepository, nameof(jobOfferRepository));
             _seniorityRepository = Guard.Against.Null(seniorityRepository, nameof(seniorityRepository));
             _technologyTypeRepository = Guard.Against.Null(technologyTypeRepository, nameof(technologyTypeRepository));
@@ -126,12 +126,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             
             await _userRepository.UpdateAsync(user);
 
-            /*var jobOfferId = user.Companies
-                .First(actualCompany => actualCompany.Id == request.CompanyId).JobOffers
-                .First(actualJobOffer => actualJobOffer.Name == jobOffer.Name)
-                .Id;*/
-
-            return jobOffer.Id; // @TODO - Is it enough?
+            return jobOffer.Id;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

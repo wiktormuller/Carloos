@@ -1,6 +1,6 @@
-﻿namespace JobJetRestApi.Domain.Entities
+﻿namespace JobJetRestApi.Infrastructure.Options
 {
-    public class GeoRouteOptions //@TODO - Remove it from here
+    public class GeoRouteOptions
     {
         public const string GeoRoute = "GeoRoute";
         

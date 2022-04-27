@@ -11,9 +11,12 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
     public class DeleteJobOfferCommandHandler : IRequestHandler<DeleteJobOfferCommand>
     {
         private readonly IJobOfferRepository _jobOfferRepository;
+        private readonly IUserRepository _userRepository;
 
-        public DeleteJobOfferCommandHandler(IJobOfferRepository jobOfferRepository)
+        public DeleteJobOfferCommandHandler(IJobOfferRepository jobOfferRepository, 
+            IUserRepository userRepository)
         {
+            _userRepository = Guard.Against.Null(userRepository, nameof(userRepository));
             _jobOfferRepository = Guard.Against.Null(jobOfferRepository, nameof(jobOfferRepository));
         }
 
@@ -24,8 +27,10 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 throw JobOfferNotFoundException.ForId(request.Id);
             }
 
-            var jobOffer = await _jobOfferRepository.GetByIdAsync(request.Id);
-            await _jobOfferRepository.DeleteAsync(jobOffer);
+            var user = await _userRepository.GetByIdAsync(request.CurrentUserId);
+            user.DeleteJobOffer(request.Id);
+
+            await _userRepository.UpdateAsync(user);
 
             return Unit.Value;
         }

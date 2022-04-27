@@ -1,5 +1,5 @@
-﻿using System;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
+using JobJetRestApi.Domain.Enums;
 
 namespace JobJetRestApi.Domain.Entities
 {
@@ -54,8 +54,9 @@ namespace JobJetRestApi.Domain.Entities
             WorkSpecification = workSpecification;
         }
 
-        public void UpdateBasicInformation(string description, decimal salaryFrom, decimal salaryTo)
+        public void UpdateBasicInformation(string name, string description, decimal salaryFrom, decimal salaryTo)
         {
+            Name = Guard.Against.Null(name, nameof(name));
             Description = Guard.Against.Null(description, nameof(description));
             SalaryFrom = Guard.Against.Zero(salaryFrom, nameof(salaryFrom));
             SalaryTo = Guard.Against.Zero(salaryTo, nameof(salaryTo));

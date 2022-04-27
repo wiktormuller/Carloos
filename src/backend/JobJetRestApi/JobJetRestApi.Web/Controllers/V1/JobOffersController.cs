@@ -130,7 +130,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // PUT api/job-offers/5
-        [Authorize(Roles = "User")] // @TODO - check if job offers belongs to user's company
+        [Authorize(Roles = "User")]
         [HttpPut(ApiRoutes.JobOffers.Update)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -146,6 +146,7 @@ namespace JobJetRestApi.Web.Controllers.V1
 
             var command = new UpdateJobOfferCommand
             (
+                currentUserId,
                 id,
                 request.Name,
                 request.Description,
@@ -162,16 +163,22 @@ namespace JobJetRestApi.Web.Controllers.V1
             {
                 return NotFound(e.Message);
             }
+            catch (Exception e) when (e is CannotUpdateJobOfferException)
+            {
+                return BadRequest(e.Message);
+            }
         }
         
         // DELETE api/job-offers/5
-        [Authorize(Roles = "User")] // @TODO - check if job offers belongs to user company
+        [Authorize(Roles = "User")]
         [HttpDelete(ApiRoutes.JobOffers.Delete)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)
         {
-            var command = new DeleteJobOfferCommand(id);
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+            
+            var command = new DeleteJobOfferCommand(currentUserId, id);
 
             try
             {
@@ -181,6 +188,10 @@ namespace JobJetRestApi.Web.Controllers.V1
             catch (JobOfferNotFoundException e)
             {
                 return NotFound(e.Message);
+            }
+            catch (CannotDeleteJobOfferException e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }
