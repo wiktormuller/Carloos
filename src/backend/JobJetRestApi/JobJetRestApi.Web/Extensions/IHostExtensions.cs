@@ -17,7 +17,9 @@ namespace JobJetRestApi.Web.Extensions
             var services = scope.ServiceProvider;
             var context = services.GetService<JobJetDbContext>();
             var userRepository = services.GetService<IUserRepository>();
-            await JobJetContextSeeder.SeedAsync(context, userRepository);
+            var roleRepository = services.GetService<IRoleRepository>();
+            
+            await JobJetContextSeeder.SeedAsync(context, userRepository, roleRepository);
 
             return host;
         }

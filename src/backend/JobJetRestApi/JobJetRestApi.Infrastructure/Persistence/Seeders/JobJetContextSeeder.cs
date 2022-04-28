@@ -10,7 +10,10 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
 {
     public class JobJetContextSeeder
     {
-        public static async Task SeedAsync(JobJetDbContext context, IUserRepository userRepository, int retryCounter = 0)
+        public static async Task SeedAsync(JobJetDbContext context, 
+            IUserRepository userRepository, 
+            IRoleRepository roleRepository, 
+            int retryCounter = 0)
         {
             var retryForAvailability = retryCounter;
             
@@ -19,7 +22,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                 await context.Database.MigrateAsync();
             }
 
-            // THINK ABOUT THE ORDER! Use logger here or in the program?
+            // @TODO - Add logger
             try
             {
                 if (!await context.Currencies.AnyAsync())
@@ -62,14 +65,24 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     await userRepository.CreateAsync(GetPredefinedAdminAccount(), "Password123!");
                     await context.SaveChangesAsync();
                 }
+
+                if (!await context.Roles.AnyAsync())
+                {
+                    await roleRepository.CreateAsync(new Role("Administrator"));
+                }
                 
-                //@TODO - Connect user to specific role
+                if (!await context.UserRoles.AnyAsync())
+                {
+                    var role = await roleRepository.GetByNameAsync("Administrator");
+                    var user = await userRepository.GetByEmailAsync("ceo@jobjet.com");
+                    await userRepository.AssignRoleToUser(user, role);
+                }
             }
             catch (Exception e)
             {
                 if (retryForAvailability >= 10) throw;
                 retryForAvailability++;
-                await SeedAsync(context, userRepository, retryForAvailability);
+                await SeedAsync(context, userRepository, roleRepository, retryForAvailability);
                 throw;
             }
         }

@@ -14,7 +14,8 @@ namespace JobJetRestApi.Application.Repositories
         Task<User> GetByEmailAsync(string email);
         Task<List<User>> GetAllAsync();
         Task DeleteAsync(int id);
-        Task<List<string>> GetUserRoles(User user);
+        Task<List<string>> GetUserRolesAsync(User user);
         Task AssignRoleToUser(User user, Role role);
+        Task<bool> CheckPasswordAsync(User user, string password);
     }
 }
