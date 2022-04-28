@@ -5,24 +5,19 @@ using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Auth.Commands;
-using JobJetRestApi.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace JobJetRestApi.Application.UseCases.Auth.CommandsHandlers;
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
 {
     private readonly IUserRepository _userRepository;
-    private readonly UserManager<User> _userManager;
     private readonly IJwtService _jwtService;
     
     public LoginCommandHandler(IUserRepository userRepository, 
-        UserManager<User> userManager, 
         IJwtService jwtService)
     {
         _userRepository = userRepository;
-        _userManager = userManager;
         _jwtService = jwtService;
     }
 
@@ -34,15 +29,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
             throw AuthException.Default();
         }
 
-        var areCredentialsCorrect = await _userManager.CheckPasswordAsync(user, request.Password); // @TODO - Move to repo
+        var areCredentialsCorrect = await _userRepository.CheckPasswordAsync(user, request.Password);
         if (!areCredentialsCorrect)
         {
             throw AuthException.Default();
         }
         
-        var userRoles = await _userManager.GetRolesAsync(user);
+        var userRoles = await _userRepository.GetUserRolesAsync(user);
         var token = _jwtService.GenerateJwt(user, userRoles);
+        
         return new LoginResponse(user.Id, user.Email, token);
-
     }
 }

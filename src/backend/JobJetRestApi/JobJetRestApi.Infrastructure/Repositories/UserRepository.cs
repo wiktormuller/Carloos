@@ -61,7 +61,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             await _userManager.DeleteAsync(user);
         }
 
-        public async Task<List<string>> GetUserRoles(User user)
+        public async Task<List<string>> GetUserRolesAsync(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
             return userRoles.ToList();
@@ -71,6 +71,11 @@ namespace JobJetRestApi.Infrastructure.Repositories
         {
             var userToUpdate = await _userManager.FindByIdAsync(user.Id.ToString());
             await _userManager.AddToRoleAsync(user, role.Name);
+        }
+
+        public Task<bool> CheckPasswordAsync(User user, string password)
+        {
+            return _userManager.CheckPasswordAsync(user, password);
         }
     }
 }

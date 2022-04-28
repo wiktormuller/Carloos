@@ -1,15 +1,15 @@
-Users own zero to many companies:
-    - add companies to domain object and db schema
-
-Companies own all their job offers:
-    - add owner (user) to db schema and domain object
-
-Job offers own all the rest data.
-
-What about scopes during authorization? What is it actually?
-
-- FirstPage, LastPage and next page returns wrong data (especialy pageNumber and pageSize)
-- 
+- What about scopes during authorization? What is it actually?
+- FirstPage, LastPage and next page returns wrong data (especialy pageNumber and pageSize); remove the pageUriService dependency from controller?
+- Implement ReadMe
+- Add logger
+- Implement appSettings for many environments
+- Protect api keys
+- Implement endpoints to manage user accounts (passwords especially, editing user informations)
+- Where is difference between IIS and Kestrel and it's settings
+- Make dev environment on docker
+- Use domain events
+- Add some filtering for geographical criterias?
+- Add dashboard with statistical analysis of geographical (and non geographical) data
 
 1.1. Improve generating links
 1.2. Remove the pageUriService dependency from controller

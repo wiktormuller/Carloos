@@ -1,21 +1,23 @@
 ﻿namespace JobJetRestApi.Application.Contracts.V1.Filters
 {
-    public class PaginationFilter // @TODO - Should it be abstract?
+    public class PaginationFilter
     {
         private const int MinimalPageNumber = 0;
         private const int MaximalPageSize = 100;
-        
-        public int PageNumber { get; }
-        public int PageSize { get; }
 
-        public PaginationFilter() : this(MinimalPageNumber, MaximalPageSize)
+        private readonly int _pageNumber;
+        private readonly int _pageSize;
+        
+        public int PageNumber
         {
+            get => _pageNumber;
+            init => _pageNumber = (value < MinimalPageNumber) ? MinimalPageNumber : value;
         }
 
-        public PaginationFilter(int pageNumber, int pageSize)
+        public int PageSize
         {
-            PageNumber = (pageNumber < MinimalPageNumber) ? MinimalPageNumber : pageNumber;
-            PageSize = (pageSize > MaximalPageSize) ? MaximalPageSize : pageSize;
+            get => _pageSize;
+            init => _pageSize = (value > MaximalPageSize) ? MaximalPageSize : value;
         }
     }
 }

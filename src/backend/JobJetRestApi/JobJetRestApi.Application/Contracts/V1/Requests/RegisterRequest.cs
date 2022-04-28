@@ -1,6 +1,6 @@
 ﻿namespace JobJetRestApi.Application.Contracts.V1.Requests;
 
-public class RegisterRequest //@TODO - Add Validator
+public class RegisterRequest
 {
     public string Name { get; set; }
     public string Email { get; set; }

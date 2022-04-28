@@ -24,7 +24,7 @@ namespace JobJetRestApi.Web.Installers
             
             // Google Geocoding API
             .AddUrlGroup(
-                new Uri("https://google.com"), // @TODO
+                new Uri("https://google.com"), // @TODO - Add custom logic to check health of geocoding
                 "Google Geocoding API - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"googlegeocodingapi"})
@@ -38,7 +38,7 @@ namespace JobJetRestApi.Web.Installers
             
             // React client
             .AddUrlGroup(
-                new Uri("https://google.com"), // @TODO
+                new Uri("https://google.com"), // @TODO - Publish frontend before implement the healthcheck
                 "JobJet React Client - Check",
                 HealthStatus.Unhealthy,
                 new string[] {"jobjetreactclient"});

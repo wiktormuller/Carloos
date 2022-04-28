@@ -1,12 +1,4 @@
-dotnet ef migrations add InitialidentityServerMigration -c PersistedGrantDbContext
-dotnet ef migrations add InitialIdentityServerMigration -c ConfigurationDbContext
-
-dotnet ef database update -c PersistedGrantDbContext
-dotnet ef database update -c ConfigurationDbContext
-
-
 dotnet run bin/Debug/net5.0/IdentityServer /seed
-
 
 ceo@jobjet.com
 Password123!
@@ -15,6 +7,11 @@ http://localhost:5002/health-checks
 http://localhost:5002/health-checks-ui#/healthchecks
 
 dotnet dev-certs https --trust
+dotnet tool install --global dotnet-ef
+
+Data Source=(LocalDb)\MSSQLLocalDB;Database=JobJet-Development;Trusted_Connection=True;
+sqllocaldb info MSSQLLocalDb
+sqllocaldb.exe s MSSQLLocalDB
 
 54.369201, 18.483172
 54.370176, 18.460660
@@ -22,14 +19,13 @@ dotnet dev-certs https --trust
 http://router.project-osrm.org/route/v1/driving/54.369201,18.483172;54.370176,18.460660?geometries=geojson&overview=full
 
 
-
 dotnet install -g dotnet-aspnet-codegenerator
 dotnet aspnet-codegenerator identity -dc IdentityServer.Data.ApplicationDbContext --files "Account.Register;Account.RegisterConfirmation"
 
+From jobjetrestapi.web path: 
 dotnet ef migrations add AddAuthSchema --context JobJetDbContext --project ../JobJetRestApi.Infrastructure -o ../JobJe
-tRestApi.Infrastructure/Persistence/Migrations	//FROM jobjetrestapi.web path
-dotnet ef database update --context JobJetDbContext --project ../JobJetRestApi.Infrastructure	//FROM jobjetrestapi.web path
-
+tRestApi.Infrastructure/Persistence/Migrations
+dotnet ef database update --context JobJetDbContext --project ../JobJetRestApi.Infrastructure	
 
 docker build -f JobJetRestApi.Web/Dockerfile -t jobjetrestapiimage .
 docker run -p 5002:5002 -p 5003:5003 wiktormuller/jobjet
@@ -38,16 +34,3 @@ docker run -p 5002:5002 -p 5003:5003 wiktormuller/jobjet
 IS: 5000, 5001s
 API: 5002, 5003s
 JS: 5004, 5005s
-
-
-
-dotnet tool install --global dotnet-ef
-dotnet ef migrations add Initial --context JobJetIdentityDbContext -o Migrations/JobJetIdentityDb
-dotnet ef database update
-
-
-Data Source=(LocalDb)\MSSQLLocalDB;Database=JobJet-Development;Trusted_Connection=True;
-
-sqllocaldb info MSSQLLocalDb
-sqllocaldb.exe s MSSQLLocalDB
-

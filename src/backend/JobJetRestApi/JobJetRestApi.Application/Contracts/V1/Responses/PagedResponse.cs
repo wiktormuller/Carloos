@@ -53,15 +53,31 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
             var roundedTotalPages = Convert.ToInt32(Math.Ceiling(((double) totalRecords / (double) paginationFilter.PageSize)));
 
             var nextPage = paginationFilter.PageNumber >= 1 && paginationFilter.PageNumber < roundedTotalPages
-                ? pageUriService.GetPageUri(new PaginationFilter(paginationFilter.PageNumber + 1, paginationFilter.PageSize), route)
+                ? pageUriService.GetPageUri(new PaginationFilter
+                {
+                    PageNumber = paginationFilter.PageNumber + 1, 
+                    PageSize = paginationFilter.PageSize
+                }, route)
                 : null;
             
             var previousPage = paginationFilter.PageNumber - 1 >= 1 && paginationFilter.PageNumber <= roundedTotalPages
-                ? pageUriService.GetPageUri(new PaginationFilter(paginationFilter.PageNumber - 1, paginationFilter.PageSize), route)
+                ? pageUriService.GetPageUri(new PaginationFilter
+                {
+                    PageNumber = paginationFilter.PageNumber - 1, 
+                    PageSize = paginationFilter.PageSize
+                }, route)
                 : null;
             
-            var firstPage = pageUriService.GetPageUri(new PaginationFilter(1, paginationFilter.PageSize), route);
-            var lastPage = pageUriService.GetPageUri(new PaginationFilter(roundedTotalPages, paginationFilter.PageSize), route);
+            var firstPage = pageUriService.GetPageUri(new PaginationFilter
+            {
+                PageNumber = 1, 
+                PageSize = paginationFilter.PageSize
+            }, route);
+            var lastPage = pageUriService.GetPageUri(new PaginationFilter
+            {
+                PageNumber = roundedTotalPages,
+                PageSize = paginationFilter.PageSize
+            }, route);
             
             return new PagedResponse<List<T>>(
                 pagedData,
