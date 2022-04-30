@@ -14,7 +14,7 @@
             init => _pageNumber = (value < MinimalPageNumber) ? MinimalPageNumber : value;
         }
 
-        public int PageSize
+        public int PageSize //@TODO -  It's always 0 what is invalid in sql
         {
             get => _pageSize;
             init => _pageSize = (value > MaximalPageSize) ? MaximalPageSize : value;
