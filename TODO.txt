@@ -2,14 +2,15 @@
 - FirstPage, LastPage and next page returns wrong data (especialy pageNumber and pageSize); remove the pageUriService dependency from controller?
 - Implement ReadMe
 - Add logger
-- Implement appSettings for many environments
-- Protect api keys
 - Implement endpoints to manage user accounts (passwords especially, editing user informations)
 - Where is difference between IIS and Kestrel and it's settings
 - Make dev environment on docker
 - Use domain events
 - Add some filtering for geographical criterias?
 - Add dashboard with statistical analysis of geographical (and non geographical) data
+- Implement JWT Refresh
+- Add Vue client
+- 
 
 1.1. Improve generating links
 1.2. Remove the pageUriService dependency from controller

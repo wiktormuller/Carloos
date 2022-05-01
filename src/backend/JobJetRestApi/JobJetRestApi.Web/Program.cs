@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Web.Extensions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -31,7 +32,9 @@ namespace JobJetRestApi.Web
                 args = args.Except(new[] {"/seed"}).ToArray();
             }
 
-            var host = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args)
+                .ConfigureAppConfiguration(x => x.AddEnvironmentVariables(prefix: "JobJetVariables_"))
+                .Build();
             
             if (seed)
             {
