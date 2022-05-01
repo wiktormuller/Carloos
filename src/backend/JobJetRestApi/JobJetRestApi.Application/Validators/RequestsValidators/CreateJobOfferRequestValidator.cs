@@ -38,6 +38,9 @@ namespace JobJetRestApi.Application.Validators.RequestsValidators
             RuleFor(request => request.CurrencyId)
                 .GreaterThan(0);
 
+            RuleFor(request => request.CompanyId)
+                .GreaterThan(0);
+
             RuleFor(request => request.WorkSpecification)
                 .NotNull()
                 .Length(1, 50);

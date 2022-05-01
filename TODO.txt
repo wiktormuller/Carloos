@@ -2,7 +2,6 @@
 - FirstPage, LastPage and next page returns wrong data (especialy pageNumber and pageSize); remove the pageUriService dependency from controller?
 - Implement ReadMe
 - Add logger
-- Implement appSettings for many environments
 - Implement endpoints to manage user accounts (passwords especially, editing user informations)
 - Where is difference between IIS and Kestrel and it's settings
 - Make dev environment on docker
