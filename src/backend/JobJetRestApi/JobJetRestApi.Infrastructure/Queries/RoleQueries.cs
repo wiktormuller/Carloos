@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
@@ -16,6 +17,8 @@ public class RoleQueries : IRoleQueries
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
     private readonly ICacheService _cacheService;
+
+    private readonly record struct RoleRecord(int Id, string Name);
     
     public RoleQueries(ISqlConnectionFactory sqlConnectionFactory, 
         ICacheService cacheService)
@@ -24,7 +27,7 @@ public class RoleQueries : IRoleQueries
         _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
     }
     
-    public async Task<IEnumerable<RoleResponse>> GetAllRolesAsync(PaginationFilter paginationFilter)
+    public async Task<IEnumerable<RoleResponse>> GetAllRolesAsync()
     {
         using var connection = _sqlConnectionFactory.GetOpenConnection();
         
@@ -33,20 +36,16 @@ public class RoleQueries : IRoleQueries
                     [AspNetRole].Id,
                     [AspNetRole].Name
                 FROM [AspNetRoles] AS [AspNetRole] 
-                ORDER BY [AspNetRole].Id 
-                OFFSET @OffsetRows ROWS
-                FETCH NEXT @FetchRows ROWS ONLY;"
+                ORDER BY [AspNetRole].Id"
             ;
 
         var roles = _cacheService.Get<IEnumerable<RoleResponse>>(CacheKeys.RolesListKey);
 
         if (roles is null)
         {
-            roles = await connection.QueryAsync<RoleResponse>(query, new
-            {
-                OffsetRows = paginationFilter.PageNumber,
-                FetchRows = paginationFilter.PageSize
-            });
+            var queriedRoles = await connection.QueryAsync<RoleRecord>(query);
+
+            roles = queriedRoles.Select(x => new RoleResponse(x.Id, x.Name));
             
             _cacheService.Add(roles, CacheKeys.RolesListKey);
         }
@@ -67,15 +66,19 @@ public class RoleQueries : IRoleQueries
             ORDER BY [AspNetRole].Id;"
         ;
 
-        var role = await connection.QueryFirstOrDefaultAsync<RoleResponse>(query, new
+        var queriedRole = await connection.QueryFirstOrDefaultAsync<RoleRecord>(query, new
         {
             Id = id
         });
 
-        if (role is null)
+        if (queriedRole.Id == 0)
         {
             throw RoleNotFoundException.ForId(id);
         }
+
+        var role = new RoleResponse(
+            queriedRole.Id,
+            queriedRole.Name);
 
         return role;
     }

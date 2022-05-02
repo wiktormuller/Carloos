@@ -7,7 +7,7 @@ namespace JobJetRestApi.Application.UseCases.Countries.Queries
 {
     public interface ICountryQueries
     {
-        Task<IEnumerable<CountryResponse>> GetAllCountriesAsync(PaginationFilter paginationFilter);
+        Task<IEnumerable<CountryResponse>> GetAllCountriesAsync();
         Task<CountryResponse> GetCountryByIdAsync(int id);
     }
 }

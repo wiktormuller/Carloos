@@ -7,7 +7,7 @@ namespace JobJetRestApi.Application.Validators.RequestsValidators
     {
         public UpdateUserRequestValidator()
         {
-            RuleFor(request => request.Name)
+            RuleFor(request => request.UserName)
                 .NotNull()
                 .Length(1, 200);
         }

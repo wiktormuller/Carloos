@@ -49,7 +49,7 @@ namespace JobJetRestApi.Web.Controllers.V1
             
             var route = Request.Path.Value;
 
-            return Ok(PagedResponse<UserResponse>.CreatePagedResponse(
+            return Ok(PagedResponse<UserResponse>.CreatePagedResponse( // @TODO - Move this logic to queries
                 users.ToList(), "", true, null, filter, 666, _pageUriService, route));
         }
         
@@ -107,7 +107,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
             
-            var command = new UpdateUserCommand(id, request.Name);
+            var command = new UpdateUserCommand(id, request.UserName);
 
             try
             {

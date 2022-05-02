@@ -25,7 +25,7 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
 
             var user = await _userRepository.GetByIdAsync(request.Id);
 
-            user.UpdateName(request.Name);
+            user.UpdateName(request.UserName);
 
             await _userRepository.UpdateAsync(user);
 

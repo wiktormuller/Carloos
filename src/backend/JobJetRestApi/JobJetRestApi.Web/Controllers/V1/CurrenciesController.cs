@@ -35,22 +35,18 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/currencies
         [HttpGet(ApiRoutes.Currencies.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<CurrencyResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<CurrencyResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<CurrencyResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<CurrencyResponse>>> Get()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            var currencies = await _currencyQueries.GetAllCurrenciesAsync(filter);
-            
-            var route = Request.Path.Value;
+            var currencies = await _currencyQueries.GetAllCurrenciesAsync();
 
-            return Ok(PagedResponse<CurrencyResponse>.CreatePagedResponse(
-                currencies.ToList(), "", true, null, filter, 666, _pageUriService, route));
+            return Ok(currencies);
         }
         
         // GET api/currencies/5

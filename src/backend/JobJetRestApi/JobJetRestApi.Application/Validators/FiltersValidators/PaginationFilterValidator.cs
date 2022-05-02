@@ -8,6 +8,9 @@ public class PaginationFilterValidator : AbstractValidator<PaginationFilter>
     public PaginationFilterValidator()
     {
         RuleFor(filter => filter.PageNumber)
-            .GreaterThan(0);
+            .GreaterThanOrEqualTo(0);
+
+        RuleFor(filter => filter.PageSize)
+            .InclusiveBetween(0, 100);
     }
 }

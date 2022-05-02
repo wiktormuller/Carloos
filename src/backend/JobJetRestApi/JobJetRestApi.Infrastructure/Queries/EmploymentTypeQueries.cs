@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
@@ -16,6 +17,8 @@ namespace JobJetRestApi.Infrastructure.Queries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly ICacheService _cacheService;
+
+        private readonly record struct EmploymentTypeRecord(int Id, string Name);
         
         public EmploymentTypeQueries(ISqlConnectionFactory sqlConnectionFactory, 
             ICacheService cacheService)
@@ -24,7 +27,7 @@ namespace JobJetRestApi.Infrastructure.Queries
             _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
         }
 
-        public async Task<IEnumerable<EmploymentTypeResponse>> GetAllEmploymentTypesAsync(PaginationFilter paginationFilter)
+        public async Task<IEnumerable<EmploymentTypeResponse>> GetAllEmploymentTypesAsync()
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -33,21 +36,17 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [EmploymentType].Id,
                     [EmploymentType].Name 
                 FROM [EmploymentTypes] AS [EmploymentType] 
-                ORDER BY [EmploymentType].Id 
-                OFFSET @OffsetRows ROWS
-                FETCH NEXT @FetchRows ROWS ONLY;"
+                ORDER BY [EmploymentType].Id;"
                 ;
             
             var employmentTypes = _cacheService.Get<IEnumerable<EmploymentTypeResponse>>(CacheKeys.EmploymentTypesListKey);
                 
             if (employmentTypes is null)
             {
-                employmentTypes = await connection.QueryAsync<EmploymentTypeResponse>(query, new
-                {
-                    OffsetRows = paginationFilter.PageNumber,
-                    FetchRows = paginationFilter.PageSize
-                });
+                var queriedEmploymentTypes = await connection.QueryAsync<EmploymentTypeRecord>(query);
 
+                employmentTypes = queriedEmploymentTypes.Select(x => new EmploymentTypeResponse(x.Id, x.Name));
+                
                 _cacheService.Add(employmentTypes, CacheKeys.EmploymentTypesListKey);
             }
 
@@ -68,15 +67,19 @@ namespace JobJetRestApi.Infrastructure.Queries
                 ORDER BY [EmploymentType].Id;"
                 ;
             
-            var employmentType = await connection.QueryFirstOrDefaultAsync<EmploymentTypeResponse>(query, new
+            var queriedEmploymentType = await connection.QueryFirstOrDefaultAsync<EmploymentTypeRecord>(query, new
             {
                 Id = id
             });
 
-            if (employmentType is null)
+            if (queriedEmploymentType.Id == 0)
             {
                 throw EmploymentTypeNotFoundException.ForId(id);
             }
+
+            var employmentType = new EmploymentTypeResponse(
+                queriedEmploymentType.Id,
+                queriedEmploymentType.Name);
 
             return employmentType;
         }

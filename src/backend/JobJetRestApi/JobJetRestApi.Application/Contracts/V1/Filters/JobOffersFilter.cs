@@ -2,7 +2,7 @@
 
 namespace JobJetRestApi.Application.Contracts.V1.Filters;
 
-public class UsersFilter : PaginationFilter
+public class JobOffersFilter : PaginationFilter
 {
     public int? CountryId { get; set; }
     public int? TechnologyId { get; set; }

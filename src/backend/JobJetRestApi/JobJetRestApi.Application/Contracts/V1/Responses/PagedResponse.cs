@@ -50,9 +50,12 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
             IPageUriService pageUriService,
             string route)
         {
-            var roundedTotalPages = Convert.ToInt32(Math.Ceiling(((double) totalRecords / (double) paginationFilter.PageSize)));
+            var roundedTotalPages = Convert.ToInt32(
+                Math.Ceiling(((double) totalRecords / ((double) paginationFilter.PageSize == 0 
+                    ? 1 
+                    : (double)paginationFilter.PageSize))));
 
-            var nextPage = paginationFilter.PageNumber >= 1 && paginationFilter.PageNumber < roundedTotalPages
+            var nextPage = paginationFilter.PageNumber >= 0 && paginationFilter.PageNumber < roundedTotalPages
                 ? pageUriService.GetPageUri(new PaginationFilter
                 {
                     PageNumber = paginationFilter.PageNumber + 1, 
@@ -70,7 +73,7 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
             
             var firstPage = pageUriService.GetPageUri(new PaginationFilter
             {
-                PageNumber = 1, 
+                PageNumber = 0, 
                 PageSize = paginationFilter.PageSize
             }, route);
             var lastPage = pageUriService.GetPageUri(new PaginationFilter

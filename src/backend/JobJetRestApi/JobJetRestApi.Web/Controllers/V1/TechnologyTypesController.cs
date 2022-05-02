@@ -35,22 +35,18 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/technology-types
         [HttpGet(ApiRoutes.TechnologyTypes.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<TechnologyTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<TechnologyTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<TechnologyTypeResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<TechnologyTypeResponse>>> Get()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            var technologyTypes = await _technologyTypeQueries.GetAllTechnologyTypesAsync(filter);
-            
-            var route = Request.Path.Value;
+            var technologyTypes = await _technologyTypeQueries.GetAllTechnologyTypesAsync();
 
-            return Ok(PagedResponse<TechnologyTypeResponse>.CreatePagedResponse(
-                technologyTypes.ToList(), "", true, null, filter, 666, _pageUriService, route));
+            return Ok(technologyTypes);
         }
         
         // GET api/technology-types/5
