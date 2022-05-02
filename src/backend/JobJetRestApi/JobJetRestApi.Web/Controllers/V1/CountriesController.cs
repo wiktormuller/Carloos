@@ -35,22 +35,18 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/countries
         [HttpGet(ApiRoutes.Countries.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<CountryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<CountryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<CountryResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<CountryResponse>>> Get()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            var countries = await _countryQueries.GetAllCountriesAsync(filter);
-            
-            var route = Request.Path.Value;
+            var countries = await _countryQueries.GetAllCountriesAsync();
 
-            return Ok(PagedResponse<CountryResponse>.CreatePagedResponse(
-                countries.ToList(), "", true, null, filter, 666, _pageUriService, route));
+            return Ok(countries);
         }
         
         // GET api/countries/5

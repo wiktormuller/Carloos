@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,9 +8,8 @@ using Dapper;
 using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
-using JobJetRestApi.Infrastructure.Configuration;
+using JobJetRestApi.Domain.Enums;
 using JobJetRestApi.Infrastructure.Factories;
 
 namespace JobJetRestApi.Infrastructure.Queries
@@ -17,16 +17,17 @@ namespace JobJetRestApi.Infrastructure.Queries
     public class JobOfferQueries : IJobOfferQueries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
-        private readonly ICacheService _cacheService;
         
-        public JobOfferQueries(ISqlConnectionFactory sqlConnectionFactory, 
-            ICacheService cacheService)
+        private readonly record struct JobOfferRecord(int Id, string Name, string Description, decimal SalaryFrom, decimal SalaryTo,
+            string WorkSpecification, int AddressId, string Town, string Street, string ZipCode, string CountryName, decimal Latitude, decimal Longitude,
+            int TechnologyTypeId, string TechnologyTypeName, int SeniorityId, string SeniorityName, int EmploymentTypeId, string EmploymentTypeName);
+        
+        public JobOfferQueries(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
-            _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
         }
     
-        public async Task<IEnumerable<JobOfferResponse>> GetAllJobOffersAsync(UsersFilter usersFilter)
+        public async Task<IEnumerable<JobOfferResponse>> GetAllJobOffersAsync(JobOffersFilter usersFilter)
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -39,27 +40,30 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [JobOffer].SalaryTo,
                     [JobOffer].SalaryTo,
                     [JobOffer].WorkSpecification,
-                    [Address].Id,
+                    [Address].Id AS AddressId,
                     [Address].Town,
                     [Address].Street,
                     [Address].ZipCode,
+                    [Country].Name AS CountryName,
                     [Address].Latitude,
                     [Address].Longitude,
-                    [TechnologyType].Id,
-                    [TechnologyType].Name,
-                    [Seniority].Id,
-                    [Seniority].Name,
-                    [EmploymentType].Id,
-                    [EmploymentType].Name 
+                    [TechnologyType].Id AS TechnologyTypeId,
+                    [TechnologyType].Name AS TechnologyTypeName,
+                    [Seniority].Id AS SeniorityId,
+                    [Seniority].Name AS SeniorityName,
+                    [EmploymentType].Id AS EmploymentTypeId,
+                    [EmploymentType].Name AS EmploymentTypeName
                 FROM [JobOffers] AS [JobOffer] 
                 LEFT JOIN Addresses AS [Address]
-                    ON [JobOffers].AddressId = [Addresses].Id
+                    ON [JobOffer].AddressId = [Address].Id
+                INNER JOIN Countries AS [Country]
+                    ON [Address].CountryId = [Country].Id
                 LEFT JOIN TechnologyTypes AS [TechnologyType]
-                    ON [JobOffers].TechnologyTypeId = [TechnologyTypes].Id
+                    ON [JobOffer].TechnologyTypeId = [TechnologyType].Id
                 LEFT JOIN SeniorityLevels AS [Seniority]
-                    ON [JobOffers].SeniorityId = [SeniorityLevels].Id
+                    ON [JobOffer].SeniorityId = [Seniority].Id
                 LEFT JOIN EmploymentTypes AS [EmploymentType]
-                    ON [JobOffers].EmploymentTypeId = [SeniorityLevels].Id
+                    ON [JobOffer].EmploymentTypeId = [Seniority].Id
                     
                 --@WHERE
                 
@@ -70,16 +74,28 @@ namespace JobJetRestApi.Infrastructure.Queries
             
             
             var parameters = BuildConditionsAndGetDynamicParameters(queryBuilder, usersFilter);
+
+            var queriedJobOffers = await connection.QueryAsync<JobOfferRecord>(queryBuilder.ToString(), parameters);
+
+            var jobOffers = queriedJobOffers.Select(x => new JobOfferResponse(
+                x.Id,
+                x.Name,
+                x.Description,
+                x.SalaryFrom,
+                x.SalaryTo,
+                x.AddressId,
+                x.CountryName,
+                x.Town,
+                x.Street,
+                x.ZipCode,
+                x.Latitude,
+                x.Longitude,
+                x.TechnologyTypeName,
+                x.SeniorityName,
+                x.EmploymentTypeName,
+                Enum.Parse<WorkSpecification>(x.WorkSpecification)
+                ));
             
-            var jobOffers = _cacheService.Get<IEnumerable<JobOfferResponse>>(CacheKeys.JobOffersListKey);
-                
-            if (jobOffers is null)
-            {
-                jobOffers = await connection.QueryAsync<JobOfferResponse>(queryBuilder.ToString(), parameters);
-
-                _cacheService.Add(jobOffers, CacheKeys.JobOffersListKey);
-            }
-
             return jobOffers;
         }
 
@@ -97,47 +113,69 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [JobOffer].SalaryTo,
                     [JobOffer].SalaryTo,
                     [JobOffer].WorkSpecification,
-                    [Address].Id,
+                    [Address].Id AS AddressId,
                     [Address].Town,
                     [Address].Street,
                     [Address].ZipCode,
+                    [Country].Name AS CountryName,
                     [Address].Latitude,
                     [Address].Longitude,
-                    [TechnologyType].Id,
-                    [TechnologyType].Name,
-                    [Seniority].Id,
-                    [Seniority].Name,
-                    [EmploymentType].Id,
-                    [EmploymentType].Name 
+                    [TechnologyType].Id AS TechnologyTypeId,
+                    [TechnologyType].Name AS TechnologyTypeName,
+                    [Seniority].Id AS SeniorityId,
+                    [Seniority].Name AS SeniorityName,
+                    [EmploymentType].Id AS EmploymentTypeId,
+                    [EmploymentType].Name AS EmploymentTypeName
                 FROM [JobOffers] AS [JobOffer] 
                 LEFT JOIN Addresses AS [Address]
-                    ON [JobOffers].AddressId = [Addresses].Id
+                    ON [JobOffer].AddressId = [Address].Id
+                INNER JOIN Countries AS [Country]
+                    ON [Address].CountryId = [Country].Id
                 LEFT JOIN TechnologyTypes AS [TechnologyType]
-                    ON [JobOffers].TechnologyTypeId = [TechnologyTypes].Id
+                    ON [JobOffer].TechnologyTypeId = [TechnologyType].Id
                 LEFT JOIN SeniorityLevels AS [Seniority]
-                    ON [JobOffers].SeniorityId = [SeniorityLevels].Id
+                    ON [JobOffer].SeniorityId = [Seniority].Id
                 LEFT JOIN EmploymentTypes AS [EmploymentType]
-                    ON [JobOffers].EmploymentTypeId = [SeniorityLevels].Id
+                    ON [JobOffer].EmploymentTypeId = [Seniority].Id
                 
                 ORDER BY [JobOffer].Id 
                 OFFSET @OffsetRows ROWS
                 FETCH NEXT @FetchRows ROWS ONLY;"
                 ;
             
-            var jobOffer = await connection.QueryFirstOrDefaultAsync<JobOfferResponse>(query, new
+            var queriedJobOffer = await connection.QueryFirstOrDefaultAsync<JobOfferRecord>(query, new
             {
                 Id = id
             });
 
-            if (jobOffer is null)
+            if (queriedJobOffer.Id == 0)
             {
                 throw JobOfferNotFoundException.ForId(id);
             }
 
+            var jobOffer = new JobOfferResponse(
+                queriedJobOffer.Id,
+                queriedJobOffer.Name,
+                queriedJobOffer.Description,
+                queriedJobOffer.SalaryFrom,
+                queriedJobOffer.SalaryTo,
+                queriedJobOffer.AddressId,
+                queriedJobOffer.CountryName,
+                queriedJobOffer.Town,
+                queriedJobOffer.Street,
+                queriedJobOffer.ZipCode,
+                queriedJobOffer.Latitude,
+                queriedJobOffer.Longitude,
+                queriedJobOffer.TechnologyTypeName,
+                queriedJobOffer.SeniorityName,
+                queriedJobOffer.EmploymentTypeName,
+                Enum.Parse<WorkSpecification>(queriedJobOffer.WorkSpecification)
+                );
+
             return jobOffer;
         }
 
-        public DynamicParameters BuildConditionsAndGetDynamicParameters(StringBuilder queryBuilder, UsersFilter usersFilter)
+        public DynamicParameters BuildConditionsAndGetDynamicParameters(StringBuilder queryBuilder, JobOffersFilter usersFilter)
         {
             var conditions = new List<string>();
             var parameters = new DynamicParameters();
@@ -197,7 +235,7 @@ namespace JobJetRestApi.Infrastructure.Queries
 
             queryBuilder.Replace("--@ORDERBY", $"ORDER BY [JobOffer].Id"); // @TODO - Implement better sorting
             queryBuilder.Replace("--@OFFSET", $"OFFSET {usersFilter.PageNumber} ROWS");
-            queryBuilder.Replace("--@FETCH", $"FETCH NEXT {usersFilter.PageSize} ROWS ONLY");
+            queryBuilder.Replace("--@FETCH", $"FETCH NEXT {usersFilter.GetNormalizedPageSize()} ROWS ONLY");
 
             return parameters;
         }

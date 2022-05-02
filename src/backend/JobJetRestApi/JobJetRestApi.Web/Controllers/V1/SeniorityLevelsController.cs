@@ -35,22 +35,18 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/seniority-levels
         [HttpGet(ApiRoutes.SeniorityLevels.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<SeniorityLevelResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<SeniorityLevelResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<SeniorityLevelResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<SeniorityLevelResponse>>> Get()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            var seniorityLevels = await _seniorityLevelQueries.GetAllSeniorityLevelsAsync(filter);
-            
-            var route = Request.Path.Value;
+            var seniorityLevels = await _seniorityLevelQueries.GetAllSeniorityLevelsAsync();
 
-            return Ok(PagedResponse<SeniorityLevelResponse>.CreatePagedResponse(
-                seniorityLevels.ToList(), "", true, null, filter, 666, _pageUriService, route));
+            return Ok(seniorityLevels);
         }
 
         // GET api/seniority-levels/5

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -7,7 +8,6 @@ using JobJetRestApi.Application.UseCases.Companies.Queries;
 using Dapper;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
-using JobJetRestApi.Infrastructure.Configuration;
 using JobJetRestApi.Infrastructure.Factories;
 
 namespace JobJetRestApi.Infrastructure.Queries
@@ -15,12 +15,11 @@ namespace JobJetRestApi.Infrastructure.Queries
     public class CompanyQueries : ICompanyQueries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
-        private readonly ICacheService _cacheService;
+
+        private readonly record struct CompanyRecord(int Id, string Name, string ShortName, string Description, int NumberOfPeople, string CityName);
         
-        public CompanyQueries(ISqlConnectionFactory sqlConnectionFactory, 
-            ICacheService cacheService)
+        public CompanyQueries(ISqlConnectionFactory sqlConnectionFactory)
         {
-            _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
         }
         
@@ -42,18 +41,14 @@ namespace JobJetRestApi.Infrastructure.Queries
                 FETCH NEXT @FetchRows ROWS ONLY;"
                 ;
 
-            var companies = _cacheService.Get<IEnumerable<CompanyResponse>>(CacheKeys.CompaniesListKey);
-                
-            if (companies is null)
+            var queriedCompanies = await connection.QueryAsync<CompanyRecord>(query, new
             {
-                companies = await connection.QueryAsync<CompanyResponse>(query, new
-                {
-                    OffsetRows = paginationFilter.PageNumber,
-                    FetchRows = paginationFilter.PageSize
-                });
+                OffsetRows = paginationFilter.PageNumber,
+                FetchRows = paginationFilter.GetNormalizedPageSize()
+            });
 
-                _cacheService.Add(companies, CacheKeys.CompaniesListKey);
-            }
+            var companies = queriedCompanies.Select(x => 
+                new CompanyResponse(x.Id, x.Name, x.ShortName, x.Description, x.NumberOfPeople, x.Name));
 
             return companies;
         }
@@ -76,15 +71,23 @@ namespace JobJetRestApi.Infrastructure.Queries
                 ORDER BY [Company].Id;"
                 ;
             
-            var company = await connection.QueryFirstOrDefaultAsync<CompanyResponse>(query, new
+            var queriedCompany = await connection.QueryFirstOrDefaultAsync<CompanyRecord>(query, new
             {
                 Id = id
             });
-
-            if (company is null)
+            
+            if (queriedCompany.Id == 0)
             {
                 throw CompanyNotFoundException.ForId(id);
             }
+
+            var company = new CompanyResponse(
+                queriedCompany.Id,
+                queriedCompany.Name,
+                queriedCompany.ShortName,
+                queriedCompany.Description,
+                queriedCompany.NumberOfPeople,
+                queriedCompany.CityName);
 
             return company;
         }

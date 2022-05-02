@@ -35,22 +35,18 @@ public class RolesController : ControllerBase
     
     // GET api/roles
     [HttpGet(ApiRoutes.Roles.GetAll)]
-    [ProducesResponseType(typeof(PagedResponse<RoleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(IEnumerable<RoleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<RoleResponse>>> Get([FromQuery] PaginationFilter filter)
+    public async Task<ActionResult<IEnumerable<RoleResponse>>> Get()
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var roles = await _roleQueries.GetAllRolesAsync(filter);
-            
-        var route = Request.Path.Value;
+        var roles = await _roleQueries.GetAllRolesAsync();
 
-        return Ok(PagedResponse<RoleResponse>.CreatePagedResponse(
-            roles.ToList(), "", true, null, filter, 666, _pageUriService, route));
+        return Ok(roles);
     }
     
     // GET api/roles/5

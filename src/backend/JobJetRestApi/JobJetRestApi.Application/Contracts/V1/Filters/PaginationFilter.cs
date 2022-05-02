@@ -2,32 +2,13 @@
 {
     public class PaginationFilter
     {
-        private const int MinimalNumberOfPage = 0;
+        public int PageNumber { get; init; }
 
-        private const int MinimalSizeOfPage = 1;
-        private const int MaximalSizeOfPage = 100;
+        public int PageSize { get; set; } = 10;
 
-        private readonly int _pageNumber;
-        private readonly int _pageSize;
-        
-        public int PageNumber
+        public int GetNormalizedPageSize()
         {
-            get => _pageNumber;
-            init => _pageNumber = (value < MinimalNumberOfPage) ? MinimalNumberOfPage : value;
-        }
-
-        public int PageSize
-        {
-            get => _pageSize;
-            init
-            {
-                _pageSize = value switch
-                {
-                    < MinimalSizeOfPage => 1,
-                    > MaximalSizeOfPage => MaximalSizeOfPage,
-                    _ => value
-                };
-            }
+            return PageSize + 1;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
@@ -16,6 +17,8 @@ namespace JobJetRestApi.Infrastructure.Queries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly ICacheService _cacheService;
+
+        private readonly record struct TechnologyTypeRecord(int Id, string Name);
         
         public TechnologyTypeQueries(ISqlConnectionFactory sqlConnectionFactory,
             ICacheService cacheService)
@@ -24,7 +27,7 @@ namespace JobJetRestApi.Infrastructure.Queries
             _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
         }
     
-        public async Task<IEnumerable<TechnologyTypeResponse>> GetAllTechnologyTypesAsync(PaginationFilter paginationFilter)
+        public async Task<IEnumerable<TechnologyTypeResponse>> GetAllTechnologyTypesAsync()
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -33,21 +36,17 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [TechnologyType].Id,
                     [TechnologyType].Name
                 FROM [TechnologyTypes] AS [TechnologyType] 
-                ORDER BY [TechnologyType].Id 
-                OFFSET @OffsetRows ROWS
-                FETCH NEXT @FetchRows ROWS ONLY;"
+                ORDER BY [TechnologyType].Id;"
                 ;
-            
+
             var technologyTypes = _cacheService.Get<IEnumerable<TechnologyTypeResponse>>(CacheKeys.TechnologyTypesListKey);
                 
             if (technologyTypes is null)
             {
-                technologyTypes = await connection.QueryAsync<TechnologyTypeResponse>(query, new
-                {
-                    OffsetRows = paginationFilter.PageNumber,
-                    FetchRows = paginationFilter.PageSize
-                });
+                var queriedTechnologyTypes = await connection.QueryAsync<TechnologyTypeRecord>(query);
 
+                technologyTypes = queriedTechnologyTypes.Select(x => new TechnologyTypeResponse(x.Id, x.Name));
+                
                 _cacheService.Add(technologyTypes, CacheKeys.TechnologyTypesListKey);
             }
 
@@ -67,15 +66,19 @@ namespace JobJetRestApi.Infrastructure.Queries
                 ORDER BY [TechnologyType].Id;"
                 ;
             
-            var technologyType = await connection.QueryFirstOrDefaultAsync<TechnologyTypeResponse>(query, new
+            var queriedTechnologyType = await connection.QueryFirstOrDefaultAsync<TechnologyTypeRecord>(query, new
             {
                 Id = id
             });
 
-            if (technologyType is null)
+            if (queriedTechnologyType.Id == 0)
             {
                 throw TechnologyTypeNotFoundException.ForId(id);
             }
+
+            var technologyType = new TechnologyTypeResponse(
+                queriedTechnologyType.Id, 
+                queriedTechnologyType.Name);
 
             return technologyType;
         }

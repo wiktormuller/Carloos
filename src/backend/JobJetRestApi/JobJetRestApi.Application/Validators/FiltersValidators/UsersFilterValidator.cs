@@ -3,7 +3,7 @@ using JobJetRestApi.Application.Contracts.V1.Filters;
 
 namespace JobJetRestApi.Application.Validators.FiltersValidators;
 
-public class UsersFilterValidator : AbstractValidator<UsersFilter>
+public class UsersFilterValidator : AbstractValidator<JobOffersFilter>
 {
     public UsersFilterValidator()
     {

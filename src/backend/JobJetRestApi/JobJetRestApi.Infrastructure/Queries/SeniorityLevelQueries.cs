@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
@@ -16,6 +17,8 @@ namespace JobJetRestApi.Infrastructure.Queries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly ICacheService _cacheService;
+
+        private readonly record struct SeniorityLevelRecord(int Id, string Name);
         
         public SeniorityLevelQueries(ISqlConnectionFactory sqlConnectionFactory, 
             ICacheService cacheService)
@@ -24,7 +27,7 @@ namespace JobJetRestApi.Infrastructure.Queries
             _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
         }
     
-        public async Task<IEnumerable<SeniorityLevelResponse>> GetAllSeniorityLevelsAsync(PaginationFilter paginationFilter)
+        public async Task<IEnumerable<SeniorityLevelResponse>> GetAllSeniorityLevelsAsync()
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -33,21 +36,18 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [SeniorityLevel].Id,
                     [SeniorityLevel].Name
                 FROM [SeniorityLevels] AS [SeniorityLevel] 
-                ORDER BY [SeniorityLevel].Id 
-                OFFSET @OffsetRows ROWS
-                FETCH NEXT @FetchRows ROWS ONLY;"
+                ORDER BY [SeniorityLevel].Id;"
                 ;
             
             var seniorityLevels = _cacheService.Get<IEnumerable<SeniorityLevelResponse>>(CacheKeys.SeniorityTypesListKey);
                 
             if (seniorityLevels is null)
             {
-                seniorityLevels = await connection.QueryAsync<SeniorityLevelResponse>(query, new
-                {
-                    OffsetRows = paginationFilter.PageNumber,
-                    FetchRows = paginationFilter.PageSize
-                });
+                var queriedSeniorityLevels = await connection.QueryAsync<SeniorityLevelRecord>(query);
 
+                seniorityLevels = queriedSeniorityLevels.Select(x => 
+                    new SeniorityLevelResponse(x.Id, x.Name));
+                
                 _cacheService.Add(seniorityLevels, CacheKeys.SeniorityTypesListKey);
             }
 
@@ -67,15 +67,19 @@ namespace JobJetRestApi.Infrastructure.Queries
                 ORDER BY [SeniorityLevel].Id;"
                 ;
             
-            var seniorityLevel = await connection.QueryFirstOrDefaultAsync<SeniorityLevelResponse>(query, new
+            var queriedSeniorityLevel = await connection.QueryFirstOrDefaultAsync<SeniorityLevelRecord>(query, new
             {
                 Id = id
             });
 
-            if (seniorityLevel is null)
+            if (queriedSeniorityLevel.Id == 0)
             {
                 throw SeniorityLevelNotFoundException.ForId(id);
             }
+
+            var seniorityLevel = new SeniorityLevelResponse(
+                queriedSeniorityLevel.Id, 
+                queriedSeniorityLevel.Name);
 
             return seniorityLevel;
         }

@@ -7,6 +7,6 @@ namespace JobJetRestApi.Application.UseCases.Roles.Queries;
 
 public interface IRoleQueries
 {
-    Task<IEnumerable<RoleResponse>> GetAllRolesAsync(PaginationFilter paginationFilter);
+    Task<IEnumerable<RoleResponse>> GetAllRolesAsync();
     Task<RoleResponse> GetRoleByIdAsync(int id);
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
@@ -16,6 +17,8 @@ namespace JobJetRestApi.Infrastructure.Queries
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly ICacheService _cacheService;
+
+        private readonly record struct CurrencyRecord(int Id, string Name, string IsoCode, int IsoNumber);
         
         public CurrencyQueries(ISqlConnectionFactory sqlConnectionFactory, 
             ICacheService cacheService)
@@ -24,7 +27,7 @@ namespace JobJetRestApi.Infrastructure.Queries
             _cacheService = Guard.Against.Null(cacheService, nameof(cacheService));
         }
         
-        public async Task<IEnumerable<CurrencyResponse>> GetAllCurrenciesAsync(PaginationFilter paginationFilter)
+        public async Task<IEnumerable<CurrencyResponse>> GetAllCurrenciesAsync()
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -35,21 +38,18 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Currency].IsoCode,
                     [Currency].IsoNumber
                 FROM [Currencies] AS [Currency] 
-                ORDER BY [Currency].Id 
-                OFFSET @OffsetRows ROWS
-                FETCH NEXT @FetchRows ROWS ONLY;"
+                ORDER BY [Currency].Id"
                 ;
             
             var currencies = _cacheService.Get<IEnumerable<CurrencyResponse>>(CacheKeys.CurrenciesListKey);
                 
             if (currencies is null)
             {
-                currencies = await connection.QueryAsync<CurrencyResponse>(query, new
-                {
-                    OffsetRows = paginationFilter.PageNumber,
-                    FetchRows = paginationFilter.PageSize
-                });
+                var queriedCurrencies = await connection.QueryAsync<CurrencyRecord>(query);
 
+                currencies = queriedCurrencies.Select(x =>
+                    new CurrencyResponse(x.Id, x.Name, x.IsoCode));
+                
                 _cacheService.Add(currencies, CacheKeys.CurrenciesListKey);
             }
 
@@ -72,15 +72,20 @@ namespace JobJetRestApi.Infrastructure.Queries
                 ORDER BY [Currency].Id;"
                 ;
             
-            var currency = await connection.QueryFirstOrDefaultAsync<CurrencyResponse>(query, new
+            var queriedCurrency = await connection.QueryFirstOrDefaultAsync<CurrencyRecord>(query, new
             {
                 Id = id
             });
 
-            if (currency is null)
+            if (queriedCurrency.Id == 0)
             {
                 throw CurrencyNotFoundException.ForId(id);
             }
+
+            var currency = new CurrencyResponse(
+                queriedCurrency.Id, 
+                queriedCurrency.Name, 
+                queriedCurrency.IsoCode);
 
             return currency;
         }

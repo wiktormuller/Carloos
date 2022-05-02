@@ -6,21 +6,20 @@ using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Users.Queries;
-using JobJetRestApi.Infrastructure.Configuration;
 using JobJetRestApi.Infrastructure.Factories;
+using System.Linq;
 
 namespace JobJetRestApi.Infrastructure.Queries;
 
 public class UserQueries : IUserQueries
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
-    private readonly ICacheService _cacheService;
     
-    public UserQueries(ISqlConnectionFactory sqlConnectionFactory, 
-        ICacheService cacheService)
+    private readonly record struct UserRecord(int Id, string UserName, string Email);
+    
+    public UserQueries(ISqlConnectionFactory sqlConnectionFactory)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
-        _cacheService = cacheService;
     }
     
     public async Task<IEnumerable<UserResponse>> GetAllUsersAsync(PaginationFilter paginationFilter)
@@ -30,7 +29,7 @@ public class UserQueries : IUserQueries
         const string query = @"
             SELECT
                 [User].Id,
-                [User].Name,
+                [User].UserName,
                 [User].Email
             FROM [AspNetUsers] AS [User]
             ORDER BY [User].Id
@@ -38,18 +37,15 @@ public class UserQueries : IUserQueries
             FETCH NEXT @FetchRows ROWS ONLY;"
             ;
 
-        var users = _cacheService.Get<IEnumerable<UserResponse>>(CacheKeys.UsersListKey);
-
-        if (users is null)
-        {
-            users = await connection.QueryAsync<UserResponse>(query, new
+        var queriedUsers = await connection.QueryAsync<UserRecord>(
+            sql: query,
+            param: new
             {
                 OffsetRows = paginationFilter.PageNumber,
-                FetchRows = paginationFilter.PageSize
+                FetchRows = paginationFilter.GetNormalizedPageSize()
             });
             
-            _cacheService.Add(users, CacheKeys.UsersListKey);
-        }
+        var users = queriedUsers.Select(x => new UserResponse(x.Id, x.UserName, x.Email));
 
         return users;
     }
@@ -68,15 +64,20 @@ public class UserQueries : IUserQueries
             ORDER BY [User].Id;
         ";
 
-        var user = await connection.QueryFirstOrDefaultAsync<UserResponse>(query, new
+        var queriedUser = await connection.QueryFirstOrDefaultAsync<UserRecord>(query, new
         {
             Id = id
         });
 
-        if (user is null)
+        if (queriedUser.Id == 0)
         {
             throw UserNotFoundException.ForId(id);
         }
+
+        var user = new UserResponse(
+            queriedUser.Id, 
+            queriedUser.UserName, 
+            queriedUser.Email);
 
         return user;
     }

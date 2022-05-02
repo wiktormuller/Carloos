@@ -43,7 +43,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] UsersFilter filter) 
+        public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] JobOffersFilter filter) 
         {
             if (!ModelState.IsValid)
             {

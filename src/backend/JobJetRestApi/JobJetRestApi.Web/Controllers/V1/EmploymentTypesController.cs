@@ -34,22 +34,18 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/employment-types
         [HttpGet(ApiRoutes.EmploymentTypes.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<EmploymentTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<EmploymentTypeResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<EmploymentTypeResponse>>> Get([FromQuery] PaginationFilter filter)
+        public async Task<ActionResult<IEnumerable<EmploymentTypeResponse>>> Get()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            var employmentTypes = await _employmentTypeQueries.GetAllEmploymentTypesAsync(filter);
-            
-            var route = Request.Path.Value;
+            var employmentTypes = await _employmentTypeQueries.GetAllEmploymentTypesAsync();
 
-            return Ok(PagedResponse<EmploymentTypeResponse>.CreatePagedResponse(
-                employmentTypes.ToList(), "", true, null, filter, 666, _pageUriService, route));
+            return Ok(employmentTypes);
         }
         
         // GET api/employment-types/5
