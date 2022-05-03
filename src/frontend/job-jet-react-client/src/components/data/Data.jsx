@@ -10,6 +10,7 @@ export const Data = (props) => {
         localizationArray={props.localizationArray}
         setSearchedInput={props.setSearchedInput}
         setSearchedLocalization={props.setSearchedLocalization}
+        setAdvertLocation={props.setAdvertLocation}
       ></InputData>
       <FilterData
         skillsArray={props.skillsArray}

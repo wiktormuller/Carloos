@@ -10,6 +10,17 @@ export const InputData = (props) => {
     props.setSearchedLocalization(value);
   };
 
+  const updateAdvertLocation = (localizationId) => {
+    props.localizationArray.forEach((localization) => {
+      if (localization.id == localizationId) {
+        props.setAdvertLocation({
+          lat: localization.lat,
+          lng: localization.lng,
+        });
+      }
+    });
+  };
+
   const renderedArray = props.localizationArray.map((country) => {
     return (
       <option key={country.id} value={country.id}>
@@ -34,8 +45,8 @@ export const InputData = (props) => {
           id="search"
           className="custom-select"
           onChange={(e) => {
-            console.log(e.target.value);
             updateSearchedLocalizations(e.target.value);
+            updateAdvertLocation(e.target.value);
           }}
         >
           {renderedArray}

@@ -17,9 +17,12 @@ function App() {
       });
   }, [url]);
 
-  console.log(countries);
+  // Domyślnie countries zostanie przekazana do localizationArray. Najpierw muszą jednak zostać dodane własności lat, lng, zoom
+  //console.log(countries);
 
-  /* INTEGRACJA Z API */
+  /* KONIEC INTEGRACJI Z API */
+
+  const [advertLocation, setAdvertLocation] = useState({});
 
   const [userLogInState, setUserLogInState] = useState(false);
   const [searchedInput, setSearchedInput] = useState("");
@@ -80,6 +83,8 @@ function App() {
         setSearchedInput={setSearchedInput}
         setSearchedLocalization={setSearchedLocalization}
         setSearchedSkills={setSearchedSkills}
+        advertLocation={advertLocation}
+        setAdvertLocation={setAdvertLocation}
       ></LandingPage>
     </div>
   );
