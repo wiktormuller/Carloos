@@ -31,7 +31,8 @@ input[type="text"],
   background: #ffffff;
   padding: 12px 20px;
   font-size: 1rem;
-  border-style: solid;
+  /* border-style: solid; */
+  border: 1px solid rgba(0, 0, 0, 0.23);
   text-align: center;
   outline: transparent;
   width: 35%;
