@@ -19,7 +19,7 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
         
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            if (!await _userRepository.ExistsAsync(request.Email))
+            if (await _userRepository.ExistsAsync(request.Email))
             {
                 throw UserAlreadyExistsException.ForEmail(request.Email);
             }
