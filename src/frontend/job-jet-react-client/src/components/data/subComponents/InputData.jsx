@@ -12,10 +12,11 @@ export const InputData = (props) => {
 
   const updateAdvertLocation = (localizationId) => {
     props.localizationArray.forEach((localization) => {
-      if (localization.id == localizationId) {
+      if (localization.id === Number(localizationId)) {
         props.setAdvertLocation({
           lat: localization.lat,
           lng: localization.lng,
+          zoom: localization.zoom,
         });
       }
     });

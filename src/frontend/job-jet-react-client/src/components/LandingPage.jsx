@@ -27,7 +27,7 @@ export const LandingPage = (props) => {
                 <Data
                   localizationArray={props.localizationArray}
                   skillsArray={props.skillsArray}
-                  adsArray={props.adsArray}
+                  jobOffersArray={props.jobOffersArray}
                   searchedSkills={props.searchedSkills}
                   setSearchedInput={props.setSearchedInput}
                   setSearchedLocalization={props.setSearchedLocalization}
@@ -46,11 +46,13 @@ export const LandingPage = (props) => {
                 />
               }
             />
+            <Route path="/register" element={<div>REJESTRACJA</div>} />
+            <Route path="/login" element={<div>LOGOWANIE</div>} />
           </Routes>
 
           <Map
             localizationArray={props.localizationArray}
-            adsArray={props.adsArray}
+            jobOffersArray={props.jobOffersArray}
             geoLocation={geoLocation}
             advertLocation={advertLocation}
           ></Map>

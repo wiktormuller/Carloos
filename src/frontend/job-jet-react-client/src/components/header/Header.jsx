@@ -6,8 +6,12 @@ export const Header = (props) => {
     if (!props.userLogInState) {
       return (
         <div className="header__unregistered-user">
-          <button className="header__btn">Rejestracja</button>
-          <button className="header__btn">Logowanie</button>
+          <Link className="custom-link" to="/register">
+            <button className="header__btn">Rejestracja</button>
+          </Link>
+          <Link className="custom-link" to="/login">
+            <button className="header__btn">Logowanie</button>
+          </Link>
         </div>
       );
     } else if (!!props.userLogInState) {
@@ -20,20 +24,16 @@ export const Header = (props) => {
     }
   };
 
-const handleClick=()=>{
-  props.setGeoLocation({
-    lat: undefined, 
-    lng: undefined,
-  })
-  props.setAdvertLocation({
-    lat: 52.006376, 
-    lng: 19.025167,
-  })
-}
-
-
-
-
+  const handleClick = () => {
+    props.setGeoLocation({
+      lat: undefined,
+      lng: undefined,
+    });
+    props.setAdvertLocation({
+      lat: 52.006376,
+      lng: 19.025167,
+    });
+  };
 
   return (
     <div className="header">

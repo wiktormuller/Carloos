@@ -20,7 +20,7 @@ export const Data = (props) => {
       <AdvertData
         localizationArray={props.localizationArray}
         skillsArray={props.skillsArray}
-        adsArray={props.adsArray}
+        jobOffersArray={props.jobOffersArray}
         setAdvertDetails={props.setAdvertDetails}
         setAdvertLocation={props.setAdvertLocation}
       ></AdvertData>

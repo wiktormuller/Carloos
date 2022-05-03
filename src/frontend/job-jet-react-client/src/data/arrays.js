@@ -7,7 +7,7 @@ export const localizationArray = [
     alpha2Code: "PL",
     lat: 52.006376,
     lng: 19.025167,
-    zoom: 6.0,
+    zoom: 6.5,
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const localizationArray = [
     alpha2Code: "GB",
     lat: 54.00366,
     lng: -2.547855,
-    zoom: 6.0,
+    zoom: 5.5,
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ export const localizationArray = [
     alpha2Code: "DE",
     lat: 52.531677,
     lng: 13.381777,
-    zoom: 6.0,
+    zoom: 5.7,
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ export const localizationArray = [
     alpha2Code: "CH",
     lat: 46.80111,
     lng: 8.22667,
-    zoom: 6.0,
+    zoom: 7.0,
   },
   {
     id: 5,
@@ -39,7 +39,35 @@ export const localizationArray = [
     alpha2Code: "BE",
     lat: 50.503887,
     lng: 4.469936,
-    zoom: 6.0,
+    zoom: 8.0,
+  },
+];
+
+export const jobOffersArray = [
+  {
+    id: 0,
+    name: "Junior Web Developer",
+    description:
+      "Poszukiwany Junior Web Developer do pracy. Po okresie próbnym możliwa praca zdalna",
+    salaryFrom: 4000,
+    salaryTo: 6000,
+    address: {
+      id: 0,
+      countryName: "Poland",
+      town: "Gdańsk",
+      street: "Długi Targ 43-44",
+      zipCode: "80-831",
+      latitude: 54.35,
+      longitude: 18.633,
+    },
+    technologyType: ["HTML", "CSS", "JavaScript"],
+    seniority: "Junior",
+    employmentType: "B2B",
+    workSpecification: "FullyRemote",
+    company: "IBPM S.A",
+    focus: "Produkt",
+    date: "20-10-2021",
+    numberOfEmployees: "90-120",
   },
 ];
 
@@ -64,89 +92,6 @@ export const skillsArray = [
   { id: 18, name: "Security", icon: "MdSecurity", color: "#4166f5" },
   { id: 19, name: "Data", icon: "DiDatabase", color: "#ea3c53" },
   { id: 20, name: "Inne", icon: "RiPsychotherapyLine", color: "orange" },
-];
-
-export const adsArray = [
-  {
-    id: 1,
-    title: "Junior Web Developer",
-    localization: 2,
-    salary: "5000-7500 PLN",
-    date: "20-10-2021",
-    address: "Długi Targ 43-44, 80-831 Gdańsk",
-    conditions: "6000 PLN netto/miesięcznie, UOP",
-    description:
-      "Poszukiwany Junior Web Developer do pracy. Po okresie próbnym możliwa praca zdalna",
-    skills: [1, 2, 3],
-    advancedDataArray: [
-      { name: "Firma:", value: "IBPM S.A" },
-      { name: "Praca skupiona na:", value: "Produkcie" },
-      { name: "Poziom doświadczenia", value: "Junior" },
-      { name: "Liczba pracowników", value: "90-120" },
-    ],
-    lat: 54.35,
-    lng: 18.633,
-  },
-  {
-    id: 2,
-    title: "Senior security specialist",
-    localization: 5,
-    salary: "15000-25000 PLN",
-    date: "28-10-2021",
-    address: "plac Zamkowy, 00-001 Warszawa",
-    conditions: "do 25000 PLN netto/miesięcznie, B2B",
-    description:
-      "Poszukujemy specjalisty w dziedzinie bezpieczeństwa IT. Oferujemy bardzo atrakcyjne warunki pracy.",
-    skills: [8, 17, 18, 20],
-    advancedDataArray: [
-      { name: "Firma:", value: "Atena Sp. z.o.o" },
-      { name: "Praca skupiona na:", value: "Utrzymaniu infrastruktury" },
-      { name: "Poziom doświadczenia", value: "Senior" },
-      { name: "Liczba pracowników", value: "2500+" },
-    ],
-    lat: 52.217,
-    lng: 21,
-  },
-  {
-    id: 3,
-    title: "Senior Business Analyst",
-    localization: 9,
-    salary: "15000-25000 PLN",
-    date: "28-10-2021",
-    address: "Józefińska 10, 30-529 Kraków",
-    conditions: "7000-10000 netto/miesięcznie, B2B",
-    description:
-      "Specjalistę z dziedziny procesów biznesowych zatrudnię od zaraz. Praca w młodym, dynamicznym zespole!",
-    skills: [19, 20],
-    advancedDataArray: [
-      { name: "Firma:", value: "SafeData S.A." },
-      { name: "Praca skupiona na:", value: "Utrzymaniu infrastruktury" },
-      { name: "Poziom doświadczenia", value: "Mid/Senior" },
-      { name: "Liczba pracowników", value: "120+" },
-    ],
-    lat: 50.04587,
-    lng: 19.94991,
-  },
-  {
-    id: 4,
-    title: "Junior Embedded Systems Developer",
-    localization: 7,
-    salary: "4000-6000 PLN",
-    date: "23-01-2022",
-    address: "Głogowska 90, 60-262 Poznań",
-    conditions: "7000-10000 netto/miesięcznie, B2B",
-    description:
-      "Poszukujemy młodego, zdolnego specjalisty do rozwojów systemów embedded. Bardzo szerokie możliwości rozwoju!",
-    skills: [6, 20],
-    advancedDataArray: [
-      { name: "Firma:", value: "MirekSoft Sp. z.o.o." },
-      { name: "Praca skupiona na:", value: "Rozwoju systemów" },
-      { name: "Poziom doświadczenia", value: "Junior" },
-      { name: "Liczba pracowników", value: "15" },
-    ],
-    lat: 52.39325,
-    lng: 16.89741,
-  },
 ];
 
 export const navbarLinksTable = [

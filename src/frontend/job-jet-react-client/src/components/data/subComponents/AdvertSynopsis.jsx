@@ -3,20 +3,13 @@ import { GoLocation } from "react-icons/go";
 import { FcMoneyTransfer } from "react-icons/fc";
 
 export const AdvertSynopsis = (props) => {
-  const findNameById = (id, array) => {
-    let name;
-    array.forEach((x) => {
-      if (x.id === id) {
-        name = x.name;
-      }
-    });
-    return name;
-  };
-
-  const renderArray = props.skills.map((skill) => {
+  const renderArray = props.technologyTypesArray.map((technologyType) => {
     return (
-      <div key={skill} className="data__advert-data--synopsis--skill">
-        {findNameById(skill, props.skillsArray)}
+      <div
+        key={technologyType.index}
+        className="data__advert-data--synopsis--skill"
+      >
+        {technologyType}
       </div>
     );
   });
@@ -33,7 +26,7 @@ export const AdvertSynopsis = (props) => {
       <div className="data__advert-data--synopsis--body">
         <span>
           <GoLocation />
-          {findNameById(props.localization, props.localizationArray)}
+          {props.localization}
         </span>
         <span>
           <FcMoneyTransfer />

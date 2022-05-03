@@ -55,7 +55,10 @@ export const Map = (props) => {
         11 - options.length * 0.0009
       );
     } else if (props.advertLocation.lng !== undefined) {
-      map.flyTo([props.advertLocation.lat, props.advertLocation.lng], 14);
+      map.flyTo(
+        [props.advertLocation.lat, props.advertLocation.lng],
+        !!props.advertLocation.zoom ? props.advertLocation.zoom : 14
+      );
     }
 
     return null;
@@ -68,23 +71,25 @@ export const Map = (props) => {
     (loc) => ((center = [loc.lat, loc.lng]), (zoom = loc.zoom))
   );
 
-  const filteredAdverts = props.adsArray.map(
-    (ad) => (
+  const filteredAdverts = props.jobOffersArray.map(
+    (jobOffer) => (
       // eslint-disable-next-line no-sequences
-      (skill = ad.skills[0]),
+      (skill = jobOffer.technologyType[0]),
       (
         <Marker
-          key={ad.id}
+          key={jobOffer.id}
           icon={L.icon({
             iconUrl: require(`../../data/icons/` + skill + `.svg`).default,
             iconSize: new L.Point(60, 75),
           })}
-          position={[ad.lat, ad.lng]}
+          position={[jobOffer.address.latitude, jobOffer.address.longitude]}
         >
-          <Popup position={[ad.lat, ad.lng]}>
+          <Popup
+            position={[jobOffer.address.latitude, jobOffer.address.longitude]}
+          >
             <div>
-              <h2>{ad.title}</h2>
-              <p>{ad.description}</p>
+              <h2>{jobOffer.name}</h2>
+              <p>{jobOffer.description}</p>
             </div>
           </Popup>
         </Marker>

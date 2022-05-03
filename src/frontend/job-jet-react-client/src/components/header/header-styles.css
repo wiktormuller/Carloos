@@ -49,3 +49,15 @@
   background: #ddd;
   transition: background-color 0.1s;
 }
+
+/* .custom-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: initial;
+  margin-bottom: 0;
+  width: initial;
+  height: initial;
+  text-decoration: none;
+  color: initial;
+} */
