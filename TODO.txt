@@ -1,4 +1,5 @@
 - FirstPage, LastPage and next page returns wrong data (especialy pageNumber and pageSize); remove the pageUriService dependency from controller?
+- Countries have to return coordinates of capitol
 - Move logic of creating PagedResponse to queries
 - Implement ReadMe
 - Add logger
