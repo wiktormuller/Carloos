@@ -1,16 +1,46 @@
 //Docelowo te tabele będą w db
 
 export const localizationArray = [
-  { id: 1, name: "Cała Polska", lat: 52.006376, lng: 19.025167, zoom: 6.8 },
-  { id: 2, name: "Gdańsk", lat: 54.35, lng: 18.66666, zoom: 13 },
-  { id: 3, name: "Gdynia", lat: 54.51666, lng: 18.51666, zoom: 13 },
-  { id: 4, name: "Sopot", lat: 54.43333, lng: 18.55, zoom: 13 },
-  { id: 5, name: "Warszawa", lat: 52.225, lng: 21, zoom: 12 },
-  { id: 6, name: "Łódź", lat: 51.77, lng: 19.46667, zoom: 13 },
-  { id: 7, name: "Poznań", lat: 52.4, lng: 16.925, zoom: 13 },
-  { id: 8, name: "Wrocław", lat: 51.1, lng: 17.03333, zoom: 13 },
-  { id: 9, name: "Kraków", lat: 50.06143, lng: 19.93658, zoom: 13 },
-  { id: 10, name: "Szczecin", lat: 53.42894, lng: 14.55302, zoom: 13 },
+  {
+    id: 1,
+    name: "Poland",
+    alpha2Code: "PL",
+    lat: 52.006376,
+    lng: 19.025167,
+    zoom: 6.0,
+  },
+  {
+    id: 2,
+    name: "United Kingdom",
+    alpha2Code: "GB",
+    lat: 54.00366,
+    lng: -2.547855,
+    zoom: 6.0,
+  },
+  {
+    id: 3,
+    name: "Germany",
+    alpha2Code: "DE",
+    lat: 52.531677,
+    lng: 13.381777,
+    zoom: 6.0,
+  },
+  {
+    id: 4,
+    name: "Switzerland",
+    alpha2Code: "CH",
+    lat: 46.80111,
+    lng: 8.22667,
+    zoom: 6.0,
+  },
+  {
+    id: 5,
+    name: "Belgium",
+    alpha2Code: "BE",
+    lat: 50.503887,
+    lng: 4.469936,
+    zoom: 6.0,
+  },
 ];
 
 export const skillsArray = [

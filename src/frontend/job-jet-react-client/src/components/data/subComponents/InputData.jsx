@@ -10,10 +10,10 @@ export const InputData = (props) => {
     props.setSearchedLocalization(value);
   };
 
-  const renderedArray = props.localizationArray.map((city) => {
+  const renderedArray = props.localizationArray.map((country) => {
     return (
-      <option key={city.id} value={city.id}>
-        {city.name}
+      <option key={country.id} value={country.id}>
+        {country.name}
       </option>
     );
   });
@@ -34,6 +34,7 @@ export const InputData = (props) => {
           id="search"
           className="custom-select"
           onChange={(e) => {
+            console.log(e.target.value);
             updateSearchedLocalizations(e.target.value);
           }}
         >

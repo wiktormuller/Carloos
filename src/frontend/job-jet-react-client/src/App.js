@@ -1,10 +1,26 @@
 import "./styles/main-styles.css";
-import { useState /*, useEffect*/ } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";
 import { localizationArray, skillsArray, adsArray } from "./data/arrays";
 
 function App() {
+  /* INTEGRACJA Z API */
+
+  let url = `https://jobjet.azurewebsites.net/api/v1/countries/`;
+  let [countries, setCountries] = useState([]);
+  useEffect(() => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setCountries(data);
+      });
+  }, [url]);
+
+  console.log(countries);
+
+  /* INTEGRACJA Z API */
+
   const [userLogInState, setUserLogInState] = useState(false);
   const [searchedInput, setSearchedInput] = useState("");
   const [searchedLocalization, setSearchedLocalization] = useState("1");
