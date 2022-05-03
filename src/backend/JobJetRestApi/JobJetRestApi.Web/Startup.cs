@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using HealthChecks.UI.Client;
 using JobJetRestApi.Web.Installers;
 using Microsoft.AspNetCore.Builder;
@@ -45,6 +46,8 @@ namespace JobJetRestApi.Web
                  .AllowAnyMethod()
                  .AllowAnyHeader());
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

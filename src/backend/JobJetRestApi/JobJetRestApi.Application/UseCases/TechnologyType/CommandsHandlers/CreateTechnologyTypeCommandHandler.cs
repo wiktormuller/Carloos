@@ -27,9 +27,9 @@ namespace JobJetRestApi.Application.UseCases.TechnologyType.CommandsHandlers
             
             var technologyType = new Domain.Entities.TechnologyType(request.Name);
 
-            var technologyTypeId = await _technologyTypeRepository.CreateAsync(technologyType);
+            await _technologyTypeRepository.CreateAsync(technologyType);
 
-            return technologyTypeId;
+            return technologyType.Id;
         }
     }
 }

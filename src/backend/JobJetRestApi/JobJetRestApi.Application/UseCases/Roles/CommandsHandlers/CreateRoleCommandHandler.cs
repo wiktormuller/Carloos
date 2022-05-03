@@ -26,8 +26,8 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, int>
 
         var role = new Role(request.Name);
 
-        var roleId = await _roleRepository.CreateAsync(role);
+        await _roleRepository.CreateAsync(role);
 
-        return roleId;
+        return role.Id;
     }
 }

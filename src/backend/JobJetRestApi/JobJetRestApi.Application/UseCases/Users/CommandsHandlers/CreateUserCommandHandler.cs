@@ -26,9 +26,9 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
 
             var user = new User(request.Email, request.Name);
 
-            var userId = await _userRepository.CreateAsync(user, request.Password);
+            await _userRepository.CreateAsync(user, request.Password);
 
-            return userId;
+            return user.Id;
         }
     }
 }
