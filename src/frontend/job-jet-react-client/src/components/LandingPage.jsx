@@ -5,6 +5,8 @@ import { Header } from "./header/Header.jsx";
 import { Data } from "./data/Data.jsx";
 import { AdvertDetails } from "./advertDetails/AdvertDetails.jsx";
 import { Map } from "./map/Map.jsx";
+import { RegistrationPanel } from "./registrationPanel/RegistrationPanel";
+import { LoginPanel } from "./loginPanel/LoginPanel";
 
 export const LandingPage = (props) => {
   const [advertDetails, setAdvertDetails] = useState({});
@@ -46,8 +48,8 @@ export const LandingPage = (props) => {
                 />
               }
             />
-            <Route path="/register" element={<div>REJESTRACJA</div>} />
-            <Route path="/login" element={<div>LOGOWANIE</div>} />
+            <Route path="/register" element={<RegistrationPanel />} />
+            <Route path="/login" element={<LoginPanel />} />
           </Routes>
 
           <Map
