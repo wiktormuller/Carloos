@@ -6,7 +6,6 @@ import { localizationArray, skillsArray, adsArray } from "./data/arrays";
 
 function App() {
   const [userLogInState, setUserLogInState] = useState(false);
-
   const [searchedInput, setSearchedInput] = useState("");
   const [searchedLocalization, setSearchedLocalization] = useState("1");
   const [searchedSkills, setSearchedSkills] = useState([]);
