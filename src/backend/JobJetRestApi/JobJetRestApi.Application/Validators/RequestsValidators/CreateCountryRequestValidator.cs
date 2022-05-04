@@ -21,6 +21,8 @@ namespace JobJetRestApi.Application.Validators.RequestsValidators
 
             RuleFor(request => request.NumericCode)
                 .InclusiveBetween(1, 1000);
+            
+            // @TODO - Add validation for coords
         }
     }
 }

@@ -20,7 +20,10 @@ namespace JobJetRestApi.Infrastructure.Queries
         
         private readonly record struct JobOfferRecord(int Id, string Name, string Description, decimal SalaryFrom, decimal SalaryTo,
             string WorkSpecification, int AddressId, string Town, string Street, string ZipCode, string CountryName, decimal Latitude, decimal Longitude,
-            int TechnologyTypeId, string TechnologyTypeName, int SeniorityId, string SeniorityName, int EmploymentTypeId, string EmploymentTypeName);
+            int SeniorityId, string SeniorityName, int EmploymentTypeId, string EmploymentTypeName,
+            int CompanyId, string CompanyName);
+
+        private readonly record struct TechnologyTypeRecord(int TechnologyTypeId, string TechnologyTypeName);
         
         public JobOfferQueries(ISqlConnectionFactory sqlConnectionFactory)
         {
@@ -52,7 +55,9 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Seniority].Id AS SeniorityId,
                     [Seniority].Name AS SeniorityName,
                     [EmploymentType].Id AS EmploymentTypeId,
-                    [EmploymentType].Name AS EmploymentTypeName
+                    [EmploymentType].Name AS EmploymentTypeName,
+                    [Company].Id AS CompanyId,
+                    [Company].Name AS CompanyName
                 FROM [JobOffers] AS [JobOffer] 
                 LEFT JOIN Addresses AS [Address]
                     ON [JobOffer].AddressId = [Address].Id
@@ -64,6 +69,8 @@ namespace JobJetRestApi.Infrastructure.Queries
                     ON [JobOffer].SeniorityId = [Seniority].Id
                 LEFT JOIN EmploymentTypes AS [EmploymentType]
                     ON [JobOffer].EmploymentTypeId = [Seniority].Id
+                LEFT JOIN Companies AS [Company]
+                    ON [JobOffer].CompanyId = [Company].Id
                     
                 --@WHERE
                 
@@ -75,9 +82,53 @@ namespace JobJetRestApi.Infrastructure.Queries
             
             var parameters = BuildConditionsAndGetDynamicParameters(queryBuilder, usersFilter);
 
-            var queriedJobOffers = await connection.QueryAsync<JobOfferRecord>(queryBuilder.ToString(), parameters);
+            var jobOfferMap = new Dictionary<int, JobOfferDto>();
+            
+            await connection.QueryAsync<JobOfferRecord, TechnologyTypeRecord, bool>(
+                queryBuilder.ToString(), 
+                param: parameters, 
+                splitOn: "TechnologyTypeId",
+                map: (jobOfferRecord, technologyTypeRecord) =>
+                {
+                    JobOfferDto jobOfferDto;
+                    
+                    if (!jobOfferMap.TryGetValue(jobOfferRecord.Id, out jobOfferDto))
+                    {
+                        jobOfferDto = new JobOfferDto
+                        {
+                            Id = jobOfferRecord.Id,
+                            AddressId = jobOfferRecord.AddressId,
+                            CompanyId = jobOfferRecord.CompanyId,
+                            CompanyName = jobOfferRecord.CompanyName,
+                            CountryName = jobOfferRecord.CountryName,
+                            Description = jobOfferRecord.Description,
+                            EmploymentTypeId = jobOfferRecord.EmploymentTypeId,
+                            EmploymentTypeName = jobOfferRecord.EmploymentTypeName,
+                            Latitude = jobOfferRecord.Latitude,
+                            Longitude = jobOfferRecord.Longitude,
+                            Name = jobOfferRecord.Name,
+                            SalaryFrom = jobOfferRecord.SalaryFrom,
+                            SalaryTo = jobOfferRecord.SalaryTo,
+                            SeniorityId = jobOfferRecord.SeniorityId,
+                            SeniorityName = jobOfferRecord.SeniorityName,
+                            WorkSpecification = jobOfferRecord.WorkSpecification,
+                            Town = jobOfferRecord.Town,
+                            Street = jobOfferRecord.Street,
+                            ZipCode = jobOfferRecord.ZipCode
+                        };
+                        jobOfferMap.Add(jobOfferRecord.Id, jobOfferDto);
+                    }
+                    
+                    jobOfferDto.TechnologyTypes.Add(new TechnologyTypeDto
+                    {
+                        TechnologyTypeId = technologyTypeRecord.TechnologyTypeId,
+                        TechnologyTypeName = technologyTypeRecord.TechnologyTypeName
+                    });
+                    
+                    return true;
+                });
 
-            var jobOffers = queriedJobOffers.Select(x => new JobOfferResponse(
+            var jobOffers = jobOfferMap.Values.Select(x => new JobOfferResponse(
                 x.Id,
                 x.Name,
                 x.Description,
@@ -89,10 +140,14 @@ namespace JobJetRestApi.Infrastructure.Queries
                 x.ZipCode,
                 x.Latitude,
                 x.Longitude,
-                x.TechnologyTypeName,
+                x.TechnologyTypes
+                    .Select(technologyType => technologyType.TechnologyTypeName)
+                    .ToList(),
                 x.SeniorityName,
                 x.EmploymentTypeName,
-                Enum.Parse<WorkSpecification>(x.WorkSpecification)
+                Enum.Parse<WorkSpecification>(x.WorkSpecification),
+                x.CompanyId,
+                x.CompanyName
                 ));
             
             return jobOffers;
@@ -124,7 +179,9 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Seniority].Id AS SeniorityId,
                     [Seniority].Name AS SeniorityName,
                     [EmploymentType].Id AS EmploymentTypeId,
-                    [EmploymentType].Name AS EmploymentTypeName
+                    [EmploymentType].Name AS EmploymentTypeName,
+                    [Company].Id AS CompanyId,
+                    [Company].Name AS CompanyName
                 FROM [JobOffers] AS [JobOffer] 
                 LEFT JOIN Addresses AS [Address]
                     ON [JobOffer].AddressId = [Address].Id
@@ -136,18 +193,63 @@ namespace JobJetRestApi.Infrastructure.Queries
                     ON [JobOffer].SeniorityId = [Seniority].Id
                 LEFT JOIN EmploymentTypes AS [EmploymentType]
                     ON [JobOffer].EmploymentTypeId = [Seniority].Id
+                LEFT JOIN Companies AS [Company]
+                    ON [JobOffer].CompanyId = [Company].Id
                 
                 ORDER BY [JobOffer].Id 
                 OFFSET @OffsetRows ROWS
                 FETCH NEXT @FetchRows ROWS ONLY;"
                 ;
             
-            var queriedJobOffer = await connection.QueryFirstOrDefaultAsync<JobOfferRecord>(query, new
-            {
-                Id = id
-            });
+            var jobOfferMap = new Dictionary<int, JobOfferDto>();
+            
+            await connection.QueryAsync<JobOfferRecord, TechnologyTypeRecord, bool>(
+                query, 
+                param: new { Id = id }, 
+                splitOn: "TechnologyTypeId",
+                map: (jobOfferRecord, technologyTypeRecord) =>
+                {
+                    JobOfferDto jobOfferDto;
+                    
+                    if (!jobOfferMap.TryGetValue(jobOfferRecord.Id, out jobOfferDto))
+                    {
+                        jobOfferDto = new JobOfferDto
+                        {
+                            Id = jobOfferRecord.Id,
+                            AddressId = jobOfferRecord.AddressId,
+                            CompanyId = jobOfferRecord.CompanyId,
+                            CompanyName = jobOfferRecord.CompanyName,
+                            CountryName = jobOfferRecord.CountryName,
+                            Description = jobOfferRecord.Description,
+                            EmploymentTypeId = jobOfferRecord.EmploymentTypeId,
+                            EmploymentTypeName = jobOfferRecord.EmploymentTypeName,
+                            Latitude = jobOfferRecord.Latitude,
+                            Longitude = jobOfferRecord.Longitude,
+                            Name = jobOfferRecord.Name,
+                            SalaryFrom = jobOfferRecord.SalaryFrom,
+                            SalaryTo = jobOfferRecord.SalaryTo,
+                            SeniorityId = jobOfferRecord.SeniorityId,
+                            SeniorityName = jobOfferRecord.SeniorityName,
+                            WorkSpecification = jobOfferRecord.WorkSpecification,
+                            Town = jobOfferRecord.Town,
+                            Street = jobOfferRecord.Street,
+                            ZipCode = jobOfferRecord.ZipCode
+                        };
+                        jobOfferMap.Add(jobOfferRecord.Id, jobOfferDto);
+                    }
+                    
+                    jobOfferDto.TechnologyTypes.Add(new TechnologyTypeDto
+                    {
+                        TechnologyTypeId = technologyTypeRecord.TechnologyTypeId,
+                        TechnologyTypeName = technologyTypeRecord.TechnologyTypeName
+                    });
+                    
+                    return true;
+                });
 
-            if (queriedJobOffer.Id == 0)
+            var queriedJobOffer = jobOfferMap.Values.FirstOrDefault();
+
+            if (queriedJobOffer is null || queriedJobOffer.Id == 0)
             {
                 throw JobOfferNotFoundException.ForId(id);
             }
@@ -164,10 +266,14 @@ namespace JobJetRestApi.Infrastructure.Queries
                 queriedJobOffer.ZipCode,
                 queriedJobOffer.Latitude,
                 queriedJobOffer.Longitude,
-                queriedJobOffer.TechnologyTypeName,
+                queriedJobOffer.TechnologyTypes
+                    .Select(technologyType => technologyType.TechnologyTypeName)
+                    .ToList(),
                 queriedJobOffer.SeniorityName,
                 queriedJobOffer.EmploymentTypeName,
-                Enum.Parse<WorkSpecification>(queriedJobOffer.WorkSpecification)
+                Enum.Parse<WorkSpecification>(queriedJobOffer.WorkSpecification),
+                queriedJobOffer.CompanyId,
+                queriedJobOffer.CompanyName
                 );
 
             return jobOffer;
@@ -237,5 +343,35 @@ namespace JobJetRestApi.Infrastructure.Queries
 
             return parameters;
         }
+    }
+    
+    public class JobOfferDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } 
+        public string Description { get; set; } 
+        public decimal SalaryFrom { get; set; }
+        public decimal SalaryTo { get; set; }
+        public string WorkSpecification { get; set; }
+        public int AddressId { get; set; }
+        public string Town { get; set; }
+        public string Street { get; set; }
+        public string ZipCode { get; set; }
+        public string CountryName { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public int SeniorityId { get; set; }
+        public string SeniorityName { get; set; }
+        public int EmploymentTypeId { get; set; }
+        public string EmploymentTypeName { get; set; }
+        public int CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public List<TechnologyTypeDto> TechnologyTypes { get; set; } = new List<TechnologyTypeDto>();
+    }
+
+    public class TechnologyTypeDto
+    {
+        public int TechnologyTypeId { get; set; }
+        public string TechnologyTypeName { get; set; }
     }
 }

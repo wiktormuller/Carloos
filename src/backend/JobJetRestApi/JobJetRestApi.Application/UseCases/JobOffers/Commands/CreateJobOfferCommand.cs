@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Collections.Generic;
+using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
 {
@@ -10,7 +11,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
         public string Description { get; }
         public decimal SalaryFrom { get; }
         public decimal SalaryTo { get; }
-        public int TechnologyTypeId { get; }
+        public List<int> TechnologyTypeIds { get; }
         public int SeniorityId { get; }
         public int EmploymentTypeId { get; }
         public int CurrencyId { get; }
@@ -27,7 +28,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
             string description, 
             decimal salaryFrom, 
             decimal salaryTo, 
-            int technologyTypeId, 
+            List<int> technologyTypeIds, 
             int seniorityId,
             int employmentTypeId,
             string town,
@@ -43,7 +44,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Commands
             Description = description;
             SalaryFrom = salaryFrom;
             SalaryTo = salaryTo;
-            TechnologyTypeId = technologyTypeId;
+            TechnologyTypeIds = technologyTypeIds;
             SeniorityId = seniorityId;
             EmploymentTypeId = employmentTypeId;
             Town = town;
