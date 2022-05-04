@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";
 import { localizationArray, jobOffersArray, skillsArray } from "./data/arrays";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   //------------------------------------------------------------------------------------------------------------------------------
@@ -46,20 +47,22 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar></Navbar>
-      <LandingPage
-        userLogInState={userLogInState}
-        setUserLogInState={setUserLogInState}
-        localizationArray={localizationArray}
-        skillsArray={skillsArray}
-        jobOffersArray={jobOffersArray}
-        searchedSkills={searchedSkills}
-        setSearchedInput={setSearchedInput}
-        setSearchedLocalization={setSearchedLocalization}
-        setSearchedSkills={setSearchedSkills}
-        advertLocation={advertLocation}
-        setAdvertLocation={setAdvertLocation}
-      ></LandingPage>
+      <Router>
+        <Navbar></Navbar>
+        <LandingPage
+          userLogInState={userLogInState}
+          setUserLogInState={setUserLogInState}
+          localizationArray={localizationArray}
+          skillsArray={skillsArray}
+          jobOffersArray={jobOffersArray}
+          searchedSkills={searchedSkills}
+          setSearchedInput={setSearchedInput}
+          setSearchedLocalization={setSearchedLocalization}
+          setSearchedSkills={setSearchedSkills}
+          advertLocation={advertLocation}
+          setAdvertLocation={setAdvertLocation}
+        ></LandingPage>
+      </Router>
     </div>
   );
 }
