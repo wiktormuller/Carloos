@@ -36,17 +36,21 @@ namespace JobJetRestApi.Web
                 .ConfigureAppConfiguration(x => x.AddEnvironmentVariables(prefix: "JobJetVariables_"))
                 .Build();
             
-            if (seed)
+            if (true)
             {
                 try
                 {
+                    Log.Information("Applying migrations...");
+                    await host.ApplyMigrations<JobJetDbContext>();
+                    Log.Information("Done applying migrations.");
+                    
                     Log.Information("Seeding database...");
                     await host.SeedJobJetContext<JobJetDbContext>();
                     Log.Information("Done seeding database.");
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, "An error occurred while seeding the database.");
+                    Log.Error(e, "An error occurred while applying-migrations/seeding the database.");
                 }
             }
 
