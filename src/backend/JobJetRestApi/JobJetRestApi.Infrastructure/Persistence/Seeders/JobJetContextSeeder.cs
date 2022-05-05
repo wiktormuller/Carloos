@@ -22,7 +22,6 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                 await context.Database.MigrateAsync();
             }
 
-            // @TODO - Add logger
             try
             {
                 if (!await context.Currencies.AnyAsync())
@@ -69,13 +68,16 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                 if (!await context.Roles.AnyAsync())
                 {
                     await roleRepository.CreateAsync(new Role("Administrator"));
+                    await roleRepository.CreateAsync(new Role("User"));
                 }
                 
                 if (!await context.UserRoles.AnyAsync())
                 {
-                    var role = await roleRepository.GetByNameAsync("Administrator");
+                    var adminRole = await roleRepository.GetByNameAsync("Administrator");
+                    var userRole = await roleRepository.GetByNameAsync("User");
                     var user = await userRepository.GetByEmailAsync("ceo@jobjet.com");
-                    await userRepository.AssignRoleToUser(user, role);
+                    await userRepository.AssignRoleToUser(user, adminRole);
+                    await userRepository.AssignRoleToUser(user, userRole);
                 }
             }
             catch (Exception)

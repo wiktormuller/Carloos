@@ -47,12 +47,19 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
             
-            var jobOffers = await _jobOfferQueries.GetAllJobOffersAsync(filter);
+            var response = await _jobOfferQueries.GetAllJobOffersAsync(filter);
             
             var route = Request.Path.Value;
 
             return Ok(PagedResponse<JobOfferResponse>.CreatePagedResponse(
-                jobOffers.ToList(), "", true, null, filter, 666, _pageUriService, route));
+                response.JobOffers.ToList(), 
+                "", 
+                true,
+                null, 
+                filter, 
+                response.TotalCount,
+                _pageUriService, 
+                route));
         }
         
         // GET api/job-offers/5

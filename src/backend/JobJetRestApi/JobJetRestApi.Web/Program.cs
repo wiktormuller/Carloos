@@ -26,11 +26,11 @@ namespace JobJetRestApi.Web
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
 
-            var seed = args.Contains("/seed"); // @TODO - ???
-            if (seed)
-            {
-                args = args.Except(new[] {"/seed"}).ToArray();
-            }
+            // var seed = args.Contains("/seed");
+            // if (seed)
+            // {
+            //     args = args.Except(new[] {"/seed"}).ToArray();
+            // }
 
             var host = CreateHostBuilder(args)
                 .ConfigureAppConfiguration(x => x.AddEnvironmentVariables(prefix: "JobJetVariables_"))

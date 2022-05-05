@@ -45,12 +45,19 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var users = await _userQueries.GetAllUsersAsync(filter);
+            var response = await _userQueries.GetAllUsersAsync(filter);
             
             var route = Request.Path.Value;
 
-            return Ok(PagedResponse<UserResponse>.CreatePagedResponse( // @TODO - Move this logic to queries
-                users.ToList(), "", true, null, filter, 666, _pageUriService, route));
+            return Ok(PagedResponse<UserResponse>.CreatePagedResponse(
+                response.Users.ToList(), 
+                "", 
+                true, 
+                null, 
+                filter, 
+                response.TotalCount, 
+                _pageUriService, 
+                route));
         }
         
         // GET api/users/5
