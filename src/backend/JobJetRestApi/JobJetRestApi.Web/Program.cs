@@ -36,7 +36,7 @@ namespace JobJetRestApi.Web
                 .ConfigureAppConfiguration(x => x.AddEnvironmentVariables(prefix: "JobJetVariables_"))
                 .Build();
             
-            if (true)
+            if (seed)
             {
                 try
                 {

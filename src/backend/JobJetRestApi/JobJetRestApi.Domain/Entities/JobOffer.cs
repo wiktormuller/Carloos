@@ -20,8 +20,6 @@ namespace JobJetRestApi.Domain.Entities
         // Relationships
         public int AddressId { get; private set; } // Non nullable relationship
         public Address Address { get; private set; }
-        
-        public int TechnologyTypeId { get; set; } // Non nullable relationship
         public List<TechnologyType> TechnologyTypes { get; private set; }
         
         public int SeniorityId { get; private set; }

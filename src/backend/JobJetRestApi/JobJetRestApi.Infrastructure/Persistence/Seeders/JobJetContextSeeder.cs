@@ -78,7 +78,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     await userRepository.AssignRoleToUser(user, role);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (retryForAvailability >= 10) throw;
                 retryForAvailability++;

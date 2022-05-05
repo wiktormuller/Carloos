@@ -16,10 +16,10 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
 
         
         // The OnConfiguring() method allows us to select and configure the data source to be used with a context using DbContextOptionsBuilder.
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-        }
+        }*/
 
         // The OnModelCreating() method allows us to configure the model using ModelBuilder Fluent API.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
 
             modelBuilder.Entity<Address>().Property(a => a.Latitude).HasPrecision(9, 6);
             modelBuilder.Entity<Address>().Property(a => a.Longitude).HasPrecision(9,6);
+
+            modelBuilder.Entity<Country>().Property(c => c.LatitudeOfCapital).HasPrecision(9, 6);
+            modelBuilder.Entity<Country>().Property(c => c.LongitudeOfCapital).HasPrecision(9, 6);
 
             modelBuilder.Entity<JobOffer>().Property(entity => entity.WorkSpecification)
                 .HasConversion(new EnumToStringConverter<WorkSpecification>());
@@ -44,6 +47,6 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         public DbSet<EmploymentType> EmploymentTypes { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<User> Users { get; set; }
+        public override DbSet<User> Users { get; set; }
     }
 }
