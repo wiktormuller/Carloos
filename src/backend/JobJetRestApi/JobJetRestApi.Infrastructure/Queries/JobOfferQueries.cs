@@ -30,7 +30,7 @@ namespace JobJetRestApi.Infrastructure.Queries
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
         }
     
-        public async Task<IEnumerable<JobOfferResponse>> GetAllJobOffersAsync(JobOffersFilter usersFilter)
+        public async Task<(IEnumerable<JobOfferResponse> JobOffers, int TotalCount)> GetAllJobOffersAsync(JobOffersFilter usersFilter)
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -128,6 +128,8 @@ namespace JobJetRestApi.Infrastructure.Queries
                     return true;
                 });
 
+            var totalCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM [JobOffers];");
+
             var jobOffers = jobOfferMap.Values.Select(x => new JobOfferResponse(
                 x.Id,
                 x.Name,
@@ -150,7 +152,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                 x.CompanyName
                 ));
             
-            return jobOffers;
+            return (jobOffers, totalCount);
         }
 
         /// <exception cref="JobOfferNotFoundException"></exception>

@@ -7,7 +7,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.Queries
 {
     public interface IJobOfferQueries
     {
-        Task<IEnumerable<JobOfferResponse>> GetAllJobOffersAsync(JobOffersFilter usersFilter);
+        Task<(IEnumerable<JobOfferResponse> JobOffers, int TotalCount)> GetAllJobOffersAsync(JobOffersFilter usersFilter);
         Task<JobOfferResponse> GetJobOfferByIdAsync(int id);
     }
 }

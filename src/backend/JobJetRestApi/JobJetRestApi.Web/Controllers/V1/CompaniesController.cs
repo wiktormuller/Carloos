@@ -48,12 +48,19 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
             
-            var companies = await _companyQueries.GetAllCompaniesAsync(filter);
+            var response = await _companyQueries.GetAllCompaniesAsync(filter);
             
             var route = Request.Path.Value;
 
             return Ok(PagedResponse<CompanyResponse>.CreatePagedResponse(
-                companies.ToList(), "", true, null, filter, 666, _pageUriService, route));
+                response.Companies.ToList(), 
+                "", 
+                true, 
+                null, 
+                filter, 
+                response.TotalCount, 
+                _pageUriService, 
+                route));
         }
         
         // GET api/companies/5

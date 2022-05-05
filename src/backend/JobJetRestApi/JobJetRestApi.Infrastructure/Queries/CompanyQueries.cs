@@ -7,7 +7,6 @@ using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.UseCases.Companies.Queries;
 using Dapper;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Infrastructure.Factories;
 
 namespace JobJetRestApi.Infrastructure.Queries
@@ -23,7 +22,7 @@ namespace JobJetRestApi.Infrastructure.Queries
             _sqlConnectionFactory = Guard.Against.Null(sqlConnectionFactory, nameof(sqlConnectionFactory));
         }
         
-        public async Task<IEnumerable<CompanyResponse>> GetAllCompaniesAsync(PaginationFilter paginationFilter)
+        public async Task<(IEnumerable<CompanyResponse> Companies, int TotalCount)> GetAllCompaniesAsync(PaginationFilter paginationFilter)
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -47,10 +46,12 @@ namespace JobJetRestApi.Infrastructure.Queries
                 FetchRows = paginationFilter.GetNormalizedPageSize()
             });
 
+            var totalCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM [Companies];");
+
             var companies = queriedCompanies.Select(x => 
                 new CompanyResponse(x.Id, x.Name, x.ShortName, x.Description, x.NumberOfPeople, x.Name));
 
-            return companies;
+            return (companies, totalCount);
         }
 
         /// <exception cref="CompanyNotFoundException"></exception>

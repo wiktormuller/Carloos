@@ -22,7 +22,7 @@ public class UserQueries : IUserQueries
         _sqlConnectionFactory = sqlConnectionFactory;
     }
     
-    public async Task<IEnumerable<UserResponse>> GetAllUsersAsync(PaginationFilter paginationFilter)
+    public async Task<(IEnumerable<UserResponse> Users, int TotalCount)> GetAllUsersAsync(PaginationFilter paginationFilter)
     {
         using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -44,10 +44,12 @@ public class UserQueries : IUserQueries
                 OffsetRows = paginationFilter.PageNumber,
                 FetchRows = paginationFilter.GetNormalizedPageSize()
             });
+
+        var totalCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM [AspNetUsers];");
             
         var users = queriedUsers.Select(x => new UserResponse(x.Id, x.UserName, x.Email));
 
-        return users;
+        return (users, totalCount);
     }
 
     public async Task<UserResponse> GetUserByIdAsync(int id)
