@@ -1,4 +1,6 @@
-﻿using Ardalis.GuardClauses;
+﻿using System;
+using System.Collections.Generic;
+using Ardalis.GuardClauses;
 using JobJetRestApi.Domain.Enums;
 
 namespace JobJetRestApi.Domain.Entities
@@ -10,44 +12,48 @@ namespace JobJetRestApi.Domain.Entities
         public string Description { get; private set; }
         public decimal SalaryFrom { get; private set; }
         public decimal SalaryTo { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
         
         public WorkSpecification WorkSpecification { get; private set; }
         
         // Relationships
-        public int AddressId { get; set; } // Non nullable relationship
+        public int AddressId { get; private set; } // Non nullable relationship
         public Address Address { get; private set; }
+        public List<TechnologyType> TechnologyTypes { get; private set; }
         
-        public int TechnologyTypeId { get; set; } // Non nullable relationship
-        public TechnologyType TechnologyType { get; private set; }
-        
-        public int SeniorityId { get; set; }
+        public int SeniorityId { get; private set; }
         public Seniority Seniority { get; private set; }
         
-        public int EmploymentTypeId { get; set; }
+        public int EmploymentTypeId { get; private set; }
         public EmploymentType EmploymentType { get; private set; }
         
-        public int CurrencyId { get; set; }
+        public int CurrencyId { get; private set; }
         public Currency Currency { get; private set; }
 
-        private JobOffer() {} // For EF purposes
+        private JobOffer()
+        {
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = CreatedAt;
+        } // For EF purposes
         
         public JobOffer(string name,
             string description, 
             decimal salaryFrom,
             decimal salaryTo,
             Address address, 
-            TechnologyType technologyType,
+            List<TechnologyType> technologyTypes,
             Seniority seniority, 
             EmploymentType employmentType,
             Currency currency,
-            WorkSpecification workSpecification)
+            WorkSpecification workSpecification) : this()
         {
             Name = name;
             Description = description;
             SalaryFrom = salaryFrom;
             SalaryTo = salaryTo;
             Address = address;
-            TechnologyType = technologyType;
+            TechnologyTypes = technologyTypes;
             Seniority = seniority;
             EmploymentType = employmentType;
             Currency = currency;
@@ -60,6 +66,8 @@ namespace JobJetRestApi.Domain.Entities
             Description = Guard.Against.Null(description, nameof(description));
             SalaryFrom = Guard.Against.Zero(salaryFrom, nameof(salaryFrom));
             SalaryTo = Guard.Against.Zero(salaryTo, nameof(salaryTo));
+
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }

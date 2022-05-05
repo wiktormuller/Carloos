@@ -28,7 +28,7 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
             }
 
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            user.DeleteCompany(request.Id);
+            user.DeleteCompany(request.Id); // @TODO - There is orphan after this action
 
             await _userRepository.UpdateAsync(user);
 

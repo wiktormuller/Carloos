@@ -6,5 +6,7 @@
         public string Alpha2Code { get; set; }
         public string Alpha3Code { get; set; }
         public int NumericCode { get; set; }
+        public decimal LatitudeOfCapital { get; set; }
+        public decimal LongitudeOfCapital { get; set; }
     }
 }

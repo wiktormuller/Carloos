@@ -24,7 +24,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
                 .Include(jobOffer => jobOffer.Currency)
                 .Include(jobOffer => jobOffer.Seniority)
                 .Include(jobOffer => jobOffer.EmploymentType)
-                .Include(jobOffer => jobOffer.TechnologyType)
+                .Include(jobOffer => jobOffer.TechnologyTypes)
                 .FirstOrDefaultAsync(jobOffer => jobOffer.Id == id);
         }
 
@@ -35,7 +35,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
                 .Include(jobOffer => jobOffer.Currency)
                 .Include(jobOffer => jobOffer.Seniority)
                 .Include(jobOffer => jobOffer.EmploymentType)
-                .Include(jobOffer => jobOffer.TechnologyType)
+                .Include(jobOffer => jobOffer.TechnologyTypes)
                 .ToListAsync();
         }
 

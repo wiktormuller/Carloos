@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -18,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace JobJetRestApi.Web.Controllers.V1
 {
@@ -41,7 +39,6 @@ namespace JobJetRestApi.Web.Controllers.V1
         // GET api/job-offers
         [HttpGet(ApiRoutes.JobOffers.GetAll)]
         [ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<JobOfferResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] JobOffersFilter filter) 
         {
@@ -98,7 +95,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 request.Description,
                 request.SalaryFrom,
                 request.SalaryTo,
-                request.TechnologyTypeId,
+                request.TechnologyTypeIds,
                 request.SeniorityId,
                 request.EmploymentTypeId,
                 request.Address.Town,

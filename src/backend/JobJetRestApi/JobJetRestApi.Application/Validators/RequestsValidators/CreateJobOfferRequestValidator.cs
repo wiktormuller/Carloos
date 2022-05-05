@@ -26,8 +26,8 @@ namespace JobJetRestApi.Application.Validators.RequestsValidators
                 .GreaterThan(0)
                 .ScalePrecision(2, 18);
 
-            RuleFor(request => request.TechnologyTypeId)
-                .GreaterThan(0);
+            RuleFor(request => request.TechnologyTypeIds)
+                .NotEmpty();
             
             RuleFor(request => request.SeniorityId)
                 .GreaterThan(0);

@@ -1,4 +1,5 @@
-﻿using JobJetRestApi.Application.Validators;
+﻿using System.Collections.Generic;
+using JobJetRestApi.Application.Validators;
 
 namespace JobJetRestApi.Application.Contracts.V1.Requests
 {
@@ -10,7 +11,7 @@ namespace JobJetRestApi.Application.Contracts.V1.Requests
         public decimal SalaryFrom { get; set; }
         public decimal SalaryTo { get; set; }
         public CreateAddressRequest Address { get; set; }
-        public int TechnologyTypeId { get; set; }
+        public List<int> TechnologyTypeIds { get; set; } // @TODO - Required minimum one element
         public int SeniorityId { get; set; }
         public int EmploymentTypeId { get; set; }
         public int CurrencyId { get; set; }

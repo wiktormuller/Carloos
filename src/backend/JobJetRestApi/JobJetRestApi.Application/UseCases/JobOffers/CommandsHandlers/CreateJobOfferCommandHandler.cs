@@ -69,9 +69,10 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 throw SeniorityLevelNotFoundException.ForId(request.SeniorityId);
             }
 
-            if (! await _technologyTypeRepository.ExistsAsync(request.TechnologyTypeId))
+            var technologyTypeExists = await _technologyTypeRepository.ExistsAsync(request.TechnologyTypeIds);
+            if (! technologyTypeExists.Exists)
             {
-                throw TechnologyTypeNotFoundException.ForId(request.TechnologyTypeId);
+                throw TechnologyTypeNotFoundException.ForIds(technologyTypeExists.NonExistingIds);
             }
 
             if (! await _employmentTypeRepository.ExistsAsync(request.EmploymentTypeId))
@@ -100,7 +101,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
             var country = await _countryRepository.GetByIdAsync(request.CountryId);
             var address = new Address(country, request.Town, request.Street, request.ZipCode, addressCoords.Latitude, addressCoords.Longitude);
 
-            var technologyType = await _technologyTypeRepository.GetByIdAsync(request.TechnologyTypeId);
+            var technologyTypes = await _technologyTypeRepository.GetByIdsAsync(request.TechnologyTypeIds);
 
             var seniorityLevel = await _seniorityRepository.GetByIdAsync(request.SeniorityId);
 
@@ -114,7 +115,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 request.SalaryFrom,
                 request.SalaryTo,
                 address,
-                technologyType,
+                technologyTypes,
                 seniorityLevel,
                 employmentType,
                 currency,

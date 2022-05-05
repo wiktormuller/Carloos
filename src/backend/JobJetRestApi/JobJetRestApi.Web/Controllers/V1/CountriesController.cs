@@ -79,7 +79,12 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
 
-            var command = new CreateCountryCommand(request.Name, request.Alpha2Code, request.Alpha3Code, request.NumericCode);
+            var command = new CreateCountryCommand(request.Name, 
+                request.Alpha2Code,
+                request.Alpha3Code, 
+                request.NumericCode,
+                request.LatitudeOfCapital, 
+                request.LongitudeOfCapital);
 
             try
             {

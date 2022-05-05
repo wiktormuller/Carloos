@@ -26,7 +26,8 @@ namespace JobJetRestApi.Application.UseCases.Countries.CommandsHandlers
                 throw CountryAlreadyExistsException.ForName(request.Name);
             }
 
-            var country = new Country(request.Name, request.Alpha2Code, request.Alpha3Code, request.NumericCode);
+            var country = new Country(request.Name, request.Alpha2Code, request.Alpha3Code, request.NumericCode,
+                request.LatitudeOfCapital, request.LongitudeOfCapital);
             await _countryRepository.CreateAsync(country);
 
             return country.Id;

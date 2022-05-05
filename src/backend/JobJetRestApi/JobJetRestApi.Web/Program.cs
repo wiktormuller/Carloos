@@ -26,7 +26,7 @@ namespace JobJetRestApi.Web
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
                 .CreateLogger();
 
-            var seed = args.Contains("/seed");
+            var seed = args.Contains("/seed"); // @TODO - ???
             if (seed)
             {
                 args = args.Except(new[] {"/seed"}).ToArray();
@@ -36,17 +36,21 @@ namespace JobJetRestApi.Web
                 .ConfigureAppConfiguration(x => x.AddEnvironmentVariables(prefix: "JobJetVariables_"))
                 .Build();
             
-            if (seed)
+            if (true)
             {
                 try
                 {
+                    Log.Information("Applying migrations...");
+                    await host.ApplyMigrations<JobJetDbContext>();
+                    Log.Information("Done applying migrations.");
+                    
                     Log.Information("Seeding database...");
                     await host.SeedJobJetContext<JobJetDbContext>();
                     Log.Information("Done seeding database.");
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, "An error occurred while seeding the database.");
+                    Log.Error(e, "An error occurred while applying-migrations/seeding the database.");
                 }
             }
 

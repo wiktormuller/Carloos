@@ -78,7 +78,7 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
                     await userRepository.AssignRoleToUser(user, role);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 if (retryForAvailability >= 10) throw;
                 retryForAvailability++;
@@ -116,11 +116,16 @@ namespace JobJetRestApi.Infrastructure.Persistence.Seeders
         {
             return new List<Country>
             {
-                new Country("Poland", "PL", "POL", 616),
-                new Country("United Kingdom", "GB", "GBR", 826),
-                new Country("Germany", "DE", "DEU", 276),
-                new Country("Switzerland", "CH", "CHE", 756),
-                new Country("Belgium", "BE", "BEL", 056)
+                new Country("Poland", "PL", "POL", 616, 
+                    52.006376M, 19.025167M),
+                new Country("United Kingdom", "GB", "GBR", 826, 
+                    54.00366M, -2.547855M),
+                new Country("Germany", "DE", "DEU", 276, 
+                    52.531677M, 13.381777M),
+                new Country("Switzerland", "CH", "CHE", 756, 
+                    46.80111M, 8.22667M),
+                new Country("Belgium", "BE", "BEL", 056, 
+                    50.503887M, 4.469936M)
             };
         }
 

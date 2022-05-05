@@ -2,6 +2,7 @@
 using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Persistence.Seeders;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -20,6 +21,18 @@ namespace JobJetRestApi.Web.Extensions
             var roleRepository = services.GetService<IRoleRepository>();
             
             await JobJetContextSeeder.SeedAsync(context, userRepository, roleRepository);
+
+            return host;
+        }
+
+        public static async Task<IHost> ApplyMigrations<TContext>(this IHost host) where TContext : JobJetDbContext
+        {
+            using var scope = host.Services.CreateScope();
+
+            var services = scope.ServiceProvider;
+            var context = services.GetService<JobJetDbContext>();
+
+            await context.Database.MigrateAsync();
 
             return host;
         }
