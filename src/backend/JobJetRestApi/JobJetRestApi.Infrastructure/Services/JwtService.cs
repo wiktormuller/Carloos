@@ -83,7 +83,8 @@ public class JwtService : IJwtService
             expires
             );
     }
-
+    
+    /// <exception cref="PassedRefreshTokenIsInvalidException"></exception>
     public ClaimsPrincipal GetClaimsPrincipalFromRefreshToken(string refreshToken)
     {
         var resultOfValidationRefreshToken = ValidateRefreshToken(refreshToken);

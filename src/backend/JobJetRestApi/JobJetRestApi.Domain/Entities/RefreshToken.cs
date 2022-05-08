@@ -47,7 +47,7 @@ public class RefreshToken
         ExpiresAt = expiresAt;
     }
 
-    public void Revoke(string revokedByEmail, string revokedByIp, string newToken)
+    public void Revoke(string revokedByEmail, string revokedByIp, string newToken = null)
     {
         RevokedAt = DateTime.UtcNow;
         RevokedByEmail = revokedByEmail;

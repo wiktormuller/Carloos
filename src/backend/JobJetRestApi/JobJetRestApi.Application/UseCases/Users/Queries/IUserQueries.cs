@@ -9,4 +9,5 @@ public interface IUserQueries
 {
     Task<(IEnumerable<UserResponse> Users, int TotalCount)> GetAllUsersAsync(PaginationFilter paginationFilter);
     Task<UserResponse> GetUserByIdAsync(int id);
+    Task<List<RefreshTokenResponse>> GetRefreshTokensAsync(int id);
 }
