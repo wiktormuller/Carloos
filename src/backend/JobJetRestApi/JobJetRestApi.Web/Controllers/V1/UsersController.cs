@@ -78,6 +78,24 @@ namespace JobJetRestApi.Web.Controllers.V1
             }
         }
         
+        // GET api/users/5/refresh-tokens
+        [HttpGet(ApiRoutes.Users.GetRefreshTokens)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<RefreshTokenResponse>> GetRefreshTokens(int id)
+        {
+            try
+            {
+                var result = await _userQueries.GetRefreshTokensAsync(id);
+                return Ok(result);
+            }
+            catch (UserNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+        
         // POST api/users
         [HttpPost(ApiRoutes.Users.Create)]
         [ProducesResponseType(StatusCodes.Status201Created)]

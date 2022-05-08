@@ -9,7 +9,7 @@ using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.Auth.CommandsHandlers;
 
-public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
+public class LoginCommandHandler : IRequestHandler<LoginCommand, (LoginResponse LoginResponse, string RefreshToken)>
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtService _jwtService;
@@ -21,7 +21,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
         _jwtService = jwtService;
     }
 
-    public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<(LoginResponse LoginResponse, string RefreshToken)> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByEmailAsync(request.Email);
         if (user is null)
@@ -36,8 +36,14 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
         }
         
         var userRoles = await _userRepository.GetUserRolesAsync(user);
-        var token = _jwtService.GenerateJwt(user, userRoles);
+        var accessToken = _jwtService.GenerateAccessJwt(user, userRoles);
+        var refreshToken = _jwtService.GenerateRefreshJwt(user, request.IpAddress);
         
-        return new LoginResponse(user.Id, user.Email, token);
+        user.AddRefreshToken(refreshToken);
+        await _userRepository.UpdateAsync(user);
+
+        var loginResponse = new LoginResponse(user.Id, user.Email, accessToken);
+
+        return (loginResponse, refreshToken.Token);
     }
 }

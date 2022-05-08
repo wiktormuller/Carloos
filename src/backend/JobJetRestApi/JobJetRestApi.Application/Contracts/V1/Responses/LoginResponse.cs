@@ -4,12 +4,12 @@ public class LoginResponse
 {
     public int Id { get; private set; }
     public string Email { get; private set; }
-    public string Token { get; private set; }
+    public string AccessToken { get; private set; }
 
-    public LoginResponse(int id, string email, string token)
+    public LoginResponse(int id, string email, string accessToken)
     {
         Id = id;
         Email = email;
-        Token = token;
+        AccessToken = accessToken;
     }
 }

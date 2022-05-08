@@ -76,6 +76,7 @@
             public const string Create = Base + "/users";
             public const string Update = Base + "/users/{id}";
             public const string Delete = Base + "/users/{id}";
+            public const string GetRefreshTokens = Base + "/users/{id}/refresh-tokens";
         }
 
         public static class Roles
@@ -98,6 +99,7 @@
             public const string Login = Base + "/auth/login";
             public const string Register = Base + "/auth/register";
             public const string Refresh = Base + "/auth/refresh";
+            public const string Revoke = Base + "/auth/revoke";
         }
     }
 }
