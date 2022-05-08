@@ -10,8 +10,17 @@ namespace JobJetRestApi.Domain.Entities
     {
         public List<Company> Companies { get; private set; } = new List<Company>();
 
+        public List<RefreshToken> RefreshTokens { get; private set; } = new List<RefreshToken>();
+
         private User() : base()
         {
+        }
+
+        public void AddRefreshToken(RefreshToken refreshToken)
+        {
+            Guard.Against.Null(refreshToken, nameof(refreshToken));
+            
+            RefreshTokens.Add(refreshToken);
         }
 
         public bool IsOwnerOfCompany(int companyId)

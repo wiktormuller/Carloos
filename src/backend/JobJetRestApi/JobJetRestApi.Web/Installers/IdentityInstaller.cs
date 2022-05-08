@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Options;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -56,6 +57,17 @@ namespace JobJetRestApi.Web.Installers
                         ValidAudience = jwtOptions.Issuer,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret)),
                         ClockSkew = TimeSpan.Zero
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
         }

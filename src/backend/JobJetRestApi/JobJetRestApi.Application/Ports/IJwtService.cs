@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using JobJetRestApi.Domain.Entities;
 
 namespace JobJetRestApi.Application.Ports;
 
 public interface IJwtService
 { 
-    string GenerateJwt(User user, IList<string> roles);
+    string GenerateAccessJwt(User user, IList<string> roles);
+    RefreshToken GenerateRefreshJwt(User user, string ipAddress);
+    ClaimsPrincipal GetClaimsPrincipalFromRefreshToken(string refreshToken);
 }

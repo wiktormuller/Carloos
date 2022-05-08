@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,12 @@ namespace JobJetRestApi.Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly UserManager<User> _userManager;
+        private readonly JobJetDbContext _context;
         
-        public UserRepository(UserManager<User> userManager)
+        public UserRepository(UserManager<User> userManager, 
+            JobJetDbContext context)
         {
+            _context = Guard.Against.Null(context, nameof(context));
             _userManager = Guard.Against.Null(userManager, nameof(userManager));
         }
 
@@ -41,7 +45,9 @@ namespace JobJetRestApi.Infrastructure.Repositories
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await _userManager.FindByIdAsync(id.ToString());
+            return await _context.Users
+                .Include(user => user.RefreshTokens)
+                .FirstOrDefaultAsync();
         }
 
         public Task<User> GetByEmailAsync(string email)

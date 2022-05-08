@@ -13,6 +13,7 @@ namespace JobJetRestApi.Web.Installers
             services.Configure<GeoRouteOptions>(configuration.GetSection(GeoRouteOptions.GeoRoute));
             services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.ConnectionStrings));
             services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Jwt));
+            services.Configure<RefreshTokenOptions>(configuration.GetSection(RefreshTokenOptions.RefreshToken));
         }
     }
 }
