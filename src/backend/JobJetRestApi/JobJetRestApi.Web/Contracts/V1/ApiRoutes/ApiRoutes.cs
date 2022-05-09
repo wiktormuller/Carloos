@@ -92,7 +92,6 @@
             public const string Get = Base + "/roads/{coordinates}";
         }
 
-        
         public static class Auth
         {
             public const string Identity = Base + "/auth/identity";
@@ -100,6 +99,11 @@
             public const string Register = Base + "/auth/register";
             public const string Refresh = Base + "/auth/refresh";
             public const string Revoke = Base + "/auth/revoke";
+        }
+
+        public static class Dashboards
+        {
+            public const string GetAverageSalaryInCountries = Base + "/dashboards/average-salaries";
         }
     }
 }
