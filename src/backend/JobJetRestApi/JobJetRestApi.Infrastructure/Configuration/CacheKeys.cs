@@ -13,5 +13,7 @@
         public const string TechnologyTypesListKey = "technologyTypesListKey";
 
         public const string RolesListKey = "rolesListKey";
+
+        public const string AverageAndMedianSalariesListKey = "averageAndMedianSalariesListKey";
     }
 }
