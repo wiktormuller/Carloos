@@ -24,7 +24,8 @@ dotnet aspnet-codegenerator identity -dc IdentityServer.Data.ApplicationDbContex
 
 From jobjetrestapi.web path: 
 dotnet ef migrations add ExtendCountryEntity --context JobJetDbContext --project ../JobJetRestApi.Infrastructure -o ../JobJetRestApi.Infrastructure/Persistence/Migrations
-dotnet ef database update --context JobJetDbContext --project ../JobJetRestApi.Infrastructure --environment Development
+dotnet ef database update --context JobJetDbContext --project ../JobJetRestApi.Infrastructure --connection "Data Source=(LocalDb)\MSSQLLocalDB;Database=JobJet-Development;Trusted_Connection=True;"
+
 
 docker build -f JobJetRestApi.Web/Dockerfile -t jobjetrestapiimage .
 docker run -p 5002:5002 -p 5003:5003 wiktormuller/jobjet
