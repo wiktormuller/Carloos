@@ -59,12 +59,14 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Company].Id AS CompanyId,
                     [Company].Name AS CompanyName
                 FROM [JobOffers] AS [JobOffer] 
-                LEFT JOIN Addresses AS [Address]
+                LEFT JOIN Address AS [Address]
                     ON [JobOffer].AddressId = [Address].Id
                 INNER JOIN Countries AS [Country]
                     ON [Address].CountryId = [Country].Id
+                LEFT JOIN JobOfferTechnologyType AS [JobOfferTechnologyType]
+                    ON [JobOffer].Id = [JobOfferTechnologyType].JobOffersId
                 LEFT JOIN TechnologyTypes AS [TechnologyType]
-                    ON [JobOffer].TechnologyTypeId = [TechnologyType].Id
+                    ON [JobOfferTechnologyType].TechnologyTypesId = [TechnologyType].Id
                 LEFT JOIN SeniorityLevels AS [Seniority]
                     ON [JobOffer].SeniorityId = [Seniority].Id
                 LEFT JOIN EmploymentTypes AS [EmploymentType]
