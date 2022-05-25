@@ -41,7 +41,6 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [JobOffer].Description,
                     [JobOffer].SalaryFrom,
                     [JobOffer].SalaryTo,
-                    [JobOffer].SalaryTo,
                     [JobOffer].WorkSpecification,
                     [Address].Id AS AddressId,
                     [Address].Town,
@@ -50,14 +49,14 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Country].Name AS CountryName,
                     [Address].Latitude,
                     [Address].Longitude,
-                    [TechnologyType].Id AS TechnologyTypeId,
-                    [TechnologyType].Name AS TechnologyTypeName,
                     [Seniority].Id AS SeniorityId,
                     [Seniority].Name AS SeniorityName,
                     [EmploymentType].Id AS EmploymentTypeId,
                     [EmploymentType].Name AS EmploymentTypeName,
                     [Company].Id AS CompanyId,
-                    [Company].Name AS CompanyName
+                    [Company].Name AS CompanyName,
+                    [TechnologyType].Id AS TechnologyTypeId,
+                    [TechnologyType].Name AS TechnologyTypeName
                 FROM [JobOffers] AS [JobOffer] 
                 LEFT JOIN Address AS [Address]
                     ON [JobOffer].AddressId = [Address].Id
@@ -70,7 +69,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                 LEFT JOIN SeniorityLevels AS [Seniority]
                     ON [JobOffer].SeniorityId = [Seniority].Id
                 LEFT JOIN EmploymentTypes AS [EmploymentType]
-                    ON [JobOffer].EmploymentTypeId = [Seniority].Id
+                    ON [JobOffer].EmploymentTypeId = [EmploymentType].Id
                 LEFT JOIN Companies AS [Company]
                     ON [JobOffer].CompanyId = [Company].Id
                     
@@ -130,7 +129,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                     return true;
                 });
 
-            var totalCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM [JobOffers];");
+            var totalCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM [JobOffers];"); // @TODO - Implement real total count
 
             var jobOffers = jobOfferMap.Values.Select(x => new JobOfferResponse(
                 x.Id,
@@ -169,7 +168,6 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [JobOffer].Description,
                     [JobOffer].SalaryFrom,
                     [JobOffer].SalaryTo,
-                    [JobOffer].SalaryTo,
                     [JobOffer].WorkSpecification,
                     [Address].Id AS AddressId,
                     [Address].Town,
@@ -187,22 +185,26 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Company].Id AS CompanyId,
                     [Company].Name AS CompanyName
                 FROM [JobOffers] AS [JobOffer] 
-                LEFT JOIN Addresses AS [Address]
+                LEFT JOIN Address AS [Address]
                     ON [JobOffer].AddressId = [Address].Id
                 INNER JOIN Countries AS [Country]
                     ON [Address].CountryId = [Country].Id
+                LEFT JOIN JobOfferTechnologyType AS [JobOfferTechnologyType]
+                    ON [JobOffer].Id = [JobOfferTechnologyType].JobOffersId
                 LEFT JOIN TechnologyTypes AS [TechnologyType]
-                    ON [JobOffer].TechnologyTypeId = [TechnologyType].Id
+                    ON [JobOfferTechnologyType].TechnologyTypesId = [TechnologyType].Id
                 LEFT JOIN SeniorityLevels AS [Seniority]
                     ON [JobOffer].SeniorityId = [Seniority].Id
                 LEFT JOIN EmploymentTypes AS [EmploymentType]
-                    ON [JobOffer].EmploymentTypeId = [Seniority].Id
+                    ON [JobOffer].EmploymentTypeId = [EmploymentType].Id
                 LEFT JOIN Companies AS [Company]
                     ON [JobOffer].CompanyId = [Company].Id
+                    
+                --@WHERE
                 
-                ORDER BY [JobOffer].Id 
-                OFFSET @OffsetRows ROWS
-                FETCH NEXT @FetchRows ROWS ONLY;"
+                --@ORDERBY
+                --@OFFSET
+                --@FETCH;"
                 ;
             
             var jobOfferMap = new Dictionary<int, JobOfferDto>();
@@ -294,10 +296,10 @@ namespace JobJetRestApi.Infrastructure.Queries
                 parameters.Add("CountryId", usersFilter.CountryId.Value);
             }
 
-            if (usersFilter.TechnologyId.HasValue)
+            if (usersFilter.TechnologyIds is not null && usersFilter.TechnologyIds.Any())
             {
-                conditions.Add("[TechnologyType].Id = @TechnologyTypeId"); 
-                parameters.Add("TechnologyTypeId", usersFilter.TechnologyId.Value);
+                conditions.Add("[TechnologyType].Id IN @TechnologyTypeIds"); 
+                parameters.Add("TechnologyTypeIds", usersFilter.TechnologyIds);
             }
 
             if (usersFilter.EmploymentTypeId.HasValue)
@@ -332,9 +334,9 @@ namespace JobJetRestApi.Infrastructure.Queries
 
             if (!string.IsNullOrEmpty(usersFilter.GeneralSearchByText))
             {
-                conditions.Add(@"[JobOffer].Description = @GeneralSearchByText
-                    OR [JobOffer].Name = @GeneralSearchByText");
-                parameters.Add("GeneralSearchByText", usersFilter.GeneralSearchByText);
+                conditions.Add(@"[JobOffer].Description LIKE @GeneralSearchByText
+                    OR [JobOffer].Name LIKE @GeneralSearchByText");
+                parameters.Add("GeneralSearchByText", $"%{usersFilter.GeneralSearchByText}%");
             }
 
             queryBuilder.Replace("--@WHERE", conditions.Any()
@@ -364,6 +366,8 @@ namespace JobJetRestApi.Infrastructure.Queries
         public string CountryName { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+        public int TechnologyTypeId { get; set; }
+        public string TechnologyTypeName { get; set; }
         public int SeniorityId { get; set; }
         public string SeniorityName { get; set; }
         public int EmploymentTypeId { get; set; }
