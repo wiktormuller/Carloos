@@ -16,9 +16,6 @@ public class UsersFilterValidator : AbstractValidator<JobOffersFilter>
         RuleFor(filter => filter.SalaryTo)
             .LessThan(int.MaxValue);
 
-        RuleFor(filter => filter.TechnologyId)
-            .GreaterThan(0);
-
         RuleFor(filter => filter.EmploymentTypeId)
             .GreaterThan(0);
 
