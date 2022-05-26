@@ -19,7 +19,7 @@ namespace JobJetRestApi.Infrastructure.Queries
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         
         private readonly record struct JobOfferRecord(int Id, string Name, string Description, decimal SalaryFrom, decimal SalaryTo,
-            string WorkSpecification, int AddressId, string Town, string Street, string ZipCode, string CountryName, decimal Latitude, decimal Longitude,
+            string WorkSpecification, DateTime CreatedAt, int AddressId, string Town, string Street, string ZipCode, string CountryName, decimal Latitude, decimal Longitude,
             int SeniorityId, string SeniorityName, int EmploymentTypeId, string EmploymentTypeName,
             int CompanyId, string CompanyName);
 
@@ -42,6 +42,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [JobOffer].SalaryFrom,
                     [JobOffer].SalaryTo,
                     [JobOffer].WorkSpecification,
+                    [JobOffer].CreatedAt,
                     [Address].Id AS AddressId,
                     [Address].Town,
                     [Address].Street,
@@ -113,6 +114,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                             SeniorityId = jobOfferRecord.SeniorityId,
                             SeniorityName = jobOfferRecord.SeniorityName,
                             WorkSpecification = jobOfferRecord.WorkSpecification,
+                            Createdt = jobOfferRecord.CreatedAt,
                             Town = jobOfferRecord.Town,
                             Street = jobOfferRecord.Street,
                             ZipCode = jobOfferRecord.ZipCode
@@ -149,6 +151,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                 x.SeniorityName,
                 x.EmploymentTypeName,
                 Enum.Parse<WorkSpecification>(x.WorkSpecification),
+                x.Createdt,
                 x.CompanyId,
                 x.CompanyName
                 ));
@@ -169,6 +172,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [JobOffer].SalaryFrom,
                     [JobOffer].SalaryTo,
                     [JobOffer].WorkSpecification,
+                    [JobOffer].CreatedAt,
                     [Address].Id AS AddressId,
                     [Address].Town,
                     [Address].Street,
@@ -237,6 +241,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                             SeniorityId = jobOfferRecord.SeniorityId,
                             SeniorityName = jobOfferRecord.SeniorityName,
                             WorkSpecification = jobOfferRecord.WorkSpecification,
+                            Createdt = jobOfferRecord.CreatedAt,
                             Town = jobOfferRecord.Town,
                             Street = jobOfferRecord.Street,
                             ZipCode = jobOfferRecord.ZipCode
@@ -278,6 +283,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                 queriedJobOffer.SeniorityName,
                 queriedJobOffer.EmploymentTypeName,
                 Enum.Parse<WorkSpecification>(queriedJobOffer.WorkSpecification),
+                queriedJobOffer.Createdt,
                 queriedJobOffer.CompanyId,
                 queriedJobOffer.CompanyName
                 );
@@ -298,7 +304,12 @@ namespace JobJetRestApi.Infrastructure.Queries
 
             if (usersFilter.TechnologyIds is not null && usersFilter.TechnologyIds.Any())
             {
-                conditions.Add("[TechnologyType].Id IN @TechnologyTypeIds"); 
+                conditions.Add(@"
+                    WHERE JobOfferTechnologyType.JobOffersId IN (SELECT JobOffer.Id 
+                        FROM [JobOfferTechnologyType] 
+                            JOIN [JobOffers] AS JobOffer
+                                ON [JobOfferTechnologyType].JobOffersId = [JobOffer].Id
+                        WHERE [JobOfferTechnologyType].TechnologyTypesId  IN @TechnologyTypeIds"); 
                 parameters.Add("TechnologyTypeIds", usersFilter.TechnologyIds);
             }
 
@@ -359,6 +370,7 @@ namespace JobJetRestApi.Infrastructure.Queries
         public decimal SalaryFrom { get; set; }
         public decimal SalaryTo { get; set; }
         public string WorkSpecification { get; set; }
+        public DateTime Createdt { get; set; }
         public int AddressId { get; set; }
         public string Town { get; set; }
         public string Street { get; set; }
