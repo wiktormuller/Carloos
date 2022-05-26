@@ -7,9 +7,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 export const Navbar = (props) => {
   const renderedArray = navbarLinksTable.map((link) => {
     return (
-      <Link className="custom-link" to="/register">
+      <Link key={link.id} className="custom-link" to="/register">
         <Icon
-          key={link.id}
           iconName={link.iconName}
           size={"3em"}
           color={"#FFFFFF"}

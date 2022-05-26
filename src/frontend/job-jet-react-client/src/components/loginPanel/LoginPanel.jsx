@@ -12,11 +12,15 @@ export const LoginPanel = (props) => {
       email: `${email}`,
       password: `${password}`,
     };
-    console.log(JSON.stringify(body));
+
+    let strBody = JSON.stringify(body);
+
+    console.log(body);
+    console.log(strBody);
 
     fetch(authLogin, {
       method: "POST",
-      body: JSON.stringify(body),
+      body: strBody,
     })
       .then((response) => response.json())
       .then((data) => {

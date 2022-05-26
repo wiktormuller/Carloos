@@ -6,15 +6,37 @@ import { localizationArray, jobOffersArray, skillsArray } from "./data/arrays";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
+  const url = `https://jobjet.azurewebsites.net/api/v1`;
+  // let countriesUrl = url + `/countries/`;
+
+  const [userLogInState, setUserLogInState] = useState(false);
+  const [advertLocation, setAdvertLocation] = useState({});
+  const [searchedInput, setSearchedInput] = useState("");
+  const [searchedLocalization, setSearchedLocalization] = useState("6");
+  const [searchedSkills, setSearchedSkills] = useState([]);
+  let [jobOffers, setJobOffers] = useState([]);
+  // let [countries, setCountries] = useState([]);
+  const [jobOffersUrl, setJobOffersUrl] = useState(url + `/job-offers/`);
+
   //------------------------------------------------------------------------------------------------------------------------------
   /* INTEGRACJA Z API */
 
-  let url = `https://jobjet.azurewebsites.net/api/v1`;
-  // let countriesUrl = url + `/countries/`;
-  let jobOffersUrl = url + `/job-offers/`;
+  console.log(jobOffersUrl);
 
-  // let [countries, setCountries] = useState([]);
-  let [jobOffers, setJobOffers] = useState([]);
+  useEffect(() => {
+    if (
+      searchedInput !== "" ||
+      searchedLocalization !== "" ||
+      searchedSkills !== []
+    ) {
+      setJobOffersUrl(
+        url +
+          `/job-offers?CountryId=${searchedLocalization}&TechnologyId=${searchedSkills[0]}&GeneralSearchByText=${searchedInput}`
+      );
+    } else if (searchedInput === "" && searchedSkills === []) {
+      setJobOffersUrl(url + `/job-offers/`);
+    }
+  }, [searchedInput, searchedLocalization, searchedSkills]);
 
   // useEffect(() => {
   //   fetch(countriesUrl)
@@ -33,16 +55,10 @@ function App() {
   }, [jobOffersUrl]);
 
   // Domyślnie countries zostanie przekazana do localizationArray. Najpierw muszą jednak zostać dodane własności lat, lng, zoom
-  // console.log(countries);
+  //console.log(countries);
 
   /* KONIEC INTEGRACJI Z API */
   //------------------------------------------------------------------------------------------------------------------------------
-
-  const [userLogInState, setUserLogInState] = useState(false);
-  const [advertLocation, setAdvertLocation] = useState({});
-  const [searchedInput, setSearchedInput] = useState("");
-  const [searchedLocalization, setSearchedLocalization] = useState("1");
-  const [searchedSkills, setSearchedSkills] = useState([]);
 
   return (
     <div className="app">

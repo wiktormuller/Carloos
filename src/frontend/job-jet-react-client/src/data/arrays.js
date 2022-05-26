@@ -2,7 +2,7 @@
 
 export const localizationArray = [
   {
-    id: 1,
+    id: 6,
     name: "Poland",
     alpha2Code: "PL",
     lat: 52.006376,
@@ -10,7 +10,7 @@ export const localizationArray = [
     zoom: 6.5,
   },
   {
-    id: 2,
+    id: 7,
     name: "United Kingdom",
     alpha2Code: "GB",
     lat: 54.00366,
@@ -18,7 +18,7 @@ export const localizationArray = [
     zoom: 5.5,
   },
   {
-    id: 3,
+    id: 8,
     name: "Germany",
     alpha2Code: "DE",
     lat: 52.531677,
@@ -26,7 +26,7 @@ export const localizationArray = [
     zoom: 5.7,
   },
   {
-    id: 4,
+    id: 9,
     name: "Switzerland",
     alpha2Code: "CH",
     lat: 46.80111,
@@ -34,7 +34,7 @@ export const localizationArray = [
     zoom: 7.0,
   },
   {
-    id: 5,
+    id: 10,
     name: "Belgium",
     alpha2Code: "BE",
     lat: 50.503887,

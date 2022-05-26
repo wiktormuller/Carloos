@@ -5,10 +5,7 @@ import { FcMoneyTransfer } from "react-icons/fc";
 export const AdvertSynopsis = (props) => {
   const renderArray = props.technologyTypesArray.map((technologyTypes) => {
     return (
-      <div
-        key={technologyTypes.index}
-        className="data__advert-data--synopsis--skill"
-      >
+      <div key={technologyTypes} className="data__advert-data--synopsis--skill">
         {technologyTypes}
       </div>
     );
