@@ -74,7 +74,7 @@ export const Map = (props) => {
   const filteredAdverts = props.jobOffersArray.map(
     (jobOffer) => (
       // eslint-disable-next-line no-sequences
-      (skill = jobOffer.technologyType[0]),
+      (skill = jobOffer.technologyTypes[0]),
       (
         <Marker
           key={jobOffer.id}

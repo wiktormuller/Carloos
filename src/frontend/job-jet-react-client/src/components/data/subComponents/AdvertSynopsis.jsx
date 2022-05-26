@@ -3,13 +3,13 @@ import { GoLocation } from "react-icons/go";
 import { FcMoneyTransfer } from "react-icons/fc";
 
 export const AdvertSynopsis = (props) => {
-  const renderArray = props.technologyTypesArray.map((technologyType) => {
+  const renderArray = props.technologyTypesArray.map((technologyTypes) => {
     return (
       <div
-        key={technologyType.index}
+        key={technologyTypes.index}
         className="data__advert-data--synopsis--skill"
       >
-        {technologyType}
+        {technologyTypes}
       </div>
     );
   });

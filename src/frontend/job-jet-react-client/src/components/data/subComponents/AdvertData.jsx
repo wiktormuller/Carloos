@@ -11,10 +11,10 @@ export const AdvertData = (props) => {
         conditions: `${jobOffer.salaryFrom}-${jobOffer.salaryTo} PLN`,
         description: jobOffer.description,
         advancedDataArray: [
-          { name: "Firma:", value: jobOffer.company },
-          { name: "Praca skupiona na:", value: jobOffer.focus },
+          { name: "Firma:", value: jobOffer.companyName },
+          { name: "Typ zatrudnienia:", value: jobOffer.employmentType },
           { name: "Poziom doświadczenia", value: jobOffer.seniority },
-          { name: "Liczba pracowników", value: jobOffer.numberOfEmployees },
+          { name: "Specyfikacja pracy", value: jobOffer.workSpecification },
         ],
       });
       props.setAdvertLocation({
@@ -35,7 +35,7 @@ export const AdvertData = (props) => {
           salary={`${jobOffer.salaryFrom}-${jobOffer.salaryTo} PLN`}
           date={jobOffer.date}
           description={jobOffer.description}
-          technologyTypesArray={jobOffer.technologyType}
+          technologyTypesArray={jobOffer.technologyTypes}
           localizationArray={props.localizationArray}
         />
       </Link>

@@ -1,4 +1,5 @@
 import "./loginPanel-styles.css";
+import { useState, useEffect } from "react";
 
 export const LoginPanel = (props) => {
   return (

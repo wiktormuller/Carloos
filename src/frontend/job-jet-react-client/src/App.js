@@ -28,13 +28,13 @@ function App() {
     fetch(jobOffersUrl)
       .then((response) => response.json())
       .then((data) => {
-        setJobOffers(data);
+        setJobOffers(data.response.data);
       });
   }, [jobOffersUrl]);
 
   // Domyślnie countries zostanie przekazana do localizationArray. Najpierw muszą jednak zostać dodane własności lat, lng, zoom
   console.log(countries);
-  console.log(jobOffers);
+  console.log(jobOffers[0]);
 
   /* KONIEC INTEGRACJI Z API */
   //------------------------------------------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ function App() {
           setUserLogInState={setUserLogInState}
           localizationArray={localizationArray}
           skillsArray={skillsArray}
-          jobOffersArray={jobOffersArray}
+          jobOffersArray={jobOffers}
           searchedSkills={searchedSkills}
           setSearchedInput={setSearchedInput}
           setSearchedLocalization={setSearchedLocalization}
