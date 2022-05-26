@@ -10,7 +10,7 @@ export const LoginPanel = (props) => {
   const handleClick = () => {
     let body = {
       email: `${email}`,
-      password: `${password}`,
+      password: `${password}`
     };
 
     let strBody = JSON.stringify(body);
@@ -20,6 +20,10 @@ export const LoginPanel = (props) => {
 
     fetch(authLogin, {
       method: "POST",
+      headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
       body: strBody,
     })
       .then((response) => response.json())

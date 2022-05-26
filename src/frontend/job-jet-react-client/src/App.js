@@ -2,7 +2,7 @@ import "./styles/main-styles.css";
 import { useState, useEffect } from "react";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";
-import { localizationArray, jobOffersArray, skillsArray } from "./data/arrays";
+import { localizationArray, skillsArray } from "./data/arrays";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -21,22 +21,16 @@ function App() {
   //------------------------------------------------------------------------------------------------------------------------------
   /* INTEGRACJA Z API */
 
-  console.log(jobOffersUrl);
-
   useEffect(() => {
-    if (
-      searchedInput !== "" ||
-      searchedLocalization !== "" ||
-      searchedSkills !== []
-    ) {
+    if (searchedInput !== "") {
       setJobOffersUrl(
         url +
-          `/job-offers?CountryId=${searchedLocalization}&TechnologyId=${searchedSkills[0]}&GeneralSearchByText=${searchedInput}`
+          `/job-offers?CountryId=${searchedLocalization}&GeneralSearchByText=${searchedInput}`
       );
-    } else if (searchedInput === "" && searchedSkills === []) {
-      setJobOffersUrl(url + `/job-offers/`);
+    } else if (searchedInput === "") {
+      setJobOffersUrl(url + `/job-offers/?CountryId=${searchedLocalization}`);
     }
-  }, [searchedInput, searchedLocalization, searchedSkills]);
+  }, [searchedInput, searchedLocalization]);
 
   // useEffect(() => {
   //   fetch(countriesUrl)
