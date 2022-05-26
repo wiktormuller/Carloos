@@ -10,19 +10,19 @@ function App() {
   /* INTEGRACJA Z API */
 
   let url = `https://jobjet.azurewebsites.net/api/v1`;
-  let countriesUrl = url + `/countries/`;
+  // let countriesUrl = url + `/countries/`;
   let jobOffersUrl = url + `/job-offers/`;
 
-  let [countries, setCountries] = useState([]);
+  // let [countries, setCountries] = useState([]);
   let [jobOffers, setJobOffers] = useState([]);
 
-  useEffect(() => {
-    fetch(countriesUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setCountries(data);
-      });
-  }, [countriesUrl]);
+  // useEffect(() => {
+  //   fetch(countriesUrl)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setCountries(data);
+  //     });
+  // }, [countriesUrl]);
 
   useEffect(() => {
     fetch(jobOffersUrl)
@@ -33,8 +33,7 @@ function App() {
   }, [jobOffersUrl]);
 
   // Domyślnie countries zostanie przekazana do localizationArray. Najpierw muszą jednak zostać dodane własności lat, lng, zoom
-  console.log(countries);
-  console.log(jobOffers[0]);
+  // console.log(countries);
 
   /* KONIEC INTEGRACJI Z API */
   //------------------------------------------------------------------------------------------------------------------------------

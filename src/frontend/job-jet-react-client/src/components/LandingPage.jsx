@@ -47,7 +47,15 @@ export const LandingPage = (props) => {
               />
             }
           />
-          <Route path="/register" element={<RegistrationPanel />} />
+          <Route
+            path="/register"
+            element={
+              <RegistrationPanel
+                userLogInState={props.userLogInState}
+                setUserLogInState={props.setUserLogInState}
+              />
+            }
+          />
           <Route path="/login" element={<LoginPanel />} />
         </Routes>
 
