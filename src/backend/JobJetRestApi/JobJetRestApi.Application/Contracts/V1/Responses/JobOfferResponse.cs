@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JobJetRestApi.Domain.Enums;
 
 namespace JobJetRestApi.Application.Contracts.V1.Responses
@@ -15,6 +16,7 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
         public string Seniority { get; private set; }
         public string EmploymentType { get; private set; }
         public WorkSpecification WorkSpecification { get; private set; }
+        public DateTime CreatedAt { get; private set; }
         
         public int CompanyId { get; private set; }
         public string CompanyName { get; private set; }
@@ -22,7 +24,7 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
         public JobOfferResponse(int id, string name, string description, decimal salaryFrom, decimal salaryTo, 
             string countryName, string town, string street, string zipCode, decimal latitude, decimal longitude,
             List<string> technologyTypes, string seniority, string employmentType, WorkSpecification workSpecification,
-            int companyId, string companyName)
+            DateTime createdAt, int companyId, string companyName)
         {
             Id = id;
             Name = name;
@@ -33,6 +35,7 @@ namespace JobJetRestApi.Application.Contracts.V1.Responses
             Seniority = seniority;
             EmploymentType = employmentType;
             WorkSpecification = workSpecification;
+            CreatedAt = createdAt;
             CompanyId = companyId;
             CompanyName = companyName;
             Address = new AddressResponse(countryName, town, street, zipCode, latitude, longitude);

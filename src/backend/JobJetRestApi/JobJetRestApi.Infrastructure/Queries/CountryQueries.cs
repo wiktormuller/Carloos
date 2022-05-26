@@ -18,7 +18,7 @@ namespace JobJetRestApi.Infrastructure.Queries
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly ICacheService _cacheService;
 
-        private readonly record struct CountryRecord(int Id, string Name, string Alpha2Code, string Alpha3Code, int NumericCode);
+        private readonly record struct CountryRecord(int Id, string Name, string Alpha2Code, decimal LatitudeOfCapital, decimal LongitudeOfCapital);
         
         public CountryQueries(ISqlConnectionFactory sqlConnectionFactory, 
             ICacheService cacheService)
@@ -37,7 +37,9 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Country].Name,
                     [Country].Alpha2Code,
                     [Country].Alpha3Code,
-                    [Country].NumericCode 
+                    [Country].NumericCode,
+                    [Country].LatitudeOfCapital,
+                    [Country].LongitudeOfCapital
                 FROM [Countries] AS [Country] 
                 ORDER BY [Country].Id"
                 ;
@@ -48,7 +50,8 @@ namespace JobJetRestApi.Infrastructure.Queries
             {
                 var queriedCountries = await connection.QueryAsync<CountryRecord>(query);
 
-                countries = queriedCountries.Select(x => new CountryResponse(x.Id, x.Name, x.Alpha2Code));
+                countries = queriedCountries.Select(x => 
+                    new CountryResponse(x.Id, x.Name, x.Alpha2Code, x.LatitudeOfCapital, x.LongitudeOfCapital));
                 
                 _cacheService.Add(countries, CacheKeys.CountriesListKey);
             }
@@ -86,7 +89,9 @@ namespace JobJetRestApi.Infrastructure.Queries
             var country = new CountryResponse(
                 queriedCountry.Id, 
                 queriedCountry.Name, 
-                queriedCountry.Alpha2Code);
+                queriedCountry.Alpha2Code,
+                queriedCountry.LatitudeOfCapital,
+                queriedCountry.LongitudeOfCapital);
 
             return country;
         }
