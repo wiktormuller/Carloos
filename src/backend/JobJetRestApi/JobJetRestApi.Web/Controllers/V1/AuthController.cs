@@ -44,7 +44,7 @@ public class AuthController : Controller
             return BadRequest(ModelState);
         }
         
-        var command = new CreateUserCommand(request.Name, request.Email, request.Password);
+        var command = new CreateUserCommand(request.Email, request.Name, request.Password);
 
         try
         {
