@@ -17,11 +17,12 @@ export const RegistrationPanel = (props) => {
 
     let strBody = JSON.stringify(body);
 
-    console.log(body);
-    console.log(strBody);
-
     fetch(registerLogin, {
       method: "POST",
+      headers: {
+        Accept: "application/json, text/plain",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
       body: strBody,
     })
       .then((response) => response.json())

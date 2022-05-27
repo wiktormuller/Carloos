@@ -17,8 +17,14 @@ export const Header = (props) => {
     } else if (!!props.userLogInState) {
       return (
         <div className="header__registered-user">
-          <button className="header__btn">Profil</button>
-          <button className="header__btn">Wyloguj się</button>
+          <Link className="custom-link" to="/">
+            <button className="header__btn">Mój profil</button>
+          </Link>
+          <Link className="custom-link" to="/">
+            <button className="header__btn" type="button" onClick={logOut}>
+              Wyloguj się
+            </button>
+          </Link>
         </div>
       );
     }
@@ -33,6 +39,10 @@ export const Header = (props) => {
       lat: 52.006376,
       lng: 19.025167,
     });
+  };
+
+  const logOut = () => {
+    props.setUserLogInState(false);
   };
 
   return (

@@ -1,5 +1,6 @@
 import "./loginPanel-styles.css";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export const LoginPanel = (props) => {
   let [email, setEmail] = useState("");
@@ -10,25 +11,26 @@ export const LoginPanel = (props) => {
   const handleClick = () => {
     let body = {
       email: `${email}`,
-      password: `${password}`
+      password: `${password}`,
     };
 
     let strBody = JSON.stringify(body);
 
-    console.log(body);
-    console.log(strBody);
-
     fetch(authLogin, {
       method: "POST",
       headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
+        Accept: "application/json, text/plain",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
       body: strBody,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        if (!!data.accessToken) {
+          props.setUserLogInState(true);
+        } else {
+          alert(data);
+        }
       });
   };
 
@@ -61,9 +63,11 @@ export const LoginPanel = (props) => {
           }}
         ></input>
         <br />
-        <button type="button" onClick={handleClick}>
-          Zaloguj
-        </button>
+        <Link className="custom-link" to="/">
+          <button type="button" onClick={handleClick}>
+            Zaloguj
+          </button>
+        </Link>
       </form>
     </div>
   );

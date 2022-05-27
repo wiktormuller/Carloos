@@ -43,33 +43,33 @@ export const localizationArray = [
   },
 ];
 
-export const jobOffersArray = [
-  {
-    id: 0,
-    name: "Junior Web Developer",
-    description:
-      "Poszukiwany Junior Web Developer do pracy. Po okresie próbnym możliwa praca zdalna",
-    salaryFrom: 4000,
-    salaryTo: 6000,
-    address: {
-      id: 0,
-      countryName: "Poland",
-      town: "Gdańsk",
-      street: "Długi Targ 43-44",
-      zipCode: "80-831",
-      latitude: 54.35,
-      longitude: 18.633,
-    },
-    technologyType: ["HTML", "CSS", "JavaScript"],
-    seniority: "Junior",
-    employmentType: "B2B",
-    workSpecification: "FullyRemote",
-    company: "IBPM S.A",
-    focus: "Produkt",
-    date: "20-10-2021",
-    numberOfEmployees: "90-120",
-  },
-];
+// export const jobOffersArray = [
+//   {
+//     id: 0,
+//     name: "Junior Web Developer",
+//     description:
+//       "Poszukiwany Junior Web Developer do pracy. Po okresie próbnym możliwa praca zdalna",
+//     salaryFrom: 4000,
+//     salaryTo: 6000,
+//     address: {
+//       id: 0,
+//       countryName: "Poland",
+//       town: "Gdańsk",
+//       street: "Długi Targ 43-44",
+//       zipCode: "80-831",
+//       latitude: 54.35,
+//       longitude: 18.633,
+//     },
+//     technologyType: ["HTML", "CSS", "JavaScript"],
+//     seniority: "Junior",
+//     employmentType: "B2B",
+//     workSpecification: "FullyRemote",
+//     company: "IBPM S.A",
+//     focus: "Produkt",
+//     date: "20-10-2021",
+//     numberOfEmployees: "90-120",
+//   },
+// ];
 
 export const skillsArray = [
   { id: 1, name: "HTML5", icon: "DiHtml5", color: "orange" },
@@ -96,14 +96,29 @@ export const skillsArray = [
 
 export const navbarLinksTable = [
   { id: 1, name: "Wyszukaj", iconName: "BsSearch", path: "/" },
-  { id: 2, name: "Oferty", iconName: "IoDocumentTextOutline", path: "/" },
+  {
+    id: 2,
+    name: "Oferty",
+    iconName: "IoDocumentTextOutline",
+    path: "/register",
+  },
   {
     id: 3,
     name: "Pogoda",
     iconName: "TiWeatherStormy",
-    path: "/",
+    path: "/login",
   },
-  { id: 4, name: "Analityka", iconName: "DiGoogleAnalytics", path: "/" },
-  { id: 5, name: "Opcje", iconName: "IoSettingsOutline", path: "/" },
-  { id: 6, name: "Biuletyn", iconName: "IoNewspaperOutline", path: "/" },
+  {
+    id: 4,
+    name: "Analityka",
+    iconName: "DiGoogleAnalytics",
+    path: "/register",
+  },
+  { id: 5, name: "Opcje", iconName: "IoSettingsOutline", path: "/login" },
+  {
+    id: 6,
+    name: "Biuletyn",
+    iconName: "IoNewspaperOutline",
+    path: "/register",
+  },
 ];

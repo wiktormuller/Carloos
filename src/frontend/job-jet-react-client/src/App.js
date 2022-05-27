@@ -17,9 +17,7 @@ function App() {
   let [jobOffers, setJobOffers] = useState([]);
   // let [countries, setCountries] = useState([]);
   const [jobOffersUrl, setJobOffersUrl] = useState(url + `/job-offers/`);
-
-  //------------------------------------------------------------------------------------------------------------------------------
-  /* INTEGRACJA Z API */
+  // const [countriesUrl, setCountriesUrl] = useState(url + `/countries/`);
 
   useEffect(() => {
     if (searchedInput !== "") {
@@ -49,15 +47,14 @@ function App() {
   }, [jobOffersUrl]);
 
   // Domyślnie countries zostanie przekazana do localizationArray. Najpierw muszą jednak zostać dodane własności lat, lng, zoom
-  //console.log(countries);
+  // console.log(countries);
 
-  /* KONIEC INTEGRACJI Z API */
-  //------------------------------------------------------------------------------------------------------------------------------
+  console.log(userLogInState);
 
   return (
     <div className="app">
       <Router>
-        <Navbar></Navbar>
+        <Navbar userLogInState={userLogInState}></Navbar>
         <LandingPage
           userLogInState={userLogInState}
           setUserLogInState={setUserLogInState}

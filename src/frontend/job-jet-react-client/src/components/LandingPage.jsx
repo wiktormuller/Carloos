@@ -7,6 +7,7 @@ import { AdvertDetails } from "./advertDetails/AdvertDetails.jsx";
 import { Map } from "./map/Map.jsx";
 import { RegistrationPanel } from "./registrationPanel/RegistrationPanel";
 import { LoginPanel } from "./loginPanel/LoginPanel";
+import { DenialPage } from "./denialPage/DenialPage";
 
 export const LandingPage = (props) => {
   const [advertDetails, setAdvertDetails] = useState({});
@@ -56,7 +57,11 @@ export const LandingPage = (props) => {
               />
             }
           />
-          <Route path="/login" element={<LoginPanel />} />
+          <Route
+            path="/login"
+            element={<LoginPanel setUserLogInState={props.setUserLogInState} />}
+          />
+          <Route path="/denial" element={<DenialPage />} />
         </Routes>
 
         <Map
