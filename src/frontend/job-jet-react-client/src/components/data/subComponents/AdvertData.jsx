@@ -33,7 +33,7 @@ export const AdvertData = (props) => {
           title={jobOffer.name}
           localization={jobOffer.address.town}
           salary={`${jobOffer.salaryFrom}-${jobOffer.salaryTo} PLN`}
-          date={jobOffer.date}
+          date={jobOffer.createdAt.substring(0, 10)}
           description={jobOffer.description}
           technologyTypesArray={jobOffer.technologyTypes}
           localizationArray={props.localizationArray}

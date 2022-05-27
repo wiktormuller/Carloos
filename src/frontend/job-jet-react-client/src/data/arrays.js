@@ -15,7 +15,7 @@ export const localizationArray = [
     alpha2Code: "GB",
     lat: 54.00366,
     lng: -2.547855,
-    zoom: 5.5,
+    zoom: 6.0,
   },
   {
     id: 8,
@@ -23,7 +23,7 @@ export const localizationArray = [
     alpha2Code: "DE",
     lat: 52.531677,
     lng: 13.381777,
-    zoom: 5.7,
+    zoom: 6.0,
   },
   {
     id: 9,
