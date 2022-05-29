@@ -9,7 +9,7 @@ function App() {
   const url = `https://jobjet.azurewebsites.net/api/v1`;
   // let countriesUrl = url + `/countries/`;
 
-  const [userLogInState, setUserLogInState] = useState(true);
+  const [userLogInState, setUserLogInState] = useState(false);
   const [advertLocation, setAdvertLocation] = useState({});
   const [searchedInput, setSearchedInput] = useState("");
   const [searchedLocalization, setSearchedLocalization] = useState("6");
@@ -84,8 +84,6 @@ function App() {
         setEmploymentType(data);
       });
   }, [employmentTypeUrl]);
-
-  console.log(employmentType);
 
   // useEffect(() => {
   //   fetch(countriesUrl)

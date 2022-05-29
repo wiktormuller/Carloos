@@ -2,6 +2,8 @@ import "./addJobOfferPanel-styles.css";
 import { useState /*, useEffect*/ } from "react";
 
 export const AddJobOfferPanel = (props) => {
+  const addLogin = `https://jobjet.azurewebsites.net/api/v1/job-offers`;
+
   const style = {
     width: "242.5px",
     height: "15px",
@@ -10,9 +12,70 @@ export const AddJobOfferPanel = (props) => {
     padding: "5px 10px",
   };
 
+  const handleClick = () => {
+    let body = {
+      companyId: companyId,
+      name: `${name}`,
+      decription: `${decription}`,
+      salaryFrom: salaryFrom,
+      salaryTo: salaryTo,
+      address: {
+        town: `${town}`,
+        street: `${street}`,
+        zipCode: `${zipCode}`,
+        countryIsoId: countryIsoId,
+      },
+      seniorityId: seniorityId,
+      employmentTypeId: employmentTypeId,
+      currencyId: currencyId,
+      technologyTypeIds: skills,
+      workSpecification: `${workSpecification}`,
+    };
+
+    let strBody = JSON.stringify(body);
+
+    console.log(strBody);
+
+    fetch(addLogin, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      body: strBody,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  const [companyId, setCompanyId] = useState(0);
+  const [name, setName] = useState("");
+  const [decription, setDescription] = useState("");
+  const [salaryFrom, setSalaryFrom] = useState(0);
+  const [salaryTo, setSalaryTo] = useState(0);
+
+  const [town, setTown] = useState("");
+  const [street, setStreet] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [countryIsoId, setCountryIsoId] = useState(0);
   const [skills, setSkills] = useState([]);
 
+  const [seniorityId, setSeniorityId] = useState(0);
+  const [employmentTypeId, setEmploymentTypeId] = useState(0);
+  const [currencyId, setCurrencyId] = useState(0);
+  const [workSpecification, setWorkSpecification] = useState("");
+
   // console.log(skills);
+
+  const renderedArrayCountries = props.countries.map((countries) => {
+    return (
+      <option key={countries.id} value={countries.id}>
+        {countries.name}
+      </option>
+    );
+  });
 
   const renderedArrayCompanies = props.companies.map((company) => {
     return (
@@ -84,11 +147,30 @@ export const AddJobOfferPanel = (props) => {
           id="name"
           style={style}
           required
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
         ></input>
-        <textarea id="description" name="description" rows="5" cols="33">
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
+          cols="33"
+          onChange={(e) => {
+            setDescription(e.target.value);
+          }}
+        >
           Opis
         </textarea>
-        <select className="custom-select" name="company" id="company" required>
+        <select
+          className="custom-select"
+          name="company"
+          id="company"
+          onChange={(e) => {
+            setCompanyId(e.target.value);
+          }}
+          required
+        >
           {renderedArrayCompanies}
         </select>
         <select
@@ -109,6 +191,9 @@ export const AddJobOfferPanel = (props) => {
           name="salaryFrom"
           id="salaryFrom"
           style={style}
+          onChange={(e) => {
+            setSalaryFrom(e.target.value);
+          }}
           required
         ></input>
         <input
@@ -117,12 +202,18 @@ export const AddJobOfferPanel = (props) => {
           name="salaryTo"
           id="salaryTo"
           style={style}
+          onChange={(e) => {
+            setSalaryTo(e.target.value);
+          }}
           required
         ></input>
         <select
           className="custom-select"
           name="currency"
           id="currency"
+          onChange={(e) => {
+            setCurrencyId(e.target.value);
+          }}
           required
         >
           {renderedArrayCurrencies}
@@ -131,6 +222,9 @@ export const AddJobOfferPanel = (props) => {
           className="custom-select"
           name="seniority"
           id="seniority"
+          onChange={(e) => {
+            setSeniorityId(e.target.value);
+          }}
           required
         >
           {renderedArraySeniority}
@@ -139,6 +233,9 @@ export const AddJobOfferPanel = (props) => {
           className="custom-select"
           name="employmentType"
           id="employmentType"
+          onChange={(e) => {
+            setEmploymentTypeId(e.target.value);
+          }}
           required
         >
           {renderedArrayEmploymentType}
@@ -147,24 +244,34 @@ export const AddJobOfferPanel = (props) => {
           className="custom-select"
           name="workSpecification"
           id="workSpecification"
+          onChange={(e) => {
+            setWorkSpecification(e.target.value);
+          }}
           required
         >
           {renderedArrayWorkSpecification}
         </select>
-        <input
-          type="text"
-          placeholder="Kraj"
-          name="country"
-          id="country"
-          style={style}
+        <select
+          className="custom-select"
+          name="countries"
+          id="countries"
           required
-        ></input>
+          // multiple
+          onChange={(e) => {
+            setCountryIsoId(e.target.value);
+          }}
+        >
+          {renderedArrayCountries}
+        </select>
         <input
           type="text"
           placeholder="Miasto"
           name="town"
           id="town"
           style={style}
+          onChange={(e) => {
+            setTown(e.target.value);
+          }}
           required
         ></input>
         <input
@@ -173,6 +280,9 @@ export const AddJobOfferPanel = (props) => {
           name="street"
           id="street"
           style={style}
+          onChange={(e) => {
+            setStreet(e.target.value);
+          }}
           required
         ></input>
         <input
@@ -181,25 +291,15 @@ export const AddJobOfferPanel = (props) => {
           name="zipCode"
           id="zipCode"
           style={style}
+          onChange={(e) => {
+            setZipCode(e.target.value);
+          }}
           required
         ></input>
-        <input
-          type="text"
-          placeholder="Latitude"
-          name="street"
-          id="street"
-          style={style}
-          required
-        ></input>
-        <input
-          type="text"
-          placeholder="Longitude"
-          name="zipCode"
-          id="zipCode"
-          style={style}
-          required
-        ></input>
-        <button>Opublikuj ofertę</button>
+        <br />
+        <button type="button" onClick={handleClick}>
+          Opublikuj ofertę
+        </button>
       </form>
     </div>
   );

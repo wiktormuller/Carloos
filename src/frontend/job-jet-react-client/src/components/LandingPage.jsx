@@ -72,6 +72,7 @@ export const LandingPage = (props) => {
             path="/add-job-offer"
             element={
               <AddJobOfferPanel
+                countries={props.localizationArray}
                 companies={props.companies}
                 skills={props.skillsArray}
                 currencies={props.currencies}
