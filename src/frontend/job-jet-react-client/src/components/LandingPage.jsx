@@ -61,17 +61,20 @@ export const LandingPage = (props) => {
           />
           <Route
             path="/login"
-            element={<LoginPanel setUserLogInState={props.setUserLogInState} />}
+            element={
+              <LoginPanel
+                setUserLogInState={props.setUserLogInState}
+                setToken={props.setToken}
+              />
+            }
           />
           <Route path="/denial" element={<DenialPage />} />
-          <Route
-            path="/login"
-            element={<LoginPanel setUserLogInState={props.setUserLogInState} />}
-          />
           <Route
             path="/add-job-offer"
             element={
               <AddJobOfferPanel
+                token={props.token}
+                setToken={props.setToken}
                 countries={props.localizationArray}
                 companies={props.companies}
                 skills={props.skillsArray}

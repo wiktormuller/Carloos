@@ -16,7 +16,7 @@ export const AddJobOfferPanel = (props) => {
     let body = {
       companyId: companyId,
       name: `${name}`,
-      decription: `${decription}`,
+      description: `${description}`,
       salaryFrom: salaryFrom,
       salaryTo: salaryTo,
       address: {
@@ -38,10 +38,11 @@ export const AddJobOfferPanel = (props) => {
 
     fetch(addLogin, {
       method: "POST",
-      headers: {
-        Accept: "application/json, text/plain",
-        "Content-Type": "application/json;charset=UTF-8",
-      },
+      headers: new Headers({
+        accept: "text/plain",
+        Authorization: "Bearer " + `${props.token}`,
+        "Content-Type": "application/json",
+      }),
       body: strBody,
     })
       .then((response) => response.json())
@@ -50,21 +51,21 @@ export const AddJobOfferPanel = (props) => {
       });
   };
 
-  const [companyId, setCompanyId] = useState(0);
+  const [companyId, setCompanyId] = useState(1);
   const [name, setName] = useState("");
-  const [decription, setDescription] = useState("");
+  const [description, setDescription] = useState("");
   const [salaryFrom, setSalaryFrom] = useState(0);
   const [salaryTo, setSalaryTo] = useState(0);
 
   const [town, setTown] = useState("");
   const [street, setStreet] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [countryIsoId, setCountryIsoId] = useState(0);
-  const [skills, setSkills] = useState([]);
+  const [countryIsoId, setCountryIsoId] = useState(6);
+  const [skills, setSkills] = useState(["1"]);
 
-  const [seniorityId, setSeniorityId] = useState(0);
-  const [employmentTypeId, setEmploymentTypeId] = useState(0);
-  const [currencyId, setCurrencyId] = useState(0);
+  const [seniorityId, setSeniorityId] = useState(1);
+  const [employmentTypeId, setEmploymentTypeId] = useState(1);
+  const [currencyId, setCurrencyId] = useState(1);
   const [workSpecification, setWorkSpecification] = useState("");
 
   // console.log(skills);

@@ -27,6 +27,7 @@ export const LoginPanel = (props) => {
       .then((response) => response.json())
       .then((data) => {
         if (!!data.accessToken) {
+          props.setToken(data.accessToken);
           props.setUserLogInState(true);
         } else {
           alert(data);

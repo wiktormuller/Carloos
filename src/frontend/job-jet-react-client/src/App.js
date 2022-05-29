@@ -10,6 +10,7 @@ function App() {
   // let countriesUrl = url + `/countries/`;
 
   const [userLogInState, setUserLogInState] = useState(false);
+  const [token, setToken] = useState("");
   const [advertLocation, setAdvertLocation] = useState({});
   const [searchedInput, setSearchedInput] = useState("");
   const [searchedLocalization, setSearchedLocalization] = useState("6");
@@ -102,6 +103,8 @@ function App() {
         <LandingPage
           userLogInState={userLogInState}
           setUserLogInState={setUserLogInState}
+          token={token}
+          setToken={setToken}
           localizationArray={localizationArray}
           skillsArray={skillsArray}
           jobOffersArray={jobOffers}
