@@ -8,6 +8,8 @@ import { Map } from "./map/Map.jsx";
 import { RegistrationPanel } from "./registrationPanel/RegistrationPanel";
 import { LoginPanel } from "./loginPanel/LoginPanel";
 import { DenialPage } from "./denialPage/DenialPage";
+import { AddJobOfferPanel } from "./addJobOfferPanel/AddJobOfferPanel";
+//import { AddCompany } from "./addCompany/AddCompany";
 
 export const LandingPage = (props) => {
   const [advertDetails, setAdvertDetails] = useState({});
@@ -62,6 +64,22 @@ export const LandingPage = (props) => {
             element={<LoginPanel setUserLogInState={props.setUserLogInState} />}
           />
           <Route path="/denial" element={<DenialPage />} />
+          <Route
+            path="/login"
+            element={<LoginPanel setUserLogInState={props.setUserLogInState} />}
+          />
+          <Route
+            path="/add-job-offer"
+            element={
+              <AddJobOfferPanel
+                companies={props.companies}
+                skills={props.skillsArray}
+                currencies={props.currencies}
+                seniority={props.seniority}
+                employmentTypes={props.employmentType}
+              />
+            }
+          />
         </Routes>
 
         <Map

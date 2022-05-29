@@ -43,34 +43,6 @@ export const localizationArray = [
   },
 ];
 
-// export const jobOffersArray = [
-//   {
-//     id: 0,
-//     name: "Junior Web Developer",
-//     description:
-//       "Poszukiwany Junior Web Developer do pracy. Po okresie próbnym możliwa praca zdalna",
-//     salaryFrom: 4000,
-//     salaryTo: 6000,
-//     address: {
-//       id: 0,
-//       countryName: "Poland",
-//       town: "Gdańsk",
-//       street: "Długi Targ 43-44",
-//       zipCode: "80-831",
-//       latitude: 54.35,
-//       longitude: 18.633,
-//     },
-//     technologyType: ["HTML", "CSS", "JavaScript"],
-//     seniority: "Junior",
-//     employmentType: "B2B",
-//     workSpecification: "FullyRemote",
-//     company: "IBPM S.A",
-//     focus: "Produkt",
-//     date: "20-10-2021",
-//     numberOfEmployees: "90-120",
-//   },
-// ];
-
 export const skillsArray = [
   { id: 1, name: "HTML5", icon: "DiHtml5", color: "orange" },
   { id: 2, name: "CSS3", icon: "DiCss3", color: "#4169e1" },
@@ -100,7 +72,7 @@ export const navbarLinksTable = [
     id: 2,
     name: "Oferty",
     iconName: "IoDocumentTextOutline",
-    path: "/register",
+    path: "/add-job-offer",
   },
   {
     id: 3,
