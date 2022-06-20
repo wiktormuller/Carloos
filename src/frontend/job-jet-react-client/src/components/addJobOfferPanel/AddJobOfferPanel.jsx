@@ -121,9 +121,9 @@ export const AddJobOfferPanel = (props) => {
   );
 
   const renderedArrayWorkSpecification = [
-    "Stationary",
-    "Partially Remote",
-    "Fully Remote",
+    "Hybrid",
+    "Office",
+    "FullyRemote",
   ].map((specification) => {
     return (
       <option key={specification.index} value={specification}>
