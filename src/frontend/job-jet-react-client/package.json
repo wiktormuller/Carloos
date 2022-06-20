@@ -1,13 +1,21 @@
 {
-  "name": "job-jet-react-client",
+  "name": "jobjet",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "husky": "^7.0.4",
+    "leaflet": "^1.7.1",
+    "leaflet-routing-machine": "^3.2.12",
+    "lint-staged": "^12.4.1",
+    "ol": "^6.9.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-leaflet": "^3.2.2",
+    "react-router-dom": "^6.2.1",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
@@ -15,7 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier \"src/**/*.{js,html}\" --write"
   },
   "eslintConfig": {
     "extends": [
@@ -23,16 +32,12 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "prettier": "^2.6.2"
   }
 }
