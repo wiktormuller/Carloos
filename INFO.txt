@@ -1,5 +1,3 @@
-dotnet run bin/Debug/net5.0/IdentityServer /seed
-
 ceo@jobjet.com
 Password123!
 
@@ -12,9 +10,6 @@ dotnet tool install --global dotnet-ef
 Data Source=(LocalDb)\MSSQLLocalDB;Database=JobJet-Development;Trusted_Connection=True;
 sqllocaldb info MSSQLLocalDb
 sqllocaldb.exe s MSSQLLocalDB
-
-54.369201, 18.483172
-54.370176, 18.460660
 
 http://router.project-osrm.org/route/v1/driving/54.369201,18.483172;54.370176,18.460660?geometries=geojson&overview=full
 
