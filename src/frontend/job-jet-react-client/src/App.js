@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const url = `https://jobjet.azurewebsites.net/api/v1`;
-  // let countriesUrl = url + `/countries/`;
 
   const [userLogInState, setUserLogInState] = useState(false);
   const [advertLocation, setAdvertLocation] = useState({});
@@ -15,9 +14,7 @@ function App() {
   const [searchedLocalization, setSearchedLocalization] = useState("6");
   const [searchedSkills, setSearchedSkills] = useState([]);
   let [jobOffers, setJobOffers] = useState([]);
-  // let [countries, setCountries] = useState([]);
   const [jobOffersUrl, setJobOffersUrl] = useState(url + `/job-offers/`);
-  // const [countriesUrl, setCountriesUrl] = useState(url + `/countries/`);
 
   useEffect(() => {
     if (searchedInput !== "") {
@@ -30,14 +27,6 @@ function App() {
     }
   }, [searchedInput, searchedLocalization]);
 
-  // useEffect(() => {
-  //   fetch(countriesUrl)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCountries(data);
-  //     });
-  // }, [countriesUrl]);
-
   useEffect(() => {
     fetch(jobOffersUrl)
       .then((response) => response.json())
@@ -45,9 +34,6 @@ function App() {
         setJobOffers(data.response.data);
       });
   }, [jobOffersUrl]);
-
-  // Domyślnie countries zostanie przekazana do localizationArray. Najpierw muszą jednak zostać dodane własności lat, lng, zoom
-  // console.log(countries);
 
   console.log(userLogInState);
 
