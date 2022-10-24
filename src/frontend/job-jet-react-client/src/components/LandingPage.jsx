@@ -1,15 +1,14 @@
 import "../styles/main-styles.css";
-import { useState /*, useEffect*/ } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header } from "./header/Header.jsx";
 import { Data } from "./data/Data.jsx";
 import { AdvertDetails } from "./advertDetails/AdvertDetails.jsx";
-import { Map } from "./map/Map.jsx";
 import { RegistrationPanel } from "./registrationPanel/RegistrationPanel";
 import { LoginPanel } from "./loginPanel/LoginPanel";
 import { DenialPage } from "./denialPage/DenialPage";
 import { AddJobOfferPanel } from "./addJobOfferPanel/AddJobOfferPanel";
-//import { AddCompany } from "./addCompany/AddCompany";
+import { Dashboard } from "./dashboard/Dashboard";
 
 export const LandingPage = (props) => {
   const [advertDetails, setAdvertDetails] = useState({});
@@ -38,6 +37,8 @@ export const LandingPage = (props) => {
                 setSearchedSkills={props.setSearchedSkills}
                 setAdvertDetails={setAdvertDetails}
                 setAdvertLocation={setAdvertLocation}
+                geoLocation={geoLocation}
+                advertLocation={advertLocation}
               />
             }
           />
@@ -84,14 +85,8 @@ export const LandingPage = (props) => {
               />
             }
           />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
-
-        <Map
-          localizationArray={props.localizationArray}
-          jobOffersArray={props.jobOffersArray}
-          geoLocation={geoLocation}
-          advertLocation={advertLocation}
-        ></Map>
       </div>
     </div>
   );
