@@ -17,12 +17,15 @@ export const RegistrationPanel = (props) => {
 
     let strBody = JSON.stringify(body);
 
+    console.log(body);
+
     fetch(registerLogin, {
       method: "POST",
-      headers: {
+      headers: new Headers({
         Accept: "application/json, text/plain",
         "Content-Type": "application/json;charset=UTF-8",
-      },
+        "Access-Control-Allow-Origin": "https://jobjet.azurewebsites.net/",
+      }),
       body: strBody,
     })
       .then((response) => response.json())
@@ -37,7 +40,6 @@ export const RegistrationPanel = (props) => {
         <h2>Zarejestruj się</h2>
         <input
           className="custom-input"
-          input
           type="text"
           placeholder="Enter Name"
           name="name"
@@ -50,7 +52,6 @@ export const RegistrationPanel = (props) => {
         <br />
         <input
           className="custom-input"
-          input
           type="text"
           placeholder="Enter Email"
           name="email"

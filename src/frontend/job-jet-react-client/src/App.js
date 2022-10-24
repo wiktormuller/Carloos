@@ -9,12 +9,29 @@ function App() {
   const url = `https://jobjet.azurewebsites.net/api/v1`;
 
   const [userLogInState, setUserLogInState] = useState(false);
+  const [token, setToken] = useState("");
   const [advertLocation, setAdvertLocation] = useState({});
   const [searchedInput, setSearchedInput] = useState("");
   const [searchedLocalization, setSearchedLocalization] = useState("6");
   const [searchedSkills, setSearchedSkills] = useState([]);
-  let [jobOffers, setJobOffers] = useState([]);
+
+  const [jobOffers, setJobOffers] = useState([]);
   const [jobOffersUrl, setJobOffersUrl] = useState(url + `/job-offers/`);
+
+  const [companies, setCompanies] = useState([]);
+  const [companiesUrl, setCompaniesUrl] = useState(url + `/companies/`);
+
+  const [currencies, setCurrencies] = useState([]);
+  const [currenciesUrl, setCurrenciesUrl] = useState(url + `/currencies/`);
+
+  const [seniority, setSeniority] = useState([]);
+  const [seniorityUrl, setSeniorityUrl] = useState(url + `/seniority-levels/`);
+
+  const [employmentType, setEmploymentType] = useState([]);
+  const [employmentTypeUrl, setEmploymentTypeUrl] = useState(
+    url + `/employment-types/`
+  );
+
 
   useEffect(() => {
     if (searchedInput !== "") {
@@ -36,6 +53,37 @@ function App() {
   }, [jobOffersUrl]);
 
   console.log(userLogInState);
+  useEffect(() => {
+    fetch(companiesUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCompanies(data.response.data);
+      });
+  }, [companiesUrl]);
+
+  useEffect(() => {
+    fetch(currenciesUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCurrencies(data);
+      });
+  }, [currenciesUrl]);
+
+  useEffect(() => {
+    fetch(seniorityUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setSeniority(data);
+      });
+  }, [seniorityUrl]);
+
+  useEffect(() => {
+    fetch(employmentTypeUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setEmploymentType(data);
+      });
+  }, [employmentTypeUrl]);
 
   return (
     <div className="app">
@@ -44,6 +92,8 @@ function App() {
         <LandingPage
           userLogInState={userLogInState}
           setUserLogInState={setUserLogInState}
+          token={token}
+          setToken={setToken}
           localizationArray={localizationArray}
           skillsArray={skillsArray}
           jobOffersArray={jobOffers}
@@ -53,6 +103,10 @@ function App() {
           setSearchedSkills={setSearchedSkills}
           advertLocation={advertLocation}
           setAdvertLocation={setAdvertLocation}
+          companies={companies}
+          currencies={currencies}
+          seniority={seniority}
+          employmentType={employmentType}
         ></LandingPage>
       </Router>
     </div>

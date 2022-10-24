@@ -1,20 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Mappings" />
-      <Folder Include="Ports" />
-      <Folder Include="UseCases\JobOffers\Commands" />
-      <Folder Include="UseCases\JobOffers\CommandsHandlers" />
-      <Folder Include="UseCases\JobOffers\Queries" />
-      <Folder Include="UseCases\JobOffers\QueriesHandlers" />
+      <ProjectReference Include="..\JobJetRestApi.Domain\JobJetRestApi.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\JobJetRestApi.Domain\JobJetRestApi.Domain.csproj" />
+      <PackageReference Include="Ardalis.GuardClauses" Version="4.0.0" />
+      <PackageReference Include="FluentValidation" Version="10.3.6" />
+      <PackageReference Include="MediatR" Version="10.0.1" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
     </ItemGroup>
 
 </Project>

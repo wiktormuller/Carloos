@@ -1,2 +1,2 @@
 # JobJet
-Interaktywna mapa do szukania pracy oraz tworzenia ogłoszeń o pracę.
+Interactive web application integrated with map where we can find any job in IT sector.

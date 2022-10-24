@@ -2,6 +2,7 @@ import "./navbar-styles.css";
 import { Icon } from "../icon/Icon";
 import { navbarLinksTable } from "./../../data/arrays";
 import { Link } from "react-router-dom";
+
 // import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export const Navbar = (props) => {

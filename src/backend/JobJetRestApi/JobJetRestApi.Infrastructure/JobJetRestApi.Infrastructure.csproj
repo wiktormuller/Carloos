@@ -1,20 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Persistance\Configurations" />
-      <Folder Include="Persistance\DbContexts" />
-      <Folder Include="Persistance\Migrations" />
-      <Folder Include="Persistance\Seeders" />
-      <Folder Include="Repositories" />
-      <Folder Include="Services" />
+      <ProjectReference Include="..\JobJetRestApi.Application\JobJetRestApi.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\JobJetRestApi.Application\JobJetRestApi.Application.csproj" />
+      <PackageReference Include="Ardalis.GuardClauses" Version="4.0.0" />
+      <PackageReference Include="Dapper" Version="2.0.123" />
+      <PackageReference Include="FluentValidation" Version="10.3.6" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.4" />
+      <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="6.0.4" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Persistence\Migrations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>..\..\..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\5.0.0\ref\net5.0\Microsoft.Extensions.Http.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
