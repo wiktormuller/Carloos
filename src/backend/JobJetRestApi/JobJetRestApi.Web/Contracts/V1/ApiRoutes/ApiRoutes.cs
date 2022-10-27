@@ -105,6 +105,7 @@
         {
             public const string GetAverageSalaryForTechnologies = Base + "/dashboards/average-salaries-for-technologies";
             public const string GetAverageSalaryForCountries = Base + "/dashboards/average-salaries-for-countries";
+            public const string GetAverageSalaryForSeniorityLevels = Base + "/dashboards/average-salaries-for-seniority-levels";
         }
     }
 }

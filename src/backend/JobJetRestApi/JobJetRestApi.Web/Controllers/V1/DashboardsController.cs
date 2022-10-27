@@ -39,4 +39,15 @@ public class DashboardsController : ControllerBase
 
         return Ok(averageSalaries);
     }
+
+    [Route(ApiRoutes.Dashboards.GetAverageSalaryForSeniorityLevels)]
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<AverageSalaryForSeniorityLevelsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<AverageSalaryForSeniorityLevelsResponse>>> GetAverageSalariesForSeniorityLevels()
+    {
+        var averageSalaries = await _dashboardQueries.GetAverageSalariesForSeniorityLevels();
+
+        return Ok(averageSalaries);
+    }
 }

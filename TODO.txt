@@ -19,9 +19,6 @@ Admin panel in UI:
     - CRUD currencies
     - CRUD technology types
 
-Other in UI:
-    - Display dashboards
-
 
 Refresh tokens:
     - endpoint to get all of user's refresh tokens: users/1/refresh-tokens

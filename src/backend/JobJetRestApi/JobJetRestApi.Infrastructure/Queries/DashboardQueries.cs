@@ -20,6 +20,10 @@ public class DashboardQueries : IDashboardQueries
 
     private readonly record struct AverageSalaryForCountriesRecord(int CountryId, string CountryName,
         decimal AverageSalaryFrom, decimal AverageSalaryTo, decimal AverageSalary);
+
+    private readonly record struct AverageSalaryForSeniorityLevelsRecord(int SeniorityLevelId,
+        string SeniorityLevelName,
+        decimal AverageSalaryFrom, decimal AverageSalaryTo, decimal AverageSalary);
     
     public DashboardQueries(ISqlConnectionFactory sqlConnectionFactory, 
         ICacheService cacheService)
@@ -98,5 +102,39 @@ public class DashboardQueries : IDashboardQueries
         }
 
         return averageSalariesForCountries;
+    }
+    
+    public async Task<IEnumerable<AverageSalaryForSeniorityLevelsResponse>> GetAverageSalariesForSeniorityLevels()
+    {
+        using var connection = _sqlConnectionFactory.GetOpenConnection();
+        
+        const string query = @"
+            SELECT 
+                   SL.Id AS SeniorityLevelid, 
+                   SL.Name AS SeniorityLevelName, 
+                   AVG(JO.SalaryFrom) AS AverageSalaryFrom,
+                   AVG(JO.SalaryTo) AS AverageSalaryTo,
+                   ((AVG(JO.SalaryFrom) + AVG(JO.SalaryTo)) / 2) AS AverageSalary
+            FROM [JobOffers] AS JO
+                JOIN [SeniorityLevels] AS SL
+                    ON JO.SeniorityId = SL.Id
+            GROUP BY SL.Name, SL.Id;
+        ";
+            
+        var averageSalariesForSeniorityLevels = _cacheService
+            .Get<IEnumerable<AverageSalaryForSeniorityLevelsResponse>>(CacheKeys.AverageSalariesForSeniorityLevelsListKey);
+                
+        if (averageSalariesForSeniorityLevels is null)
+        {
+            var queriedAverageSalaries = await connection.QueryAsync<AverageSalaryForSeniorityLevelsRecord>(query);
+
+            averageSalariesForSeniorityLevels = queriedAverageSalaries.Select(x =>
+                new AverageSalaryForSeniorityLevelsResponse
+                    (x.SeniorityLevelId, x.SeniorityLevelName, x.AverageSalaryFrom, x.AverageSalaryTo, x.AverageSalary));
+                
+            _cacheService.Add(averageSalariesForSeniorityLevels, CacheKeys.AverageSalariesForCountriesListKey);
+        }
+
+        return averageSalariesForSeniorityLevels;
     }
 }

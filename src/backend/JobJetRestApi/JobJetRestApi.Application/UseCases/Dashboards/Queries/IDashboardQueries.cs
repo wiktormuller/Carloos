@@ -8,4 +8,5 @@ public interface IDashboardQueries
 {
     Task<IEnumerable<AverageSalaryForTechnologiesResponse>> GetAverageSalariesForTechnologies();
     Task<IEnumerable<AverageSalaryForCountriesResponse>> GetAverageSalariesForCountries();
+    Task<IEnumerable<AverageSalaryForSeniorityLevelsResponse>> GetAverageSalariesForSeniorityLevels();
 }

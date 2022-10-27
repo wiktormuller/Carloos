@@ -16,5 +16,6 @@
 
         public const string AverageSalariesForTechnologiesListKey = "averageSalariesForTechnologyListKey";
         public const string AverageSalariesForCountriesListKey = "averageSalariesForCountryListKey";
+        public const string AverageSalariesForSeniorityLevelsListKey = "averageSalariesForSeniorityLevelListKey";
     }
 }
