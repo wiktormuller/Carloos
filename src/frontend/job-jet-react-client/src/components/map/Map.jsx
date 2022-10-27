@@ -1,5 +1,4 @@
 import "./map-styles.css";
-// import React from "react";
 import { React, useState, useEffect } from "react";
 import L from "leaflet";
 import {
@@ -30,6 +29,7 @@ export const Map = (props) => {
 
   let url = `https://jobjet.azurewebsites.net/api/v1/roads/` + coordinates;
   let [options, setOptions] = useState([]);
+
   useEffect(() => {
     fetch(url)
       .then((response) => response.json())
@@ -67,21 +67,19 @@ export const Map = (props) => {
     (loc) => loc.id === 1
   );
   filteredLocalization.map(
-    // eslint-disable-next-line no-sequences
     (loc) => ((center = [loc.lat, loc.lng]), (zoom = loc.zoom))
   );
 
   const filteredAdverts = props.jobOffersArray.map(
     (jobOffer) => (
-      // eslint-disable-next-line no-sequences
       (skill = jobOffer.technologyTypes[0]),
       (
         <Marker
           key={jobOffer.id}
           icon={L.icon({
-            iconUrl: require(`../../data/icons/` + skill + `.svg`).default,
-            iconSize: new L.Point(60, 75),
-          })}
+            iconUrl: require(`../../data/icons/${skill}.svg`),
+            iconSize: new L.Point(60, 75)
+        })}
           position={[jobOffer.address.latitude, jobOffer.address.longitude]}
         >
           <Popup
@@ -99,9 +97,9 @@ export const Map = (props) => {
 
   return (
     <MapContainer
-      className="map"
       center={center}
       zoom={zoom}
+      className="map"
       scrollWheelZoom={true}
     >
       <FlyToCoords />
@@ -114,7 +112,7 @@ export const Map = (props) => {
         positions={options.map((loc) => {
           return [loc.latitude, loc.longitude];
         })}
-      ></Polyline>
+      />
     </MapContainer>
   );
 };
