@@ -103,7 +103,8 @@
 
         public static class Dashboards
         {
-            public const string GetAverageSalaryInCountries = Base + "/dashboards/average-salaries";
+            public const string GetAverageSalaryForTechnologies = Base + "/dashboards/average-salaries-for-technologies";
+            public const string GetAverageSalaryForCountries = Base + "/dashboards/average-salaries-for-countries";
         }
     }
 }

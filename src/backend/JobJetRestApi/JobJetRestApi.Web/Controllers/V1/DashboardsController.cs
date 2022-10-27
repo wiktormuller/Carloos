@@ -18,13 +18,24 @@ public class DashboardsController : ControllerBase
         _dashboardQueries = dashboardQueries;
     }
     
-    [Route(ApiRoutes.Dashboards.GetAverageSalaryInCountries)]
+    [Route(ApiRoutes.Dashboards.GetAverageSalaryForTechnologies)]
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<AverageSalaryForTechnologiesResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<AverageSalaryForTechnologiesResponse>>> GetAverageSalariesForTechnologies()
     {
         var averageSalaries = await _dashboardQueries.GetAverageSalariesForTechnologies();
+
+        return Ok(averageSalaries);
+    }
+
+    [Route(ApiRoutes.Dashboards.GetAverageSalaryForCountries)]
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<AverageSalaryForCountriesResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<AverageSalaryForCountriesResponse>>> GetAverageSalariesForCountries()
+    {
+        var averageSalaries = await _dashboardQueries.GetAverageSalariesForCountries();
 
         return Ok(averageSalaries);
     }

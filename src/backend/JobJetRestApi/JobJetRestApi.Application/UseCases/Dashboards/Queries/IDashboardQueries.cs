@@ -7,4 +7,5 @@ namespace JobJetRestApi.Application.UseCases.Dashboards.Queries;
 public interface IDashboardQueries
 {
     Task<IEnumerable<AverageSalaryForTechnologiesResponse>> GetAverageSalariesForTechnologies();
+    Task<IEnumerable<AverageSalaryForCountriesResponse>> GetAverageSalariesForCountries();
 }

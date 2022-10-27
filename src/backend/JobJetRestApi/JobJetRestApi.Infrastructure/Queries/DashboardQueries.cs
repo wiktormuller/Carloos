@@ -15,7 +15,10 @@ public class DashboardQueries : IDashboardQueries
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
     private readonly ICacheService _cacheService;
 
-    private readonly record struct AverageSalaryAndMedianRecord(int TechnologyTypeId, string TechnologyTypeName, 
+    private readonly record struct AverageSalaryForTechnologiesRecord(int TechnologyTypeId, string TechnologyTypeName, 
+        decimal AverageSalaryFrom, decimal AverageSalaryTo, decimal AverageSalary);
+
+    private readonly record struct AverageSalaryForCountriesRecord(int CountryId, string CountryName,
         decimal AverageSalaryFrom, decimal AverageSalaryTo, decimal AverageSalary);
     
     public DashboardQueries(ISqlConnectionFactory sqlConnectionFactory, 
@@ -49,7 +52,7 @@ public class DashboardQueries : IDashboardQueries
                 
         if (averageSalariesForTechnologies is null)
         {
-            var queriedAverageSalaries = await connection.QueryAsync<AverageSalaryAndMedianRecord>(query);
+            var queriedAverageSalaries = await connection.QueryAsync<AverageSalaryForTechnologiesRecord>(query);
 
             averageSalariesForTechnologies = queriedAverageSalaries.Select(x =>
                 new AverageSalaryForTechnologiesResponse
@@ -59,5 +62,41 @@ public class DashboardQueries : IDashboardQueries
         }
 
         return averageSalariesForTechnologies;
+    }
+    
+    public async Task<IEnumerable<AverageSalaryForCountriesResponse>> GetAverageSalariesForCountries()
+    {
+        using var connection = _sqlConnectionFactory.GetOpenConnection();
+        
+        const string query = @"
+            SELECT 
+                   C.Id AS CountryId, 
+                   C.Name AS CountryName, 
+                   AVG(JO.SalaryFrom) AS AverageSalaryFrom,
+                   AVG(JO.SalaryTo) AS AverageSalaryTo,
+                   ((AVG(JO.SalaryFrom) + AVG(JO.SalaryTo)) / 2) AS AverageSalary
+            FROM [JobOffers] AS JO
+                JOIN [Address] AS A
+                    ON JO.AddressId = A.Id
+                JOIN [Countries] AS C
+                    ON A.CountryId = C.Id
+            GROUP BY C.Name, C.Id;
+        ";
+            
+        var averageSalariesForCountries = _cacheService
+            .Get<IEnumerable<AverageSalaryForCountriesResponse>>(CacheKeys.AverageSalariesForCountriesListKey);
+                
+        if (averageSalariesForCountries is null)
+        {
+            var queriedAverageSalaries = await connection.QueryAsync<AverageSalaryForCountriesRecord>(query);
+
+            averageSalariesForCountries = queriedAverageSalaries.Select(x =>
+                new AverageSalaryForCountriesResponse
+                    (x.CountryId, x.CountryName, x.AverageSalaryFrom, x.AverageSalaryTo, x.AverageSalary));
+                
+            _cacheService.Add(averageSalariesForCountries, CacheKeys.AverageSalariesForCountriesListKey);
+        }
+
+        return averageSalariesForCountries;
     }
 }
