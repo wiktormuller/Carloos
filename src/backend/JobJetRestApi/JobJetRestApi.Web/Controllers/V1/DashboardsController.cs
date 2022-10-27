@@ -20,11 +20,11 @@ public class DashboardsController : ControllerBase
     
     [Route(ApiRoutes.Dashboards.GetAverageSalaryInCountries)]
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<AverageSalaryInCountryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<AverageSalaryForTechnologiesResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<AverageSalaryInCountryResponse>>> GetAverageSalaries()
+    public async Task<ActionResult<IEnumerable<AverageSalaryForTechnologiesResponse>>> GetAverageSalariesForTechnologies()
     {
-        var averageSalaries = await _dashboardQueries.GetAverageAndMedianSalariesInCountries();
+        var averageSalaries = await _dashboardQueries.GetAverageSalariesForTechnologies();
 
         return Ok(averageSalaries);
     }
