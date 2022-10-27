@@ -19,20 +19,20 @@ Admin panel in UI:
     - CRUD currencies
     - CRUD technology types
 
+<<<<<<< Updated upstream
 Other in UI:
     - Display dashboards
 
+=======
+Docker:
+    docker build -f JobJetRestApi.Web/Dockerfile -t jobjetrestapiimage .
+    docker run -p 5002:5002 -p 5003:5003 wiktormuller/jobjet
+>>>>>>> Stashed changes
 
 Refresh tokens:
     - endpoint to get all of user's refresh tokens: users/1/refresh-tokens
     - endpoint to refresh token: users/refresh-token - you should receive a "200 OK" response with the user details including a JWT token in the response body and a refresh token in the response cookies.
     - to revoke a refresh token so it can no longer be used to generate JWT tokens - users/revoke-token - we have to pass actual access token and refresh token to revoke
-
-Dashboards:
-    - Dashboard with statistics about salary per experience
-    - Dashboard with salaries per technology stack
-    - Dasboard with salaries per country
-
 
 1.1. Improve generating links
 1.2. Remove the pageUriService dependency from controller
