@@ -19,10 +19,10 @@ This repository is divided for two main projects. It is frontend Single Page App
 ---
 
 ## Run the backend
-Go to `JobJet/src/backend/JobJetRestApi`
+Go to `JobJet/src/backend/JobJetRestApi`<br />
 Run `dotnet restore`
 
-Go to `JobJet/src/backend/JobJetRestApi.Web`
+Go to `JobJet/src/backend/JobJetRestApi.Web`<br />
 Run `dotnet ef database update --context JobJetDbContext --project ../JobJetRestApi.Infrastructure --connection "Data Source=(LocalDb)\MSSQLLocalDB;Database=JobJet-Development;Trusted_Connection=True;"`
 
 Go to Environment Variables in your system and set Connection String for the application. Where key is: `JobJetVariables_ConnectionStrings__DefaultConnection` and value is `Server=(LocalDb)\MSSQLLocalDB;Database=JobJet-Development;Trusted_Connection=True;`
@@ -31,7 +31,7 @@ Go to Environment Variables in your system and set JWT Secret for the applicatio
 
 Go to Environment Variables in your system and set JWT Secret for the application, Where key is: `JobJetVariables_Geocoding_ApiKey` and value is `YourRealGeocodingApiKey` - it's API key from Google Geocoding Services.
 
-Go to `JobJet/src/backend/JobJetRestApi.Web`
+Go to `JobJet/src/backend/JobJetRestApi.Web`<br />
 Run `dotner run`
 
 You can find Swagger document at this address `https://localhost:5003/swagger/index.html`
@@ -39,7 +39,7 @@ You can find Swagger document at this address `https://localhost:5003/swagger/in
 ---
 
 ## Run the frontend
-Go to `JobJet/src/frontend/job-jet-react-client/src`
+Go to `JobJet/src/frontend/job-jet-react-client/src`<br />
 Run `npm start`
 
 #### Frontend by default use the Production version of REST API.
@@ -49,15 +49,15 @@ You can find the app at this address `http://localhost:3000/`
 ---
 
 ## Healthchecks
-The local healthchecks are available at those addresses `http://localhost:5002/health-checks` and `http://localhost:5002/health-checks-ui#/healthchecks`
+The local healthchecks are available at those addresses `http://localhost:5002/health-checks` and `http://localhost:5002/health-checks-ui#/healthchecks`<br />
 The production healthchecks are available at those addresses `https://jobjet.azurewebsites.net/health-checks` and `https://jobjet.azurewebsites.net/health-checks-ui#/healthchecks`
 
 ## External dependencies
-We use APIs like those:
-    - Google Geocoding API - https://developers.google.com/maps/documentation/geocoding/overview
-    - Project OSRM - https://project-osrm.org/
-    - Open Street Map - https://www.openstreetmap.org/#map=6/52.018/19.137
+We use APIs like those:<br />
+    - Google Geocoding API - https://developers.google.com/maps/documentation/geocoding/overview<br />
+    - Project OSRM - https://project-osrm.org/<br />
+    - Open Street Map - https://www.openstreetmap.org/#map=6/52.018/19.137<br />
 
 ## To add new database migrations
-Go to `JobJet/src/backend/JobJetRestApi.Web`
+Go to `JobJet/src/backend/JobJetRestApi.Web`<br />
 Run `dotnet ef migrations add SomeMigrationName --context JobJetDbContext --project ../JobJetRestApi.Infrastructure -o ../JobJetRestApi.Infrastructure/Persistence/Migrations`
