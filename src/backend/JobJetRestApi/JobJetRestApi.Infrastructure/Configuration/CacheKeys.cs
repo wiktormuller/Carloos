@@ -14,6 +14,8 @@
 
         public const string RolesListKey = "rolesListKey";
 
-        public const string AverageAndMedianSalariesListKey = "averageAndMedianSalariesListKey";
+        public const string AverageSalariesForTechnologiesListKey = "averageSalariesForTechnologyListKey";
+        public const string AverageSalariesForCountriesListKey = "averageSalariesForCountryListKey";
+        public const string AverageSalariesForSeniorityLevelsListKey = "averageSalariesForSeniorityLevelListKey";
     }
 }

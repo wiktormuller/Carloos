@@ -18,13 +18,35 @@ public class DashboardsController : ControllerBase
         _dashboardQueries = dashboardQueries;
     }
     
-    [Route(ApiRoutes.Dashboards.GetAverageSalaryInCountries)]
+    [Route(ApiRoutes.Dashboards.GetAverageSalaryForTechnologies)]
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<AverageSalaryInCountryResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<AverageSalaryForTechnologiesResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<AverageSalaryInCountryResponse>>> GetAverageSalaries()
+    public async Task<ActionResult<IEnumerable<AverageSalaryForTechnologiesResponse>>> GetAverageSalariesForTechnologies()
     {
-        var averageSalaries = await _dashboardQueries.GetAverageAndMedianSalariesInCountries();
+        var averageSalaries = await _dashboardQueries.GetAverageSalariesForTechnologies();
+
+        return Ok(averageSalaries);
+    }
+
+    [Route(ApiRoutes.Dashboards.GetAverageSalaryForCountries)]
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<AverageSalaryForCountriesResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<AverageSalaryForCountriesResponse>>> GetAverageSalariesForCountries()
+    {
+        var averageSalaries = await _dashboardQueries.GetAverageSalariesForCountries();
+
+        return Ok(averageSalaries);
+    }
+
+    [Route(ApiRoutes.Dashboards.GetAverageSalaryForSeniorityLevels)]
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<AverageSalaryForSeniorityLevelsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<AverageSalaryForSeniorityLevelsResponse>>> GetAverageSalariesForSeniorityLevels()
+    {
+        var averageSalaries = await _dashboardQueries.GetAverageSalariesForSeniorityLevels();
 
         return Ok(averageSalaries);
     }
