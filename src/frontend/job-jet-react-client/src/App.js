@@ -2,11 +2,11 @@ import "./styles/main-styles.css";
 import { useState, useEffect } from "react";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";
-import { localizationArray, skillsArray } from "./data/arrays";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { skillsArray } from "./data/arrays";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
-  const url = `https://jobjet.azurewebsites.net/api/v1`;
+  const baseUrl = `https://jobjet.azurewebsites.net/api/v1`;
 
   const [userLogInState, setUserLogInState] = useState(false);
   const [token, setToken] = useState("");
@@ -16,31 +16,44 @@ function App() {
   const [searchedSkills, setSearchedSkills] = useState([]);
 
   const [jobOffers, setJobOffers] = useState([]);
-  const [jobOffersUrl, setJobOffersUrl] = useState(url + `/job-offers/`);
+  const [jobOffersUrl, setJobOffersUrl] = useState(
+    baseUrl + `/job-offers/`
+  );
 
   const [companies, setCompanies] = useState([]);
-  const [companiesUrl, setCompaniesUrl] = useState(url + `/companies/`);
+  const [companiesUrl, setCompaniesUrl] = useState(
+    baseUrl + `/companies/`
+  );
 
   const [currencies, setCurrencies] = useState([]);
-  const [currenciesUrl, setCurrenciesUrl] = useState(url + `/currencies/`);
+  const [currenciesUrl, setCurrenciesUrl] = useState(
+    baseUrl + `/currencies/`
+  );
 
   const [seniority, setSeniority] = useState([]);
-  const [seniorityUrl, setSeniorityUrl] = useState(url + `/seniority-levels/`);
+  const [seniorityUrl, setSeniorityUrl] = useState(
+    baseUrl + `/seniority-levels/`
+  );
 
   const [employmentType, setEmploymentType] = useState([]);
   const [employmentTypeUrl, setEmploymentTypeUrl] = useState(
-    url + `/employment-types/`
+    baseUrl + `/employment-types/`
+  );
+
+  const [countries, setCountries] = useState([]);
+  const [countriesUrl, setCountriesUrl] = useState(
+    baseUrl + `/countries`
   );
 
 
   useEffect(() => {
     if (searchedInput !== "") {
       setJobOffersUrl(
-        url +
+        baseUrl +
           `/job-offers?CountryId=${searchedLocalization}&GeneralSearchByText=${searchedInput}`
       );
     } else if (searchedInput === "") {
-      setJobOffersUrl(url + `/job-offers/?CountryId=${searchedLocalization}`);
+      setJobOffersUrl(baseUrl + `/job-offers/?CountryId=${searchedLocalization}`);
     }
   }, [searchedInput, searchedLocalization]);
 
@@ -85,6 +98,14 @@ function App() {
       });
   }, [employmentTypeUrl]);
 
+  useEffect(() => {
+    fetch(countriesUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setCountries(data);
+      });
+  }, [countriesUrl]);
+
   return (
     <div className="app">
       <Router>
@@ -94,7 +115,7 @@ function App() {
           setUserLogInState={setUserLogInState}
           token={token}
           setToken={setToken}
-          localizationArray={localizationArray}
+          localizationArray={countries}
           skillsArray={skillsArray}
           jobOffersArray={jobOffers}
           searchedSkills={searchedSkills}
