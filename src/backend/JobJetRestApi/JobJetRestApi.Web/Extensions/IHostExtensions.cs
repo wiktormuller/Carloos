@@ -2,6 +2,7 @@
 using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Persistence.Seeders;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +20,9 @@ namespace JobJetRestApi.Web.Extensions
             var context = services.GetService<JobJetDbContext>();
             var userRepository = services.GetService<IUserRepository>();
             var roleRepository = services.GetService<IRoleRepository>();
+            var mediator = services.GetService<IMediator>();
             
-            await JobJetContextSeeder.SeedAsync(context, userRepository, roleRepository);
+            await JobJetContextSeeder.SeedAsync(context, userRepository, roleRepository, mediator);
 
             return host;
         }

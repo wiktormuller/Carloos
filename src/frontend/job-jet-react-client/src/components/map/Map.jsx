@@ -13,7 +13,7 @@ import "leaflet/dist/leaflet.css";
 
 export const Map = (props) => {
   let center = [52.006376, 19.025167];
-  let zoom = 6.8;
+  let zoom = 5.5;
   let skill = 0;
   let coordinates;
 

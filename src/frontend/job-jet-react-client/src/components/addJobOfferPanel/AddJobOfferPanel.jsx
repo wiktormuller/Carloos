@@ -1,5 +1,5 @@
 import "./addJobOfferPanel-styles.css";
-import { useState /*, useEffect*/ } from "react";
+import { useState } from "react";
 
 export const AddJobOfferPanel = (props) => {
   const addLogin = `https://jobjet.azurewebsites.net/api/v1/job-offers`;

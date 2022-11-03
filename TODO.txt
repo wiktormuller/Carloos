@@ -1,6 +1,5 @@
 General:
     - Log Out mechanism
-    - README
     - Add logger of actions
     - Users account - change password, verify account by email
     - Use domain events (for example to send verification emails)

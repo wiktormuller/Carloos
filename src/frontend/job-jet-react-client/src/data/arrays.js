@@ -1,5 +1,3 @@
-//Docelowo te tabele będą w db
-
 export const localizationArray = [
   {
     id: 6,
@@ -66,31 +64,23 @@ export const skillsArray = [
   { id: 20, name: "Inne", icon: "RiPsychotherapyLine", color: "orange" },
 ];
 
-export const navbarLinksTable = [
-  { id: 1, name: "Wyszukaj", iconName: "BsSearch", path: "/" },
+export const navbarLinks = [
+  { 
+    id: 1, 
+    name: "LandingPage", 
+    iconName: "BsSearch",
+    path: "/" 
+  },
   {
     id: 2,
-    name: "Oferty",
+    name: "Offers",
     iconName: "IoDocumentTextOutline",
     path: "/add-job-offer",
   },
-  {
-    id: 3,
-    name: "Pogoda",
-    iconName: "TiWeatherStormy",
-    path: "/login",
-  },
-  {
-    id: 4,
-    name: "Analityka",
-    iconName: "DiGoogleAnalytics",
-    path: "/register",
-  },
-  { id: 5, name: "Opcje", iconName: "IoSettingsOutline", path: "/login" },
-  {
-    id: 6,
-    name: "Biuletyn",
-    iconName: "IoNewspaperOutline",
-    path: "/register",
-  },
+  { 
+    id: 3, 
+    name: "Dashboard", 
+    iconName: "IoSettingsOutline", 
+    path: "/dashboard"
+  }
 ];

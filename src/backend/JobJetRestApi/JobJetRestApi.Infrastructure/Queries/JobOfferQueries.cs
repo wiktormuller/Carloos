@@ -58,7 +58,13 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Company].Name AS CompanyName,
                     [TechnologyType].Id AS TechnologyTypeId,
                     [TechnologyType].Name AS TechnologyTypeName
-                FROM [JobOffers] AS [JobOffer] 
+                FROM (
+                        SELECT * 
+                        FROM [JobOffers]
+                        --@ORDERBYSUBQUERY
+                        --@OFFSET
+                        --@FETCH
+                    ) AS [JobOffer] 
                 LEFT JOIN Address AS [Address]
                     ON [JobOffer].AddressId = [Address].Id
                 INNER JOIN Countries AS [Country]
@@ -75,10 +81,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                     ON [JobOffer].CompanyId = [Company].Id
                     
                 --@WHERE
-                
-                --@ORDERBY
-                --@OFFSET
-                --@FETCH;"
+                --@ORDERBY;"
                 );
             
             
@@ -354,7 +357,8 @@ namespace JobJetRestApi.Infrastructure.Queries
                 ? $"WHERE {string.Join(" AND ", conditions)}" 
                 : string.Empty);
 
-            queryBuilder.Replace("--@ORDERBY", $"ORDER BY [JobOffer].Id"); // @TODO - Implement better sorting
+            queryBuilder.Replace("--@ORDERBYSUBQUERY", "ORDER BY Id");
+            queryBuilder.Replace("--@ORDERBY", "ORDER BY [JobOffer].Id"); // @TODO - Implement better sorting
             queryBuilder.Replace("--@OFFSET", $"OFFSET {usersFilter.PageNumber} ROWS");
             queryBuilder.Replace("--@FETCH", $"FETCH NEXT {usersFilter.GetNormalizedPageSize()} ROWS ONLY");
 

@@ -1,29 +1,55 @@
 import "./navbar-styles.css";
 import { Icon } from "../icon/Icon";
-import { navbarLinksTable } from "./../../data/arrays";
+import { navbarLinks } from "./../../data/arrays";
 import { Link } from "react-router-dom";
 
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 export const Navbar = (props) => {
-  const renderedArray = navbarLinksTable.map((link) => {
     return (
-      <Link
-        key={link.id}
-        className="custom-link"
-        to={
-          link.id === 1 ? "/" : !!props.userLogInState ? link.path : "/denial"
-        }
-      >
-        <Icon
-          iconName={link.iconName}
-          size={"3em"}
-          color={"#FFFFFF"}
-          className={"icon"}
-        ></Icon>
-      </Link>
-    );
-  });
+      <div className="navbar">
+        <Link
+          key={navbarLinks[0].id}
+          className="custom-link"
+          to={
+            navbarLinks[0].path
+          }
+        >
+          <Icon
+            iconName={navbarLinks[0].iconName}
+            size={"2em"}
+            color={"#FFFFFF"}
+            className={"icon"}
+          ></Icon>
+        </Link>
 
-  return <div className="navbar">{renderedArray}</div>;
+        <Link
+          key={navbarLinks[1].id}
+          className="custom-link"
+          to={
+            navbarLinks[1].path
+          }
+        >
+          <Icon
+            iconName={navbarLinks[1].iconName}
+            size={"2em"}
+            color={"#FFFFFF"}
+            className={"icon"}
+          ></Icon>
+        </Link>
+
+        <Link
+          key={navbarLinks[2].id}
+          className="custom-link"
+          to={
+            navbarLinks[2].path
+          }
+        >
+          <Icon
+            iconName={navbarLinks[2].iconName}
+            size={"2em"}
+            color={"#FFFFFF"}
+            className={"icon"}
+          ></Icon>
+        </Link>
+      </div>
+    );
 };
