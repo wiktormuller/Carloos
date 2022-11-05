@@ -6,16 +6,17 @@ export const BasicDetails = (props) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           props.setGeoLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
           });
         },
         () => {
-          alert("Błąd. Nie można pobrać lokalizacji");
+          alert("Cannot get user geolocation!");
         }
       );
     }
   };
+
   return (
     <div className="advert-details__basic">
       <div className="advert-details__basic--container">
@@ -32,9 +33,9 @@ export const BasicDetails = (props) => {
       </div>
       <div className="advert-details__basic--buttons">
         <div className="buttons">
-          <button className="btn primary-btn">Aplikuj</button>
+          <button className="btn primary-btn">Apply for a job</button>
           <button className="btn highlighted-btn" onClick={handleClick}>
-            Pokaż drogę do pracy
+            Show road
           </button>
         </div>
       </div>

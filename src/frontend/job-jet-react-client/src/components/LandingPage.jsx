@@ -39,6 +39,7 @@ export const LandingPage = (props) => {
                 setAdvertLocation={setAdvertLocation}
                 geoLocation={geoLocation}
                 advertLocation={advertLocation}
+                technologyTypes={props.technologyTypes}
               />
             }
           />
@@ -76,9 +77,9 @@ export const LandingPage = (props) => {
               <AddJobOfferPanel
                 token={props.token}
                 setToken={props.setToken}
-                countries={props.localizationArray}
+                countries={props.countries}
                 companies={props.companies}
-                skills={props.skillsArray}
+                technologyTypes={props.technologyTypes}
                 currencies={props.currencies}
                 seniority={props.seniority}
                 employmentTypes={props.employmentType}

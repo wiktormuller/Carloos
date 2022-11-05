@@ -14,18 +14,18 @@ import "leaflet/dist/leaflet.css";
 export const Map = (props) => {
   let center = [52.006376, 19.025167];
   let zoom = 5.5;
-  let skill = 0;
+  let technologyTypeId = 0;
   let coordinates;
 
   if (
-    props.geoLocation.lng === undefined &&
-    props.advertLocation.lng === undefined
+    props.geoLocation.longitude === undefined &&
+    props.advertLocation.longitude === undefined
   )
     coordinates = `${center[1]}%2C${center[0]}%3B${center[1]}%2C${center[0]}`;
-  else if (props.geoLocation.lng === undefined)
-    coordinates = `${props.advertLocation.lng}%2C${props.advertLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`;
+  else if (props.geoLocation.longitude === undefined)
+    coordinates = `${props.advertLocation.longitude}%2C${props.advertLocation.latitude}%3B${props.advertLocation.longitude}%2C${props.advertLocation.latitude}`;
   else
-    coordinates = `${props.geoLocation.lng}%2C${props.geoLocation.lat}%3B${props.advertLocation.lng}%2C${props.advertLocation.lat}`;
+    coordinates = `${props.geoLocation.longitude}%2C${props.geoLocation.latitude}%3B${props.advertLocation.longitude}%2C${props.advertLocation.latitude}`;
 
   let url = `https://jobjet.azurewebsites.net/api/v1/roads/` + coordinates;
   let [options, setOptions] = useState([]);
@@ -43,20 +43,23 @@ export const Map = (props) => {
   }
 
   const FlyToCoords = () => {
+    console.log(props.geoLocation);
     const map = useMap();
-    if (props.advertLocation.lat === center[0]) {
-      map.flyTo([props.advertLocation.lat, props.advertLocation.lng], zoom);
-    } else if (props.geoLocation.lng !== undefined) {
+    if (props.advertLocation.latitude === center[0]) {
+      map.flyTo([props.advertLocation.latitude, props.advertLocation.longitude], zoom);
+    } 
+    else if (props.geoLocation.longitude !== undefined) {
       map.flyTo(
         [
-          (props.advertLocation.lat + props.geoLocation.lat) / 2,
-          (props.advertLocation.lng + props.geoLocation.lng) / 2,
+          (props.advertLocation.latitude + props.geoLocation.latitude) / 2,
+          (props.advertLocation.longitude + props.geoLocation.longitude) / 2,
         ],
         11 - options.length * 0.0009
       );
-    } else if (props.advertLocation.lng !== undefined) {
+    } 
+    else if (props.advertLocation.longitude !== undefined) {
       map.flyTo(
-        [props.advertLocation.lat, props.advertLocation.lng],
+        [props.advertLocation.latitude, props.advertLocation.longitude],
         !!props.advertLocation.zoom ? props.advertLocation.zoom : 14
       );
     }
@@ -67,17 +70,17 @@ export const Map = (props) => {
     (loc) => loc.id === 1
   );
   filteredLocalization.map(
-    (loc) => ((center = [loc.lat, loc.lng]), (zoom = loc.zoom))
+    (loc) => ((center = [loc.latitude, loc.longitude]), (zoom = loc.zoom))
   );
 
   const filteredAdverts = props.jobOffersArray.map(
     (jobOffer) => (
-      (skill = jobOffer.technologyTypes[0]),
+      (technologyTypeId = props.technologyTypes.find((technologyType) => technologyType.name === jobOffer.technologyTypes[0]).id),
       (
         <Marker
           key={jobOffer.id}
           icon={L.icon({
-            iconUrl: require(`../../data/icons/${skill}.svg`),
+            iconUrl: require(`../../data/icons/${technologyTypeId}.svg`),
             iconSize: new L.Point(60, 75)
         })}
           position={[jobOffer.address.latitude, jobOffer.address.longitude]}
@@ -102,7 +105,7 @@ export const Map = (props) => {
       className="map"
       scrollWheelZoom={true}
     >
-      <FlyToCoords />
+      {/* <FlyToCoords /> */}
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

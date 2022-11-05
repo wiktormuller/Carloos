@@ -7,10 +7,10 @@ export const Header = (props) => {
       return (
         <div className="header__unregistered-user">
           <Link className="custom-link" to="/register">
-            <button className="header__btn">Rejestracja</button>
+            <button className="header__btn">Register</button>
           </Link>
           <Link className="custom-link" to="/login">
-            <button className="header__btn">Logowanie</button>
+            <button className="header__btn">LogIn</button>
           </Link>
         </div>
       );
@@ -18,11 +18,11 @@ export const Header = (props) => {
       return (
         <div className="header__registered-user">
           <Link className="custom-link" to="/">
-            <button className="header__btn">Mój profil</button>
+            <button className="header__btn">My profile</button>
           </Link>
           <Link className="custom-link" to="/">
             <button className="header__btn" type="button" onClick={logOut}>
-              Wyloguj się
+              LogOut
             </button>
           </Link>
         </div>
@@ -32,12 +32,12 @@ export const Header = (props) => {
 
   const handleClick = () => {
     props.setGeoLocation({
-      lat: undefined,
-      lng: undefined,
+      latitude: undefined,
+      longitude: undefined
     });
     props.setAdvertLocation({
-      lat: 52.006376,
-      lng: 19.025167,
+      latitude: 52.006376,
+      longitude: 19.025167
     });
   };
 

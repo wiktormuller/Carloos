@@ -2,7 +2,7 @@ import "./styles/main-styles.css";
 import { useState, useEffect } from "react";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { LandingPage } from "./components/LandingPage.jsx";
-import { skillsArray } from "./data/arrays";
+import { skillsToIconsMap } from "./data/arrays";
 import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
 
   const [userLogInState, setUserLogInState] = useState(false);
   const [token, setToken] = useState("");
+
   const [advertLocation, setAdvertLocation] = useState({});
   const [searchedInput, setSearchedInput] = useState("");
   const [searchedLocalization, setSearchedLocalization] = useState("6");
@@ -45,6 +46,10 @@ function App() {
     baseUrl + `/countries`
   );
 
+  const [technologyTypes, setTechnologyTypes] = useState([]);
+  const [technologyTypesUrl, setTechnologyTypesUrl] = useState(
+    baseUrl + `/technology-types`
+  );
 
   useEffect(() => {
     if (searchedInput !== "") {
@@ -65,7 +70,6 @@ function App() {
       });
   }, [jobOffersUrl]);
 
-  console.log(userLogInState);
   useEffect(() => {
     fetch(companiesUrl)
       .then((response) => response.json())
@@ -106,6 +110,23 @@ function App() {
       });
   }, [countriesUrl]);
 
+  useEffect(() => {
+    fetch(technologyTypesUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      setTechnologyTypes(data);
+    });
+  }, [technologyTypesUrl]);
+
+  var technologyTypesWithIcons = [];
+  technologyTypesWithIcons = technologyTypes.map(technologyType => (
+  {
+    id: technologyType.id,
+    name: technologyType.name,
+    icon: skillsToIconsMap.find((skillsToIcon) => skillsToIcon.id === technologyType.id).icon,
+    color: skillsToIconsMap.find((skillsToIcon) => skillsToIcon.id === technologyType.id).color
+  }));
+
   return (
     <div className="app">
       <Router>
@@ -116,7 +137,7 @@ function App() {
           token={token}
           setToken={setToken}
           localizationArray={countries}
-          skillsArray={skillsArray}
+          technologyTypes={technologyTypesWithIcons}
           jobOffersArray={jobOffers}
           searchedSkills={searchedSkills}
           setSearchedInput={setSearchedInput}
@@ -128,6 +149,7 @@ function App() {
           currencies={currencies}
           seniority={seniority}
           employmentType={employmentType}
+          countries={countries}
         ></LandingPage>
       </Router>
     </div>

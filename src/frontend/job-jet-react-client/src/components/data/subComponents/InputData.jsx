@@ -14,8 +14,8 @@ export const InputData = (props) => {
     props.localizationArray.forEach((localization) => {
       if (localization.id === Number(localizationId)) {
         props.setAdvertLocation({
-          lat: localization.lat,
-          lng: localization.lng,
+          latitude: localization.latitude,
+          longitude: localization.longitude,
           zoom: localization.zoom,
         });
       }

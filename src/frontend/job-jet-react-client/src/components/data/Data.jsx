@@ -37,6 +37,7 @@ export const Data = (props) => {
           jobOffersArray={props.jobOffersArray}
           geoLocation={props.geoLocation}
           advertLocation={props.advertLocation}
+          technologyTypes={props.technologyTypes}
         />
       </div>
     </div>

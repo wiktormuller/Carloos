@@ -11,15 +11,15 @@ export const AdvertData = (props) => {
         conditions: `${jobOffer.salaryFrom}-${jobOffer.salaryTo} PLN`,
         description: jobOffer.description,
         advancedDataArray: [
-          { name: "Firma:", value: jobOffer.companyName },
-          { name: "Typ zatrudnienia:", value: jobOffer.employmentType },
-          { name: "Poziom doświadczenia", value: jobOffer.seniority },
-          { name: "Specyfikacja pracy", value: jobOffer.workSpecification },
+          { name: "Company:", value: jobOffer.companyName },
+          { name: "Employment Type:", value: jobOffer.employmentType },
+          { name: "Seniority", value: jobOffer.seniority },
+          { name: "Work Specification", value: jobOffer.workSpecification },
         ],
       });
       props.setAdvertLocation({
-        lat: jobOffer.address.latitude,
-        lng: jobOffer.address.longitude,
+        latitude: jobOffer.address.latitude,
+        longitude: jobOffer.address.longitude,
       });
     };
     return (

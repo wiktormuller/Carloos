@@ -9,6 +9,8 @@ General:
     - Where is difference between IIS and Kestrel and it's settings?
     - What about scopes during authorization? What is it actually?
 
+    - https://jobjet.azurewebsites.net/api/v1/roads/undefined%2Cundefined%3Bundefined%2Cundefined throws 500 error
+
 Admin panel in UI:
     - CRUD users
     - Assigning roles to users

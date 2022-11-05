@@ -68,12 +68,10 @@ export const AddJobOfferPanel = (props) => {
   const [currencyId, setCurrencyId] = useState(1);
   const [workSpecification, setWorkSpecification] = useState("");
 
-  // console.log(skills);
-
-  const renderedArrayCountries = props.countries.map((countries) => {
+  const renderedArrayCountries = props.countries.map((country) => {
     return (
-      <option key={countries.id} value={countries.id}>
-        {countries.name}
+      <option key={country.id} value={country.id}>
+        {country.name}
       </option>
     );
   });
@@ -86,7 +84,7 @@ export const AddJobOfferPanel = (props) => {
     );
   });
 
-  const renderedArraySkills = props.skills.map((skill) => {
+  const renderedArraySkills = props.technologyTypes.map((skill) => {
     return (
       <option key={skill.id} value={skill.id}>
         {skill.name}
@@ -121,18 +119,17 @@ export const AddJobOfferPanel = (props) => {
   );
 
   const renderedArrayWorkSpecification = [
-    "Hybrid",
-    "Office",
-    "FullyRemote",
+    { id: 1, name: "Hybrid"},
+    { id: 2, name: "Office"},
+    { id: 3, name: "FullyRemote"}
   ].map((specification) => {
     return (
-      <option key={specification.index} value={specification}>
-        {specification}
+      <option key={specification.id} value={specification.name}>
+        {specification.name}
       </option>
     );
   });
 
-  //Na razie działa jak dla singleSelecta
   const handleOnChangeMultiSelect = (value) => {
     setSkills([value]);
   };
@@ -140,10 +137,10 @@ export const AddJobOfferPanel = (props) => {
   return (
     <div className="panel">
       <form className="form">
-        <h2>Dodaj ofertę pracy</h2>
+        <h2>Add job offer</h2>
         <input
           type="text"
-          placeholder="Nazwa stanowiska"
+          placeholder="Job name"
           name="name"
           id="name"
           style={style}
@@ -161,7 +158,7 @@ export const AddJobOfferPanel = (props) => {
             setDescription(e.target.value);
           }}
         >
-          Opis
+          Description
         </textarea>
         <select
           className="custom-select"
@@ -179,7 +176,6 @@ export const AddJobOfferPanel = (props) => {
           name="skills"
           id="skills"
           required
-          // multiple
           onChange={(e) => {
             handleOnChangeMultiSelect(e.target.value);
           }}
@@ -188,7 +184,7 @@ export const AddJobOfferPanel = (props) => {
         </select>
         <input
           type="text"
-          placeholder="Zarobki od"
+          placeholder="Salary from"
           name="salaryFrom"
           id="salaryFrom"
           style={style}
@@ -199,7 +195,7 @@ export const AddJobOfferPanel = (props) => {
         ></input>
         <input
           type="text"
-          placeholder="Zarobki do"
+          placeholder="Salary to"
           name="salaryTo"
           id="salaryTo"
           style={style}
@@ -257,7 +253,6 @@ export const AddJobOfferPanel = (props) => {
           name="countries"
           id="countries"
           required
-          // multiple
           onChange={(e) => {
             setCountryIsoId(e.target.value);
           }}
@@ -266,7 +261,7 @@ export const AddJobOfferPanel = (props) => {
         </select>
         <input
           type="text"
-          placeholder="Miasto"
+          placeholder="City"
           name="town"
           id="town"
           style={style}
@@ -277,7 +272,7 @@ export const AddJobOfferPanel = (props) => {
         ></input>
         <input
           type="text"
-          placeholder="Ulica"
+          placeholder="Street"
           name="street"
           id="street"
           style={style}
@@ -288,7 +283,7 @@ export const AddJobOfferPanel = (props) => {
         ></input>
         <input
           type="text"
-          placeholder="Kod pocztowy"
+          placeholder="Post code"
           name="zipCode"
           id="zipCode"
           style={style}
@@ -299,7 +294,7 @@ export const AddJobOfferPanel = (props) => {
         ></input>
         <br />
         <button type="button" onClick={handleClick}>
-          Opublikuj ofertę
+          Publish
         </button>
       </form>
     </div>

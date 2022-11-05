@@ -4,7 +4,7 @@ import "../styles/data-styles.css";
 import { FilterButton } from "./FilterButton";
 
 export const FilterData = (props) => {
-  const renderedArray = props.skillsArray.map((skill) => {
+  const renderedArray = props.technologyTypes?.map((skill) => {
     return (
       <FilterButton
         key={skill.id}
