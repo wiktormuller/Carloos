@@ -130,6 +130,7 @@ function App() {
   return (
     <div className="app">
       <Router>
+        <ListCompaniesComponent></ListCompaniesComponent>
         <Navbar userLogInState={userLogInState}></Navbar>
         <LandingPage
           userLogInState={userLogInState}
