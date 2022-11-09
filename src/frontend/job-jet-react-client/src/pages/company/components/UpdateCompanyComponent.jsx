@@ -20,7 +20,7 @@ function UpdateCompanyComponent(props)
         };
 
         CompanyService.updateCompany(companyRequest, company.id).then(res => {
-            this.props.history.push('/employees');
+            this.props.history.push('/companies');
         });
     }
 
@@ -33,12 +33,12 @@ function UpdateCompanyComponent(props)
     }
 
     function cancel() {
-        this.props.history.push('/employees');
+        this.props.history.push('/companies');
     }
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        EmployeeService.getCompanyById(company.id).then((res) => {
+        CompanyService.getCompanyById(company.id).then((res) => {
             let companyResponse = res.data;
             setCompany({
                 name: companyResponse.name,
