@@ -12,15 +12,15 @@ class CompanyService {
         return axios.post(COMPANY_API_BASE_URL, company);
     }
 
-    getEmployeeById(companyId){
+    getCompanyById(companyId){
         return axios.get(COMPANY_API_BASE_URL + '/' + companyId);
     }
 
-    updateEmployee(company, companyId){
+    updateCompany(company, companyId){
         return axios.put(COMPANY_API_BASE_URL + '/' + companyId, company);
     }
 
-    deleteEmployee(companyId){
+    deleteCompany(companyId){
         return axios.delete(COMPANY_API_BASE_URL + '/' + companyId);
     }
 }

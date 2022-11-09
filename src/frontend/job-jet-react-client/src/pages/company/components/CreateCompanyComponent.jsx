@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CompanyService from '../services/CompanyService'
 
-function CreateCompanyComponent(props)
+function CreateCompanyComponent()
 {
     const [company, setCompany] = useState({
         name: '',
@@ -56,7 +56,7 @@ function CreateCompanyComponent(props)
         });
     }
 
-    function cancel() {
+    cancel= () => {
         this.props.history.push('/companies');
     }
 
@@ -72,27 +72,27 @@ function CreateCompanyComponent(props)
                                     <div className = "form-group">
                                         <label>Name:</label>
                                         <input placeholder="Name" name="name" className="form-control" 
-                                            value={this.state.name} onChange={this.changeNameHandler}/>
+                                            value={company.name} onChange={this.changeNameHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>Short Name:</label>
                                         <input placeholder="Short Name" name="shortName" className="form-control" 
-                                            value={this.state.shortName} onChange={this.changeShortNameHandler}/>
+                                            value={company.shortName} onChange={this.changeShortNameHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>Description:</label>
                                         <input placeholder="Description" name="description" className="form-control" 
-                                            value={this.state.description} onChange={this.changeDescriptionHandler}/>
+                                            value={company.description} onChange={this.changeDescriptionHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>Number of People:</label>
                                         <input placeholder="Number of People" name="numberOfPeople" className="form-control" 
-                                            value={this.state.numberOfPeople} onChange={this.changeNumberOfPeopleHandler}/>
+                                            value={company.numberOfPeople} onChange={this.changeNumberOfPeopleHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>City Name:</label>
                                         <input placeholder="City Name" name="city" className="form-control" 
-                                            value={this.state.city} onChange={this.changeCityHandler}/>
+                                            value={company.city} onChange={this.changeCityHandler}/>
                                     </div>
 
                                     <button className="btn btn-success" onClick={this.saveCompany}>Save</button>

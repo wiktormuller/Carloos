@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import CompanyService from '../services/CompanyService'
 
-function CreateCompanyComponent(props)
+function ViewCompanyComponent(props)
 {
-    const[company, setCompany] = useState({
+    const[companyState, setCompanyState] = useState({
         id: this.props.match.params.id,
         company: {}
     });
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        CompanyService.getCompanyById(company.id).then((res) => {
-            setCompany({
+        CompanyService.getCompanyById(companyState.id).then((res) => {
+            setCompanyState({
                 company: res.data
             })
         });
@@ -25,27 +25,27 @@ function CreateCompanyComponent(props)
                 <div className = "card-body">
                     <div className = "row">
                         <label>Id:</label>
-                        <div> { company.id }</div>
+                        <div> { companyState.company.id }</div>
                     </div>
                     <div className = "row">
                         <label>Name:</label>
-                        <div> { company.name }</div>
+                        <div> { companyState.company.name }</div>
                     </div>
                     <div className = "row">
                         <label>Short Name:</label>
-                        <div> { company.shortName }</div>
+                        <div> { companyState.company.shortName }</div>
                     </div>
                     <div className = "row">
                         <label>Description:</label>
-                        <div> { company.description }</div>
+                        <div> { companyState.company.description }</div>
                     </div>
                     <div className = "row">
                         <label>Number of People:</label>
-                        <div> { company.numberOfPeople }</div>
+                        <div> { companyState.company.numberOfPeople }</div>
                     </div>
                     <div className = "row">
                         <label>City Name:</label>
-                        <div> { company.city }</div>
+                        <div> { companyState.company.city }</div>
                     </div>
                 </div>
 
@@ -54,4 +54,4 @@ function CreateCompanyComponent(props)
     );
 }
 
-export default CreateCompanyComponent;
+export default ViewCompanyComponent;

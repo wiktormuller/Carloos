@@ -1,5 +1,5 @@
 import "./navbar-styles.css";
-import { Icon } from "../icon/Icon";
+import { Icon } from "../../icon/Icon";
 import { navbarLinks } from "./../../data/arrays";
 import { Link } from "react-router-dom";
 
