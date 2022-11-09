@@ -36,7 +36,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/users
         [HttpGet(ApiRoutes.Users.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<UserResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<IEnumerable<UserResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<UserResponse>>> Get([FromQuery] PaginationFilter filter)
         {

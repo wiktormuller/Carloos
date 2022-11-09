@@ -49,7 +49,7 @@ function UpdateTechnologyTypeComponent(props)
                                     <div className = "form-group">
                                         <label>Name</label>
                                         <input placeholder="Name" name="name" className="form-control" 
-                                            value={technologyType.name} readonly />
+                                            value={technologyType.name} />
                                     </div>
 
                                     <button className="btn btn-success" onClick={this.updateTechnologyType}>Save</button>

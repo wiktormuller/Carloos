@@ -25,7 +25,9 @@ function ListTechnologyTypesComponent(props)
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        setTechnologyTypes(TechnologyTypeService.getTechnologyTypes());
+        TechnologyTypeService.getTechnologyTypes().then(res => {
+            setTechnologyTypes(res.data);
+        });
     });
 
     return (

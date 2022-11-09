@@ -38,7 +38,7 @@ namespace JobJetRestApi.Web.Controllers.V1
 
         // GET api/job-offers
         [HttpGet(ApiRoutes.JobOffers.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<JobOfferResponse>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<IEnumerable<JobOfferResponse>>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<JobOfferResponse>>> Get([FromQuery] JobOffersFilter filter) 
         {

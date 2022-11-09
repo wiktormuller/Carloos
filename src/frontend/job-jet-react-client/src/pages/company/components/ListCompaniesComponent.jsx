@@ -25,7 +25,9 @@ function ListCompaniesComponent(props)
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        setCompanies(CompanyService.getCompanies());
+        CompanyService.getCompanies().then(res => {
+            setCompanies(res.data);
+        });
     });
 
     return (
