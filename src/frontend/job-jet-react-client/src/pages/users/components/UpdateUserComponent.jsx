@@ -1,30 +1,35 @@
-import React, { useState } from 'react';
-import UserService from '../services/UserService'
+import React, { useState, useEffect } from 'react';
+import UserService from '../services/UserService';
+import { useNavigate } from 'react-router-dom';
 
-function UpdateUserComponent(props)
+export default function UpdateUserComponent(props)
 {
     const [user, setUser] = useState({
-        id: this.props.match.params.id,
+        id: props.match.params.id,
         userName: ''
     });
 
-    function updateUser(e) {
-        e.preventDefault();
+    const navigate = useNavigate();
+
+    function updateUser()
+    {
         let userRequest = {
             userName: user.userName
         };
 
         UserService.updateUser(userRequest, user.id).then(res => {
-            this.props.history.push('/users');
+            navigate('/users');
         });
     }
 
-    changeUserNameHandler= (event) => {
+    function changeUserNameHandler(event)
+    {
         setUser({userName: event.target.value});
     };
 
-    cancel= () => {
-        this.props.history.push('/users');
+    function cancel()
+    {
+        navigate('/users');
     }
 
     // Similar to componentDidMount and componentDidUpdate
@@ -52,8 +57,8 @@ function UpdateUserComponent(props)
                                             value={user.userName} />
                                     </div>
 
-                                    <button className="btn btn-success" onClick={this.updateUser}>Save</button>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
+                                    <button className="btn btn-success" onClick={updateUser()}>Save</button>
+                                    <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
                                 </form>
                             </div>
                         </div>
@@ -63,5 +68,3 @@ function UpdateUserComponent(props)
         </div>
     );
 }
-
-export default UpdateUserComponent;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import CompanyService from '../services/CompanyService'
+import CompanyService from '../services/CompanyService';
+import { useNavigate } from 'react-router-dom';
 
-function CreateCompanyComponent()
+export default function CreateCompanyComponent()
 {
     const [company, setCompany] = useState({
         name: '',
@@ -11,7 +12,10 @@ function CreateCompanyComponent()
         city: ''
     });
 
-    saveCompany= (e) => {
+    const navigate = useNavigate();
+
+    function saveCompany(e)
+    {
         e.preventDefault();
         let companyRequest = {
             name: company.name,
@@ -22,42 +26,48 @@ function CreateCompanyComponent()
         };
 
         CompanyService.createCompany(companyRequest).then(res => {
-            this.props.history.push('/companies');
+            navigate('/companies');
         });
     }
 
-    changeNameHandler= (event) => {
+    function changeNameHandler(event)
+    {
         setCompany({
             name: event.target.value
         });
     }
 
-    changeShortNameHandler= (event) => {
+    function changeShortNameHandler(event)
+    {
         setCompany({
             shortName: event.target.value
         });
     }
 
-    changeDescriptionHandler= (event) => {
+    function changeDescriptionHandler(event)
+    {
         setCompany({
             description: event.target.value
         });
     }
 
-    changeNumberOfPeopleHandler= (event) => {
+    function changeNumberOfPeopleHandler(event)
+    {
         setCompany({
             numberOfPeople: event.target.value
         });
     }
 
-    changeCityHandler= (event) => {
+    function changeCityHandler(event)
+    {
         setCompany({
             city: event.target.value
         });
     }
 
-    cancel= () => {
-        this.props.history.push('/companies');
+    function cancel()
+    {
+        navigate('/companies');
     }
 
     return (
@@ -72,31 +82,31 @@ function CreateCompanyComponent()
                                     <div className = "form-group">
                                         <label>Name:</label>
                                         <input placeholder="Name" name="name" className="form-control" 
-                                            value={company.name} onChange={this.changeNameHandler}/>
+                                            value={company.name} onChange={changeNameHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>Short Name:</label>
                                         <input placeholder="Short Name" name="shortName" className="form-control" 
-                                            value={company.shortName} onChange={this.changeShortNameHandler}/>
+                                            value={company.shortName} onChange={changeShortNameHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>Description:</label>
                                         <input placeholder="Description" name="description" className="form-control" 
-                                            value={company.description} onChange={this.changeDescriptionHandler}/>
+                                            value={company.description} onChange={changeDescriptionHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>Number of People:</label>
                                         <input placeholder="Number of People" name="numberOfPeople" className="form-control" 
-                                            value={company.numberOfPeople} onChange={this.changeNumberOfPeopleHandler}/>
+                                            value={company.numberOfPeople} onChange={changeNumberOfPeopleHandler}/>
                                     </div>
                                     <div className = "form-group">
                                         <label>City Name:</label>
                                         <input placeholder="City Name" name="city" className="form-control" 
-                                            value={company.city} onChange={this.changeCityHandler}/>
+                                            value={company.city} onChange={changeCityHandler}/>
                                     </div>
 
-                                    <button className="btn btn-success" onClick={this.saveCompany}>Save</button>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
+                                    <button className="btn btn-success" onClick={saveCompany}>Save</button>
+                                    <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
                                 </form>
                             </div>
                         </div>
@@ -106,5 +116,3 @@ function CreateCompanyComponent()
         </div>
     );
 }
-
-export default CreateCompanyComponent;

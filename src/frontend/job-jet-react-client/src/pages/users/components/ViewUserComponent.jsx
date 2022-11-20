@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import UserService from '../services/UserService'
+import React, { useState, useEffect } from 'react';
+import UserService from '../services/UserService';
+import { useParams } from 'react-router-dom';
 
-function ViewUserComponent(props)
+export default function ViewUserComponent(props)
 {
+    const { id } = useParams();
     const[userState, setUserState] = useState({
-        id: this.props.match.params.id,
+        id: id,
         user: {}
     });
 
@@ -41,5 +43,3 @@ function ViewUserComponent(props)
         </div>
     );
 }
-
-export default ViewUserComponent;

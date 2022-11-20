@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CompanyService from '../services/CompanyService'
+import { useNavigate } from 'react-router-dom';
 
-function ListCompaniesComponent(props)
+export default function ListCompaniesComponent(props)
 {
     const [companies, setCompanies] = useState([]);
+    const navigate = useNavigate();
 
     function deleteCompany(id) {
         CompanyService.deleteCompany(id).then(re => {
@@ -12,29 +14,32 @@ function ListCompaniesComponent(props)
     }
 
     function viewCompany(id) {
-        this.props.history.push(`/view-companies/${id}`);
+        navigate(`companies/${id}`);
     }
 
     function editCompany(id) {
-        this.props.history.push(`/edit-companies/${id}`);
+        navigate(`companies/update/${id}`);
     }
 
-    function addCompany() {
-        this.props.history.push(`/add-companies`);
+    function addCompany(event) {
+        event.preventDefault();
+        navigate(`companies/create`);
     }
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
         CompanyService.getCompanies().then(res => {
-            setCompanies(res.data);
+            setCompanies(res.data.response.data);
         });
+        
+        console.log(companies);
     });
 
     return (
         <div>
              <h2 className="text-center">Companies List</h2>
              <div className = "row">
-                <button className="btn btn-primary" onClick={this.addCompany}>Add company</button>
+                <button className="btn btn-primary" onClick={addCompany}>Add company</button>
              </div>
              <br></br>
              <div className = "row">
@@ -56,13 +61,14 @@ function ListCompaniesComponent(props)
                                 companies.map(
                                     company => 
                                     <tr key = {company.id}>
+                                         <td> {company.id} </td>
                                          <td> {company.name} </td>   
                                          <td> {company.shotName}</td>
                                          <td> {company.description}</td>
                                          <td> {company.numberOfPeople} </td>  
                                          <td> {company.city} </td>
                                          <td>
-                                             <button onClick={ () => this.editCompany(company.id)} className="btn btn-info">Update</button>
+                                             <button onClick={ () => editCompany(company.id)} className="btn btn-info">Update</button>
                                              <button style={{marginLeft: "10px"}} onClick={ () => this.deleteCompany(company.id)} className="btn btn-danger">Delete</button>
                                              <button style={{marginLeft: "10px"}} onClick={ () => this.viewCompany(company.id)} className="btn btn-info">View</button>
                                          </td>
@@ -77,5 +83,3 @@ function ListCompaniesComponent(props)
         </div>
     )
 }
-
-export default ListCompaniesComponent;

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserService from '../services/UserService'
+import { useNavigate } from 'react-router-dom';
 
-function ListUsersComponent(props)
+export default function ListUsersComponent(props)
 {
     const [users, setUsers] = useState([]);
+    const navigate = useNavigate();
 
     function deleteUser(id) {
         UserService.deleteUser(id).then(re => {
@@ -12,11 +14,11 @@ function ListUsersComponent(props)
     }
 
     function viewUser(id) {
-        this.props.history.push(`/view-users/${id}`);
+        navigate(`/users/${id}`);
     }
 
     function editUser(id) {
-        this.props.history.push(`/edit-users/${id}`);
+        navigate(`/users/update/${id}`);  
     }
 
     // Similar to componentDidMount and componentDidUpdate
@@ -45,12 +47,13 @@ function ListUsersComponent(props)
                                 users.map(
                                     user => 
                                     <tr key = {user.id}>
+                                         <td> {user.id} </td>
                                          <td> {user.userName} </td>   
                                          <td> {user.email}</td>
                                          <td>
-                                             <button onClick={ () => this.editUser(user.id)} className="btn btn-info">Update</button>
-                                             <button style={{marginLeft: "10px"}} onClick={ () => this.deleteUser(user.id)} className="btn btn-danger">Delete</button>
-                                             <button style={{marginLeft: "10px"}} onClick={ () => this.viewUser(user.id)} className="btn btn-info">View</button>
+                                             <button onClick={ () => editUser(user.id)} className="btn btn-info">Update</button>
+                                             <button style={{marginLeft: "10px"}} onClick={ () => deleteUser(user.id)} className="btn btn-danger">Delete</button>
+                                             <button style={{marginLeft: "10px"}} onClick={ () => viewUser(user.id)} className="btn btn-info">View</button>
                                          </td>
                                     </tr>
                                 )
@@ -61,5 +64,3 @@ function ListUsersComponent(props)
         </div>
     )
 }
-
-export default ListUsersComponent;

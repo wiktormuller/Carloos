@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CompanyService from '../services/CompanyService'
+import { useParams } from 'react-router-dom';
 
-function ViewCompanyComponent(props)
+export default function ViewCompanyComponent()
 {
+    const { id } = useParams();
+
     const[companyState, setCompanyState] = useState({
-        id: this.props.match.params.id,
+        id: id,
         company: {}
     });
 
@@ -53,5 +56,3 @@ function ViewCompanyComponent(props)
         </div>
     );
 }
-
-export default ViewCompanyComponent;

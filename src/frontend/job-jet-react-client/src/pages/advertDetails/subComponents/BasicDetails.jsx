@@ -1,6 +1,7 @@
 import "./../styles/advert-details-styles.css";
 
-export const BasicDetails = (props) => {
+export default function BasicDetails(props)
+{
   const handleClick = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -41,4 +42,4 @@ export const BasicDetails = (props) => {
       </div>
     </div>
   );
-};
+}

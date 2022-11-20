@@ -1,10 +1,10 @@
 import React from "react";
-
 import { useState } from "react";
 import "../styles/data-styles.css";
 import { Icon } from "../../icon/Icon";
 
-export const FilterButton = (props) => {
+export default function FilterButton(props)
+{
   const [active, setActive] = useState(true);
   const [clicked, setClicked] = useState("");
 
@@ -31,4 +31,4 @@ export const FilterButton = (props) => {
       </div>
     </button>
   );
-};
+}

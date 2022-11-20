@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
-import TechnologyTypeService from '../services/TechnologyTypeService'
+import TechnologyTypeService from '../services/TechnologyTypeService';
+import { useNavigate } from "react-router-dom";
 
-function CreateTechnologyTypeComponent()
+export default function CreateTechnologyTypeComponent()
 {
     const [technologyType, setTechnologyType] = useState({
         name: ''
     });
 
-    saveTechnologyType= (e) => {
-        e.preventDefault();
+    const navigate = useNavigate();
+
+    function saveTechnologyType()
+    {
         let technologyTypeRequest = {
             name: technologyType.name
         };
 
         TechnologyTypeService.createTechnologyType(technologyTypeRequest).then(res => {
-            this.props.history.push('/technology-types');
+            navigate(`/technology-types`);
         });
     }
 
-    changeNameHandler= (event) => {
+    function changeNameHandler(event)
+    {
         setTechnologyType({
             name: event.target.value
         });
     }
 
-    function cancel() {
-        this.props.history.push('/technology-types');
+    function cancel()
+    {
+        navigate(`/technology-types`);
     }
 
     return (
@@ -40,11 +45,11 @@ function CreateTechnologyTypeComponent()
                                     <div className = "form-group">
                                         <label>Name:</label>
                                         <input placeholder="Name" name="name" className="form-control" 
-                                            value={technologyType.name} onChange={this.changeNameHandler}/>
+                                            value={technologyType.name} onChange={changeNameHandler}/>
                                     </div>
 
-                                    <button className="btn btn-success" onClick={this.saveTechnologyType}>Save</button>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
+                                    <button className="btn btn-success" onClick={saveTechnologyType()}>Save</button>
+                                    <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
                                 </form>
                             </div>
                         </div>
@@ -54,5 +59,3 @@ function CreateTechnologyTypeComponent()
         </div>
     );
 }
-
-export default CreateTechnologyTypeComponent;

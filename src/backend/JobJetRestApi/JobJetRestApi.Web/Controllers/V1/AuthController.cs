@@ -37,7 +37,7 @@ public class AuthController : Controller
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<int>> Register(RegisterRequest request)
+    public async Task<ActionResult<int>> Register(RegisterRequest request) // @TODO - Describe response
     {
         if (!ModelState.IsValid)
         {
@@ -130,9 +130,8 @@ public class AuthController : Controller
             
             return Ok();
         }
-        catch (Exception exception) when (exception is RefreshTokenIsMissedInRequestException
-                                          || exception is CannotFindProperRefreshTokenForUserException
-                                          || exception is RefreshTokenIsNotActiveException
+        catch (Exception exception) when (exception is RefreshTokenIsMissedInRequestException or CannotFindProperRefreshTokenForUserException 
+                                          || exception is RefreshTokenIsNotActiveException 
                                           || exception is PassedRefreshTokenIsInvalidException)
         {
             return BadRequest(exception.Message);

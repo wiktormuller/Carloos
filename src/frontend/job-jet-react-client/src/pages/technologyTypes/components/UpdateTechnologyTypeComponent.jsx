@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import TechnologyTypeService from '../services/TechnologyTypeService'
+import React, { useState, useEffect } from 'react';
+import TechnologyTypeService from '../services/TechnologyTypeService';
+import { useNavigate } from "react-router-dom";
 
-function UpdateTechnologyTypeComponent(props)
+export default function UpdateTechnologyTypeComponent(props)
 {
     const [technologyType, setTechnologyType] = useState({
-        id: this.props.match.params.id,
+        id: props.match.params.id,
         name: ''
     });
+
+    const navigate = useNavigate();
 
     function updateTechnologyType(e) {
         e.preventDefault();
@@ -15,16 +18,18 @@ function UpdateTechnologyTypeComponent(props)
         };
 
         TechnologyTypeService.updateTechnologyType(technologyTypeRequest, technologyType.id).then(res => {
-            this.props.history.push('/technology-types');
+            navigate('/technology-types');
         });
     }
 
-    changeNameHandler= (event) => {
+    function changeNameHandler(event)
+    {
         setTechnologyType({name: event.target.value});
     };
 
-    cancel= () => {
-        this.props.history.push('/technology-types');
+    function cancel()
+    {
+        navigate('/technology-types');
     }
 
     // Similar to componentDidMount and componentDidUpdate
@@ -52,8 +57,8 @@ function UpdateTechnologyTypeComponent(props)
                                             value={technologyType.name} />
                                     </div>
 
-                                    <button className="btn btn-success" onClick={this.updateTechnologyType}>Save</button>
-                                    <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
+                                    <button className="btn btn-success" onClick={updateTechnologyType()}>Save</button>
+                                    <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
                                 </form>
                             </div>
                         </div>
@@ -63,5 +68,3 @@ function UpdateTechnologyTypeComponent(props)
         </div>
     );
 }
-
-export default UpdateTechnologyTypeComponent;

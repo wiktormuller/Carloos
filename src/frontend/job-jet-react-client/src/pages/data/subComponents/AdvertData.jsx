@@ -1,8 +1,9 @@
 import "../styles/data-styles.css";
 import { Link } from "react-router-dom";
-import { AdvertSynopsis } from "./AdvertSynopsis";
+import AdvertSynopsis from "./AdvertSynopsis";
 
-export const AdvertData = (props) => {
+export default function AdvertData(props)
+{
   const renderedArray = props.jobOffersArray.map((jobOffer) => {
     const handleClick = () => {
       props.setAdvertDetails({
@@ -43,4 +44,4 @@ export const AdvertData = (props) => {
   });
 
   return <div className="data__advert-data">{renderedArray}</div>;
-};
+}

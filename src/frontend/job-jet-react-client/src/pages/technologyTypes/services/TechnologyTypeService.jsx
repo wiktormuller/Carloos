@@ -25,4 +25,4 @@ class TechnologyTypeService {
     }
 }
 
-export default new TechnologyTypeService()
+export default new TechnologyTypeService();

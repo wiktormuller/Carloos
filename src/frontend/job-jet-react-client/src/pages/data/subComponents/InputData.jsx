@@ -1,7 +1,7 @@
-import "../../../styles/main-styles.css";
 import "../styles/data-styles.css";
 
-export const InputData = (props) => {
+export default function InputData(props)
+{
   const updateSearchedInput = (value) => {
     props.setSearchedInput(value);
   };
@@ -55,4 +55,4 @@ export const InputData = (props) => {
       </form>
     </div>
   );
-};
+}

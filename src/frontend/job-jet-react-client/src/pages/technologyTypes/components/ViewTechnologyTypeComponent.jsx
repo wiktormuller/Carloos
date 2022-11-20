@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import TechnologyTypeService from '../services/TechnologyTypeService'
+import React, { useState, useEffect } from 'react';
+import TechnologyTypeService from '../services/TechnologyTypeService';
+import { useParams } from 'react-router-dom';
 
-function ViewTechnologyTypeComponent(props)
+export default function ViewTechnologyTypeComponent(props)
 {
+    const { id } = useParams();
     const[technologyTypeState, setTechnologyTypeState] = useState({
-        id: this.props.match.params.id,
+        id: id,
         technologyType: {}
     });
 
@@ -37,5 +39,3 @@ function ViewTechnologyTypeComponent(props)
         </div>
     );
 }
-
-export default ViewTechnologyTypeComponent;

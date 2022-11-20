@@ -10,7 +10,7 @@ export const skillsToIconsMap = [
   { id: 9, icon: "BiPlusCircle", color: "#9400d3" },
   { id: 10, icon: "BiMobile", color: "#3d0c02" },
   { id: 11, icon: "BiTestTube", color: "#8bbe1b" },
-  { id: 12, icon: "SiAzuredevops", color: "#556b2f" },
+  { id: 12, icon: "SiAzureDevops", color: "#556b2f" },
   { id: 13, icon: "DiLinux", color: "black" },
   { id: 14, icon: "BiPaint", color: "#757575" },
   { id: 15, icon: "BiGame", color: "#757575" },
@@ -23,25 +23,4 @@ export const skillsToIconsMap = [
   { id: 22, icon: "DiDatabase", color: "#ea3c53" },
   { id: 23, icon: "RiPsychotherapyLine", color: "#ea3c53" },
   { id: 24, icon: "RiPsychotherapyLine", color: "orange" }
-];
-
-export const navbarLinks = [
-  { 
-    id: 1, 
-    name: "LandingPage", 
-    iconName: "BsSearch",
-    path: "/" 
-  },
-  {
-    id: 2,
-    name: "Offers",
-    iconName: "IoDocumentTextOutline",
-    path: "/add-job-offer",
-  },
-  { 
-    id: 3, 
-    name: "Dashboard", 
-    iconName: "IoSettingsOutline", 
-    path: "/dashboard"
-  }
 ];

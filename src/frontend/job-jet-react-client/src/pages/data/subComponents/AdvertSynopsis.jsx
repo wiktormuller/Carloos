@@ -2,7 +2,8 @@ import "../styles/data-styles.css";
 import { GoLocation } from "react-icons/go";
 import { FcMoneyTransfer } from "react-icons/fc";
 
-export const AdvertSynopsis = (props) => {
+export default function AdvertSynopsis(props)
+{
   const renderArray = props.technologyTypesArray.map((technologyTypes) => {
     return (
       <div key={technologyTypes} className="data__advert-data--synopsis--skill">
@@ -34,4 +35,4 @@ export const AdvertSynopsis = (props) => {
       <div className="data__advert-data--synopsis--skills">{renderArray}</div>
     </div>
   );
-};
+}

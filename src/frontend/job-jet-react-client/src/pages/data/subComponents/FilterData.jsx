@@ -1,9 +1,9 @@
-import "../../../styles/main-styles.css";
 import "../styles/data-styles.css";
 
-import { FilterButton } from "./FilterButton";
+import FilterButton from "./FilterButton";
 
-export const FilterData = (props) => {
+export default function FilterData(props)
+{
   const renderedArray = props.technologyTypes?.map((skill) => {
     return (
       <FilterButton
@@ -20,4 +20,4 @@ export const FilterData = (props) => {
   });
 
   return <div className="data__filter-data">{renderedArray}</div>;
-};
+}
