@@ -149,7 +149,8 @@ namespace JobJetRestApi.Infrastructure.Queries
                 x.Latitude,
                 x.Longitude,
                 x.TechnologyTypes
-                    .Select(technologyType => technologyType.TechnologyTypeName)
+                    .Select(technologyType => 
+                        new TechnologyTypeResponse(technologyType.TechnologyTypeId, technologyType.TechnologyTypeName))
                     .ToList(),
                 x.SeniorityName,
                 x.EmploymentTypeName,
@@ -281,7 +282,8 @@ namespace JobJetRestApi.Infrastructure.Queries
                 queriedJobOffer.Latitude,
                 queriedJobOffer.Longitude,
                 queriedJobOffer.TechnologyTypes
-                    .Select(technologyType => technologyType.TechnologyTypeName)
+                    .Select(technologyType => 
+                        new TechnologyTypeResponse(technologyType.TechnologyTypeId, technologyType.TechnologyTypeName))
                     .ToList(),
                 queriedJobOffer.SeniorityName,
                 queriedJobOffer.EmploymentTypeName,
