@@ -22,14 +22,15 @@ export default function MapComponent(props)
   const [coordinatesBetweenTwoPoints, setCoordinatesBetweenTwoPoints] = useState("");
 
   useEffect(() => {
-    if (props.userGeoLocation.longitude === undefined || props.selectedJobOfferGeoLocation.longitude === undefined)
+
+    // Road data
+    if (props.userGeoLocation.longitude !== undefined && props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
-      setCoordinatesBetweenTwoPoints(zeroToZeroCoordinates);
-      console.log(zeroToZeroCoordinates);
+      setCoordinatesBetweenTwoPoints(`${props.userGeoLocation.longitude}%2C${props.userGeoLocation.latitude}%3B${props.selectedJobOfferGeoLocation.longitude}%2C${props.selectedJobOfferGeoLocation.latitude}`);
     }
     else
     {
-      setCoordinatesBetweenTwoPoints(`${props.userGeoLocation.longitude}%2C${props.userGeoLocation.latitude}%3B${props.selectedJobOfferGeoLocation.longitude}%2C${props.selectedJobOfferGeoLocation.latitude}`);
+      setCoordinatesBetweenTwoPoints(zeroToZeroCoordinates);
     }
 
     //console.log(coordinatesBetweenTwoPoints); // Why is it empty string?
@@ -74,12 +75,18 @@ export default function MapComponent(props)
         defaultZoomForPolandCountry
       );
     }
+    else
+    {
+      return null;
+    }
   };
 
-  const technologyTypeId = 0;
-  const jobOffersMarkers = props.jobOffers.map(jobOffer => (
-      (technologyTypeId = props.jobOffers.technologyTypes[0].id),
-      (
+  var technologyTypeId = 0;
+  const jobOffersMarkers = props.jobOffers.map(jobOffer => {
+      
+      technologyTypeId = jobOffer.technologyTypes[0].id;
+      
+      return (
         <Marker
           key={jobOffer.id}
           icon={L.icon({
@@ -96,12 +103,9 @@ export default function MapComponent(props)
             </div>
           </Popup>
         </Marker>
-      )
-    )
+      );
+    }
   );
-
-  
-  {console.log(coordinatesBetweenTwoPoints);}
 
   return (
     <MapContainer

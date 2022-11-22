@@ -5,11 +5,11 @@ const COMPANY_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/dashboards
 class DashboardService {
 
     getAverageSalariesForTechnologies(){
-        return axios.get(COMPANY_API_BASE_URL + '/' + 'dashboards/average-salaries-for-technologies');
+        return axios.get(COMPANY_API_BASE_URL + '/' + 'average-salaries-for-technologies');
     }
 
     getAverageSalariesForCountries(){
-        return axios.post(COMPANY_API_BASE_URL + '/' + 'dashboards/average-salaries-for-countries');
+        return axios.get(COMPANY_API_BASE_URL + '/' + 'average-salaries-for-countries');
     }
 
     getAverageSalariesForSeniorityLevels(companyId){

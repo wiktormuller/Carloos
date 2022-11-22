@@ -5,9 +5,9 @@ import 'chart.js/auto';
 import DashboardService from '../services/DashboardService'
 
 export default function DashboardsComponent(props) {
-    const [averageSalariesForCountries, setAverageSalariesForCountries] = useState({});
-    const [averageSalariesForSeniorityLevels, setAverageSalariesForSeniorityLevels] = useState({});
-    const [averageSalariesForTechnologies, setAverageSalariesForTechnologies] = useState({});
+    const [averageSalariesForCountries, setAverageSalariesForCountries] = useState([]);
+    const [averageSalariesForSeniorityLevels, setAverageSalariesForSeniorityLevels] = useState([]);
+    const [averageSalariesForTechnologies, setAverageSalariesForTechnologies] = useState([]);
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function DashboardsComponent(props) {
                 res.data
             )
         });
-    });
+    }, []);
 
     function mapAverageSalariesForCountries(arr) {
         var labels = arr.map((item) => (item.countryName));
@@ -40,13 +40,28 @@ export default function DashboardsComponent(props) {
             labels: labels,
             datasets: [
                 {
-                    data: dataSetFrom
+                    id: 1,
+                    label: 'Average Salary From',
+                    data: dataSetFrom,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
                 },
                 {
-                    data: dataSetTo
+                    id: 2,
+                    label: 'Average Salary To',
+                    data: dataSetTo,
+                    backgroundColor: 'rgba(23, 109, 195, 0.2)',
+                    borderColor: 'rgba(53, 109, 195, 1)',
+                    borderWidth: 1
                 },
                 {
-                    data: dataSetAverage
+                    id: 3,
+                    label: 'Average Salary',
+                    data: dataSetAverage,
+                    backgroundColor: 'rgba(255, 169, 0, 0.2)',
+                    borderColor: 'rgba(220, 100, 0, 0.2)',
+                    borderWidth: 1
                 }
             ]
         }
@@ -62,13 +77,28 @@ export default function DashboardsComponent(props) {
             labels: labels,
             datasets: [
                 {
-                    data: dataSetFrom
+                    id: 1,
+                    label: 'Average Salary From',
+                    data: dataSetFrom,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
                 },
                 {
-                    data: dataSetTo
+                    id: 2,
+                    label: 'Average Salary To',
+                    data: dataSetTo,
+                    backgroundColor: 'rgba(23, 109, 195, 0.2)',
+                    borderColor: 'rgba(53, 109, 195, 1)',
+                    borderWidth: 1
                 },
                 {
-                    data: dataSetAverage
+                    id: 3,
+                    label: 'Average Salary',
+                    data: dataSetAverage,
+                    backgroundColor: 'rgba(255, 169, 0, 0.2)',
+                    borderColor: 'rgba(220, 100, 0, 0.2)',
+                    borderWidth: 1
                 }
             ]
         }
@@ -84,13 +114,28 @@ export default function DashboardsComponent(props) {
             labels: labels,
             datasets: [
                 {
-                    data: dataSetFrom
+                    id: 1,
+                    label: 'Average Salary From',
+                    data: dataSetFrom,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
                 },
                 {
-                    data: dataSetTo
+                    id: 2,
+                    label: 'Average Salary To',
+                    data: dataSetTo,
+                    backgroundColor: 'rgba(23, 109, 195, 0.2)',
+                    borderColor: 'rgba(53, 109, 195, 1)',
+                    borderWidth: 1
                 },
                 {
-                    data: dataSetAverage
+                    id: 3,
+                    label: 'Average Salary',
+                    data: dataSetAverage,
+                    backgroundColor: 'rgba(255, 169, 0, 0.2)',
+                    borderColor: 'rgba(220, 100, 0, 0.2)',
+                    borderWidth: 1
                 }
             ]
         }
@@ -99,16 +144,16 @@ export default function DashboardsComponent(props) {
     return (
         <div className="dashboards">
             <div className="dashboard-row">
-                <h1>Average Salaries For Countries</h1>
-                <Chart type="radar" data={mapAverageSalariesForCountries(averageSalariesForCountries)} />
+                <h1 className="dashboard-header">Average Salaries For Countries</h1>
+                <Chart className="dashboard-chart" type="radar" data={mapAverageSalariesForCountries(averageSalariesForCountries)} />
             </div>
             <div className="dashboard-row">
-                <h1>Average Salaries For Seniority Levels</h1>
-                <Chart type="radar" data={mapAverageSalariesForSeniorityLevels(averageSalariesForSeniorityLevels)} />
+                <h1 className="dashboard-header">Average Salaries For Seniority Levels</h1>
+                <Chart className="dashboard-chart" type="radar" data={mapAverageSalariesForSeniorityLevels(averageSalariesForSeniorityLevels)} />
             </div>
             <div className="dashboard-row">
-                <h1>Average Salaries For Technologies</h1>
-                <Chart type="radar" data={mapAverageSalariesForTechnologies(averageSalariesForTechnologies)} />
+                <h1 className="dashboard-header">Average Salaries For Technologies</h1>
+                <Chart className="dashboard-chart" type="radar" data={mapAverageSalariesForTechnologies(averageSalariesForTechnologies)} />
             </div>
         </div>
     );

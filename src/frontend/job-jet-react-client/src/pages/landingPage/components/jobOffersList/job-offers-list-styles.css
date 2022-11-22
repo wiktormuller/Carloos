@@ -1,0 +1,20 @@
+.job-offers {
+    width: 650px;
+    height: 650px;
+}
+
+.job-offers-list {
+    height: 650px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.job-offer-badge {
+    margin-right: 10px;
+}
+
+.job-offers-list-item {
+    border-top: 1px solid rgb(221, 215, 215) !important;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}

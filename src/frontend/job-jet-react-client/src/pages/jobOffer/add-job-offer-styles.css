@@ -1,0 +1,27 @@
+.create-job-offer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1400px;
+  height: 1200px;
+}
+
+.description-job-offer-area {
+  height: 180px !important;
+  resize: none;
+}
+
+
+textarea {
+  width: 264.5px;
+  height: 75px;
+  padding: 5px 10px;
+  margin: 2.5px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  outline: transparent;
+  font-family: "Open Sans", sans-serif;
+  box-shadow: 0px 2px 8px rgba(0, 114, 150, 0.16);
+  box-sizing: border-box;
+  resize: none;
+}

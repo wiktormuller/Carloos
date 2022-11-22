@@ -1,7 +1,23 @@
 .dashboards {
-    
+    width: 900px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.dashboard-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .dashboard-row {
-    
+    width: 600px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.dashboard-chart {
+    width: 600px;
+    height: 600px;
 }

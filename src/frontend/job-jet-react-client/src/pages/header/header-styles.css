@@ -2,13 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 10vh;
-  /* background: orange; */
-  padding-left: 1%;
+  height: 80px;
+  background: #212529;
+  padding-left: 20px;
+  max-width: 100%;
 }
 
-.header__unregistered-user,
-.header__registered-user {
+.custom-header {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -18,46 +18,15 @@
   letter-spacing: normal;
 }
 
-.header__logo {
-  font-family: "Lobster", cursive;
+.header-logo {
+  font-family: "Verdana", cursive;
   font-size: 6vh;
   letter-spacing: 0.1em;
-  text-decoration: underline;
+  color: white;
+  height: 80px;
 }
 
-.header__btn {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.23);
-  box-shadow: 0px 2px 8px rgba(0, 114, 150, 0.16);
-  border-radius: 3vh;
-  cursor: pointer;
-  min-width: min(35%, 7vw);
-  height: 40%;
-  padding: 1.25vh 1.5vw;
-  font-size: 1.5vh;
-  text-align: center;
-  font-family: "Open Sans", sans-serif;
-}
-
-.header__btn:hover {
-  background: #eee;
-  transition: background-color 0.3s;
-  box-shadow: 0px 2px 8px rgba(0, 114, 150, 0.16);
-}
-
-.header__btn:active {
-  background: #ddd;
-  transition: background-color 0.1s;
-}
-
-.custom-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: initial;
-  width: initial;
-  margin-bottom: 0;
-  height: initial;
+.headerLink {
   text-decoration: none;
-  color: initial;
+  padding-top: 25px;
 }

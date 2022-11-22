@@ -1,4 +1,4 @@
-import "../addJobOffer-styles.css";
+import "../add-job-offer-styles.css";
 import JobOfferService from '../services/JobOfferService';
 import CompanyService from '../../company/services/CompanyService';
 import CountryService from '../../countries/services/CountryService';
@@ -219,7 +219,7 @@ export default function CreateJobOfferComponent()
   }
 
   return (
-    <div className="panel">
+    <div className="create-job-offer">
       <form>
         <div className="form-group">
           <label>Name</label>
@@ -227,7 +227,7 @@ export default function CreateJobOfferComponent()
         </div>
         <div className="form-group">
           <label>Description</label>
-          <input type="textarea" className="form-control" id="description" onChange={selectDescription} placeholder="Insert Description of Job Offer" rows="3" />
+          <textarea className="form-control description-job-offer-area" id="description" onChange={selectDescription} placeholder="Insert Description of Job Offer"></textarea>
         </div>
         <div className="form-group">
           <label>Salary From</label>
