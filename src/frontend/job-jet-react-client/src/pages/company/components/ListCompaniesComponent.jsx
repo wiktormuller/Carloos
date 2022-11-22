@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CompanyService from '../services/CompanyService'
 import { useNavigate } from 'react-router-dom';
+import "../company-styles.css";
 
 export default function ListCompaniesComponent(props)
 {
@@ -14,16 +15,16 @@ export default function ListCompaniesComponent(props)
     }
 
     function viewCompany(id) {
-        navigate(`companies/${id}`);
+        navigate(`/companies/${id}`);
     }
 
     function editCompany(id) {
-        navigate(`companies/update/${id}`);
+        navigate(`/companies/update/${id}`);
     }
 
     function addCompany(event) {
         event.preventDefault();
-        navigate(`companies/create`);
+        navigate(`/companies/create`);
     }
 
     // Similar to componentDidMount and componentDidUpdate
@@ -33,10 +34,10 @@ export default function ListCompaniesComponent(props)
         });
         
         console.log(companies);
-    });
+    }, []);
 
     return (
-        <div>
+        <div className="companies">
              <h2 className="text-center">Companies List</h2>
              <div className = "row">
                 <button className="btn btn-primary" onClick={addCompany}>Add company</button>
@@ -63,14 +64,14 @@ export default function ListCompaniesComponent(props)
                                     <tr key = {company.id}>
                                          <td> {company.id} </td>
                                          <td> {company.name} </td>   
-                                         <td> {company.shotName}</td>
+                                         <td> {company.shortName}</td>
                                          <td> {company.description}</td>
                                          <td> {company.numberOfPeople} </td>  
-                                         <td> {company.city} </td>
+                                         <td> {company.cityName} </td>
                                          <td>
-                                             <button onClick={ () => editCompany(company.id)} className="btn btn-info">Update</button>
-                                             <button style={{marginLeft: "10px"}} onClick={ () => this.deleteCompany(company.id)} className="btn btn-danger">Delete</button>
-                                             <button style={{marginLeft: "10px"}} onClick={ () => this.viewCompany(company.id)} className="btn btn-info">View</button>
+                                             <button style={{marginBottom: "5px"}} onClick={ () => editCompany(company.id)} className="btn btn-info">Update</button>
+                                             <button style={{marginBottom: "5px"}} onClick={ () => deleteCompany(company.id)} className="btn btn-danger">Delete</button>
+                                             <button style={{marginBottom: "5px"}} onClick={ () => viewCompany(company.id)} className="btn btn-info">View</button>
                                          </td>
                                     </tr>
                                 )

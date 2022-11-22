@@ -1,11 +1,20 @@
 import axios from 'axios';
+import { AuthenticationContext } from "../../../common/AuthenticationContext";
 
 const USERS_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/users";
 
-class UserService {
-
-    getUsers(){
-        return axios.get(USERS_API_BASE_URL);
+class UserService
+{
+    getUsers(accessToken)
+    {
+        return axios.get(
+            USERS_API_BASE_URL,
+            {
+                headers: {
+                  "Authorization": "Bearer " + accessToken
+                }
+            }
+        );
     }
 
     getUserById(usersId){

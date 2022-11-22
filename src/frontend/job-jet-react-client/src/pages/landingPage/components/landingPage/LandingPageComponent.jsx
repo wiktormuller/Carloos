@@ -1,8 +1,8 @@
-//import JobOffersSummary from "../landingPage/JobOffersSummary";
-import Map from "../map/MapComponent"
+import MapComponent from "../map/MapComponent"
+import JobOffersListComponent from '../jobOffersList/JobOffersListComponent';
 import JobOfferService from "../../../jobOffer/services/JobOfferService";
 import { useEffect, useState } from 'react';
-
+import './landing-page-styles.css';
 export default function LandingPageComponent()
 {
   const [jobOffers, setJobOffers] = useState([]);
@@ -41,19 +41,12 @@ export default function LandingPageComponent()
   }, []);
 
   return (
-    <div>
-      {/* <JobOffersSummary
-          localizationArray={props.localizationArray}
-          skillsArray={props.skillsArray}
-          jobOffersArray={props.jobOffersArray}
-          searchedSkills={props.searchedSkills}
-          setSearchedInput={props.setSearchedInput}
-          setSearchedLocalization={props.setSearchedLocalization}
-          setSearchedSkills={props.setSearchedSkills}
-          setAdvertDetails={props.setAdvertDetails}
-          technologyTypes={props.technologyTypes} /> */}
+    <div className="landing-page">
+      <JobOffersListComponent
+        jobOffers={jobOffers}
+      />
 
-      <Map 
+      <MapComponent
         jobOffers={jobOffers}
         userGeoLocation={userGeoLocation}
         selectedJobOfferGeoLocation={selectedJobOfferGeoLocation}

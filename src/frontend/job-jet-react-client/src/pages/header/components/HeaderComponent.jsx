@@ -25,24 +25,24 @@ export default function HeaderComponent()
   const loginOrRegisterButton = () => {
     if (!currentUser) {
       return (
-        <div className="header__unregistered-user">
+        <div className="custom-header">
           <Link className="custom-link" to="/login">
-            <button className="header__btn">LogIn</button>
+            <button className="btn btn-primary">LogIn</button>
           </Link>
           <Link className="custom-link" to="/register">
-            <button className="header__btn">Register</button>
+            <button className="btn btn-primary">Register</button>
           </Link>
         </div>
       );
     }
     else if (currentUser.accessToken) {
       return (
-        <div className="header__registered-user">
-          <Link className="custom-link" to="/profile">
-            <button className="header__btn">My profile</button>
+        <div className="custom-header">
+          <Link to="/profile">
+            <button className="btn btn-primary">My profile</button>
           </Link>
-          <Link className="custom-link" to="/">
-            <button className="header__btn" type="button" onClick={handleLogOut}>LogOut</button>
+          <Link to="/">
+            <button className="btn btn-primary" type="button" onClick={handleLogOut}>LogOut</button>
           </Link>
         </div>
       );
@@ -53,8 +53,8 @@ export default function HeaderComponent()
     <div>
       {renderRedirected()}
       <div className="header">
-        <Link className="custom-link" to="/">
-          <p className="header__logo">JobJet</p>
+        <Link className="headerLink" to="/">
+          <p className="header-logo">JobJet</p>
         </Link>
         {loginOrRegisterButton()}
       </div>

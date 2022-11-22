@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import LoginService from '../pages/login/services/LoginService';
 import LocalStorageManager from '../common/LocalStorageManager';
 
-export const AuthenticationContext = createContext();
+export const AuthenticationContext = createContext({});
 
 export const AuthenticationProvider = ({children}) => {
     const [ currentUser, setCurrentUser ] = useState();
@@ -23,8 +23,6 @@ export const AuthenticationProvider = ({children}) => {
 
         setCurrentUser(loggedUser);
     }
-
-    console.log(currentUser);
 
     return (
         <AuthenticationContext.Provider value={[currentUser, setCurrentUser]}>

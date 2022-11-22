@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TechnologyTypeService from '../services/TechnologyTypeService';
 import { useNavigate } from "react-router-dom";
+import '../technology-type-styles.css';
 
 export default function ListTechnologyTypesComponent()
 {
@@ -33,7 +34,7 @@ export default function ListTechnologyTypesComponent()
     });
 
     return (
-        <div>
+        <div className="technology-types">
              <h2 className="text-center">Technology Types List</h2>
              <div className = "row">
                 <button className="btn btn-primary" onClick={addTechnologyType}>Add technology Type</button>

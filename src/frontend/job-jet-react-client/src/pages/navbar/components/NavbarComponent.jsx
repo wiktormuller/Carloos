@@ -25,31 +25,33 @@ export default function NavbarComponent()
     }
   };
 
+  console.log(currentUser);
+
   const renderLinksForAdministrator = () => {
-    if (currentUser && currentUser.hasAdminRole) {
+    if (currentUser && currentUser.hasAdministratorRole) {
       return (
         <div>
           <Link
           key={ 5 }
           className="custom-link"
           to='/users' >
-          <Icon
-            iconName='IoDocumentTextOutline'
-            size={"2em"}
-            color={"#FFFFFF"}
-            className={"icon"} />
-        </Link>
-        <Link
-          key={ 5 }
-          className="custom-link"
-          to='/technology-types' >
-          <Icon
-            iconName='IoDocumentTextOutline'
-            size={"2em"}
-            color={"#FFFFFF"}
-            className={"icon"} />
-        </Link>
-      </div>
+            <Icon
+              iconName='IoDocumentTextOutline'
+              size={"2em"}
+              color={"#FFFFFF"}
+              className={"icon"} />
+          </Link>
+          <Link
+            key={ 5 }
+            className="custom-link"
+            to='/technology-types' >
+            <Icon
+              iconName='IoDocumentTextOutline'
+              size={"2em"}
+              color={"#FFFFFF"}
+              className={"icon"} />
+          </Link>
+        </div>
       );
     }
   }
@@ -83,6 +85,17 @@ export default function NavbarComponent()
         key={ 3 }
         className="custom-link"
         to='/companies' >
+        <Icon
+          iconName='IoDocumentTextOutline'
+          size={"2em"}
+          color={"#FFFFFF"}
+          className={"icon"} />
+      </Link>
+
+      <Link
+        key={ 3 }
+        className="custom-link"
+        to='/contact' >
         <Icon
           iconName='IoDocumentTextOutline'
           size={"2em"}

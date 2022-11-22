@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import UserService from '../services/UserService'
 import { useNavigate } from 'react-router-dom';
+import '../user-styles.css';
+import { AuthenticationContext } from "../../../common/AuthenticationContext";
 
-export default function ListUsersComponent(props)
+export default function ListUsersComponent()
 {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+    const [ currentUser, setCurrentUser ] = useContext(AuthenticationContext);
 
     function deleteUser(id) {
         UserService.deleteUser(id).then(re => {
@@ -21,15 +24,15 @@ export default function ListUsersComponent(props)
         navigate(`/users/update/${id}`);  
     }
 
-    // Similar to componentDidMount and componentDidUpdate
-    useEffect(() => {
-        UserService.getUsers().then(res => {
+    if (currentUser && currentUser.accessToken !== null)
+    {
+        UserService.getUsers(currentUser.accessToken).then(res => {
             setUsers(res.data.response.data);
         });
-    });
+    }
 
     return (
-        <div>
+        <div className="users">
              <h2 className="text-center">Users List</h2>
              <br></br>
              <div className = "row">

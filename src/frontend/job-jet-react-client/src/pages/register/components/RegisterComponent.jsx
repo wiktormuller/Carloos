@@ -36,7 +36,7 @@ export default function RegisterComponent()
   return (
     <div>
       {renderRedirected()}
-      <div className="Auth-form-container">
+      <div className="register">
         <form className="Auth-form" onSubmit={handleRegister}>
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>

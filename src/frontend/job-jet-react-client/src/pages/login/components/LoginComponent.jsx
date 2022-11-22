@@ -35,7 +35,7 @@ export default function LoginComponent(props)
   return (
     <div>
       {renderRedirected()}
-      <div className="Auth-form-container">
+      <div className="login">
         <form className="Auth-form" onSubmit={handleLogin}>
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
@@ -69,7 +69,7 @@ export default function LoginComponent(props)
               </button>
             </div>
             <p className="forgot-password text-right mt-2">
-              <Link to='/login'>Don't have an account yet?</Link>
+              <Link to='/register'>Don't have an account yet?</Link>
               <br />
               <Link to='/reset-password'>Reset password</Link>
             </p>
