@@ -24,6 +24,7 @@ import ViewCompanyComponent from '../pages/company/components/ViewCompanyCompone
 import UpdateCompanyComponent from '../pages/company/components/UpdateCompanyComponent';
 
 import CreateJobOfferComponent from '../pages/jobOffer/components/CreateJobOfferComponent';
+import ViewJobOfferComponent from '../pages/jobOffer/components/ViewJobOfferComponent';
 import UpdateJobOfferComponent from '../pages/jobOffer/components/UpdateJobOfferComponent';
 
 import CreateRoleComponent from '../pages/roles/components/CreateRoleComponent';
@@ -67,6 +68,7 @@ export const AllRoutes = () => {
                     <Route path='/dashboards' exact element={<DashboardsComponent />} />
 
                     <Route path='/job-offers/create' exact element={<CreateJobOfferComponent />} />
+                    <Route path='/job-offers/:id' exact element={<ViewJobOfferComponent />} />
                     <Route path='/job-offers/update/:id' exact element={<UpdateJobOfferComponent />} />
 
                     <Route path='/roles/create' exact element={<CreateRoleComponent />} />
