@@ -184,14 +184,14 @@ namespace JobJetRestApi.Infrastructure.Queries
                     [Country].Name AS CountryName,
                     [Address].Latitude,
                     [Address].Longitude,
-                    [TechnologyType].Id AS TechnologyTypeId,
-                    [TechnologyType].Name AS TechnologyTypeName,
                     [Seniority].Id AS SeniorityId,
                     [Seniority].Name AS SeniorityName,
                     [EmploymentType].Id AS EmploymentTypeId,
                     [EmploymentType].Name AS EmploymentTypeName,
                     [Company].Id AS CompanyId,
-                    [Company].Name AS CompanyName
+                    [Company].Name AS CompanyName,
+                    [TechnologyType].Id AS TechnologyTypeId,
+                    [TechnologyType].Name AS TechnologyTypeName
                 FROM [JobOffers] AS [JobOffer] 
                 LEFT JOIN Address AS [Address]
                     ON [JobOffer].AddressId = [Address].Id
@@ -208,11 +208,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                 LEFT JOIN Companies AS [Company]
                     ON [JobOffer].CompanyId = [Company].Id
                     
-                --@WHERE
-                
-                --@ORDERBY
-                --@OFFSET
-                --@FETCH;"
+                --@WHERE;"
                 ;
             
             var jobOfferMap = new Dictionary<int, JobOfferDto>();

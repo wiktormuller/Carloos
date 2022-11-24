@@ -64,7 +64,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/job-offers/5
         [HttpGet(ApiRoutes.JobOffers.Get)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JobOfferResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<JobOfferResponse>> Get(int id)
