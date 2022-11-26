@@ -8,7 +8,7 @@ export default function JobOffersListComponent(props)
         <ol className="list-group job-offers-list">
 
             {props.jobOffers.map(jobOffer => (
-                <Link to={`/job-offers/${jobOffer.id}`}>
+                <Link className="job-offer-link" to={`/job-offers/${jobOffer.id}`}>
                     <li className="list-group-item d-flex justify-content-between align-items-start job-offers-list-item" key={jobOffer.id}>
                         <div className="ms-2 me-auto">
                             <div className="fw-bold">{jobOffer.name}</div>

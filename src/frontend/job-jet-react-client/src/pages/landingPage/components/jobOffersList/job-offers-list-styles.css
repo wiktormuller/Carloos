@@ -18,3 +18,11 @@
     margin-bottom: 10px;
     border-radius: 5px;
 }
+
+.job-offers-list-item:hover {
+    background-color: rgb(244, 244, 244);
+}
+
+.job-offer-link {
+    text-decoration: none;
+}

@@ -1,8 +1,61 @@
 .job-offer-details {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 650px;
+}
+
+.job-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-left: 60px;
+}
+
+.job-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 2px;
+    padding: 5px;
+}
+
+.other-info {
+    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 1200px;
-    height: 650px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.other-tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 170px;
+    height: 70px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 3px 2px 5px 0px #ababab;
+    background-image: radial-gradient(
+      circle 180px at 0.3% 100%,
+      #3e4ca7 0%,
+      #ea6dff 100.7%
+    );
+    color: white;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+.job-offer-name {
+    font-size: 40px;
+    margin-bottom: 40px;
 }
