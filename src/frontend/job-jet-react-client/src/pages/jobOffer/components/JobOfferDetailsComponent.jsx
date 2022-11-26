@@ -4,28 +4,33 @@ export default function JobOfferDetailsComponent(props) // TODO: Select job offe
 {
     return (
         <div className="job-offer-details">
-            <div className="company-details">
-                <p>{props.jobOffer.companyName}</p>
-                <p>{props.jobOffer.address.countryName}</p>
-                <p>{props.jobOffer.address.town}</p>
-                <p>{props.jobOffer.address.zipCode}</p>
+            
+            <div className="job-offer-name">{props.jobOffer.name}</div>
+            <div className="job-info">
+                <div className="job-tile">Work Specification: {props.jobOffer.workSpecification}</div>
+                <div className="job-tile">Salary: {props.jobOffer.salaryFrom} - {props.jobOffer.salaryTo}</div>
+                <div className="job-tile">Seniority: {props.jobOffer.seniority}</div>
+                <div className="job-tile">Employment Type: {props.jobOffer.employmentType}</div>
             </div>
 
-            <div className="technology-types-details">
+            <div className="other-info">
+                <div className="other-tile">{props.jobOffer.companyName}</div>
+                <div className="other-tile">{props.jobOffer.address.countryName}</div>
+                <div className="other-tile">{props.jobOffer.address.town}</div>
+                <div className="other-tile">{props.jobOffer.address.zipCode}</div>
+            </div>
+
+            <h1>Technology Types</h1>
+            <div className="other-info">
                 {props.jobOffer.technologyTypes.map(technologyType => {
-                    return <p>{technologyType.name}</p>
+                    return <div className="other-tile">{technologyType.name}</div>
                 })}
             </div>
 
-            <div className="description-details">
-                <p>{props.jobOffer.name}</p>
+            <h1>Job Offer Details</h1>
+            <div className="other-info">
                 <p>{props.jobOffer.description}</p>
-                <p>{props.jobOffer.salaryFrom}</p>
-                <p>{props.jobOffer.salaryTo}</p>
-                <p>{props.jobOffer.seniority}</p>
-                <p>{props.jobOffer.employmentType}</p>
-                <p>{props.jobOffer.workSpecification}</p>
-                <p>{props.jobOffer.createdAt}</p>
+                <p>{props.jobOffer.createdAt.substring(0, 10)}</p>
             </div>
         </div>
     );

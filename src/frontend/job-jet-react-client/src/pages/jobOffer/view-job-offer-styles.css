@@ -1,8 +1,5 @@
 .view-job-offer {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: auto;
     width: 1400px;
-    height: 650px;
 }
