@@ -18,6 +18,11 @@ This repository is divided for two main projects. It is frontend Single Page App
 
 ---
 
+## The reason for the creation
+This project is our final engineering project.
+
+---
+
 ## Run the backend
 Go to `JobJet/src/backend/JobJetRestApi`<br />
 Run `dotnet restore`
