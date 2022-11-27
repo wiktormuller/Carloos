@@ -107,5 +107,10 @@
             public const string GetAverageSalaryForCountries = Base + "/dashboards/average-salaries-for-countries";
             public const string GetAverageSalaryForSeniorityLevels = Base + "/dashboards/average-salaries-for-seniority-levels";
         }
+
+        public static class Profiles
+        {
+            public const string MyProfile = Base + "/me";
+        }
     }
 }
