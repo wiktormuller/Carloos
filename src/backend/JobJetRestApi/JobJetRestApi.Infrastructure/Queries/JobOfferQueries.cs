@@ -260,7 +260,7 @@ namespace JobJetRestApi.Infrastructure.Queries
 
             var queriedJobOffer = jobOfferMap.Values.FirstOrDefault();
 
-            if (queriedJobOffer is null || queriedJobOffer.Id == 0)
+            if (queriedJobOffer is null)
             {
                 throw JobOfferNotFoundException.ForId(id);
             }
