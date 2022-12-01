@@ -207,15 +207,15 @@ namespace JobJetRestApi.Infrastructure.Queries
                     ON [JobOffer].EmploymentTypeId = [EmploymentType].Id
                 LEFT JOIN Companies AS [Company]
                     ON [JobOffer].CompanyId = [Company].Id
-                    
-                --@WHERE;"
+                 
+                 WHERE JobOffer.Id = @JobOfferId;"
                 ;
             
             var jobOfferMap = new Dictionary<int, JobOfferDto>();
             
             await connection.QueryAsync<JobOfferRecord, TechnologyTypeRecord, bool>(
                 query, 
-                param: new { Id = id }, 
+                param: new { @JobOfferId = id }, 
                 splitOn: "TechnologyTypeId",
                 map: (jobOfferRecord, technologyTypeRecord) =>
                 {
