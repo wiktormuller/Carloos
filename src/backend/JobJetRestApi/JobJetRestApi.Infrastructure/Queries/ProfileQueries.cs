@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Dapper;
+using JetBrains.Annotations;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.Profiles.Queries;
@@ -14,11 +15,25 @@ public class ProfileQueries : IProfileQueries
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-    private readonly record struct ProfileRecord(int UserId, string UserName, string UserEmail);
+    private record ProfileRecord
+    {
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
+    }
 
-    private readonly record struct CompanyRecord(int CompanyId, string CompanyName, string CompanyEmail);
+    private record CompanyRecord
+    {
+        public int? CompanyId { get; set; }
+        [CanBeNull] public string CompanyName { get; set; }
+        [CanBeNull] public string CompanyEmail { get; set; }
+    }
 
-    private readonly record struct JobOfferRecord(int JobOfferId, string JobOfferName);
+    private record JobOfferRecord
+    {
+        public int? JobOfferId { get; set; }
+        [CanBeNull] public string JobOfferName { get; set; }
+    }
 
     public ProfileQueries(ISqlConnectionFactory sqlConnectionFactory)
     {
@@ -30,7 +45,22 @@ public class ProfileQueries : IProfileQueries
         using var connection = _sqlConnectionFactory.GetOpenConnection();
 
         const string query = @"
-            
+            SELECT
+                U.Id AS UserId,
+                U.UserName AS UserName,
+                U.Email AS UserEmail,
+                C.Id AS CompanyId,
+                C.Name AS CompanyName,
+                NULL AS CompanyEmail,
+                JO.Id AS JobOfferId,
+                JO.Name AS JobOfferName
+            FROM AspNetUsers AS U
+            LEFT JOIN Companies AS C
+                ON U.Id = C.UserId
+            LEFT JOIN JobOffers AS JO
+                ON C.Id = JO.CompanyId
+
+            --@WHERE;
         ";
 
         var profileMap = new Dictionary<int, ProfileDto>();
@@ -39,9 +69,48 @@ public class ProfileQueries : IProfileQueries
             query,
             param: new { UserId = currentUserId },
             splitOn: "CompanyId,JobOfferId",
-            map: (profileRecord, companyRecord, JobOfferRecord) =>
+            map: (profileRecord, companyRecord, jobOfferRecord) =>
             {
-                // @TOOD - Implement the mapper
+                ProfileDto profileDto;
+
+                if (!profileMap.TryGetValue(profileRecord.UserId, out profileDto))
+                {
+                    profileDto = new ProfileDto
+                    {
+                        UserId = profileRecord.UserId,
+                        Name = profileRecord.UserName,
+                        Email = profileRecord.UserEmail
+                    };
+                    profileMap.Add(profileRecord.UserId, profileDto);
+                }
+
+                if (companyRecord is not null)
+                {
+                    CompanyDto companyDto = profileDto.ProfileCompanies.FirstOrDefault(companyDto =>
+                        companyDto.Id == companyRecord.CompanyId);
+                    
+                    if (companyDto is null)
+                    {
+                        companyDto = new CompanyDto
+                        {
+                            Id = companyRecord.CompanyId.Value,
+                            Name = companyRecord.CompanyName,
+                            Email = companyRecord.CompanyEmail
+                        };
+                        
+                        profileDto.ProfileCompanies.Add(companyDto);
+                    }
+                    
+                    if (jobOfferRecord is not null)
+                    {
+                        companyDto.CompanyJobOffers.Add(
+                            new CompanyJobOfferDto
+                            {
+                                Id = jobOfferRecord.JobOfferId.Value,
+                                Name = jobOfferRecord.JobOfferName
+                            });
+                    }
+                }
                 
                 return true;
             }
