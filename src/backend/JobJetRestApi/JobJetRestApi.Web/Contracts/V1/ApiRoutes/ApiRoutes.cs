@@ -110,7 +110,7 @@
 
         public static class Profiles
         {
-            public const string MyProfile = Base + "/me";
+            public const string MyProfile = Base + "/profiles/me";
         }
     }
 }
