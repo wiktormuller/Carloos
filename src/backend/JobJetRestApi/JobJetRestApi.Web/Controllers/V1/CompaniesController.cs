@@ -38,7 +38,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         
         // GET api/companies
         [HttpGet(ApiRoutes.Companies.GetAll)]
-        [ProducesResponseType(typeof(PagedResponse<CompanyResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<IEnumerable<CompanyResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<CompanyResponse>>> Get([FromQuery] PaginationFilter filter)
         {

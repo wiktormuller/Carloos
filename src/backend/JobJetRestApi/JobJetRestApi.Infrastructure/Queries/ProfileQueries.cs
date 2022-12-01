@@ -59,8 +59,7 @@ public class ProfileQueries : IProfileQueries
                 ON U.Id = C.UserId
             LEFT JOIN JobOffers AS JO
                 ON C.Id = JO.CompanyId
-
-            --@WHERE;
+            WHERE U.Id = @UserId;
         ";
 
         var profileMap = new Dictionary<int, ProfileDto>();
