@@ -3,14 +3,15 @@ import ProfileService from '../services/ProfileService';
 import CompanyService from '../../company/services/CompanyService';
 import JobOfferService from '../../jobOffer/services/JobOfferService';
 import { useNavigate } from 'react-router-dom';
+import '../profile-styles.css';
 
 export default function ProfileComponent()
 {
     const [profile, setProfile] = useState({
-        'userId': 0,
-        'name': '',
-        'email': '',
-        'profileCompanies': []
+        userId: 0,
+        name: '',
+        email: '',
+        profileCompanies: []
     });
     const navigate = useNavigate();
 
@@ -38,7 +39,12 @@ export default function ProfileComponent()
     function deleteJobOffer(id) {
         JobOfferService.deleteJobOffer(id).then(re => {
             ProfileService.getProfile().then(res => {
-                setProfile(res.data);
+                setProfile({
+                    userId: res.data.userId,
+                    name: res.data.name,
+                    email: res.data.email,
+                    profileCompanies: res.data.profileCompanies
+                });
             })
         });
     }
@@ -62,16 +68,18 @@ export default function ProfileComponent()
 
         for (var i = 0; i < profile.profileCompanies.length; i++)
         {
-            for (var j = 0; i < profile.profileCompanies[i].companyJobOffers; j++)
+            for (var j = 0; j < profile.profileCompanies[i].companyJobOffers.length; j++)
             {
-                mergedJobOffers[i] = new {
+                mergedJobOffers.push({
                     companyId: profile.profileCompanies[i].companyId,
                     companyName: profile.profileCompanies[i].name,
                     jobOfferId: profile.profileCompanies[i].companyJobOffers[j].jobOfferId,
                     jobOfferName: profile.profileCompanies[i].companyJobOffers[j].name
-                }
+                })
             }
         }
+
+        console.log(mergedJobOffers);
 
         return mergedJobOffers;
     }
@@ -79,13 +87,22 @@ export default function ProfileComponent()
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
         ProfileService.getProfile().then(res => {
-            console.log(res.data);
             setProfile(res.data);
         });
     }, []);
 
     return (
-        <div>
+        <div className="profile">
+            <div className="user-info">
+                {
+                    <div>
+                        <h1>User Info:</h1>
+                        <p>UserId: {profile.userId}</p>
+                        <p>Username: {profile.name}</p>
+                        <p>Email: {profile.email}</p>
+                    </div>
+                }
+            </div>
             <div className="companies">
                 <h2 className="text-center">Companies List</h2>
                 <div className = "row">
