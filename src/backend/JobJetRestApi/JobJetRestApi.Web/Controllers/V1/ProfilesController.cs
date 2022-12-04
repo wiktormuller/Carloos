@@ -3,12 +3,15 @@ using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.UseCases.Profiles.Queries;
 using JobJetRestApi.Web.Contracts.V1.ApiRoutes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace JobJetRestApi.Web.Controllers.V1;
+
 [ApiController]
+[Authorize(Roles = "User")]
 public class ProfilesController : ControllerBase
 {
     private readonly IProfileQueries _profileQueries;

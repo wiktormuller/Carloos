@@ -34,18 +34,14 @@ namespace JobJetRestApi.Web
                 app.UseDeveloperExceptionPage();
             }
             
+            app.UseCors("default");
+            
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JobJetRestApi.Web v1"));
 
             //app.UseHttpsRedirection(); // Docker cannot serve the app with this middleware, why?
 
             app.UseRouting();
-            
-            //app.UseCors("default"); // Refers to services.AddCors
-            app.UseCors(builder => builder
-                 .AllowAnyOrigin()
-                 .AllowAnyMethod()
-                 .AllowAnyHeader());
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             
