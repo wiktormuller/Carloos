@@ -32,8 +32,6 @@ export default function ListCompaniesComponent(props)
         CompanyService.getCompanies().then(res => {
             setCompanies(res.data.response.data);
         });
-        
-        console.log(companies);
     }, []);
 
     return (
