@@ -8,9 +8,14 @@ html,
   margin: 0;
   background: #fbfbfb;
   font-family: "Tahoma", sans-serif;
+  width: 100vw !important;
+}
+
+html {
+  width: 100vw !important;
 }
 
 .app {
   display: flex;
-  width: 100vw;
+  width: 100%;
 }
