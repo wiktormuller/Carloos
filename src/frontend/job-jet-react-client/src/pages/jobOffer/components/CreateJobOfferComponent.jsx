@@ -26,8 +26,8 @@ export default function CreateJobOfferComponent()
 
   const [seniorityId, setSeniorityId] = useState(0);
   const [employmentTypeId, setEmploymentTypeId] = useState(0);
+  const [workSpecification, setWorkSpecification] = useState('');
   const [currencyId, setCurrencyId] = useState(0);
-  const [workSpecification, setWorkSpecification] = useState("");
 
   const availableWorkSpecifications = [
     {

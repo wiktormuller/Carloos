@@ -1,8 +1,10 @@
 import MapComponent from "../map/MapComponent"
 import JobOffersListComponent from '../jobOffersList/JobOffersListComponent';
+import SearchBarComponent from '../searchBar/SearchBarComponent';
 import JobOfferService from "../../../jobOffer/services/JobOfferService";
 import { useEffect, useState } from 'react';
 import './landing-page-styles.css';
+
 export default function LandingPageComponent()
 {
   const [jobOffers, setJobOffers] = useState([]);
@@ -23,6 +25,37 @@ export default function LandingPageComponent()
     }
   );
 
+  // State needed for search bar
+  const [searchText, setSearchText] = useState('');
+  const [selectedSeniorityLevelId, setSelectedSeniorityLevelId] = useState();
+  const [selectedWorkSpecification, setSelectedWorkSpecification] = useState();
+  const [selectedEmploymentTypeId, setSelectedEmploymentTypeId] = useState();
+  const [selectedTechnologyTypesId, setSelectedTechnologyTypesId] = useState([]);
+
+  function setSearchTextProxy(searchText) {
+    setSearchText(searchText);
+  }
+
+  function setSelectedSeniorityLevelProxy(event) {
+    event.preventDefault();
+    setSelectedSeniorityLevelId(event.value);
+  }
+
+  function setSelectedWorkSpecificationProxy(event) {
+    event.preventDefault();
+    setSelectedWorkSpecification(event.value);
+  }
+
+  function setSelectedTechnologyTypesProxy(event) {
+    event.preventDefault();
+    setSelectedTechnologyTypesId(event.value);
+  }
+
+  function setSelectedEmploymentTypeProxy(event) {
+    event.preventDefault();
+    setSelectedEmploymentTypeId(event.value);
+  }
+
   // Similar to componentDidMount and componentDidUpdate
   useEffect(() => {
     JobOfferService.getJobOffers().then(res => {
@@ -41,16 +74,31 @@ export default function LandingPageComponent()
   }, []);
 
   return (
-    <div className="landing-page">
-      <JobOffersListComponent
-        jobOffers={jobOffers}
-      />
+    <div>
+      <SearchBarComponent 
+        setSearchText={setSearchTextProxy}
+        setSelectedSeniorityLevel={setSelectedSeniorityLevelProxy}
+        setSelectedWorkSpecification={setSelectedWorkSpecificationProxy}
+        setSelectedTechnologyTypes={setSelectedTechnologyTypesProxy}
+        setSelectedEmploymentType={setSelectedEmploymentTypeProxy}
+        selectedSeniorityLevelId={selectedSeniorityLevelId}
+        selectedWorkSpecification={selectedWorkSpecification}
+        selectedEmploymentTypeId={selectedEmploymentTypeId}
+        selectedTechnologyTypesId={selectedTechnologyTypesId}
+        searchText={searchText}
+        />
 
-      <MapComponent
-        jobOffers={jobOffers}
-        userGeoLocation={userGeoLocation}
-        selectedJobOfferGeoLocation={selectedJobOfferGeoLocation}
-      />
+      <div className="landing-page">
+        <JobOffersListComponent
+          jobOffers={jobOffers}
+        />
+
+        <MapComponent
+          jobOffers={jobOffers}
+          userGeoLocation={userGeoLocation}
+          selectedJobOfferGeoLocation={selectedJobOfferGeoLocation}
+        />
+      </div>
     </div>
   );
 }

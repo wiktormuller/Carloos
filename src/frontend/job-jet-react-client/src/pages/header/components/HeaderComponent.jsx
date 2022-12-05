@@ -50,14 +50,12 @@ export default function HeaderComponent()
   };
 
   return (
-    <div>
+    <div className="header">
       {renderRedirected()}
-      <div className="header">
-        <Link className="headerLink" to="/">
-          <p className="header-logo">JobJet</p>
-        </Link>
-        {loginOrRegisterButton()}
-      </div>
+      <Link className="header-link" to="/">
+        <p className="header-logo">JobJet</p>
+      </Link>
+      {loginOrRegisterButton()}
     </div>
   );
 }
