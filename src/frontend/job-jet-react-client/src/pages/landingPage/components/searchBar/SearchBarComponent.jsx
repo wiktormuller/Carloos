@@ -57,26 +57,32 @@ export default function SearchBarComponent(props)
 
     return (
         <div className="search-bar">
-            <h1>Search Bar</h1>
-            <div className="form-group">
-                <input type="text" className="form-control" id="name" onChange={props.setSearchTextProxy} placeholder="Search" />
+            <div className="general-section">
+                <div className="form-group form-group-extended">
+                    <input type="text" className="form-control" id="name" onChange={props.setSearchText} value={props.searchText} placeholder="General Search" />
+                </div>
+
+                <div className="form-group form-group-extended">
+                    <Select className="form-control" options={availableSeniorityLevels} onChange={props.setSelectedSeniorityLevel} value={availableSeniorityLevels[props.selectedSeniorityLevelId-1]} placeholder="Seniority Level"/>
+                </div>
+
+                <div className="form-group form-group-extended">
+                    <Select className="form-control" options={availableEmploymentTypes} onChange={props.setSelectedEmploymentType} value={availableEmploymentTypes[props.selectedEmploymentTypeId-1]} placeholder="Employment Type"/>
+                </div>
+
+                <div className="form-group form-group-extended">
+                    <Select className="form-control" options={availableWorkSpecifications} onChange={props.setSelectedWorkSpecification} value={availableWorkSpecifications.find(element => {return element.label === props.selectedWorkSpecification})} placeholder="Work Specification"/>
+                </div>
             </div>
 
-            <div className="form-group">
-                <Select className="form-control" options={availableSeniorityLevels} onChange={props.setSelectedSeniorityLevelProxy} value={availableSeniorityLevels[props.selectedSeniorityLevelId-1]} placeholder="Seniority Level"/>
+            <div className="technology-types-section">
+                {availableTechnologyTypes.map(technologyType => (
+                    <div className="technology-type-marker">
+                        <img className="technology-type-marker-image" src={require(`../../../../assets/icons/${technologyType.value}.svg`)} alt="Technology Type Img" />
+                        <span className="technology-type-marker-label">{technologyType.label}</span>
+                    </div>
+                ))}
             </div>
-
-            <div className="form-group">
-                <Select className="form-control" options={availableEmploymentTypes} onChange={props.setSelectedEmploymentTypeProxy} value={availableEmploymentTypes[props.selectedEmploymentTypeId-1]} placeholder="Employment Type"/>
-            </div>
-
-            <div className="form-group">
-                <Select className="form-control" options={availableWorkSpecifications} onChange={props.setSelectedWorkSpecificationProxy} value={availableWorkSpecifications.find(element => {return element.label === props.selectedWorkSpecification})} placeholder="Work Specification"/>
-            </div>
-
-            {availableTechnologyTypes.map(technologyType => (
-                <button>{technologyType.label} </button>
-            ))}
         </div>
     );
 }

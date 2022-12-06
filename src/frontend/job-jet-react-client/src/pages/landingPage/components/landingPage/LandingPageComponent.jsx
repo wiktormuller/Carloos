@@ -32,33 +32,31 @@ export default function LandingPageComponent()
   const [selectedEmploymentTypeId, setSelectedEmploymentTypeId] = useState();
   const [selectedTechnologyTypesId, setSelectedTechnologyTypesId] = useState([]);
 
-  function setSearchTextProxy(searchText) {
-    setSearchText(searchText);
+  function setSearchTextProxy(event) {
+    console.log(event);
+    setSearchText(event.value);
   }
 
   function setSelectedSeniorityLevelProxy(event) {
-    event.preventDefault();
     setSelectedSeniorityLevelId(event.value);
   }
 
   function setSelectedWorkSpecificationProxy(event) {
-    event.preventDefault();
     setSelectedWorkSpecification(event.value);
   }
 
   function setSelectedTechnologyTypesProxy(event) {
-    event.preventDefault();
     setSelectedTechnologyTypesId(event.value);
   }
 
   function setSelectedEmploymentTypeProxy(event) {
-    event.preventDefault();
     setSelectedEmploymentTypeId(event.value);
   }
 
   // Similar to componentDidMount and componentDidUpdate
   useEffect(() => {
-    JobOfferService.getJobOffers().then(res => {
+    JobOfferService.getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId)
+    .then(res => {
       setJobOffers(res.data.response.data);
     });
 
@@ -71,7 +69,7 @@ export default function LandingPageComponent()
         });
       });
     }
-  }, []);
+  }, [searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId]);
 
   return (
     <div>
