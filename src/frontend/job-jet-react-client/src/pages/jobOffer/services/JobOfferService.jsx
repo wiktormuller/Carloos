@@ -33,7 +33,13 @@ class JobOfferService {
             query.append("TechnologyIds", selectedTechnologyTypesId);
         }
 
-        return axios.get(JOB_OFFERS_API_BASE_URL + '?' + query.toString());
+        var resultUrl = JOB_OFFERS_API_BASE_URL;
+        if (query.toString() !== undefined && query.toString() !== '')
+        {
+            resultUrl = resultUrl + '?' + query.toString();
+        }
+
+        return axios.get(resultUrl);
     }
 
     createJobOffer(jobOffer){
