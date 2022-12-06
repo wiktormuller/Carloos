@@ -1,5 +1,42 @@
 .search-bar {
-    width: 100%;
-    background-color: bisque;
-    height: 350px;
+    width: 1400px;
+    height: 220px;
+}
+
+.general-section {
+    display: flex;
+    flex-direction: row;
+}
+
+.form-group-extended {
+    margin: 10px 10px 0px 10px;
+}
+
+.technology-types-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.technology-type-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 18px;
+}
+
+.technology-type-marker-image {
+    width: 30px;
+    height: 30px;
+}
+
+.technology-type-marker-label {
+    font-size: 12px;
+}
+
+.technology-type-marker-image:hover {
+    width: 35px;
+    height: 35px;
 }
