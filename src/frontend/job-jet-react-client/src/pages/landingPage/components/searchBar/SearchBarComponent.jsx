@@ -77,7 +77,7 @@ export default function SearchBarComponent(props)
 
             <div className="technology-types-section">
                 {availableTechnologyTypes.map(technologyType => (
-                    <div className="technology-type-marker">
+                    <div className="technology-type-marker" onClick={function() {props.setSelectedTechnologyType(technologyType)}}>
                         <img className="technology-type-marker-image" src={require(`../../../../assets/icons/${technologyType.value}.svg`)} alt="Technology Type Img" />
                         <span className="technology-type-marker-label">{technologyType.label}</span>
                     </div>

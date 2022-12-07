@@ -30,7 +30,7 @@ export default function LandingPageComponent()
   const [selectedSeniorityLevelId, setSelectedSeniorityLevelId] = useState();
   const [selectedWorkSpecification, setSelectedWorkSpecification] = useState();
   const [selectedEmploymentTypeId, setSelectedEmploymentTypeId] = useState();
-  const [selectedTechnologyTypesId, setSelectedTechnologyTypesId] = useState([]);
+  const [selectedTechnologyTypesId, setSelectedTechnologyTypesId] = useState();
 
   function setSearchTextProxy(event) {
     console.log(event);
@@ -45,7 +45,8 @@ export default function LandingPageComponent()
     setSelectedWorkSpecification(event.value);
   }
 
-  function setSelectedTechnologyTypesProxy(event) {
+  function setSelectedTechnologyTypeProxy(event) {
+    console.log(event.value);
     setSelectedTechnologyTypesId(event.value);
   }
 
@@ -77,7 +78,7 @@ export default function LandingPageComponent()
         setSearchText={setSearchTextProxy}
         setSelectedSeniorityLevel={setSelectedSeniorityLevelProxy}
         setSelectedWorkSpecification={setSelectedWorkSpecificationProxy}
-        setSelectedTechnologyTypes={setSelectedTechnologyTypesProxy}
+        setSelectedTechnologyType={setSelectedTechnologyTypeProxy}
         setSelectedEmploymentType={setSelectedEmploymentTypeProxy}
         selectedSeniorityLevelId={selectedSeniorityLevelId}
         selectedWorkSpecification={selectedWorkSpecification}
