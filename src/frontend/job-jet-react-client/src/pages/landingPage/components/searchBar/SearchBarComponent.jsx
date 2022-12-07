@@ -25,41 +25,68 @@ export default function SearchBarComponent(props)
     const [ availableSeniorityLevels, setAvailableSeniorityLevels] = useState([]);
     const [ availableEmploymentTypes, setAvailableEmploymentTypes ] = useState([]);
 
-      // Similar to componentDidMount and componentDidUpdate
-  useEffect(() => {
-    TechnologyTypeService.getTechnologyTypes().then(res => {
-      setAvailableTechnologyTypes(res.data.map(technologyType => (
-        {
-          "value": technologyType.id,
-          "label": technologyType.name
-        }
-      ))); 
-    });
+    // Similar to componentDidMount and componentDidUpdate
+    useEffect(() => {
+        TechnologyTypeService.getTechnologyTypes().then(res => {
+        setAvailableTechnologyTypes(res.data.map(technologyType => (
+            {
+            "value": technologyType.id,
+            "label": technologyType.name
+            }
+        ))); 
+        });
 
-    SeniorityLevelService.getSeniorityLevels().then(res => {
-      setAvailableSeniorityLevels(res.data.map(seniorityLevel => (
-        {
-          "value": seniorityLevel.id,
-          "label": seniorityLevel.name
-        }
-      )));
-    });
+        SeniorityLevelService.getSeniorityLevels().then(res => {
+        setAvailableSeniorityLevels(res.data.map(seniorityLevel => (
+            {
+            "value": seniorityLevel.id,
+            "label": seniorityLevel.name
+            }
+        )));
+        });
 
-    EmploymentTypeService.getEmploymentTypes().then(res => {
-      setAvailableEmploymentTypes(res.data.map(employmentType => (
-        {
-          "value": employmentType.id,
-          "label": employmentType.name
-        }
-      )));
-    });
-}, []);
+        EmploymentTypeService.getEmploymentTypes().then(res => {
+        setAvailableEmploymentTypes(res.data.map(employmentType => (
+            {
+            "value": employmentType.id,
+            "label": employmentType.name
+            }
+        )));
+        });
+    }, []);
+
+    function clearAllFilters()
+    {
+        props.setSearchText({
+            value: ''
+        });
+
+        props.setSelectedSeniorityLevel({
+            "value": 0,
+            "label": ''
+          });
+
+        props.setSelectedEmploymentType({
+            "value": 0,
+            "label": ''
+          });
+
+        props.setSelectedWorkSpecification({
+            "value": 0,
+            "label": ''
+          });
+
+        props.setSelectedTechnologyType({
+            "value": 0,
+            "label": ''
+          });
+    }
 
     return (
         <div className="search-bar">
             <div className="general-section">
-                <div className="form-group form-group-extended">
-                    <input type="text" className="form-control" id="name" onChange={props.setSearchText} value={props.searchText} placeholder="General Search" />
+                <div className="form-group form-group-extended" onChange={(event) => props.setSearchText(event.target)}>
+                    <input type="text" className="form-control" id="name" value={props.searchText} placeholder="General Search" />
                 </div>
 
                 <div className="form-group form-group-extended">
@@ -73,6 +100,10 @@ export default function SearchBarComponent(props)
                 <div className="form-group form-group-extended">
                     <Select className="form-control" options={availableWorkSpecifications} onChange={props.setSelectedWorkSpecification} value={availableWorkSpecifications.find(element => {return element.label === props.selectedWorkSpecification})} placeholder="Work Specification"/>
                 </div>
+
+                <button type="button" class="btn btn-primary" onClick={clearAllFilters}>
+                    Clear filters
+                </button>
             </div>
 
             <div className="technology-types-section">

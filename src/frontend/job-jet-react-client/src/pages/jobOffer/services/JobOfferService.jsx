@@ -7,7 +7,7 @@ class JobOfferService {
     getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId){
         var query = new URLSearchParams();
 
-        if (searchText !== undefined && searchText !== null && searchText !== "")
+        if (searchText !== undefined && searchText !== null && searchText !== '')
         {
             query.append("GeneralSearchByText", searchText);
         }

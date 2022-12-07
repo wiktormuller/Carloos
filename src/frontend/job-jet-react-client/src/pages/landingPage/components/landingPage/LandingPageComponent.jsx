@@ -42,11 +42,10 @@ export default function LandingPageComponent()
   }
 
   function setSelectedWorkSpecificationProxy(event) {
-    setSelectedWorkSpecification(event.value);
+    setSelectedWorkSpecification(event.label);
   }
 
   function setSelectedTechnologyTypeProxy(event) {
-    console.log(event.value);
     setSelectedTechnologyTypesId(event.value);
   }
 
