@@ -306,11 +306,11 @@ namespace JobJetRestApi.Infrastructure.Queries
             if (usersFilter.TechnologyIds is not null && usersFilter.TechnologyIds.Any())
             {
                 conditions.Add(@"
-                    WHERE JobOfferTechnologyType.JobOffersId IN (SELECT JobOffer.Id 
+                    JobOfferTechnologyType.JobOffersId IN (SELECT JobOffer.Id 
                         FROM [JobOfferTechnologyType] 
                             JOIN [JobOffers] AS JobOffer
                                 ON [JobOfferTechnologyType].JobOffersId = [JobOffer].Id
-                        WHERE [JobOfferTechnologyType].TechnologyTypesId  IN @TechnologyTypeIds"); 
+                        WHERE [JobOfferTechnologyType].TechnologyTypesId  IN @TechnologyTypeIds)"); 
                 parameters.Add("TechnologyTypeIds", usersFilter.TechnologyIds);
             }
 

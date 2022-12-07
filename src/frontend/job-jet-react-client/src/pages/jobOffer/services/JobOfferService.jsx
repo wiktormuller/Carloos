@@ -7,11 +7,10 @@ class JobOfferService {
     getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId){
         var query = new URLSearchParams();
 
-        if (searchText !== undefined && searchText !== null)
+        if (searchText !== undefined && searchText !== null && searchText !== "")
         {
             query.append("GeneralSearchByText", searchText);
         }
-        console.log(searchText);
         
         if (selectedSeniorityLevelId !== undefined && selectedSeniorityLevelId !== 0)
         {
@@ -28,7 +27,7 @@ class JobOfferService {
             query.append("EmploymentTypeId", selectedEmploymentTypeId);
         }
 
-        if (selectedTechnologyTypesId !== undefined && selectedTechnologyTypesId.length > 0)
+        if (selectedTechnologyTypesId !== undefined && selectedTechnologyTypesId > 0)
         {
             query.append("TechnologyIds", selectedTechnologyTypesId);
         }
@@ -38,6 +37,8 @@ class JobOfferService {
         {
             resultUrl = resultUrl + '?' + query.toString();
         }
+
+        console.log(resultUrl);
 
         return axios.get(resultUrl);
     }
