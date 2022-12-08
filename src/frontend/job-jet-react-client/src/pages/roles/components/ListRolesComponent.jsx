@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RoleService from '../services/RoleService';
 import { useNavigate } from "react-router-dom";
+import "../role-styles.css";
 
 export default function ListRolesComponent()
 {
@@ -23,10 +24,10 @@ export default function ListRolesComponent()
     });
 
     return (
-        <div>
+        <div className="roles">
              <h2 className="text-center">Roles List</h2>
              <div className = "row">
-                <button className="btn btn-primary" onClick={addRole()}>Add role</button>
+                <button className="btn btn-primary" onClick={addRole}>Add role</button>
              </div>
              <br></br>
              <div className = "row">

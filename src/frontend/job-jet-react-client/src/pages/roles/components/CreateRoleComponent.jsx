@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RoleService from '../services/RoleService'
 import { useNavigate } from 'react-router-dom';
+import "../role-styles.css";
 
 export default function CreateRoleComponent()
 {
@@ -35,7 +36,7 @@ export default function CreateRoleComponent()
     }
 
     return (
-        <div>
+        <div className="roles">
             <br></br>
                 <div className = "container">
                     <div className = "row">
@@ -50,7 +51,7 @@ export default function CreateRoleComponent()
                                     </div>
 
                                     <button className="btn btn-success" onClick={saveRole}>Save</button>
-                                    <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
+                                    <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
                                 </form>
                             </div>
                         </div>
