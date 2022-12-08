@@ -1,8 +1,8 @@
 import "../navbar-styles.css";
-import { Icon } from "../../icon/Icon";
 import { Link } from "react-router-dom";
 import { useContext } from 'react';
 import { AuthenticationContext } from "../../../common/AuthenticationContext";
+import { AiOutlineHome, AiOutlineDashboard, AiOutlineMail, AiFillSetting, AiOutlineUsergroupAdd, AiOutlineExperiment, AiFillDatabase } from 'react-icons/ai';
 
 export default function NavbarComponent()
 {
@@ -11,103 +11,91 @@ export default function NavbarComponent()
   const renderLinksForLoggedUser = () => {
     if (currentUser && currentUser.hasUserRole) {
       return (
-        <Link
-          key={ 4 }
-          className="custom-link"
-          to='/profile' >
-          <Icon
-            iconName='IoDocumentTextOutline'
-            size={"2em"}
-            color={"#FFFFFF"}
-            className={"icon"} />
-        </Link>
+        <div>
+          <li>
+            <Link className="nav-link text-white navbar-link" key={5} to="/profile">
+              <AiFillSetting size={25} />
+              <span className="navbar-text">Profile</span>
+            </Link>
+          </li>
+        </div>
       );
     }
   };
-
-  console.log(currentUser);
 
   const renderLinksForAdministrator = () => {
     if (currentUser && currentUser.hasAdministratorRole) {
       return (
         <div>
-          <Link
-          key={ 5 }
-          className="custom-link"
-          to='/users' >
-            <Icon
-              iconName='IoDocumentTextOutline'
-              size={"2em"}
-              color={"#FFFFFF"}
-              className={"icon"} />
-          </Link>
-          <Link
-            key={ 5 }
-            className="custom-link"
-            to='/technology-types' >
-            <Icon
-              iconName='IoDocumentTextOutline'
-              size={"2em"}
-              color={"#FFFFFF"}
-              className={"icon"} />
-          </Link>
+          <li>
+            <Link className="nav-link text-white navbar-link" key={5} to="/users">
+              <AiOutlineUsergroupAdd size={25} />
+              <span className="navbar-text">Users</span>
+            </Link>
+          </li>
+
+          <li>
+            <Link className="nav-link text-white navbar-link" key={5} to="/technology-types">
+              <AiOutlineExperiment size={25} />
+              <span className="navbar-text">Technology Types</span>
+            </Link>
+          </li>
         </div>
       );
     }
   }
 
+  const renderLinksForEverybody = () => {
+    return (
+      <div>
+        <li className="nav-item">
+          <Link className="nav-link text-white navbar-link" aria-current="page" key={5} to="/">
+            <AiOutlineHome size={25} />
+            <span className="navbar-text">JobOffers</span>
+          </Link>
+        </li>
+        <li>
+          <Link className="nav-link text-white navbar-link" key={5} to="/companies">
+            <AiFillDatabase size={25} />
+            <span className="navbar-text">Companies</span>
+          </Link>
+        </li>
+        <li>
+          <Link className="nav-link text-white navbar-link" key={5} to="/dashboards">
+            <AiOutlineDashboard size={25} />
+            <span className="navbar-text">Dashboards</span>
+          </Link>
+        </li>
+        <li>
+          <Link className="nav-link text-white navbar-link" key={5} to="/contact">
+            <AiOutlineMail size={25} />
+            <span className="navbar-text">Contact</span>
+          </Link>
+        </li>
+      </div>
+    );
+  }
+
   return (
     <div className="navbar">
-      {/* Available for all */}
-      <Link
-        key={ 1 }
-        className="custom-link"
-        to='/' >
-        <Icon
-          iconName='BsSearch'
-          size={"2em"}
-          color={"#FFFFFF"}
-          className={"icon"} />
-      </Link>
+        <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark navbar-content">
+          <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg className="bi pe-none me-2" width="40" height="32"><use xlinkHref="#bootstrap"></use></svg>
+            <span className="fs-4">Menu</span>
+          </a>
+          <hr/>
+          <ul className="nav nav-pills flex-column mb-auto">
+            {/* Available for all */}
+            {renderLinksForEverybody()}
 
-      <Link
-        key={ 2 }
-        className="custom-link"
-        to='/dashboards' >
-        <Icon
-          iconName='IoSettingsOutline'
-          size={"2em"}
-          color={"#FFFFFF"}
-          className={"icon"} />
-      </Link>
+            {/* Available only for logged user */}
+            {renderLinksForLoggedUser()}
 
-      <Link
-        key={ 3 }
-        className="custom-link"
-        to='/companies' >
-        <Icon
-          iconName='IoDocumentTextOutline'
-          size={"2em"}
-          color={"#FFFFFF"}
-          className={"icon"} />
-      </Link>
-
-      <Link
-        key={ 3 }
-        className="custom-link"
-        to='/contact' >
-        <Icon
-          iconName='IoDocumentTextOutline'
-          size={"2em"}
-          color={"#FFFFFF"}
-          className={"icon"} />
-      </Link>
-
-      {/* Available only for logged user - users' companies, job offers and account details */}
-      {renderLinksForLoggedUser()}
-
-      {/* Available only for administrator */}
-      {renderLinksForAdministrator()}
+            {/* Available only for administrator */}
+            {renderLinksForAdministrator()}
+            <hr/>
+          </ul>
+        </div>
     </div>
   );
 }
