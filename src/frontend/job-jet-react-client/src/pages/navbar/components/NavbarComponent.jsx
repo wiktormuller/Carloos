@@ -2,7 +2,16 @@ import "../navbar-styles.css";
 import { Link } from "react-router-dom";
 import { useContext } from 'react';
 import { AuthenticationContext } from "../../../common/AuthenticationContext";
-import { AiOutlineHome, AiOutlineDashboard, AiOutlineMail, AiFillSetting, AiOutlineUsergroupAdd, AiOutlineExperiment, AiFillDatabase } from 'react-icons/ai';
+import { 
+  AiOutlineHome, 
+  AiOutlineDashboard, 
+  AiOutlineMail, 
+  AiFillSetting, 
+  AiOutlineUsergroupAdd, 
+  AiOutlineExperiment, 
+  AiFillDatabase, 
+  AiOutlineSafetyCertificate 
+} from 'react-icons/ai';
 
 export default function NavbarComponent()
 {
@@ -35,6 +44,13 @@ export default function NavbarComponent()
           </li>
 
           <li>
+            <Link className="nav-link text-white navbar-link" key={5} to="/roles">
+              <AiOutlineSafetyCertificate size={25} />
+              <span className="navbar-text">Roles</span>
+            </Link>
+          </li>
+
+          <li>
             <Link className="nav-link text-white navbar-link" key={5} to="/technology-types">
               <AiOutlineExperiment size={25} />
               <span className="navbar-text">Technology Types</span>
@@ -49,7 +65,7 @@ export default function NavbarComponent()
     return (
       <div>
         <li className="nav-item">
-          <Link className="nav-link text-white navbar-link" aria-current="page" key={5} to="/">
+          <Link className="nav-link text-white navbar-link" key={5} to="/">
             <AiOutlineHome size={25} />
             <span className="navbar-text">JobOffers</span>
           </Link>
