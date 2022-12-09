@@ -1,8 +1,8 @@
 import './search-bar-styles.css';
 import { useEffect, useState } from 'react';
-import TechnologyTypeService from '../../../technologyTypes/services/TechnologyTypeService';
-import SeniorityLevelService from '../../../seniorityLevels/services/SeniorityLevelService';
-import EmploymentTypeService from '../../../employmentTypes/services/EmploymentTypeService';
+import TechnologyTypeService from '../../../../clients/TechnologyTypeService';
+import SeniorityLevelService from '../../../../clients/SeniorityLevelService';
+import EmploymentTypeService from '../../../../clients/EmploymentTypeService';
 import Select from 'react-select'
 
 export default function SearchBarComponent(props)

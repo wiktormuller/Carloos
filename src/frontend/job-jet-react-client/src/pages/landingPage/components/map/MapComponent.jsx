@@ -10,7 +10,7 @@ import {
   useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import RoadService from '../../../roads/services/RoadService';
+import RoadService from '../../../../clients/RoadService';
 
 export default function MapComponent(props)
 {

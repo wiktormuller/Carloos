@@ -1,7 +1,7 @@
 import MapComponent from "../map/MapComponent"
 import JobOffersListComponent from '../jobOffersList/JobOffersListComponent';
 import SearchBarComponent from '../searchBar/SearchBarComponent';
-import JobOfferService from "../../../jobOffer/services/JobOfferService";
+import JobOfferService from "../../../../clients/JobOfferService";
 import { useEffect, useState } from 'react';
 import './landing-page-styles.css';
 

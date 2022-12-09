@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import JobOfferService from '../services/JobOfferService';
+import JobOfferService from '../../../clients/JobOfferService';
 import { Navigate, useParams } from 'react-router-dom';
 import '../update-job-offer-styles.css';
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CompanyService from '../services/CompanyService'
+import CompanyService from '../../../clients/CompanyService';
 import { useNavigate } from 'react-router-dom';
 import "../company-styles.css";
 

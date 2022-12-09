@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CompanyService from '../services/CompanyService'
+import CompanyService from '../../../clients/CompanyService'
 import { useParams } from 'react-router-dom';
 
 export default function ViewCompanyComponent()

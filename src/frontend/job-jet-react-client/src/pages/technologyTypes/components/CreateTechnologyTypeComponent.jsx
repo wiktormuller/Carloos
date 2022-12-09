@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TechnologyTypeService from '../services/TechnologyTypeService';
+import TechnologyTypeService from '../../../clients/TechnologyTypeService';
 import { useNavigate } from "react-router-dom";
 
 export default function CreateTechnologyTypeComponent()

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TechnologyTypeService from '../services/TechnologyTypeService';
+import TechnologyTypeService from '../../../clients/TechnologyTypeService';
 import { useParams } from 'react-router-dom';
 
 export default function ViewTechnologyTypeComponent(props)

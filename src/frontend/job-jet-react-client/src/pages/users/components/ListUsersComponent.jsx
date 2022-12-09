@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import UserService from '../services/UserService'
+import React, { useState, useContext } from 'react';
+import UserService from '../../../clients/UserService'
 import { useNavigate } from 'react-router-dom';
 import '../user-styles.css';
 import { AuthenticationContext } from "../../../common/AuthenticationContext";

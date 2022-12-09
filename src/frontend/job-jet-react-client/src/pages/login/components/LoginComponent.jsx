@@ -1,7 +1,7 @@
 import "../login-styles.css";
 import { useState } from "react";
 import { Navigate, Link } from 'react-router-dom';
-import LoginService from '../services/LoginService';
+import LoginService from '../../../clients/LoginService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function LoginComponent(props)

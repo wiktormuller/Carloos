@@ -1,5 +1,5 @@
 import axios from 'axios';
-import LocalStorageManager from '../../../common/LocalStorageManager';
+import LocalStorageManager from '../common/LocalStorageManager';
 import jwt_decode from "jwt-decode";
 
 const LOGIN_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/auth/login";

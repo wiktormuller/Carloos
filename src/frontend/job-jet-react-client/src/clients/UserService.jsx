@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthenticationContext } from "../../../common/AuthenticationContext";
+import { AuthenticationContext } from "../common/AuthenticationContext";
 
 const USERS_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/users";
 
