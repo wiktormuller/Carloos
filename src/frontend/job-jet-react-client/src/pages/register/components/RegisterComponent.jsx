@@ -1,7 +1,7 @@
 import "../register-styles.css";
 import { useState } from "react";
 import { Navigate, Link } from 'react-router-dom';
-import RegisterService from '../services/RegisterService';
+import RegisterService from '../../../clients/RegisterService';
 
 export default function RegisterComponent()
 {

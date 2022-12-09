@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TechnologyTypeService from '../services/TechnologyTypeService';
+import TechnologyTypeService from '../../../clients/TechnologyTypeService';
 import { useNavigate } from "react-router-dom";
 import '../technology-type-styles.css';
 

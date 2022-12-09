@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import JobOfferService from '../services/JobOfferService';
+import JobOfferService from '../../../clients/JobOfferService';
 import { useParams } from 'react-router-dom';
 import '../view-job-offer-styles.css';
 import MapComponent from '../../landingPage/components/map/MapComponent';
@@ -55,7 +55,7 @@ export default function ViewJobOfferComponent(props) // TODO: Select job offer g
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        JobOfferService.getJobOfferById(jobOffer.id).then((res) => {
+        JobOfferService.getJobOfferById(id).then((res) => {
             let jobOfferResponse = res.data;
             setJobOffer({
                 id: jobOfferResponse.id,

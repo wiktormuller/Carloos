@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import UserService from '../services/UserService';
+import UserService from '../../../clients/UserService';
 import { Navigate, useParams } from 'react-router-dom';
 import '../update-user-styles.css';
 

@@ -2,7 +2,7 @@ import "../dashboard-styles.css";
 import React, { useState, useEffect } from 'react';
 import { Chart } from 'react-chartjs-2';
 import 'chart.js/auto';
-import DashboardService from '../services/DashboardService'
+import DashboardService from '../../../clients/DashboardService';
 
 export default function DashboardsComponent(props) {
     const [averageSalariesForCountries, setAverageSalariesForCountries] = useState([]);

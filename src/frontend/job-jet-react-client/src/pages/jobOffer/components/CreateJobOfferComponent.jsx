@@ -1,11 +1,11 @@
 import "../add-job-offer-styles.css";
-import JobOfferService from '../services/JobOfferService';
-import CompanyService from '../../company/services/CompanyService';
-import CountryService from '../../countries/services/CountryService';
-import TechnologyTypeService from '../../technologyTypes/services/TechnologyTypeService';
-import SeniorityLevelService from '../../seniorityLevels/services/SeniorityLevelService';
-import EmploymentTypeService from '../../employmentTypes/services/EmploymentTypeService';
-import CurrencyService from '../../currencies/services/CurrencyService';
+import JobOfferService from '../../../clients/JobOfferService';
+import CompanyService from '../../../clients/CompanyService';
+import CountryService from '../../../clients/CountryService';
+import TechnologyTypeService from '../../../clients/TechnologyTypeService';
+import SeniorityLevelService from '../../../clients/SeniorityLevelService';
+import EmploymentTypeService from '../../../clients/EmploymentTypeService';
+import CurrencyService from '../../../clients/CurrencyService';
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select'

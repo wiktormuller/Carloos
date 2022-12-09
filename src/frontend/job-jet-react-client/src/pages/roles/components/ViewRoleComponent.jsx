@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RoleService from '../services/RoleService'
+import RoleService from '../../../clients/RoleService'
 import { useParams } from 'react-router-dom';
 
 export default function ViewRoleComponent(props)

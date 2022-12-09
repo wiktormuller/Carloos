@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ProfileService from '../services/ProfileService';
-import CompanyService from '../../company/services/CompanyService';
-import JobOfferService from '../../jobOffer/services/JobOfferService';
+import ProfileService from '../../../clients/ProfileService';
+import CompanyService from '../../../clients/CompanyService';
+import JobOfferService from '../../../clients/JobOfferService';
 import { useNavigate } from 'react-router-dom';
 import '../profile-styles.css';
 
