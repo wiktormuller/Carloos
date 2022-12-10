@@ -10,21 +10,29 @@ import {
   useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import RoadService from '../../../../clients/RoadService';
+import RoadService from '../../../../../clients/RoadService';
 
 export default function MapComponent(props)
 {
   const centrumOfPolandCoordinates = [52.006376, 19.025167];
   const defaultZoomForPolandCountry = 5.5;
   const defaultZoomForJobOffer = 14;
-  const zeroToZeroCoordinates = "0.000000" + "%2C" + "0.000000" + "%3B" + "0.000000" + "%2C" + "0.000000"; // It's road from point (0,0) to (0,0) which is no road at all
+
+  // It's road from point (0,0) to (0,0) which is no road at all
+  const zeroToZeroCoordinates = "0.000000" + "%2C" + "0.000000" + "%3B" + "0.000000" + "%2C" + "0.000000";
   const [roadCoordinatesPoints, setRoadCoordinatesPoints] = useState([]);
   const [coordinatesBetweenTwoPoints, setCoordinatesBetweenTwoPoints] = useState("");
 
   useEffect(() => {
 
+    console.log('effect');
+    console.log(props.userGeoLocation.longitude);
+    console.log(props.selectedJobOfferGeoLocation.longitude);
     // Road data
-    if (props.userGeoLocation.longitude !== undefined && props.selectedJobOfferGeoLocation.longitude !== undefined)
+    if (props.userGeoLocation !== undefined &&
+      props.selectedJobOfferGeoLocation !== undefined &&
+      props.userGeoLocation.longitude !== undefined &&
+      props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
       setCoordinatesBetweenTwoPoints(`${props.userGeoLocation.longitude}%2C${props.userGeoLocation.latitude}%3B${props.selectedJobOfferGeoLocation.longitude}%2C${props.selectedJobOfferGeoLocation.latitude}`);
     }
@@ -33,8 +41,7 @@ export default function MapComponent(props)
       setCoordinatesBetweenTwoPoints(zeroToZeroCoordinates);
     }
 
-    //console.log(coordinatesBetweenTwoPoints); // Why is it empty string?
-
+    console.log(coordinatesBetweenTwoPoints);
     RoadService.getRoad(coordinatesBetweenTwoPoints).then(res => {
       setRoadCoordinatesPoints(res.data); 
     });
@@ -45,7 +52,10 @@ export default function MapComponent(props)
     const map = useMap();
 
     // In a half way from user to job offer
-    if (props.userGeoLocation.longitude !== undefined && props.selectedJobOfferGeoLocation.longitude !== undefined)
+    if (props.userGeoLocation !== undefined &&
+        props.selectedJobOfferGeoLocation !== undefined &&
+        props.userGeoLocation.longitude !== undefined && 
+        props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
       map.flyTo(
         [
@@ -55,8 +65,11 @@ export default function MapComponent(props)
         11 - roadCoordinatesPoints.length * 0.0009 // TODO: Calculate the zoom based on length of the entire road
       );
     }
-    // When job offer is selected by user geo location is unknown
-    else if (props.userGeoLocation.longitude === undefined && props.selectedJobOfferGeoLocation.longitude !== undefined)
+    // When job offer is selected but user geo location is unknown
+    else if (props.userGeoLocation !== undefined &&
+            props.selectedJobOfferGeoLocation !== undefined &&
+            props.userGeoLocation.longitude === undefined && 
+            props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
       map.flyTo(
         [
@@ -66,7 +79,10 @@ export default function MapComponent(props)
       );
     }
     // When job offer is not selected and user geolocation is unknown
-    else if (props.userGeoLocation.longitude === undefined && props.selectedJobOfferGeoLocation.longitude !== undefined)
+    else if (props.userGeoLocation !== undefined &&
+            props.selectedJobOfferGeoLocation !== undefined &&
+            props.userGeoLocation.longitude === undefined && 
+            props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
       map.flyTo(
         [
@@ -90,7 +106,7 @@ export default function MapComponent(props)
         <Marker
           key={jobOffer.id}
           icon={L.icon({
-            iconUrl: require(`../../../../assets/icons/${technologyTypeId}.svg`),
+            iconUrl: require(`../../../../../assets/icons/${technologyTypeId}.svg`),
             iconSize: new L.Point(40, 40)
           })}
           position={[jobOffer.address.latitude, jobOffer.address.longitude]} >

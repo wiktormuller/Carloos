@@ -1,8 +1,8 @@
 import './search-bar-styles.css';
 import { useEffect, useState } from 'react';
-import TechnologyTypeService from '../../../../clients/TechnologyTypeService';
-import SeniorityLevelService from '../../../../clients/SeniorityLevelService';
-import EmploymentTypeService from '../../../../clients/EmploymentTypeService';
+import TechnologyTypeService from '../../../../../clients/TechnologyTypeService';
+import SeniorityLevelService from '../../../../../clients/SeniorityLevelService';
+import EmploymentTypeService from '../../../../../clients/EmploymentTypeService';
 import Select from 'react-select'
 
 export default function SearchBarComponent(props)
@@ -101,7 +101,7 @@ export default function SearchBarComponent(props)
                     <Select className="form-control" options={availableWorkSpecifications} onChange={props.setSelectedWorkSpecification} value={availableWorkSpecifications.find(element => {return element.label === props.selectedWorkSpecification})} placeholder="Work Specification"/>
                 </div>
 
-                <button type="button" class="btn btn-primary" onClick={clearAllFilters}>
+                <button type="button" className="btn btn-primary" onClick={clearAllFilters}>
                     Clear filters
                 </button>
             </div>
@@ -109,7 +109,7 @@ export default function SearchBarComponent(props)
             <div className="technology-types-section">
                 {availableTechnologyTypes.map(technologyType => (
                     <div className="technology-type-marker" onClick={function() {props.setSelectedTechnologyType(technologyType)}}>
-                        <img className="technology-type-marker-image" src={require(`../../../../assets/icons/${technologyType.value}.svg`)} alt="Technology Type Img" />
+                        <img className="technology-type-marker-image" src={require(`../../../../../assets/icons/${technologyType.value}.svg`)} alt="Technology Type Img" />
                         <span className="technology-type-marker-label">{technologyType.label}</span>
                     </div>
                 ))}
