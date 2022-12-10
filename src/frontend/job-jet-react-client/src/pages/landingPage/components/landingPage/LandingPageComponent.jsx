@@ -1,6 +1,6 @@
-import MapComponent from "../map/MapComponent"
-import JobOffersListComponent from '../jobOffersList/JobOffersListComponent';
-import SearchBarComponent from '../searchBar/SearchBarComponent';
+import MapComponent from "../landingPage/map/MapComponent";
+import JobOffersListComponent from '../landingPage/jobOffersList/JobOffersListComponent';
+import SearchBarComponent from '../landingPage/searchBar/SearchBarComponent';
 import JobOfferService from "../../../../clients/JobOfferService";
 import { useEffect, useState } from 'react';
 import './landing-page-styles.css';
@@ -8,14 +8,6 @@ import './landing-page-styles.css';
 export default function LandingPageComponent()
 {
   const [jobOffers, setJobOffers] = useState([]);
-  
-  // Get it from global context
-  const [userGeoLocation, setUserGeolocation] = useState(
-    {
-      longitude: undefined,
-      latitude: undefined
-    }
-  );
 
   // Get it from global context
   const [selectedJobOfferGeoLocation, setSelectedJobOfferGeoLocation] = useState(
@@ -59,16 +51,6 @@ export default function LandingPageComponent()
     .then(res => {
       setJobOffers(res.data.response.data);
     });
-
-    if (navigator.geolocation)
-    {
-      navigator.geolocation.getCurrentPosition(position => {
-        setUserGeolocation({
-          longitude: position.coords.longitude,
-          latitude: position.coords.latitude
-        });
-      });
-    }
   }, [searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId]);
 
   return (
@@ -93,8 +75,6 @@ export default function LandingPageComponent()
 
         <MapComponent
           jobOffers={jobOffers}
-          userGeoLocation={userGeoLocation}
-          selectedJobOfferGeoLocation={selectedJobOfferGeoLocation}
         />
       </div>
     </div>

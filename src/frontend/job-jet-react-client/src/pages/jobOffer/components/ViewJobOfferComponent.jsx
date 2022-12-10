@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import JobOfferService from '../../../clients/JobOfferService';
 import { useParams } from 'react-router-dom';
 import '../view-job-offer-styles.css';
-import MapComponent from '../../landingPage/components/map/MapComponent';
+import MapComponent from '../../landingPage/components/landingPage/map/MapComponent';
 import JobOfferDetailsComponent from './JobOfferDetailsComponent';
 
-export default function ViewJobOfferComponent(props) // TODO: Select job offer geolocation and list of job offers to render map
+export default function ViewJobOfferComponent()
 {
     let { id } = useParams();
     const [jobOffers, setJobOffers] = useState([]);
 
-    // TODO: To change
     const [selectedJobOfferGeoLocation, setSelectedJobOfferGeoLocation] = useState(
         {
           longitude: undefined,
@@ -18,20 +17,12 @@ export default function ViewJobOfferComponent(props) // TODO: Select job offer g
         }
     );
 
-    // TODO: To change
     const [userGeoLocation, setUserGeolocation] = useState(
         {
-          longitude: undefined,
-          latitude: undefined
+        longitude: undefined,
+        latitude: undefined
         }
     );
-
-      // Similar to componentDidMount and componentDidUpdate
-  useEffect(() => {
-    JobOfferService.getJobOffers().then(res => {
-      setJobOffers(res.data.response.data);
-    });
-  }, []);
 
     const [jobOffer, setJobOffer] = useState({
         id: 0,
@@ -43,7 +34,9 @@ export default function ViewJobOfferComponent(props) // TODO: Select job offer g
             countryName: '',
             town: '',
             street: '',
-            zipCode: ''
+            zipCode: '',
+            latitude: 0,
+            longitude: 0
         },
         technologyTypes: [],
         seniority: '',
@@ -76,15 +69,41 @@ export default function ViewJobOfferComponent(props) // TODO: Select job offer g
                 createdAt: jobOfferResponse.createdAt,
                 companyName: jobOfferResponse.companyName
             });
+
+            setSelectedJobOfferGeoLocation({
+                longitude: jobOfferResponse.address.longitude,
+                latitude: jobOfferResponse.address.latitude
+            });
         });
+
+        JobOfferService.getJobOffers().then(res => {
+            setJobOffers(res.data.response.data);
+        });
+
+        if (navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(position => {
+                setUserGeolocation({
+                    longitude: position.coords.longitude,
+                    latitude: position.coords.latitude
+                });
+            });
+        }
     }, []);
 
     return (
         <div className="view-job-offer">
             <JobOfferDetailsComponent jobOffer={jobOffer} />
-            <MapComponent jobOffers={jobOffers} 
+            
+            {selectedJobOfferGeoLocation.longitude === undefined &&
+                <p>Loading Map...</p>
+            }
+
+            {selectedJobOfferGeoLocation.longitude !== undefined &&
+                <MapComponent jobOffers={jobOffers} 
                 userGeoLocation={userGeoLocation} 
                 selectedJobOfferGeoLocation={selectedJobOfferGeoLocation}/>
+            }
         </div>
     );
 }
