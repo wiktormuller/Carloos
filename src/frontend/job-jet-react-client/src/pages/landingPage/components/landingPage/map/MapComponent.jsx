@@ -15,36 +15,34 @@ import RoadService from '../../../../../clients/RoadService';
 export default function MapComponent(props)
 {
   const centrumOfPolandCoordinates = [52.006376, 19.025167];
-  const defaultZoomForPolandCountry = 5.5;
+  const defaultZoomForPolandCountry = 5.0;
   const defaultZoomForJobOffer = 14;
 
   // It's road from point (0,0) to (0,0) which is no road at all
   const zeroToZeroCoordinates = "0.000000" + "%2C" + "0.000000" + "%3B" + "0.000000" + "%2C" + "0.000000";
   const [roadCoordinatesPoints, setRoadCoordinatesPoints] = useState([]);
-  const [coordinatesBetweenTwoPoints, setCoordinatesBetweenTwoPoints] = useState("");
 
   useEffect(() => {
 
-    console.log('effect');
-    console.log(props.userGeoLocation.longitude);
-    console.log(props.selectedJobOfferGeoLocation.longitude);
     // Road data
     if (props.userGeoLocation !== undefined &&
       props.selectedJobOfferGeoLocation !== undefined &&
       props.userGeoLocation.longitude !== undefined &&
       props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
-      setCoordinatesBetweenTwoPoints(`${props.userGeoLocation.longitude}%2C${props.userGeoLocation.latitude}%3B${props.selectedJobOfferGeoLocation.longitude}%2C${props.selectedJobOfferGeoLocation.latitude}`);
+      var coordinatesBetweenTwoPoints = 
+        `${props.userGeoLocation.longitude}%2C${props.userGeoLocation.latitude}%3B${props.selectedJobOfferGeoLocation.longitude}%2C${props.selectedJobOfferGeoLocation.latitude}`;
+      
+        RoadService.getRoad(coordinatesBetweenTwoPoints).then(res => {
+        setRoadCoordinatesPoints(res.data); 
+      });
     }
     else
     {
-      setCoordinatesBetweenTwoPoints(zeroToZeroCoordinates);
+      RoadService.getRoad(zeroToZeroCoordinates).then(res => {
+        setRoadCoordinatesPoints(res.data); 
+      });
     }
-
-    console.log(coordinatesBetweenTwoPoints);
-    RoadService.getRoad(coordinatesBetweenTwoPoints).then(res => {
-      setRoadCoordinatesPoints(res.data); 
-    });
   }, []);
 
   const FlyToCoords = () => {
@@ -57,13 +55,21 @@ export default function MapComponent(props)
         props.userGeoLocation.longitude !== undefined && 
         props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
-      map.flyTo(
-        [
-          (props.selectedJobOfferGeoLocation.latitude + props.userGeoLocation.latitude) / 2,
-          (props.selectedJobOfferGeoLocation.longitude + props.userGeoLocation.longitude) / 2
-        ],
-        11 - roadCoordinatesPoints.length * 0.0009 // TODO: Calculate the zoom based on length of the entire road
-      );
+      console.log(roadCoordinatesPoints);
+      if (roadCoordinatesPoints.length !== 0) // Wait to get the coordinates from API
+      {
+        map.flyTo(
+          [
+            (props.selectedJobOfferGeoLocation.latitude + props.userGeoLocation.latitude) / 2,
+            (props.selectedJobOfferGeoLocation.longitude + props.userGeoLocation.longitude) / 2
+          ]
+        );
+
+        map.fitBounds([
+          [roadCoordinatesPoints[0].latitude, roadCoordinatesPoints[0].longitude],
+          [roadCoordinatesPoints[roadCoordinatesPoints.length-1].latitude, roadCoordinatesPoints[roadCoordinatesPoints.length-1].longitude]
+        ]);
+      }
     }
     // When job offer is selected but user geo location is unknown
     else if (props.userGeoLocation !== undefined &&
