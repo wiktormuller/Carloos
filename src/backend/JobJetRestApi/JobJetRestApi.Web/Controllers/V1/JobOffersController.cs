@@ -197,5 +197,33 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(e.Message);
             }
         }
+        
+        // POST api/job-offers/5/offer-applications
+        [HttpPost(ApiRoutes.JobOffers.SendJobOfferApplication)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult> Post([FromRoute] int id, [FromBody] SendOfferApplicationRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var command = new SendOfferApplicationCommand
+            (
+                id, request.UserEmail, request.PhoneNumber, request.File
+            );
+
+            try
+            {
+                await _mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception e) when (e is JobOfferNotFoundException)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
