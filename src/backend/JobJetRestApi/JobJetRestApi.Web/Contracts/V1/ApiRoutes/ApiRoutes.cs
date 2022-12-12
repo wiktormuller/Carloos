@@ -13,6 +13,7 @@
             public const string Create = Base + "/job-offers";
             public const string Update = Base + "/job-offers/{id}";
             public const string Delete = Base + "/job-offers/{id}";
+            public const string SendJobOfferApplication = Base + "/job-offers/{id}/offer-applications";
         }
 
         public static class TechnologyTypes
