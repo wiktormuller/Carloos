@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.EmploymentType.Commands;
+using JobJetRestApi.Domain.Repositories;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.EmploymentType.CommandsHandlers

@@ -1,9 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Extensions;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
+using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Domain.Repositories;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers;
@@ -11,10 +14,13 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers;
 public class SendOfferApplicationCommandHandler : IRequestHandler<SendOfferApplicationCommand>
 {
     private readonly IJobOfferRepository _jobOfferRepository;
+    private readonly IJobOfferApplicationRepository _jobOfferApplicationRepository;
     
-    public SendOfferApplicationCommandHandler(IJobOfferRepository jobOfferRepository)
+    public SendOfferApplicationCommandHandler(IJobOfferRepository jobOfferRepository,
+        IJobOfferApplicationRepository jobOfferApplicationRepository)
     {
         _jobOfferRepository = jobOfferRepository;
+        _jobOfferApplicationRepository = jobOfferApplicationRepository;
     }
     
     /// <exception cref="JobOfferNotFoundException"></exception>
@@ -27,13 +33,20 @@ public class SendOfferApplicationCommandHandler : IRequestHandler<SendOfferAppli
             throw JobOfferNotFoundException.ForId(request.JobOfferId);
         }
 
-        var userEmail = request.UserEmail;
-        var phoneNumber = request.PhoneNumber;
-        var jobOfferId = request.JobOfferId;
-        var bytes = await request.File.GetBytes();
-        var bytesAsBase64String = bytes.GetBase64String();
-        
-        // TODO: Save file with manually generated filename
+        var fileExtension = Path.GetExtension(request.File.FileName).ToLowerInvariant();
+        var fileBytes = await request.File.GetBytes();
+        var fileName = Guid.NewGuid().ToString();
+
+        var jobOfferApplication = new JobOfferApplication(
+            request.UserEmail,
+            request.PhoneNumber,
+            fileName,
+            fileExtension,
+            fileBytes,
+            jobOffer
+        );
+
+        await _jobOfferApplicationRepository.CreateAsync(jobOfferApplication);
 
         return await Task.FromResult(Unit.Value);
     }

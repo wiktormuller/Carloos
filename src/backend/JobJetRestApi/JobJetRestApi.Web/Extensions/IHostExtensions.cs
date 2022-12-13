@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using JobJetRestApi.Application.Repositories;
+using JobJetRestApi.Domain.Repositories;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using JobJetRestApi.Infrastructure.Persistence.Seeders;
 using MediatR;

@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Auth.Commands;
+using JobJetRestApi.Domain.Repositories;
 using MediatR;
 using Microsoft.IdentityModel.JsonWebTokens;
 

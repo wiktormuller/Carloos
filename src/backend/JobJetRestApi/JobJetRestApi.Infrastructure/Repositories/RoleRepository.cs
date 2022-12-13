@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
