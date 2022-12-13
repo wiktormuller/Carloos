@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Exceptions;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.Roles.Commands;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Domain.Repositories;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.Roles.CommandsHandlers;

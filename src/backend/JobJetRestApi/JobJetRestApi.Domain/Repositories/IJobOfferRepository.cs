@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using JobJetRestApi.Domain.Entities;
 
-namespace JobJetRestApi.Application.Repositories
+namespace JobJetRestApi.Domain.Repositories
 {
     public interface IJobOfferRepository
     {

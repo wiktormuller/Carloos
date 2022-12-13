@@ -3,7 +3,7 @@ using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Repositories;
+using JobJetRestApi.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobJetRestApi.Infrastructure.Repositories

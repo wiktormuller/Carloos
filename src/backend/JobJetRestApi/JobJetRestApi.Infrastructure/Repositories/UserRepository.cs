@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Domain.Repositories;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

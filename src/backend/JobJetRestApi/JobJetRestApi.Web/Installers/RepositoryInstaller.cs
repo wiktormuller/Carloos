@@ -1,4 +1,4 @@
-﻿using JobJetRestApi.Application.Repositories;
+﻿using JobJetRestApi.Domain.Repositories;
 using JobJetRestApi.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

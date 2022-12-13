@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.SeniorityLevel.Commands;
 using MediatR;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Domain.Repositories;
 
 namespace JobJetRestApi.Application.UseCases.SeniorityLevel.CommandsHandlers
 {

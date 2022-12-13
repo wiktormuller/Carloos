@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Domain.Entities;
+using JobJetRestApi.Domain.Repositories;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

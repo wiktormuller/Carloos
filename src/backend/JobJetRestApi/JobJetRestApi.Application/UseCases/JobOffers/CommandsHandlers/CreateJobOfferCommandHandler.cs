@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
-using JobJetRestApi.Application.Repositories;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Domain.Enums;
+using JobJetRestApi.Domain.Repositories;
 using MediatR;
 
 namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
