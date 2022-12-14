@@ -10,6 +10,8 @@ namespace JobJetRestApi.Application.Validators.RequestsValidators;
 public class FormFileValidator : AbstractValidator<IFormFile>
 {
     private PermittedExtensionsAbstract PermittedExtensions { get; }
+
+    public FormFileValidator() {}
     
     public FormFileValidator(int minSizeInBits, int maxSizeInBits, PermittedExtensionsAbstract permittedExtensions)
     {
@@ -19,11 +21,11 @@ public class FormFileValidator : AbstractValidator<IFormFile>
             .ExclusiveBetween(minSizeInBits,  maxSizeInBits);
 
         RuleFor(formFile => formFile.FileName)
-            .Must(IsExtensionAllowed)
+            .Must(HasAllowedExtension)
             .WithMessage($"File must be in one of those extensions: {permittedExtensions.GetFormatFilesAsReadableString()}.");
     }
 
-    private bool IsExtensionAllowed(string fileName)
+    private bool HasAllowedExtension(string fileName)
     {
         var uploadedExtension = Path.GetExtension(fileName).ToLowerInvariant();
 

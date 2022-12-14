@@ -48,6 +48,9 @@ namespace JobJetRestApi.Infrastructure.Persistence.DbContexts
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Company> Companies { get; set; }
         public override DbSet<User> Users { get; set; }
+        
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        
+        public DbSet<JobOfferApplication> JobOfferApplications { get; set; }
     }
 }

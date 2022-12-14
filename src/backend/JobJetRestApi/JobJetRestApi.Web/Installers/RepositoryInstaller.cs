@@ -18,6 +18,7 @@ namespace JobJetRestApi.Web.Installers
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IJobOfferApplicationRepository, JobOfferApplicationRepository>();
         }
     }
 }

@@ -203,7 +203,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes("multipart/form-data")]
-        public async Task<ActionResult> Post([FromRoute] int id, [FromBody] SendOfferApplicationRequest request)
+        public async Task<ActionResult> Post([FromRoute] int id, [FromForm] SendOfferApplicationRequest request)
         {
             if (!ModelState.IsValid)
             {
