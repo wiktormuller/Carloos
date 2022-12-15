@@ -3,6 +3,7 @@ using JobJetRestApi.Application.UseCases.Countries.Queries;
 using JobJetRestApi.Application.UseCases.Currency.Queries;
 using JobJetRestApi.Application.UseCases.Dashboards.Queries;
 using JobJetRestApi.Application.UseCases.EmploymentType.Queries;
+using JobJetRestApi.Application.UseCases.JobOfferApplications.Queries;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
 using JobJetRestApi.Application.UseCases.Profiles.Queries;
 using JobJetRestApi.Application.UseCases.Roles.Queries;
@@ -30,6 +31,7 @@ namespace JobJetRestApi.Web.Installers
             services.AddScoped<IUserQueries, UserQueries>();
             services.AddScoped<IDashboardQueries, DashboardQueries>();
             services.AddScoped<IProfileQueries, ProfileQueries>();
+            services.AddScoped<IJobOfferApplicationQueries, JobOfferApplicationQueries>();
         }
     }
 }

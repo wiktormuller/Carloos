@@ -13,6 +13,8 @@
             public const string Create = Base + "/job-offers";
             public const string Update = Base + "/job-offers/{id}";
             public const string Delete = Base + "/job-offers/{id}";
+            public const string GetJobOfferApplication = Base + "/job-offers/{id}/offer-applications/{jobOfferApplicationId}";
+            public const string GetAllJobOfferApplications = Base + "/job-offers/{id}/offer-applications";
             public const string SendJobOfferApplication = Base + "/job-offers/{id}/offer-applications";
         }
 

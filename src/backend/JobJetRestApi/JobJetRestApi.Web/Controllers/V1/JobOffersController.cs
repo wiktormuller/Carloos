@@ -15,6 +15,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Application.UseCases.JobOfferApplications.Commands;
+using JobJetRestApi.Application.UseCases.JobOfferApplications.Queries;
 using JobJetRestApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 
@@ -26,11 +28,14 @@ namespace JobJetRestApi.Web.Controllers.V1
         private readonly IMediator _mediator;
         private readonly IJobOfferQueries _jobOfferQueries;
         private readonly IPageUriService _pageUriService;
+        private readonly IJobOfferApplicationQueries _jobOfferApplicationQueries;
 
         public JobOffersController(IMediator mediator, 
             IPageUriService pageUriService, 
-            IJobOfferQueries jobOfferQueries)
+            IJobOfferQueries jobOfferQueries, 
+            IJobOfferApplicationQueries jobOfferApplicationQueries)
         {
+            _jobOfferApplicationQueries = Guard.Against.Null(jobOfferApplicationQueries, nameof(jobOfferApplicationQueries));
             _jobOfferQueries = Guard.Against.Null(jobOfferQueries, nameof(jobOfferQueries));
             _mediator = Guard.Against.Null(mediator, nameof(mediator));
             _pageUriService = Guard.Against.Null(pageUriService, nameof(pageUriService));
@@ -195,6 +200,27 @@ namespace JobJetRestApi.Web.Controllers.V1
             catch (CannotDeleteJobOfferException e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+        
+        // GET api/job-offers/5/offer-applications/5
+        [HttpGet(ApiRoutes.JobOffers.GetJobOfferApplication)]
+        [Produces("application/octet-stream", new string[] { "application/json"})]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetJobOfferApplication(int id, int jobOfferApplicationId)
+        {
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+            
+            try
+            {
+                var result = await _jobOfferApplicationQueries.GetJobOfferApplicationByIdAsync(id, jobOfferApplicationId, currentUserId);
+                
+                return File(result.FileBytes, "application/octet-stream", $"{result.FileName}{result.FileExtension}");
+            }
+            catch (Exception e) when (e is JobOfferApplicationNotFoundException or 
+                                          JobOfferNotFoundException)
+            {
+                return NotFound(e.Message);
             }
         }
         
