@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace JobJetRestApi.Application.UseCases.JobOffers.Commands;
+namespace JobJetRestApi.Application.UseCases.JobOfferApplications.Commands;
 
 public class SendOfferApplicationCommand : IRequest
 {

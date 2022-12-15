@@ -4,12 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Extensions;
-using JobJetRestApi.Application.UseCases.JobOffers.Commands;
+using JobJetRestApi.Application.UseCases.JobOfferApplications.Commands;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Domain.Repositories;
 using MediatR;
 
-namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers;
+namespace JobJetRestApi.Application.UseCases.JobOfferApplications.CommandsHandlers;
 
 public class SendOfferApplicationCommandHandler : IRequestHandler<SendOfferApplicationCommand>
 {
