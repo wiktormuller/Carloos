@@ -38,8 +38,6 @@ class JobOfferService {
             resultUrl = resultUrl + '?' + query.toString();
         }
 
-        console.log(resultUrl);
-
         return axios.get(resultUrl);
     }
 
@@ -57,6 +55,30 @@ class JobOfferService {
 
     deleteJobOffer(jobOfferId){
         return axios.delete(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId);
+    }
+
+    getJobOfferApplications(jobOfferId)
+    {
+        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications');
+    }
+
+    getJobOfferApplicationFile(jobOfferId, jobOfferApplicationId)
+    {
+        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications' + '/' + jobOfferApplicationId);
+    }
+
+    sendJobOfferApplication(jobOfferId, userEmail, phoneNumber, file)
+    {
+        var formData = new FormData();
+        formData.append("jobOfferApplication", file)
+        formData.append('UserEmail', userEmail);
+        formData.append('PhoneNumber', phoneNumber);
+
+        return axios.post(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+              },
+        });
     }
 }
 

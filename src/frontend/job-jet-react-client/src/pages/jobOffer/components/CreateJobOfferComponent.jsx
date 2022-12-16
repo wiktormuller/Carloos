@@ -117,8 +117,10 @@ export default function CreateJobOfferComponent()
     padding: "5px 10px",
   };
 
-  function saveJobOffer()
+  function saveJobOffer(event)
   {
+    event.preventDefault();
+
     let jobOfferRequest = {
       companyId: companyId,
       name: `${name}`,
@@ -277,7 +279,9 @@ export default function CreateJobOfferComponent()
           <label>Work Specification</label>
           <Select className="form-control" options={availableWorkSpecifications} onChange={selectWorkSpecification} value={availableWorkSpecifications.find(element => {return element.label === workSpecification})} placeholder="Select Work Specification"/>
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        
+        <button className="btn btn-success" onClick={saveJobOffer}>Save</button>
+        <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
       </form>
     </div>
   );
