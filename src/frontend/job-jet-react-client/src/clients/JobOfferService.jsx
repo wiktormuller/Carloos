@@ -70,7 +70,7 @@ class JobOfferService {
     sendJobOfferApplication(jobOfferId, userEmail, phoneNumber, file)
     {
         var formData = new FormData();
-        formData.append("jobOfferApplication", file)
+        formData.append("File", file)
         formData.append('UserEmail', userEmail);
         formData.append('PhoneNumber', phoneNumber);
 
