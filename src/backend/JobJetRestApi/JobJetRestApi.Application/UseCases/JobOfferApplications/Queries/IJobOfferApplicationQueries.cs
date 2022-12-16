@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 
 namespace JobJetRestApi.Application.UseCases.JobOfferApplications.Queries;
 
 public interface IJobOfferApplicationQueries
 {
-    Task<JobOfferApplicationResponse> GetJobOfferApplicationByIdAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId);
+    Task<JobOfferApplicationFileResponse> GetJobOfferApplicationByIdAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId);
+    Task<IEnumerable<JobOfferApplicationResponse>> GetAllJobOfferApplications(int jobOfferId, int currentUserId);
 }
