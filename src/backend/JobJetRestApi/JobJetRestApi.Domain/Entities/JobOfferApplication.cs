@@ -30,7 +30,7 @@ public class JobOfferApplication
         string fileName,
         string fileExtension,
         byte[] fileBytes,
-        JobOffer jobOffer)
+        JobOffer jobOffer) : this()
     {
         UserEmail = userEmail;
         PhoneNumber = phoneNumber;

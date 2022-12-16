@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -20,8 +21,10 @@ public class JobOfferApplicationQueries : IJobOfferApplicationQueries
 
     private readonly record struct JobOfferRecord(int Id, string Name);
     
-    private record JobOfferApplicationDto(int Id, string UserEmail, string PhoneNumber, 
-        string FileName, string FileExtension, byte[] FileBytes,
+    private record JobOfferApplicationFileDto(int Id, string FileName, string FileExtension, byte[] FileBytes, int JobOfferId);
+    
+    private record JobOfferApplicationDto(int Id, string UserEmail, string PhoneNumber,
+        string FileName, string FileExtension, byte[] FileBytes, 
         DateTime CreatedAt, DateTime UpdatedAt, int JobOfferId);
     
     public JobOfferApplicationQueries(ISqlConnectionFactory sqlConnectionFactory, 
@@ -33,7 +36,7 @@ public class JobOfferApplicationQueries : IJobOfferApplicationQueries
         _userRepository = userRepository;
     }
 
-    public async Task<JobOfferApplicationResponse> GetJobOfferApplicationByIdAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId)
+    public async Task<JobOfferApplicationFileResponse> GetJobOfferApplicationByIdAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId)
     {
         using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -85,7 +88,7 @@ public class JobOfferApplicationQueries : IJobOfferApplicationQueries
                 ORDER BY [JobOfferApplication].Id;"
             ;
             
-        var queriedJobOfferApplication = await connection.QueryFirstOrDefaultAsync<JobOfferApplicationDto>(queryJobApplication, new
+        var queriedJobOfferApplication = await connection.QueryFirstOrDefaultAsync<JobOfferApplicationFileDto>(queryJobApplication, new
         {
             Id = jobOfferApplicationId,
             JobOfferId = jobOfferId
@@ -96,10 +99,81 @@ public class JobOfferApplicationQueries : IJobOfferApplicationQueries
             throw JobOfferApplicationNotFoundException.ForId(jobOfferApplicationId);
         }
 
-        return new JobOfferApplicationResponse(
+        return new JobOfferApplicationFileResponse(
             queriedJobOfferApplication.Id,
             queriedJobOfferApplication.FileBytes,
             queriedJobOfferApplication.FileName,
             queriedJobOfferApplication.FileExtension);
+    }
+
+    public async Task<IEnumerable<JobOfferApplicationResponse>> GetAllJobOfferApplications(int jobOfferId, int currentUserId)
+    {
+        using var connection = _sqlConnectionFactory.GetOpenConnection();
+
+        const string queryUserCompanies = @"
+            SELECT
+                [Company].Id,
+                [Company].Name
+            FROM [Companies] AS Company
+            WHERE [Company].UserId = @UserId;
+        ";
+        
+        var queriedUserCompanies = await connection.QueryAsync<CompanyRecord>(queryUserCompanies, new
+        {
+            UserId = currentUserId
+        });
+
+        const string queryJobOffers = @"
+            SELECT
+                [JobOffer].Id,
+                [JobOffer].Name
+            FROM [JobOffers] AS JobOffer
+            WHERE [JobOffer].CompanyId IN @CompaniesIds;
+        ";
+
+        var queriedJobOffers = await connection.QueryAsync<JobOfferRecord>(queryJobOffers, new
+        {
+            CompaniesIds = queriedUserCompanies.Select(x => x.Id).ToList()
+        });
+
+        var jobOfferApplicationsResponse = new List<JobOfferApplicationResponse>();
+
+        if (queriedJobOffers.All(x => x.Id != jobOfferId))
+        {
+            return jobOfferApplicationsResponse;
+        }
+
+        const string queryJobApplication = @"
+                SELECT 
+                    [JobOfferApplication].Id,
+                    [JobOfferApplication].UserEmail,
+                    [JobOfferApplication].PhoneNumber,
+                    [JobOfferApplication].FileName,
+                    [JobOfferApplication].FileExtension,
+                    [JobOfferApplication].FileBytes,
+                    [JobOfferApplication].CreatedAt,
+                    [JobOfferApplication].UpdatedAt,
+                    [JobOfferApplication].JobOfferId
+                FROM [JobOfferApplications] AS [JobOfferApplication] 
+                WHERE [JobOfferApplication].JobOfferId = @JobOfferId
+                ORDER BY [JobOfferApplication].Id;"
+            ;
+        
+        var queriedJobOfferApplications = await connection.QueryAsync<JobOfferApplicationDto>(queryJobApplication, new
+        {
+            JobOfferId = jobOfferId
+        });
+        
+        jobOfferApplicationsResponse = queriedJobOfferApplications
+            .Select(x => new JobOfferApplicationResponse(
+                x.Id,
+                x.UserEmail,
+                x.PhoneNumber,
+                x.FileName,
+                x.CreatedAt,
+                x.JobOfferId))
+            .ToList();
+
+        return jobOfferApplicationsResponse;
     }
 }

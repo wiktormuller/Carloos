@@ -224,6 +224,19 @@ namespace JobJetRestApi.Web.Controllers.V1
             }
         }
         
+        // GET api/job-offers/5/offer-applications
+        [HttpGet(ApiRoutes.JobOffers.GetAllJobOfferApplications)]
+        [ProducesResponseType(typeof(IEnumerable<JobOfferApplicationFileResponse>),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<JobOfferApplicationResponse>>> GetAll(int id) 
+        {
+            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+            
+            var response = await _jobOfferApplicationQueries.GetAllJobOfferApplications(id, currentUserId);
+
+            return Ok(response);
+        }
+        
         // POST api/job-offers/5/offer-applications
         [HttpPost(ApiRoutes.JobOffers.SendJobOfferApplication)]
         [ProducesResponseType(StatusCodes.Status200OK)]
