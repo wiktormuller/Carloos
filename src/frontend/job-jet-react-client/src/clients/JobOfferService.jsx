@@ -59,12 +59,24 @@ class JobOfferService {
 
     getJobOfferApplications(jobOfferId)
     {
-        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications');
+        let config = {
+            headers: {
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkNFTyIsImp0aSI6ImI0Y2JkOWVkLTgzN2QtNGE5ZC05NTQ4LWJkODk0MDZhYzBmNyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMSIsImVtYWlsIjoiY2VvQGpvYmpldC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW5pc3RyYXRvciIsIlVzZXIiXSwiZXhwIjoxNjcxMzA1NzE5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAzIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMyJ9.imDXSamdOqJ1falkmjxvv8HCWPeOxC8zRvQcWlKIVJg'
+            }
+        }
+
+        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications', config);
     }
 
     getJobOfferApplicationFile(jobOfferId, jobOfferApplicationId)
     {
-        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications' + '/' + jobOfferApplicationId);
+        let config = {
+            headers: {
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkNFTyIsImp0aSI6ImI0Y2JkOWVkLTgzN2QtNGE5ZC05NTQ4LWJkODk0MDZhYzBmNyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMSIsImVtYWlsIjoiY2VvQGpvYmpldC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW5pc3RyYXRvciIsIlVzZXIiXSwiZXhwIjoxNjcxMzA1NzE5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAzIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMyJ9.imDXSamdOqJ1falkmjxvv8HCWPeOxC8zRvQcWlKIVJg'
+            }
+        }
+
+        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications' + '/' + jobOfferApplicationId, config);
     }
 
     sendJobOfferApplication(jobOfferId, userEmail, phoneNumber, file)

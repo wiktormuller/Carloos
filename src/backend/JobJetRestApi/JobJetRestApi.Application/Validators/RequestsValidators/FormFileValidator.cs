@@ -16,6 +16,9 @@ public class FormFileValidator : AbstractValidator<IFormFile>
     public FormFileValidator(int minSizeInBits, int maxSizeInBits, PermittedExtensionsAbstract permittedExtensions)
     {
         PermittedExtensions = permittedExtensions;
+
+        RuleFor(formFile => formFile)
+            .NotEmpty();
         
         RuleFor(formFile => formFile.Length)
             .ExclusiveBetween(minSizeInBits,  maxSizeInBits);

@@ -204,6 +204,7 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // GET api/job-offers/5/offer-applications/5
+        [Authorize(Roles = "User")]
         [HttpGet(ApiRoutes.JobOffers.GetJobOfferApplication)]
         [Produces("application/octet-stream", new string[] { "application/json"})]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -225,8 +226,9 @@ namespace JobJetRestApi.Web.Controllers.V1
         }
         
         // GET api/job-offers/5/offer-applications
+        [Authorize(Roles = "User")]
         [HttpGet(ApiRoutes.JobOffers.GetAllJobOfferApplications)]
-        [ProducesResponseType(typeof(IEnumerable<JobOfferApplicationFileResponse>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<JobOfferApplicationResponse>),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<JobOfferApplicationResponse>>> GetAll(int id) 
         {

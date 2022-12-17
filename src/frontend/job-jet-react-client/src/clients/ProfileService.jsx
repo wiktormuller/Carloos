@@ -8,7 +8,7 @@ class ProfileService
     {
         let config = {
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkNFTyIsImp0aSI6IjgxODc3YjE2LTM1OWMtNDE1OC1hZGNkLTdjMWVmN2Y5ZjQ0MCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMSIsImVtYWlsIjoiY2VvQGpvYmpldC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW5pc3RyYXRvciIsIlVzZXIiXSwiZXhwIjoxNjcwMjY3MjM1LCJpc3MiOiJodHRwczovL2pvYmpldC5henVyZXdlYnNpdGVzLm5ldCIsImF1ZCI6Imh0dHBzOi8vam9iamV0LmF6dXJld2Vic2l0ZXMubmV0In0.ymthqNrF5OMnQYS4iXG3FhQVcU6EplnIkyYyYgAK9Dw'
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkNFTyIsImp0aSI6IjliNGU2ZjU3LTNlZDAtNDdjNS1hNWFiLTQzMTE1M2Y2OWU5YSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMSIsImVtYWlsIjoiY2VvQGpvYmpldC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW5pc3RyYXRvciIsIlVzZXIiXSwiZXhwIjoxNjcxMjg3MzEyLCJpc3MiOiJodHRwczovL2pvYmpldC5henVyZXdlYnNpdGVzLm5ldCIsImF1ZCI6Imh0dHBzOi8vam9iamV0LmF6dXJld2Vic2l0ZXMubmV0In0.sij5oFcEXNq9Xmb3g8cgZe0g8XpWX_lDg6w671m7po4'
             }
         }
 

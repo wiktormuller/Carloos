@@ -13,6 +13,7 @@ export default function ProfileComponent()
         email: '',
         profileCompanies: []
     });
+
     const navigate = useNavigate();
 
     function deleteCompany(id) {
@@ -62,6 +63,13 @@ export default function ProfileComponent()
         navigate(`/job-offers/create`);
     }
 
+    // Similar to componentDidMount and componentDidUpdate
+    useEffect(() => {
+        ProfileService.getProfile().then(res => {
+            setProfile(res.data);
+        });
+    }, []);
+
     function getMergedJobOffers()
     {
         var mergedJobOffers = [];
@@ -75,35 +83,53 @@ export default function ProfileComponent()
                     companyName: profile.profileCompanies[i].name,
                     jobOfferId: profile.profileCompanies[i].companyJobOffers[j].jobOfferId,
                     jobOfferName: profile.profileCompanies[i].companyJobOffers[j].name
-                })
+                });
             }
         }
-
-        console.log(mergedJobOffers);
 
         return mergedJobOffers;
     }
 
-    // Similar to componentDidMount and componentDidUpdate
-    useEffect(() => {
-        ProfileService.getProfile().then(res => {
-            setProfile(res.data);
-        });
-    }, []);
+    function getApplications()
+    {
+        var mergedJobOffers = getMergedJobOffers();
+        var jobOffersApplicationsTemp = [];
+
+        for (var i = 0; i < mergedJobOffers.length; i++)
+        {
+            JobOfferService.getJobOfferApplications(mergedJobOffers[i].jobOfferId).then(res =>
+            {
+                if (res.data.length > 0)
+                {
+                    Array.prototype.push.apply(jobOffersApplicationsTemp, res.data);
+                }
+            });
+        }
+
+        return jobOffersApplicationsTemp;
+    }
+
+    function downloadApplication(jobOfferApplicationId)
+    {
+        JobOfferService.downloadApplication(jobOfferApplicationId);
+    }
+
+    console.log(getApplications());
 
     return (
         <div className="profile">
             <div className="user-info">
                 {
                     <div>
-                        <h1>User Info:</h1>
-                        <p>UserId: {profile.userId}</p>
+                        <h1>User Info</h1>
+                        <p>Id: {profile.userId}</p>
                         <p>Username: {profile.name}</p>
                         <p>Email: {profile.email}</p>
                     </div>
                 }
             </div>
-            <div className="companies">
+
+            <div className="profile-companies">
                 <h2 className="text-center">Companies List</h2>
                 <div className = "row">
                     <button className="btn btn-primary" onClick={addCompany}>Add Company</button>
@@ -137,50 +163,82 @@ export default function ProfileComponent()
                                 }
                             </tbody>
                         </table>
-
                 </div>
-
             </div>
 
-            <div className="job-offers">
+            <div className="profile-job-offers">
                 <h2 className="text-center">Job Offers List</h2>
                 <div className = "row">
                     <button className="btn btn-primary" onClick={addJobOffer}>Add Job Offer</button>
                 </div>
                 <br></br>
                 <div className = "row">
-                        <table className = "table table-striped table-bordered">
+                    <table className = "table table-striped table-bordered">
 
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Company Id</th>
-                                    <th>Company Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    getMergedJobOffers().map(
-                                        jobOffer => 
-                                        <tr key = {jobOffer.jobOfferId}>
-                                            <td> {jobOffer.jobOfferId} </td>
-                                            <td> {jobOffer.jobOfferName} </td>
-                                            <td> {jobOffer.companyId} </td>
-                                            <td> {jobOffer.companyName} </td>
-                                            <td>
-                                                <button style={{marginBottom: "5px"}} onClick={ () => editJobOffer(jobOffer.jobOfferId)} className="btn btn-info">Update Job Offer</button>
-                                                <button style={{marginBottom: "5px"}} onClick={ () => deleteJobOffer(jobOffer.jobOfferId)} className="btn btn-danger">Delete Job Offer</button>
-                                                <button style={{marginBottom: "5px"}} onClick={ () => viewJobOffer(jobOffer.jobOfferId)} className="btn btn-info">View Job Offer</button>
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-                            </tbody>
-                        </table>
-
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Company Id</th>
+                                <th>Company Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                getMergedJobOffers().map(
+                                    jobOffer => 
+                                    <tr key = {jobOffer.jobOfferId}>
+                                        <td> {jobOffer.jobOfferId} </td>
+                                        <td> {jobOffer.jobOfferName} </td>
+                                        <td> {jobOffer.companyId} </td>
+                                        <td> {jobOffer.companyName} </td>
+                                        <td>
+                                            <button style={{marginBottom: "5px"}} onClick={ () => editJobOffer(jobOffer.jobOfferId)} className="btn btn-info">Update</button>
+                                            <button style={{marginBottom: "5px"}} onClick={ () => deleteJobOffer(jobOffer.jobOfferId)} className="btn btn-danger">Delete</button>
+                                            <button style={{marginBottom: "5px"}} onClick={ () => viewJobOffer(jobOffer.jobOfferId)} className="btn btn-info">View</button>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
+            <div className="job-offers-applications">
+                <h2 className="text-center">Job Offer Applications</h2>
+                <br></br>
+                <div className = "row">
+                    <table className = "table table-striped table-bordered">
+
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Job Offer Id</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>File Name</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                getApplications().map(jobOfferApplication => 
+                                    <tr key = {jobOfferApplication.jobOfferId}>
+                                        <td> {jobOfferApplication.id} </td>
+                                        <td> {jobOfferApplication.userEmail} </td>
+                                        <td> {jobOfferApplication.phoneNumber} </td>
+                                        <td> {jobOfferApplication.fileName} </td>
+                                        <td> {jobOfferApplication.createdAt} </td>
+                                        <td>
+                                            <button style={{marginBottom: "5px"}} onClick={ () => downloadApplication(jobOfferApplication.id)} className="btn btn-info">Download File</button>
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
