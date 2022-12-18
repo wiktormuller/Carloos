@@ -17,6 +17,7 @@ namespace JobJetRestApi.Web.Installers
                 {
                     policy.AllowAnyOrigin()
                         .AllowAnyHeader()
+                            .WithExposedHeaders("Content-Disposition")
                         .AllowAnyMethod();
                 });
             });

@@ -14,6 +14,8 @@ export default function ProfileComponent()
         profileCompanies: []
     });
 
+    const [jobOffersApplications, setJobOffersApplications] = useState([]);
+
     const navigate = useNavigate();
 
     function deleteCompany(id) {
@@ -65,9 +67,40 @@ export default function ProfileComponent()
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        ProfileService.getProfile().then(res => {
+        const getData = async () => {
+            var res = await ProfileService.getProfile();
             setProfile(res.data);
-        });
+    
+            var mergedJobOffers = [];
+
+            for (var i = 0; i < res.data.profileCompanies.length; i++)
+            {
+                for (var j = 0; j < res.data.profileCompanies[i].companyJobOffers.length; j++)
+                {
+                    mergedJobOffers.push({
+                        companyId: res.data.profileCompanies[i].companyId,
+                        companyName: res.data.profileCompanies[i].name,
+                        jobOfferId: res.data.profileCompanies[i].companyJobOffers[j].jobOfferId,
+                        jobOfferName: res.data.profileCompanies[i].companyJobOffers[j].name
+                    });
+                }
+            }
+
+            var jobOffersApplicationsTemp = [];
+    
+            for (var i = 0; i < mergedJobOffers.length; i++)
+            {
+                var res2 = await JobOfferService.getJobOfferApplications(mergedJobOffers[i].jobOfferId);
+
+                if (res2.data.length > 0)
+                {
+                    Array.prototype.push.apply(jobOffersApplicationsTemp, res2.data);
+                }
+            }
+    
+            setJobOffersApplications(jobOffersApplicationsTemp);
+        };
+        getData();
     }, []);
 
     function getMergedJobOffers()
@@ -90,31 +123,27 @@ export default function ProfileComponent()
         return mergedJobOffers;
     }
 
-    function getApplications()
+    function downloadApplication(jobOfferId, jobOfferApplicationId)
     {
-        var mergedJobOffers = getMergedJobOffers();
-        var jobOffersApplicationsTemp = [];
+        var response = JobOfferService.getJobOfferApplicationFile(jobOfferId, jobOfferApplicationId)
+            .then(response => {
+                // create file link in browser's memory
+                const href = URL.createObjectURL(new Blob([response.data], {type: 'application/octet-stream'}));
 
-        for (var i = 0; i < mergedJobOffers.length; i++)
-        {
-            JobOfferService.getJobOfferApplications(mergedJobOffers[i].jobOfferId).then(res =>
-            {
-                if (res.data.length > 0)
-                {
-                    Array.prototype.push.apply(jobOffersApplicationsTemp, res.data);
-                }
+                var fileName = response.headers["content-disposition"].split("filename=")[1];
+
+                // create "a" HTML element with href to file & click
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', fileName); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+
+                // clean up "a" element & remove ObjectURL
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
             });
-        }
-
-        return jobOffersApplicationsTemp;
     }
-
-    function downloadApplication(jobOfferApplicationId)
-    {
-        JobOfferService.downloadApplication(jobOfferApplicationId);
-    }
-
-    console.log(getApplications());
 
     return (
         <div className="profile">
@@ -223,15 +252,16 @@ export default function ProfileComponent()
                         </thead>
                         <tbody>
                             {
-                                getApplications().map(jobOfferApplication => 
-                                    <tr key = {jobOfferApplication.jobOfferId}>
+                                jobOffersApplications.map(jobOfferApplication => 
+                                    <tr key = {jobOfferApplication.id}>
                                         <td> {jobOfferApplication.id} </td>
+                                        <td> {jobOfferApplication.jobOfferId} </td>
                                         <td> {jobOfferApplication.userEmail} </td>
                                         <td> {jobOfferApplication.phoneNumber} </td>
                                         <td> {jobOfferApplication.fileName} </td>
                                         <td> {jobOfferApplication.createdAt} </td>
                                         <td>
-                                            <button style={{marginBottom: "5px"}} onClick={ () => downloadApplication(jobOfferApplication.id)} className="btn btn-info">Download File</button>
+                                            <button style={{marginBottom: "5px"}} onClick={ () => downloadApplication(jobOfferApplication.jobOfferId, jobOfferApplication.id)} className="btn btn-info">Download File</button>
                                         </td>
                                     </tr>
                                 )
