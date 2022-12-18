@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Filters;
@@ -214,9 +215,17 @@ namespace JobJetRestApi.Web.Controllers.V1
             
             try
             {
-                var result = await _jobOfferApplicationQueries.GetJobOfferApplicationByIdAsync(id, jobOfferApplicationId, currentUserId);
+                var result = await _jobOfferApplicationQueries.GetJobOfferApplicationFileAsync(id, jobOfferApplicationId, currentUserId);
+                var fileName = $"{result.FileName}{result.FileExtension}";
                 
-                return File(result.FileBytes, "application/octet-stream", $"{result.FileName}{result.FileExtension}");
+                var contentDisposition = new ContentDisposition
+                {
+                    FileName = fileName,
+                    Inline = false  // false = prompt the user for downloading;  true = browser to try to show the file inline
+                };
+                Response.Headers.Add("Content-Disposition", contentDisposition.ToString());
+                
+                return File(result.FileBytes, "application/octet-stream", fileName);
             }
             catch (Exception e) when (e is JobOfferApplicationNotFoundException or 
                                           JobOfferNotFoundException)

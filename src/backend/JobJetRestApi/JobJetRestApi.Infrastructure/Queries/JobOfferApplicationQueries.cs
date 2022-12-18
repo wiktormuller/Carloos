@@ -36,7 +36,7 @@ public class JobOfferApplicationQueries : IJobOfferApplicationQueries
         _userRepository = userRepository;
     }
 
-    public async Task<JobOfferApplicationFileResponse> GetJobOfferApplicationByIdAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId)
+    public async Task<JobOfferApplicationFileResponse> GetJobOfferApplicationFileAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId)
     {
         using var connection = _sqlConnectionFactory.GetOpenConnection();
 
@@ -74,13 +74,9 @@ public class JobOfferApplicationQueries : IJobOfferApplicationQueries
         const string queryJobApplication = @"
                 SELECT 
                     [JobOfferApplication].Id,
-                    [JobOfferApplication].UserEmail,
-                    [JobOfferApplication].PhoneNumber,
                     [JobOfferApplication].FileName,
                     [JobOfferApplication].FileExtension,
                     [JobOfferApplication].FileBytes,
-                    [JobOfferApplication].CreatedAt,
-                    [JobOfferApplication].UpdatedAt,
                     [JobOfferApplication].JobOfferId
                 FROM [JobOfferApplications] AS [JobOfferApplication] 
                 WHERE [JobOfferApplication].Id = @Id

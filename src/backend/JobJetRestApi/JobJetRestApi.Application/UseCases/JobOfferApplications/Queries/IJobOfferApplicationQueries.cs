@@ -6,6 +6,6 @@ namespace JobJetRestApi.Application.UseCases.JobOfferApplications.Queries;
 
 public interface IJobOfferApplicationQueries
 {
-    Task<JobOfferApplicationFileResponse> GetJobOfferApplicationByIdAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId);
+    Task<JobOfferApplicationFileResponse> GetJobOfferApplicationFileAsync(int jobOfferId, int jobOfferApplicationId, int currentUserId);
     Task<IEnumerable<JobOfferApplicationResponse>> GetAllJobOfferApplications(int jobOfferId, int currentUserId);
 }
