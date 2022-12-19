@@ -6,7 +6,7 @@ class RoadService {
 
     getRoad(coordinates)
     {
-        return axios.get(ROADS_API_BASE_URL + '/' + coordinates);
+        return axios.get(ROADS_API_BASE_URL + '?' + `sourceLongitude=${coordinates.sourceLongitude}&sourceLatitude=${coordinates.sourceLatitude}&destinationLongitude=${coordinates.destinationLongitude}&destinationLatitude=${coordinates.destinationLatitude}`);
     }
 }
 
