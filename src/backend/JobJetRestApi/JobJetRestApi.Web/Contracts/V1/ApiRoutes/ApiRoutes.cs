@@ -92,7 +92,7 @@
 
         public static class Roads
         {
-            public const string Get = Base + "/roads/{coordinates}";
+            public const string Get = Base + "/roads";
         }
 
         public static class Auth
