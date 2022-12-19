@@ -131,7 +131,7 @@ export default function CreateJobOfferComponent()
         town: town,
         street: street,
         zipCode: zipCode,
-        countryIsoId: countryId,
+        countryId: countryId,
       },
       seniorityId: seniorityId,
       employmentTypeId: employmentTypeId,

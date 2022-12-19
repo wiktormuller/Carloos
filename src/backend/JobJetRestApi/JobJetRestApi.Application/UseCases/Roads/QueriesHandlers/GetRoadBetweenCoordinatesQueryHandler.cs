@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Contracts.V1.Responses;
-using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Roads.Queries;
 using JobJetRestApi.Domain.Entities;
@@ -22,28 +19,13 @@ namespace JobJetRestApi.Application.UseCases.Roads.QueriesHandlers
         {
             _routeService = Guard.Against.Null(routeService, nameof(routeService));
         }
-
-        /// <exception cref="ArgumentException"></exception>
+        
         public async Task<List<RoadResponse>> Handle(GetRoadBetweenCoordinatesQuery request, CancellationToken cancellationToken)
         {
-            // The format or request coordinates is:
-            // firstPointLongitude,firstPointLatitude;secondPointLongitude,secondPointLatitude
-            
-            var indexOfSemicolon = request.Coordinates.IndexOf(';');
-            if (indexOfSemicolon == -1)
-            {
-                throw IncorrectDelimiterOfCoordinatesException.ForCoordinates(request.Coordinates);
-            }
+            var firstGeoPoint = new GeoPoint(request.SourceLongitude, request.SourceLatitude);
+            var secondGeoPoint = new GeoPoint(request.DestinationLongitude, request.DestinationLatitude);
 
-            var firstCoordinatesPair = request.Coordinates.Substring(0, indexOfSemicolon);
-            var secondCoordinatesPair = request.Coordinates.Substring(indexOfSemicolon + 1);
-
-            var firstCoordinateTuple = GetCoordinatesFromPairString(firstCoordinatesPair, ',');
-            var secondCoordinateTuple = GetCoordinatesFromPairString(secondCoordinatesPair, ',');
-            
-            var firstGeoPoint = new GeoPoint(firstCoordinateTuple.longitude, firstCoordinateTuple.latitude);
-            var secondGeoPoint = new GeoPoint(secondCoordinateTuple.longitude, secondCoordinateTuple.latitude);
-
+            // @TODO: What if external service didn't response
             var pointsBetweenTwoGeoPoints = await _routeService.GetPointsBetweenTwoGeoPointsAsync(firstGeoPoint, secondGeoPoint);
 
             var result = pointsBetweenTwoGeoPoints
@@ -54,21 +36,6 @@ namespace JobJetRestApi.Application.UseCases.Roads.QueriesHandlers
                 }).ToList();
 
             return result;
-        }
-
-        private (decimal longitude, decimal latitude) GetCoordinatesFromPairString(string coordinatesPair, char delimiter)
-        {
-            var indexOfDelimiter = coordinatesPair.IndexOf(delimiter);
-
-            var longitude = coordinatesPair.Substring(0, indexOfDelimiter);
-            var latitude = coordinatesPair.Substring(indexOfDelimiter + 1);
-
-            var longitudeAsDecimal = decimal.Parse(longitude, CultureInfo.InvariantCulture);
-            var latitudeAsDecimal = decimal.Parse(latitude, CultureInfo.InvariantCulture);
-            
-            var coordinatesTuple = (longitudeAsDecimal, latitudeAsDecimal);
-
-            return coordinatesTuple;
         }
     }
 }
