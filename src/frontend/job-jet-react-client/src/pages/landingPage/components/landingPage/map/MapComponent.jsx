@@ -19,7 +19,12 @@ export default function MapComponent(props)
   const defaultZoomForJobOffer = 14;
 
   // It's road from point (0,0) to (0,0) which is no road at all
-  const zeroToZeroCoordinates = "0.000000" + "%2C" + "0.000000" + "%3B" + "0.000000" + "%2C" + "0.000000";
+  const zeroToZeroCoordinates = {
+    sourceLongitude: 0.000000,
+    sourceLatitude: 0.000000,
+    destinationLongitude: 0.000000,
+    destinationLatitude: 0.000000
+  };
   const [roadCoordinatesPoints, setRoadCoordinatesPoints] = useState([]);
 
   useEffect(() => {
@@ -30,8 +35,12 @@ export default function MapComponent(props)
       props.userGeoLocation.longitude !== undefined &&
       props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
-      var coordinatesBetweenTwoPoints = 
-        `${props.userGeoLocation.longitude}%2C${props.userGeoLocation.latitude}%3B${props.selectedJobOfferGeoLocation.longitude}%2C${props.selectedJobOfferGeoLocation.latitude}`;
+      var coordinatesBetweenTwoPoints = {
+        sourceLongitude: props.userGeoLocation.longitude,
+        sourceLatitude: props.userGeoLocation.latitude,
+        destinationLongitude: props.selectedJobOfferGeoLocation.longitude,
+        destinationLatitude: props.selectedJobOfferGeoLocation.latitude
+      };
       
         RoadService.getRoad(coordinatesBetweenTwoPoints).then(res => {
         setRoadCoordinatesPoints(res.data); 

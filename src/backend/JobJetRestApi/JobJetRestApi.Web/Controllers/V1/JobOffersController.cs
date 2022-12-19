@@ -114,7 +114,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 request.Address.Town,
                 request.Address.Street,
                 request.Address.ZipCode,
-                request.Address.CountryIsoId,
+                request.Address.CountryId,
                 request.CurrencyId,
                 request.WorkSpecification
             );

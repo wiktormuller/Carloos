@@ -6,11 +6,20 @@ namespace JobJetRestApi.Application.UseCases.Roads.Queries
 {
     public class GetRoadBetweenCoordinatesQuery : IRequest<List<RoadResponse>>
     {
-        public string Coordinates { get; }
+        public decimal SourceLongitude { get; }
+        public decimal SourceLatitude { get; }
+        public decimal DestinationLongitude { get; }
+        public decimal DestinationLatitude { get; }
 
-        public GetRoadBetweenCoordinatesQuery(string coordinates)
+        public GetRoadBetweenCoordinatesQuery(decimal sourceLongitude, 
+            decimal sourceLatitude, 
+            decimal destinationLongitude, 
+            decimal destinationLatitude)
         {
-            Coordinates = coordinates;
+            SourceLongitude = sourceLongitude;
+            SourceLatitude = sourceLatitude;
+            DestinationLongitude = destinationLongitude;
+            DestinationLatitude = destinationLatitude;
         }
     }
 }

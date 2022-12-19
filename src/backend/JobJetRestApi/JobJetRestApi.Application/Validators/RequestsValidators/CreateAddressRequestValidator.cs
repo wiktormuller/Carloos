@@ -19,7 +19,7 @@ namespace JobJetRestApi.Application.Validators.RequestsValidators
                 .NotNull()
                 .Length(1, 20);
 
-            RuleFor(request => request.CountryIsoId)
+            RuleFor(request => request.CountryId)
                 .GreaterThan(0);
         }
     }
