@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const SENIORITY_LEVELS_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/seniority-levels";
+const SENIORITY_LEVELS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/seniority-levels`;
 
 class SeniorityLevelService {
 
@@ -13,15 +14,15 @@ class SeniorityLevelService {
     }
 
     getSeniorityLevelById(seniorityLevelId){
-        return axios.get(SENIORITY_LEVELS_API_BASE_URL + '/' + seniorityLevelId);
+        return axios.get(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`);
     }
 
     updateSeniorityLevel(seniorityLevel, seniorityLevelId){
-        return axios.put(SENIORITY_LEVELS_API_BASE_URL + '/' + seniorityLevelId, seniorityLevel);
+        return axios.put(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`, seniorityLevel);
     }
 
     deleteSeniorityLevel(seniorityLevelId){
-        return axios.delete(SENIORITY_LEVELS_API_BASE_URL + '/' + seniorityLevelId);
+        return axios.delete(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`);
     }
 }
 

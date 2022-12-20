@@ -1,12 +1,13 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const ROADS_API_BASE_URL = "https://localhost:5003/api/v1/roads";
+const ROADS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/roads`;
 
 class RoadService {
 
     getRoad(coordinates)
     {
-        return axios.get(ROADS_API_BASE_URL + '?' + `sourceLongitude=${coordinates.sourceLongitude}&sourceLatitude=${coordinates.sourceLatitude}&destinationLongitude=${coordinates.destinationLongitude}&destinationLatitude=${coordinates.destinationLatitude}`);
+        return axios.get(`${ROADS_API_BASE_URL}?sourceLongitude=${coordinates.sourceLongitude}&sourceLatitude=${coordinates.sourceLatitude}&destinationLongitude=${coordinates.destinationLongitude}&destinationLatitude=${coordinates.destinationLatitude}`);
     }
 }
 

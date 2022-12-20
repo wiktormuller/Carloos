@@ -109,14 +109,6 @@ export default function CreateJobOfferComponent()
 
   const navigate = useNavigate();
 
-  const style = {
-    width: "242.5px",
-    height: "15px",
-    fontSize: "0.75rem",
-    margin: "2.5px",
-    padding: "5px 10px",
-  };
-
   function saveJobOffer(event)
   {
     event.preventDefault();

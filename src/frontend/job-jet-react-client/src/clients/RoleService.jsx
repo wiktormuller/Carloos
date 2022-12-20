@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const ROLES_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/roles";
+const ROLES_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/roles`;
 
 class RoleService {
 
@@ -13,7 +14,7 @@ class RoleService {
     }
 
     getRoleById(roleId){
-        return axios.get(ROLES_API_BASE_URL + '/' + roleId);
+        return axios.get(`${ROLES_API_BASE_URL}/${roleId}`);
     }
 }
 

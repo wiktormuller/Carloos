@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const COMPANIES_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/companies";
+const COMPANIES_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/companies`;
 
 class CompanyService {
 
@@ -13,15 +14,15 @@ class CompanyService {
     }
 
     getCompanyById(companyId){
-        return axios.get(COMPANIES_API_BASE_URL + '/' + companyId);
+        return axios.get(`${COMPANIES_API_BASE_URL}/companyId`);
     }
 
     updateCompany(company, companyId){
-        return axios.put(COMPANIES_API_BASE_URL + '/' + companyId, company);
+        return axios.put(`${COMPANIES_API_BASE_URL}/${companyId}`, company);
     }
 
     deleteCompany(companyId){
-        return axios.delete(COMPANIES_API_BASE_URL + '/' + companyId);
+        return axios.delete(`${COMPANIES_API_BASE_URL}/${companyId}`);
     }
 }
 

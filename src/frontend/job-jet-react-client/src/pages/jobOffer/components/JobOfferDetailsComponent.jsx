@@ -25,7 +25,6 @@ export default function JobOfferDetailsComponent(props) // TODO: Select job offe
 
         JobOfferService.sendJobOfferApplication(props.jobOffer.id, userEmail, phoneNumber, file)
         .then(res => {
-            //navigate(`/job-offers/${props.jobOffer.id}`);
             handleClose();
         });
     }
@@ -49,7 +48,6 @@ export default function JobOfferDetailsComponent(props) // TODO: Select job offe
         event.preventDefault();
 
         setFile(event.target.files[0]);
-        console.log(event.target.files[0]);
     }
 
     return (
