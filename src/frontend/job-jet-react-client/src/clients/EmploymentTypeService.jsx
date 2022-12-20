@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const EMPLOYMENT_TYPES_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/employment-types";
+const EMPLOYMENT_TYPES_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/employment-types`;
 
 class EmploymentTypeService {
 
@@ -13,15 +14,15 @@ class EmploymentTypeService {
     }
 
     getEmploymentTypeById(employmentTypeId){
-        return axios.get(EMPLOYMENT_TYPES_API_BASE_URL + '/' + employmentTypeId);
+        return axios.get(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`);
     }
 
     updateEmploymentType(employmentType, employmentTypeId){
-        return axios.put(EMPLOYMENT_TYPES_API_BASE_URL + '/' + employmentTypeId, employmentType);
+        return axios.put(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`, employmentType);
     }
 
     deleteEmploymentType(employmentTypeId){
-        return axios.delete(EMPLOYMENT_TYPES_API_BASE_URL + '/' + employmentTypeId);
+        return axios.delete(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`);
     }
 }
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const COUNTRIES_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/countries";
+const COUNTRIES_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/countries`;
 
 class CountryService {
 
@@ -13,15 +14,15 @@ class CountryService {
     }
 
     getCountryById(countryId){
-        return axios.get(COUNTRIES_API_BASE_URL + '/' + countryId);
+        return axios.get(`${COUNTRIES_API_BASE_URL}/${countryId}`);
     }
 
     updateCountry(country, countryId){
-        return axios.put(COUNTRIES_API_BASE_URL + '/' + countryId, country);
+        return axios.put(`${COUNTRIES_API_BASE_URL}/${countryId}`, country);
     }
 
     deleteCountry(countryId){
-        return axios.delete(COUNTRIES_API_BASE_URL + '/' + countryId);
+        return axios.delete(`${COUNTRIES_API_BASE_URL}/${countryId}`);
     }
 }
 

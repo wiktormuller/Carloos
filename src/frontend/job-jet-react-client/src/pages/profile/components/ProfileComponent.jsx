@@ -88,9 +88,9 @@ export default function ProfileComponent()
 
             var jobOffersApplicationsTemp = [];
     
-            for (var i = 0; i < mergedJobOffers.length; i++)
+            for (var k = 0; k < mergedJobOffers.length; i++)
             {
-                var res2 = await JobOfferService.getJobOfferApplications(mergedJobOffers[i].jobOfferId);
+                var res2 = await JobOfferService.getJobOfferApplications(mergedJobOffers[k].jobOfferId);
 
                 if (res2.data.length > 0)
                 {
@@ -125,7 +125,7 @@ export default function ProfileComponent()
 
     function downloadApplication(jobOfferId, jobOfferApplicationId)
     {
-        var response = JobOfferService.getJobOfferApplicationFile(jobOfferId, jobOfferApplicationId)
+        JobOfferService.getJobOfferApplicationFile(jobOfferId, jobOfferApplicationId)
             .then(response => {
                 // create file link in browser's memory
                 const href = URL.createObjectURL(new Blob([response.data], {type: 'application/octet-stream'}));

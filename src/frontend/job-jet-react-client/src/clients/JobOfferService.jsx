@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const JOB_OFFERS_API_BASE_URL = "https://localhost:5003/api/v1/job-offers";
+const JOB_OFFERS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/job-offers`;
 
 class JobOfferService {
 
@@ -46,15 +47,15 @@ class JobOfferService {
     }
 
     getJobOfferById(jobOfferId){
-        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId);
+        return axios.get(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`);
     }
 
     updateJobOffer(jobOffer, jobOfferId){
-        return axios.put(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId, jobOffer);
+        return axios.put(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`, jobOffer);
     }
 
     deleteJobOffer(jobOfferId){
-        return axios.delete(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId);
+        return axios.delete(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`);
     }
 
     getJobOfferApplications(jobOfferId)
@@ -65,7 +66,7 @@ class JobOfferService {
             }
         }
 
-        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications', config);
+        return axios.get(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}/offer-applications`, config);
     }
 
     getJobOfferApplicationFile(jobOfferId, jobOfferApplicationId)
@@ -78,7 +79,7 @@ class JobOfferService {
             responseType: 'blob'
         }
 
-        return axios.get(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications' + '/' + jobOfferApplicationId, config);
+        return axios.get(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}/offer-applications/${jobOfferApplicationId}`, config);
     }
 
     sendJobOfferApplication(jobOfferId, userEmail, phoneNumber, file)
@@ -88,7 +89,7 @@ class JobOfferService {
         formData.append('UserEmail', userEmail);
         formData.append('PhoneNumber', phoneNumber);
 
-        return axios.post(JOB_OFFERS_API_BASE_URL + '/' + jobOfferId + '/' + 'offer-applications', formData, {
+        return axios.post(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}/offer-applications`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
               },

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { AuthenticationContext } from "../common/AuthenticationContext";
+import Environment from './Environment';
 
-const USERS_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/users";
+const USERS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/users`;
 
 class UserService
 {
@@ -18,16 +18,16 @@ class UserService
     }
 
     getUserById(usersId){
-        return axios.get(USERS_API_BASE_URL + '/' + usersId);
+        return axios.get(`${USERS_API_BASE_URL}/${usersId}`);
     }
 
     updateUser(user, userId){
-        return axios.put(USERS_API_BASE_URL + '/' + userId, user);
+        return axios.put(`${USERS_API_BASE_URL}/${userId}`, user);
     }
 
     deleteUser(userId){
-        return axios.delete(USERS_API_BASE_URL + '/' + userId);
+        return axios.delete(`${USERS_API_BASE_URL}/${userId}`);
     }
 }
 
-export default new UserService()
+export default new UserService();

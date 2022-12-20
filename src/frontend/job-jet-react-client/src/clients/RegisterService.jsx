@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const REGISTER_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/auth/register";
+const REGISTER_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/auth/register`;
 
 class RegisterService
 {

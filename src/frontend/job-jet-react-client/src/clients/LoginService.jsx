@@ -1,8 +1,9 @@
 import axios from 'axios';
 import LocalStorageManager from '../common/LocalStorageManager';
 import jwt_decode from "jwt-decode";
+import Environment from './Environment';
 
-const LOGIN_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/auth/login";
+const LOGIN_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/auth/login`;
 
 class LoginService
 {

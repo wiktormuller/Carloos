@@ -1,6 +1,7 @@
 import axios from 'axios';
+import Environment from './Environment';
 
-const PROFILE_API_BASE_URL = "https://jobjet.azurewebsites.net/api/v1/profiles/me";
+const PROFILE_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/profiles/me`;
 
 class ProfileService
 {
