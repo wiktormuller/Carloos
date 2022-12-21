@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using JobJetRestApi.Application.Exceptions;
+using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.Users.Commands;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Domain.Repositories;
@@ -12,12 +13,15 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IEmailService _emailService;
         
         public CreateUserCommandHandler(IUserRepository userRepository, 
-            IRoleRepository roleRepository)
+            IRoleRepository roleRepository, 
+            IEmailService emailService)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _emailService = emailService;
         }
         
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -34,6 +38,10 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
             await _userRepository.CreateAsync(user, request.Password);
             
             await _userRepository.AssignRoleToUser(user, userRole);
+            
+            // Send email
+            var email = new Email(request.Email, "Verify JobJet Account", "Welcome to JobJet!");
+            await _emailService.SendEmailAsync(email);
 
             return user.Id;
         }
