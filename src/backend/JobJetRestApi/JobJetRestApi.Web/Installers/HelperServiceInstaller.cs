@@ -30,6 +30,7 @@ namespace JobJetRestApi.Web.Installers
             services.AddScoped<IRouteService, RouteService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
             

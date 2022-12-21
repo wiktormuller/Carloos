@@ -14,6 +14,7 @@ namespace JobJetRestApi.Web.Installers
             services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.ConnectionStrings));
             services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Jwt));
             services.Configure<RefreshTokenOptions>(configuration.GetSection(RefreshTokenOptions.RefreshToken));
+            services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.EmailSmtpOptions));
         }
     }
 }
