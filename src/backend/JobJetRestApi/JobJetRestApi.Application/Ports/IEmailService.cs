@@ -5,5 +5,5 @@ namespace JobJetRestApi.Application.Ports;
 
 public interface IEmailService
 {
-    Task SendEmailAsync(Email email);
+    Task SendAccountActivationEmailAsync(string recipientEmail, string userName);
 }

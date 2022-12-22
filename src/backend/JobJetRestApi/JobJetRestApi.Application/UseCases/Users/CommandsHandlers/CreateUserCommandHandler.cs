@@ -41,7 +41,7 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
             
             // Send email
             var email = new Email(request.Email, "Verify JobJet Account", "Welcome to JobJet!");
-            await _emailService.SendEmailAsync(email);
+            await _emailService.SendAccountActivationEmailAsync(request.Email, request.Name);
 
             return user.Id;
         }

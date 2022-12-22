@@ -14,13 +14,23 @@ public class EmailService : IEmailService
 {
     private readonly EmailOptions _emailOptions;
 
-    public EmailService(IOptions<EmailOptions> emailOptions)
+    public EmailService(IOptionsSnapshot<EmailOptions> emailOptions)
     {
         _emailOptions = emailOptions.Value;
     }
     
-    public async Task SendEmailAsync(Email email)
+    public async Task SendAccountActivationEmailAsync(string recipientEmail, string userName)
     {
+        // Email template
+        var filePath = Directory.GetCurrentDirectory() + "\\EmailTemplates\\ActivateAccount\\Activate.html";
+        var streamReader = new StreamReader(filePath);
+        var mailText = await streamReader.ReadToEndAsync();
+        streamReader.Close();
+
+        mailText = mailText.Replace("[userName]", userName);
+
+        var email = new Email(recipientEmail, "Activate your account at JobJet.", mailText);
+        
         var mimeMessage = new MimeMessage();
         mimeMessage.Sender = MailboxAddress.Parse(_emailOptions.EmailFrom);
         mimeMessage.To.Add(MailboxAddress.Parse(email.ToEmail));

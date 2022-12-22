@@ -2,7 +2,7 @@
 
 public class EmailOptions
 {
-    public const string EmailSmtpOptions = "EmailSMTPOptions";
+    public const string EmailSmtpOptions = "EmailSMTP";
     
     public string EmailFrom { get; set; }
     
