@@ -51,7 +51,7 @@ public class AuthController : Controller
             var userId = await _mediator.Send(command);
             return Created(nameof(UsersController.Get),new {Id = userId});
         }
-        catch (Exception exception) when (exception is UserAlreadyExistsException)
+        catch (Exception exception) when (exception is UserAlreadyExistsException or AuthException)
         {
             return BadRequest(exception.Message);
         }
