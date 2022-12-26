@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.Validators.RequestsValidators;
 using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Options;
 using JobJetRestApi.Infrastructure.Persistence.DbContexts;
@@ -28,13 +29,16 @@ namespace JobJetRestApi.Web.Installers
             services.AddIdentity<User, Role>(options =>
                 {
                     options.Password.RequiredLength = 8;
-                    options.Password.RequireNonAlphanumeric = true;
                     options.Password.RequireUppercase = true;
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireDigit = true;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                     options.Lockout.MaxFailedAccessAttempts = 3;
+                    options.SignIn.RequireConfirmedEmail = true;
                 })
                 .AddEntityFrameworkStores<JobJetDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddPasswordValidator<UsernameAsPasswordValidator<User>>();
 
             services
                 .AddAuthorization(options =>
