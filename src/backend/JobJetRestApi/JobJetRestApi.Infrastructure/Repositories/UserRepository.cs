@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
@@ -32,9 +33,15 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return await _userManager.FindByIdAsync(id.ToString()) is not null;
         }
 
+        public async Task<bool> ExistsWithUserName(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName) is not null;
+        }
+
         public async Task<int> CreateAsync(User user, string password)
         {
             await _userManager.CreateAsync(user, password);
+            
             return user.Id;
         }
 

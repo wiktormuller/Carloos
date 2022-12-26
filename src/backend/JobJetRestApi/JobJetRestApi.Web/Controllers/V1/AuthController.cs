@@ -37,7 +37,7 @@ public class AuthController : Controller
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<int>> Register(RegisterRequest request) // @TODO - Describe response
+    public async Task<ActionResult<int>> Register(RegisterRequest request)
     {
         if (!ModelState.IsValid)
         {
@@ -79,6 +79,30 @@ public class AuthController : Controller
             return Ok(response.LoginResponse);
         }
         catch (Exception exception) when (exception is AuthException)
+        {
+            return BadRequest(exception.Message);
+        }
+    }
+    
+    [Route(ApiRoutes.Auth.Activate)]
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Activate(ActivateAccountRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var command = new ActivateAccountCommand(request.Email, request.Token);
+
+        try
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (Exception exception) when (exception is UserNotFoundException or InvalidEmailConfirmationTokenException)
         {
             return BadRequest(exception.Message);
         }

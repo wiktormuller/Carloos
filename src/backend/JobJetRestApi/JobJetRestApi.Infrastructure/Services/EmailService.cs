@@ -19,7 +19,7 @@ public class EmailService : IEmailService
         _emailOptions = emailOptions.Value;
     }
     
-    public async Task SendAccountActivationEmailAsync(string recipientEmail, string userName)
+    public async Task SendAccountActivationEmailAsync(string recipientEmail, string userName, string emailConfirmationToken)
     {
         // Email template
         var filePath = Directory.GetCurrentDirectory() + "\\EmailTemplates\\ActivateAccount\\Activate.html";
@@ -28,6 +28,7 @@ public class EmailService : IEmailService
         streamReader.Close();
 
         mailText = mailText.Replace("[userName]", userName);
+        mailText = mailText.Replace("[emailConfirmationToken]", emailConfirmationToken);
 
         var email = new Email(recipientEmail, "Activate your account at JobJet.", mailText);
         

@@ -8,6 +8,7 @@ namespace JobJetRestApi.Domain.Repositories
     {
         Task<bool> ExistsAsync(string email);
         Task<bool> ExistsAsync(int id);
+        Task<bool> ExistsWithUserName(string userName);
         Task<int> CreateAsync(User user, string password);
         Task UpdateAsync(User user);
         Task<User> GetByIdAsync(int id);
