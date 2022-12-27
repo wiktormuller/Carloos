@@ -35,6 +35,7 @@ namespace JobJetRestApi.Web.Installers
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                     options.Lockout.MaxFailedAccessAttempts = 3;
                     options.SignIn.RequireConfirmedEmail = true;
+                    options.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<JobJetDbContext>()
                 .AddDefaultTokenProviders()

@@ -36,6 +36,11 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
             {
                 throw UserAlreadyExistsException.ForEmail(request.Email);
             }
+
+            if (await _userRepository.ExistsWithUserName(request.Name))
+            {
+                throw UserAlreadyExistsException.ForName(request.Name);
+            }
             
             var user = new User(request.Email, request.Name);
             
@@ -64,12 +69,12 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
             var userRole = await _roleRepository.GetByNameAsync("User");
 
             await _userRepository.CreateAsync(user, request.Password);
-            
+
             await _userRepository.AssignRoleToUser(user, userRole);
-            
+
             // Send email
-            var email = new Email(request.Email, "Verify JobJet Account", "Welcome to JobJet!");
-            await _emailService.SendAccountActivationEmailAsync(request.Email, request.Name);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            await _emailService.SendAccountActivationEmailAsync(request.Email, request.Name, token);
 
             return user.Id;
         }

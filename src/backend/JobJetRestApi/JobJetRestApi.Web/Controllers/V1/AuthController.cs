@@ -37,7 +37,7 @@ public class AuthController : Controller
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<int>> Register(RegisterRequest request) // @TODO - Describe response
+    public async Task<ActionResult<int>> Register(RegisterRequest request)
     {
         if (!ModelState.IsValid)
         {
@@ -82,6 +82,71 @@ public class AuthController : Controller
         {
             return BadRequest(exception.Message);
         }
+    }
+    
+    [Route(ApiRoutes.Auth.Activate)]
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Activate(ActivateAccountRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var command = new ActivateAccountCommand(request.Email, request.Token);
+
+        try
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (Exception exception) when (exception is InvalidEmailConfirmationTokenException)
+        {
+            return BadRequest(exception.Message);
+        }
+    }
+    
+    [Route(ApiRoutes.Auth.ResetPassword)]
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Activate(ResetPasswordRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var command = new ResetPasswordCommand(request.Email, request.Token, request.NewPassword);
+
+        try
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (Exception exception) when (exception is InvalidResetPasswordTokenException)
+        {
+            return BadRequest(exception.Message);
+        }
+    }
+    
+    [Route(ApiRoutes.Auth.TriggerResettingPassword)]
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Activate(TriggerResettingPasswordRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var command = new TriggerResettingPasswordCommand(request.Email);
+
+        await _mediator.Send(command);
+        return Ok();
     }
 
     [Route(ApiRoutes.Auth.Refresh)]
