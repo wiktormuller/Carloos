@@ -107,6 +107,30 @@ public class AuthController : Controller
             return BadRequest(exception.Message);
         }
     }
+    
+    [Route(ApiRoutes.Auth.ResetPassword)]
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Activate(ResetPasswordRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var command = new ResetPasswordCommand(request.Email, request.Token, request.NewPassword);
+
+        try
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+        catch (Exception exception) when (exception is UserNotFoundException or InvalidResetPasswordTokenException)
+        {
+            return BadRequest(exception.Message);
+        }
+    }
 
     [Route(ApiRoutes.Auth.Refresh)]
     [HttpPost]
