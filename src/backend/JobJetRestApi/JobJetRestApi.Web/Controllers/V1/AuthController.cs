@@ -102,7 +102,7 @@ public class AuthController : Controller
             await _mediator.Send(command);
             return Ok();
         }
-        catch (Exception exception) when (exception is UserNotFoundException or InvalidEmailConfirmationTokenException)
+        catch (Exception exception) when (exception is InvalidEmailConfirmationTokenException)
         {
             return BadRequest(exception.Message);
         }
@@ -126,10 +126,27 @@ public class AuthController : Controller
             await _mediator.Send(command);
             return Ok();
         }
-        catch (Exception exception) when (exception is UserNotFoundException or InvalidResetPasswordTokenException)
+        catch (Exception exception) when (exception is InvalidResetPasswordTokenException)
         {
             return BadRequest(exception.Message);
         }
+    }
+    
+    [Route(ApiRoutes.Auth.TriggerResettingPassword)]
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Activate(TriggerResettingPasswordRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var command = new TriggerResettingPasswordCommand(request.Email);
+
+        await _mediator.Send(command);
+        return Ok();
     }
 
     [Route(ApiRoutes.Auth.Refresh)]

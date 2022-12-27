@@ -28,7 +28,7 @@ public class ActivateAccountCommandHandler : IRequestHandler<ActivateAccountComm
 
         if (user is null)
         {
-            throw UserNotFoundException.ForEmail(request.Email);
+            return Unit.Value;
         }
 
         var resultOfConfirmation = await _userManager.ConfirmEmailAsync(user, request.Token);

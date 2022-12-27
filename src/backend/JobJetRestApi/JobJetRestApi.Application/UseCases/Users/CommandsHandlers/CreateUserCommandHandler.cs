@@ -37,9 +37,9 @@ namespace JobJetRestApi.Application.UseCases.Users.CommandsHandlers
                 throw UserAlreadyExistsException.ForEmail(request.Email);
             }
 
-            if (await _userRepository.ExistsAsync(request.Name))
+            if (await _userRepository.ExistsWithUserName(request.Name))
             {
-                throw UserAlreadyExistsException.ForName(request.Email);
+                throw UserAlreadyExistsException.ForName(request.Name);
             }
             
             var user = new User(request.Email, request.Name);

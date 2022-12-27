@@ -28,7 +28,7 @@ public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand>
 
         if (user is null)
         {
-            throw UserNotFoundException.ForEmail(request.Email);
+            return Unit.Value;
         }
 
         var resultOfResetting = await _userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);

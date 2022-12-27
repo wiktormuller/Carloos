@@ -102,6 +102,7 @@
             public const string Register = Base + "/auth/register";
             public const string Activate = Base + "/auth/activate";
             public const string ResetPassword = Base + "/auth/reset-password";
+            public const string TriggerResettingPassword = Base + "/auth/trigger-resetting-password";
             public const string Refresh = Base + "/auth/refresh";
             public const string Revoke = Base + "/auth/revoke";
         }
