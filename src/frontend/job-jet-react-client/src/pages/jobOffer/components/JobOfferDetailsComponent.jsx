@@ -52,81 +52,108 @@ export default function JobOfferDetailsComponent(props) // TODO: Select job offe
 
     return (
         <div className="job-offer-details">
-            
-            <div className="job-offer-name">{props.jobOffer.name}</div>
-            <div className="job-info">
-                <div className="job-tile">Work Specification: {props.jobOffer.workSpecification}</div>
-                <div className="job-tile">Salary: {props.jobOffer.salaryFrom} - {props.jobOffer.salaryTo}</div>
-                <div className="job-tile">Seniority: {props.jobOffer.seniority}</div>
-                <div className="job-tile">Employment Type: {props.jobOffer.employmentType}</div>
-            </div>
+            <div className="job-offer-header">
+                <div className="job-offer-header-top">
+                    <div className="job-offer-name">{props.jobOffer.name}</div>
 
-            <div>
-                <Button variant="warning" onClick={handleShow}>
-                    Apply for the Job!
-                </Button>
+                    <div className="company-address">
+                        {props.jobOffer.address.street}, {props.jobOffer.address.zipCode} {props.jobOffer.address.town} - {props.jobOffer.address.countryName}
+                    </div>
+                </div>
 
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>Your application for the job offer</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>It's the opportunity for new start!</p>
+                <div className="job-offer-header-bottom">
+                    <div className="salary-info">
+                        {props.jobOffer.salaryFrom} - {props.jobOffer.salaryTo}, {props.jobOffer.employmentType}
+                    </div>
 
-                        <Form onSubmit={handleSendApplication}>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Email Address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" onChange={handleSetUserEmail} />
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text>
-                            </Form.Group>
+                    <div className="job-offer-apply-button-with-modal">
+                        <Button variant="warning" onClick={handleShow}>
+                            Apply for the Job!
+                        </Button>
 
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Phone Number</Form.Label>
-                                <Form.Control type="text" placeholder="Enter phone number" onChange={handleSetPhoneNumber}/>
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text>
-                            </Form.Group>
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                            <Modal.Title>Your application for the job offer</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <p>It's the opportunity for new start!</p>
 
-                            <Form.Group controlId="formFile" className="mb-3">
-                                <Form.Label>Your job application in .pdf or .doc format</Form.Label>
-                                <Form.Control type="file" onChange={handleSetFile} accept=".pdf, .doc, .docx, image/png, image/jpe" />
-                            </Form.Group>
+                                <Form onSubmit={handleSendApplication}>
+                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Label>Email Address</Form.Label>
+                                        <Form.Control type="email" placeholder="Enter email" onChange={handleSetUserEmail} />
+                                        <Form.Text className="text-muted">
+                                            We'll never share your email with anyone else.
+                                        </Form.Text>
+                                    </Form.Group>
 
-                            <Button variant="primary" type="submit">
-                                Apply
+                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                        <Form.Label>Phone Number</Form.Label>
+                                        <Form.Control type="text" placeholder="Enter phone number" onChange={handleSetPhoneNumber}/>
+                                        <Form.Text className="text-muted">
+                                            We'll never share your email with anyone else.
+                                        </Form.Text>
+                                    </Form.Group>
+
+                                    <Form.Group controlId="formFile" className="mb-3">
+                                        <Form.Label>Your job application in .pdf or .doc format</Form.Label>
+                                        <Form.Control type="file" onChange={handleSetFile} accept=".pdf, .doc, .docx, image/png, image/jpe" />
+                                    </Form.Group>
+
+                                    <Button variant="primary" type="submit">
+                                        Apply
+                                    </Button>
+                                </Form>
+                                
+                            </Modal.Body>
+                            <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
                             </Button>
-                        </Form>
-                        
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
+                            </Modal.Footer>
+                        </Modal>
+                    </div>
+                </div>
             </div>
 
-            <div className="other-info">
-                <div className="other-tile">{props.jobOffer.companyName}</div>
-                <div className="other-tile">{props.jobOffer.address.countryName}</div>
-                <div className="other-tile">{props.jobOffer.address.town}</div>
-                <div className="other-tile">{props.jobOffer.address.zipCode}</div>
+            <div className="job-offer-extra-info">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <p className="col-row-header">Company</p>
+                            <p className="col-row-content">{props.jobOffer.companyName}</p>
+                        </div>
+                        <div class="col">
+                            <p className="col-row-header">Created At</p>
+                            <p className="col-row-content">{props.jobOffer.createdAt.substring(0, 10)}</p>
+                        </div>
+                        <div class="w-100"></div>
+                        <div class="col">
+                            <p className="col-row-header">Level of Experience</p>
+                            <p className="col-row-content">{props.jobOffer.seniority}</p>
+                        </div>
+                        <div class="col">
+                            <p className="col-row-header">Work Specification</p>
+                            <p className="col-row-content">{props.jobOffer.workSpecification}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <h1>Technology Types</h1>
-            <div className="other-info">
-                {props.jobOffer.technologyTypes.map(technologyType => {
-                    return <div className="other-tile">{technologyType.name}</div>
-                })}
+            <div className="job-offer-technologies">
+                <p>Technology Types</p>
+                <div className="technology-types-section">
+                    {props.jobOffer.technologyTypes.map(technologyType => (
+                        <div className="technology-type-marker">
+                            <img className="technology-type-marker-image" src={require(`../../../assets/icons/${technologyType.id}.svg`)} alt="Technology Type Img" />
+                            <span className="technology-type-marker-label">{technologyType.name}</span>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            <h1>Job Offer Details</h1>
-            <div className="other-info">
+            <div className="job-offer-description">
                 <p>{props.jobOffer.description}</p>
-                <p>{props.jobOffer.createdAt.substring(0, 10)}</p>
             </div>
         </div>
     );
