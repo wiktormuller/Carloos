@@ -38,6 +38,8 @@ import UpdateUserComponent from '../pages/users/components/UpdateUserComponent';
 import NavbarComponent from '../pages/navbar/components/NavbarComponent';
 import HeaderComponent from '../pages/header/components/HeaderComponent';
 import FooterComponent from '../pages/footer/components/FooterComponent';
+import ActivateAccountComponent from '../pages/activateAccount/components/ActivateAccountComponent';
+import ResetPasswordComponent from '../pages/resetPassword/components/ResetPassword';
 
 export const AllRoutes = () => {
 	return (
@@ -54,6 +56,9 @@ export const AllRoutes = () => {
                     <Route path='/login' exact element={<LoginComponent />} />
                     <Route path='/register' exact element={<RegisterComponent />} />
                     <Route path='/contact' exact element={<ContactComponent />} />
+
+                    <Route path='/activate-account' exact element={<ActivateAccountComponent />} />
+                    <Route path='/reset-password' exact element={<ResetPasswordComponent />} />
 
                     <Route path='/technology-types/create' exact element={<CreateTechnologyTypeComponent />} />
                     <Route path='/technology-types' exact element={<ListTechnologyTypesComponent />} />
