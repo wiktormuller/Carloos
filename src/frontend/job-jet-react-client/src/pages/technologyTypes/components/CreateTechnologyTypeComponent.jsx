@@ -34,28 +34,27 @@ export default function CreateTechnologyTypeComponent()
     }
 
     return (
-        <div>
-            <br></br>
-                <div className = "container">
-                    <div className = "row">
-                        <div className = "card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">Add Technology Type</h3>
-                            <div className = "card-body">
-                                <form>
-                                    <div className = "form-group">
-                                        <label>Name:</label>
-                                        <input placeholder="Name" name="name" className="form-control" 
-                                            value={technologyType.name} onChange={changeNameHandler}/>
-                                    </div>
+        <div className="technology-types">
+            <div className = "container">
+                <div className = "row">
+                    <div className = "card col-md-6 offset-md-3 offset-md-3">
+                        <h3 className="text-center">Add Technology Type</h3>
+                        <div className = "card-body">
+                            <form>
+                                <div className = "form-group">
+                                    <label>Name:</label>
+                                    <input placeholder="Name" name="name" className="form-control" 
+                                        value={technologyType.name} onChange={changeNameHandler}/>
+                                </div>
 
-                                    <button className="btn btn-success" onClick={saveTechnologyType()}>Save</button>
-                                    <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
-                                </form>
-                            </div>
+                                <button className="btn btn-success" onClick={saveTechnologyType()}>Save</button>
+                                <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
+                            </form>
                         </div>
                     </div>
-
                 </div>
+
+            </div>
         </div>
     );
 }
