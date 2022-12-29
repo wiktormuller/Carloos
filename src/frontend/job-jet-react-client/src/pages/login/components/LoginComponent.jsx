@@ -3,6 +3,10 @@ import { useState } from "react";
 import { Navigate, Link } from 'react-router-dom';
 import LoginService from '../../../clients/LoginService';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AuthService from "../../../clients/AuthService";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
 export default function LoginComponent(props)
 {
@@ -10,6 +14,33 @@ export default function LoginComponent(props)
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(''); // TODO: - How to use it at form
   const [redirect, setRedirect] = useState(false);
+
+  const [show, setShow] = useState(false);
+  const [emailToReset, setEmailToReset] = useState('');
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  function handleTriggeringResetPassword(event)
+    {
+        event.preventDefault();
+
+        let request = {
+          email: emailToReset
+        };
+
+        AuthService.triggerResettingPassword(request)
+        .then(res => {
+            handleClose();
+        });
+    }
+
+    function handleSetEmailToReset(event)
+    {
+        event.preventDefault();
+
+        setEmailToReset(event.target.value);
+    }
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -72,6 +103,39 @@ export default function LoginComponent(props)
               <Link to='/register'>Don't have an account yet?</Link>
               <br />
               <Link to='/reset-password'>Reset password</Link>
+              <div>
+                <Link variant="warning" onClick={handleShow}>
+                    Send email for resetting password
+                </Link>
+
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Sending email for resetting password</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                        <Form onSubmit={handleTriggeringResetPassword}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Email Address</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" onChange={handleSetEmailToReset} />
+                                <Form.Text className="text-muted">
+                                    We'll never share your email with anyone else.
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Button variant="primary" type="submit">
+                                Trigger
+                            </Button>
+                        </Form>
+                        
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
+              </div>
             </p>
           </div>
         </form>
