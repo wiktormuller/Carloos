@@ -25,7 +25,8 @@ namespace JobJetRestApi.Domain.Entities
             NumberOfPeople = numberOfPeople;
             CityName = cityName;
         }
-
+        
+        /// <exception cref="CannotDeleteJobOfferException"></exception>
         public void DeleteJobOffer(int jobOfferId)
         {
             Guard.Against.NegativeOrZero(jobOfferId, nameof(jobOfferId));
@@ -37,7 +38,8 @@ namespace JobJetRestApi.Domain.Entities
 
             JobOffers.RemoveAll(jobOffer => jobOffer.Id == jobOfferId);
         }
-
+        
+        /// <exception cref="CompanyCannotHaveJobOffersWithTheSameNamesException"></exception>
         public void AddJobOffer(JobOffer jobOffer)
         {
             Guard.Against.Null(jobOffer, nameof(jobOffer));
@@ -54,7 +56,8 @@ namespace JobJetRestApi.Domain.Entities
         {
             return JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId);
         }
-
+        
+        /// <exception cref="CannotUpdateJobOfferException"></exception>
         public void UpdateJobOffer(int jobOfferId, string name, string description, decimal salaryFrom, decimal salaryTo)
         {
             Guard.Against.NegativeOrZero(jobOfferId, nameof(jobOfferId));

@@ -140,13 +140,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (CompanyNotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
             catch (Exception e) when (e is CannotUpdateCompanyInformationException)
             {
-                return BadRequest(e.Message);
+                return NotFound(e.Message);
             }
         }
         
@@ -166,13 +162,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (CompanyNotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
             catch (CannotDeleteCompanyInformationException e)
             {
-                return BadRequest(e.Message);
+                return NotFound(e.Message);
             }
         }
     }

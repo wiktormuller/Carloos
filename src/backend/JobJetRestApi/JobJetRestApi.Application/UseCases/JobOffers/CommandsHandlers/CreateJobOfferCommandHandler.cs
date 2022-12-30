@@ -14,7 +14,6 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
 {
     public class CreateJobOfferCommandHandler : IRequestHandler<CreateJobOfferCommand, int>
     {
-        private readonly IJobOfferRepository _jobOfferRepository;
         private readonly ISeniorityRepository _seniorityRepository;
         private readonly ITechnologyTypeRepository _technologyTypeRepository;
         private readonly IEmploymentTypeRepository _employmentTypeRepository;
@@ -24,8 +23,7 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
         private readonly IUserRepository _userRepository;
         private readonly ICompanyRepository _companyRepository;
 
-        public CreateJobOfferCommandHandler(IJobOfferRepository jobOfferRepository, 
-            ISeniorityRepository seniorityRepository, 
+        public CreateJobOfferCommandHandler(ISeniorityRepository seniorityRepository, 
             ITechnologyTypeRepository technologyTypeRepository, 
             IEmploymentTypeRepository employmentTypeRepository, 
             ICountryRepository countryRepository, 
@@ -36,7 +34,6 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
         {
             _userRepository = Guard.Against.Null(userRepository, nameof(userRepository));
             _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
-            _jobOfferRepository = Guard.Against.Null(jobOfferRepository, nameof(jobOfferRepository));
             _seniorityRepository = Guard.Against.Null(seniorityRepository, nameof(seniorityRepository));
             _technologyTypeRepository = Guard.Against.Null(technologyTypeRepository, nameof(technologyTypeRepository));
             _employmentTypeRepository = Guard.Against.Null(employmentTypeRepository, nameof(employmentTypeRepository));
