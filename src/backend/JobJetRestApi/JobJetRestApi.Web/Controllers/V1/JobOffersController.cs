@@ -151,7 +151,7 @@ namespace JobJetRestApi.Web.Controllers.V1
                 return BadRequest(ModelState);
             }
             
-            var currentUserId = int.Parse(this.User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
+            var currentUserId = int.Parse(User.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
 
             var command = new UpdateJobOfferCommand
             (
@@ -168,13 +168,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (JobOfferNotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
             catch (Exception e) when (e is CannotUpdateJobOfferException)
             {
-                return BadRequest(e.Message);
+                return NotFound(e.Message);
             }
         }
         
@@ -194,13 +190,9 @@ namespace JobJetRestApi.Web.Controllers.V1
                 await _mediator.Send(command);
                 return NoContent();
             }
-            catch (JobOfferNotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
             catch (CannotDeleteJobOfferException e)
             {
-                return BadRequest(e.Message);
+                return NotFound(e.Message);
             }
         }
         

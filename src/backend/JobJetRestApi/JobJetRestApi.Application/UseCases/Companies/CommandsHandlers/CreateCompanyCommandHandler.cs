@@ -17,7 +17,7 @@ namespace JobJetRestApi.Application.UseCases.Companies.CommandsHandlers
         public CreateCompanyCommandHandler(ICompanyRepository companyRepository, 
             IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = Guard.Against.Null(userRepository, nameof(userRepository));
             _companyRepository = Guard.Against.Null(companyRepository, nameof(companyRepository));
         }
         

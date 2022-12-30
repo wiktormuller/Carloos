@@ -15,6 +15,12 @@ namespace JobJetRestApi.Domain.Entities
         private User() : base()
         {
         }
+        
+        public User(string email, string username)
+        {
+            Email = email;
+            UserName = username;
+        }
 
         public void AddRefreshToken(RefreshToken refreshToken)
         {
@@ -32,18 +38,20 @@ namespace JobJetRestApi.Domain.Entities
         {
             return Companies.Any(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId));
         }
-
+        
+        /// <exception cref="CannotDeleteJobOfferException"></exception>
         public void DeleteJobOffer(int jobOfferId)
         {
             if (!IsOwnerOfJobOffer(jobOfferId))
             {
-                CannotDeleteJobOfferException.YouAreNotJobOfferOwner(jobOfferId);
+                throw CannotDeleteJobOfferException.YouAreNotJobOfferOwner(jobOfferId);
             }
             
             Companies.First(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId))
                 .DeleteJobOffer(jobOfferId);
         }
-
+        
+        /// <exception cref="CannotUpdateJobOfferException"></exception>
         public void UpdateJobOffer(int jobOfferId, string name, string description, decimal salaryFrom,
             decimal salaryTo)
         {
@@ -61,19 +69,21 @@ namespace JobJetRestApi.Domain.Entities
             Companies.First(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId))
                 .UpdateJobOffer(jobOfferId, name, description, salaryFrom, salaryTo);
         }
-
+        
+        /// <exception cref="CannotDeleteCompanyInformationException"></exception>
         public void DeleteCompany(int companyId)
         {
             Guard.Against.Null(companyId, nameof(companyId));
             
             if (!IsOwnerOfCompany(companyId))
             {
-                CannotDeleteCompanyInformationException.YouAreNotCompanyOwner(companyId);
+                throw CannotDeleteCompanyInformationException.YouAreNotCompanyOwner(companyId);
             }
 
             Companies.RemoveAll(company => company.Id == companyId);
         }
-
+        
+        /// <exception cref="CannotUpdateCompanyInformationException"></exception>
         public void UpdateCompanyInformation(int companyId, string description, int numberOfPeople)
         {
             Guard.Against.Null(description, nameof(description));
@@ -81,12 +91,13 @@ namespace JobJetRestApi.Domain.Entities
             
             if (!IsOwnerOfCompany(companyId))
             {
-                CannotUpdateCompanyInformationException.YouAreNotCompanyOwner(companyId);
+                throw CannotUpdateCompanyInformationException.YouAreNotCompanyOwner(companyId);
             }
 
             Companies.First(company => company.Id == companyId).Update(description, numberOfPeople);
         }
-
+        
+        /// <exception cref="CannotCreateJobOfferException"></exception>
         public void AddJobOffer(Company company, JobOffer jobOffer)
         {
             Guard.Against.Null(company, nameof(company));
@@ -101,7 +112,8 @@ namespace JobJetRestApi.Domain.Entities
                 .First(existingCompany => existingCompany.Id == company.Id)
                 .AddJobOffer(jobOffer);
         }
-
+        
+        /// <exception cref="UserCannotHaveCompaniesWithTheSameNamesException"></exception>
         public void AddCompany(Company company)
         {
             Guard.Against.Null(company);
@@ -113,13 +125,7 @@ namespace JobJetRestApi.Domain.Entities
 
             Companies.Add(company);
         }
-        
-        public User(string email, string username)
-        {
-            Email = email;
-            UserName = username;
-        }
-        
+
         public void UpdateName(string name)
         {
             UserName = name;
