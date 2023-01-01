@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Environment from './Environment';
+import LoginService from './LoginService';
 
 const EMPLOYMENT_TYPES_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/employment-types`;
 
@@ -9,20 +10,42 @@ class EmploymentTypeService {
         return axios.get(EMPLOYMENT_TYPES_API_BASE_URL);
     }
 
-    createEmploymentType(employmentType){
-        return axios.post(EMPLOYMENT_TYPES_API_BASE_URL, employmentType);
+    createEmploymentType(employmentType)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.post(EMPLOYMENT_TYPES_API_BASE_URL, employmentType, config);
     }
 
-    getEmploymentTypeById(employmentTypeId){
+    getEmploymentTypeById(employmentTypeId)
+    {
         return axios.get(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`);
     }
 
-    updateEmploymentType(employmentType, employmentTypeId){
-        return axios.put(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`, employmentType);
+    updateEmploymentType(employmentType, employmentTypeId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.put(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`, employmentType, config);
     }
 
-    deleteEmploymentType(employmentTypeId){
-        return axios.delete(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`);
+    deleteEmploymentType(employmentTypeId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.delete(`${EMPLOYMENT_TYPES_API_BASE_URL}/${employmentTypeId}`, config);
     }
 }
 

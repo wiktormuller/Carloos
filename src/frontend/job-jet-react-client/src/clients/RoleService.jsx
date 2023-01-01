@@ -1,20 +1,42 @@
 import axios from 'axios';
 import Environment from './Environment';
+import LoginService from './LoginService';
 
 const ROLES_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/roles`;
 
 class RoleService {
 
-    getRoles(){
-        return axios.get(ROLES_API_BASE_URL);
+    getRoles()
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.get(ROLES_API_BASE_URL, config);
     }
 
-    createRole(role){
-        return axios.post(ROLES_API_BASE_URL, role);
+    createRole(role)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.post(ROLES_API_BASE_URL, role, config);
     }
 
-    getRoleById(roleId){
-        return axios.get(`${ROLES_API_BASE_URL}/${roleId}`);
+    getRoleById(roleId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.get(`${ROLES_API_BASE_URL}/${roleId}`, config);
     }
 }
 

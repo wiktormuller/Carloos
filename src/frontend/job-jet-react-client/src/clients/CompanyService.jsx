@@ -1,28 +1,50 @@
 import axios from 'axios';
 import Environment from './Environment';
+import LoginService from './LoginService';
 
 const COMPANIES_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/companies`;
 
-class CompanyService {
-
+class CompanyService
+{
     getCompanies(){
         return axios.get(COMPANIES_API_BASE_URL);
     }
 
-    createCompany(company){
-        return axios.post(COMPANIES_API_BASE_URL, company);
+    createCompany(company)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.post(COMPANIES_API_BASE_URL, company, config);
     }
 
     getCompanyById(companyId){
-        return axios.get(`${COMPANIES_API_BASE_URL}/companyId`);
+        return axios.get(`${COMPANIES_API_BASE_URL}/${companyId}`);
     }
 
-    updateCompany(company, companyId){
-        return axios.put(`${COMPANIES_API_BASE_URL}/${companyId}`, company);
+    updateCompany(company, companyId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.put(`${COMPANIES_API_BASE_URL}/${companyId}`, company, config);
     }
 
-    deleteCompany(companyId){
-        return axios.delete(`${COMPANIES_API_BASE_URL}/${companyId}`);
+    deleteCompany(companyId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.delete(`${COMPANIES_API_BASE_URL}/${companyId}`, config);
     }
 }
 
