@@ -1,28 +1,64 @@
 import axios from 'axios';
 import Environment from './Environment';
+import LoginService from './LoginService';
 
 const SENIORITY_LEVELS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/seniority-levels`;
 
 class SeniorityLevelService {
 
-    getSeniorityLevels(){
-        return axios.get(SENIORITY_LEVELS_API_BASE_URL);
+    getSeniorityLevels()
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.get(SENIORITY_LEVELS_API_BASE_URL, config);
     }
 
-    createSeniorityLevel(seniorityLevel){
-        return axios.post(SENIORITY_LEVELS_API_BASE_URL, seniorityLevel);
+    createSeniorityLevel(seniorityLevel)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.post(SENIORITY_LEVELS_API_BASE_URL, seniorityLevel, config);
     }
 
-    getSeniorityLevelById(seniorityLevelId){
-        return axios.get(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`);
+    getSeniorityLevelById(seniorityLevelId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.get(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`, config);
     }
 
-    updateSeniorityLevel(seniorityLevel, seniorityLevelId){
-        return axios.put(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`, seniorityLevel);
+    updateSeniorityLevel(seniorityLevel, seniorityLevelId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.put(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`, seniorityLevel, config);
     }
 
-    deleteSeniorityLevel(seniorityLevelId){
-        return axios.delete(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`);
+    deleteSeniorityLevel(seniorityLevelId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.delete(`${SENIORITY_LEVELS_API_BASE_URL}/${seniorityLevelId}`, config);
     }
 }
 

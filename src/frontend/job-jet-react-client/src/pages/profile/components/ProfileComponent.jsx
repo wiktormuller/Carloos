@@ -88,8 +88,9 @@ export default function ProfileComponent()
 
             var jobOffersApplicationsTemp = [];
     
-            for (var k = 0; k < mergedJobOffers.length; i++)
+            for (var k = 0; k < mergedJobOffers.length; k++)
             {
+                console.log(k);
                 var res2 = await JobOfferService.getJobOfferApplications(mergedJobOffers[k].jobOfferId);
 
                 if (res2.data.length > 0)

@@ -1,32 +1,55 @@
 import axios from 'axios';
 import Environment from './Environment';
+import LoginService from './LoginService';
 
 const USERS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/users`;
 
 class UserService
 {
-    getUsers(accessToken)
+    getUsers()
     {
-        return axios.get(
-            USERS_API_BASE_URL,
-            {
-                headers: {
-                  "Authorization": "Bearer " + accessToken
-                }
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
             }
+        }
+
+        return axios.get(
+            USERS_API_BASE_URL, config
         );
     }
 
-    getUserById(usersId){
-        return axios.get(`${USERS_API_BASE_URL}/${usersId}`);
+    getUserById(usersId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.get(`${USERS_API_BASE_URL}/${usersId}`, config);
     }
 
-    updateUser(user, userId){
-        return axios.put(`${USERS_API_BASE_URL}/${userId}`, user);
+    updateUser(user, userId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.put(`${USERS_API_BASE_URL}/${userId}`, user, config);
     }
 
-    deleteUser(userId){
-        return axios.delete(`${USERS_API_BASE_URL}/${userId}`);
+    deleteUser(userId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.delete(`${USERS_API_BASE_URL}/${userId}`, config);
     }
 }
 

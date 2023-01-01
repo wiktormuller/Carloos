@@ -1,11 +1,13 @@
 import axios from 'axios';
 import Environment from './Environment';
+import LoginService from './LoginService';
 
 const JOB_OFFERS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/job-offers`;
 
 class JobOfferService {
 
-    getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId){
+    getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId)
+    {
         var query = new URLSearchParams();
 
         if (searchText !== undefined && searchText !== null && searchText !== '')
@@ -50,19 +52,33 @@ class JobOfferService {
         return axios.get(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`);
     }
 
-    updateJobOffer(jobOffer, jobOfferId){
-        return axios.put(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`, jobOffer);
+    updateJobOffer(jobOffer, jobOfferId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.put(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`, jobOffer, config);
     }
 
-    deleteJobOffer(jobOfferId){
-        return axios.delete(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`);
+    deleteJobOffer(jobOfferId)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.delete(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}`, config);
     }
 
     getJobOfferApplications(jobOfferId)
     {
-        let config = {
+        var config = {
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkNFTyIsImp0aSI6IjU0OTU3NDUwLTk4ZmQtNDkyMy1iYmE2LTQ3NzU3ODJhNjIzMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMSIsImVtYWlsIjoiY2VvQGpvYmpldC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW5pc3RyYXRvciIsIlVzZXIiXSwiZXhwIjoxNjcxNDk1NjQ5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAzIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMyJ9.RCRlvOfTbGbZ1fbXoZhFWzt8QrmxzHyXhAtFnIq_ib0'
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
             }
         }
 
@@ -71,12 +87,11 @@ class JobOfferService {
 
     getJobOfferApplicationFile(jobOfferId, jobOfferApplicationId)
     {
-        let config = {
+        var config = {
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6IkNFTyIsImp0aSI6IjU0OTU3NDUwLTk4ZmQtNDkyMy1iYmE2LTQ3NzU3ODJhNjIzMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiMSIsImVtYWlsIjoiY2VvQGpvYmpldC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiQWRtaW5pc3RyYXRvciIsIlVzZXIiXSwiZXhwIjoxNjcxNDk1NjQ5LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAzIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMyJ9.RCRlvOfTbGbZ1fbXoZhFWzt8QrmxzHyXhAtFnIq_ib0',
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`,
                 'Content-Type': 'application/octet-stream'
-            },
-            responseType: 'blob'
+            }
         }
 
         return axios.get(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}/offer-applications/${jobOfferApplicationId}`, config);
