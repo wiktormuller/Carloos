@@ -90,8 +90,9 @@ class JobOfferService {
         var config = {
             headers: {
                 'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`,
-                'Content-Type': 'application/octet-stream'
-            }
+                'Content-Type': 'application/octet-stream',
+            },
+            responseType: 'blob'
         }
 
         return axios.get(`${JOB_OFFERS_API_BASE_URL}/${jobOfferId}/offer-applications/${jobOfferApplicationId}`, config);

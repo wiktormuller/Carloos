@@ -90,7 +90,6 @@ export default function ProfileComponent()
     
             for (var k = 0; k < mergedJobOffers.length; k++)
             {
-                console.log(k);
                 var res2 = await JobOfferService.getJobOfferApplications(mergedJobOffers[k].jobOfferId);
 
                 if (res2.data.length > 0)
@@ -131,12 +130,16 @@ export default function ProfileComponent()
                 // create file link in browser's memory
                 const href = URL.createObjectURL(new Blob([response.data], {type: 'application/octet-stream'}));
 
-                var fileName = response.headers["content-disposition"].split("filename=")[1];
+                var fileName = response.headers.get('content-disposition')
+                    .split(';')
+                    .find(n => n.includes('filename='))
+                    .replace('filename=', '')
+                    .trim();
 
                 // create "a" HTML element with href to file & click
                 const link = document.createElement('a');
                 link.href = href;
-                link.setAttribute('download', fileName); //or any other extension
+                link.setAttribute('download', fileName);
                 document.body.appendChild(link);
                 link.click();
 
