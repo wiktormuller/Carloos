@@ -1,5 +1,5 @@
 import "../login-styles.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Navigate, Link } from 'react-router-dom';
 import LoginService from '../../../clients/LoginService';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,8 +7,9 @@ import AuthService from "../../../clients/AuthService";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { AuthenticationContext } from "../../../common/AuthenticationContext";
 
-export default function LoginComponent(props)
+export default function LoginComponent()
 {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,6 +21,8 @@ export default function LoginComponent(props)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [ currentUser, setCurrentUser ] = useContext(AuthenticationContext);
 
   function handleTriggeringResetPassword(event)
     {
@@ -49,6 +52,10 @@ export default function LoginComponent(props)
         email: email,
         password: password
       });
+
+      var loggedUser = LoginService.getAuthenticatedUser();
+      setCurrentUser(loggedUser);
+
       setRedirect(true);
     }
     catch (error) {
@@ -99,8 +106,11 @@ export default function LoginComponent(props)
                 Submit
               </button>
             </div>
+            
             <p className="forgot-password text-right mt-2">
               <Link to='/register'>Don't have an account yet?</Link>
+              <br />
+              <Link to='/activate-account'>Activate account</Link>
               <br />
               <Link to='/reset-password'>Reset password</Link>
               <div>

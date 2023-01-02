@@ -30,8 +30,9 @@ export default function CreateRoleComponent()
         });
     }
 
-    function cancel()
+    function cancel(event)
     {
+        event.preventDefault();
         navigate('/roles');
     }
 

@@ -9,6 +9,7 @@ export const AuthenticationProvider = ({children}) => {
 
     useEffect(() =>
     {
+        console.log('Auth Provider');
         checkLoggedIn();
     }, []);
 
