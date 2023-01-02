@@ -34,7 +34,7 @@ namespace JobJetRestApi.Infrastructure.Queries
         {
             using var connection = _sqlConnectionFactory.GetOpenConnection();
 
-            var queryBuilder = new StringBuilder(@"
+            var queryTemplate = @"
                 SELECT 
                     [JobOffer].Id,
                     [JobOffer].Name,
@@ -61,7 +61,7 @@ namespace JobJetRestApi.Infrastructure.Queries
                 FROM (
                         SELECT * 
                         FROM [JobOffers]
-                        --@ORDERBYSUBQUERY
+                        --@SUBQUERYORDER
                         --@OFFSET
                         --@FETCH
                     ) AS [JobOffer] 
@@ -81,16 +81,16 @@ namespace JobJetRestApi.Infrastructure.Queries
                     ON [JobOffer].CompanyId = [Company].Id
                     
                 --@WHERE
-                --@ORDERBY;"
-                );
+                --@ORDERBY;
+            ";
             
             
-            var parameters = BuildConditionsAndGetDynamicParameters(queryBuilder, usersFilter);
+            var (parameters, builtQuery) = BuildConditionsAndGetDynamicParameters(queryTemplate, usersFilter);
 
             var jobOfferMap = new Dictionary<int, JobOfferDto>();
             
             await connection.QueryAsync<JobOfferRecord, TechnologyTypeRecord, bool>(
-                queryBuilder.ToString(), 
+                builtQuery, 
                 param: parameters, 
                 splitOn: "TechnologyTypeId",
                 map: (jobOfferRecord, technologyTypeRecord) =>
@@ -134,7 +134,12 @@ namespace JobJetRestApi.Infrastructure.Queries
                     return true;
                 });
 
-            var totalCount = await connection.ExecuteScalarAsync<int>("SELECT COUNT(1) FROM [JobOffers];"); // @TODO - Implement real total count
+            var (parametersForTotalCount, builtQueryForTotalCount) = BuildConditionsAndGetDynamicParameters(queryTemplate, usersFilter, true);
+            var queryBuilderForTotalCount = $@"
+                SELECT COUNT(DISTINCT(Id))
+                FROM ({builtQueryForTotalCount}) AS SUB;
+            ";
+            var totalCount = await connection.ExecuteScalarAsync<int>(sql: queryBuilderForTotalCount, param: parametersForTotalCount);
 
             var jobOffers = jobOfferMap.Values.Select(x => new JobOfferResponse(
                 x.Id,
@@ -292,7 +297,7 @@ namespace JobJetRestApi.Infrastructure.Queries
             return jobOffer;
         }
 
-        public DynamicParameters BuildConditionsAndGetDynamicParameters(StringBuilder queryBuilder, JobOffersFilter usersFilter)
+        private (DynamicParameters Parameters, string Query) BuildConditionsAndGetDynamicParameters(string queryTemplate, JobOffersFilter usersFilter, bool buildParametersForTotalCount = false)
         {
             var conditions = new List<string>();
             var parameters = new DynamicParameters();
@@ -351,16 +356,22 @@ namespace JobJetRestApi.Infrastructure.Queries
                 parameters.Add("GeneralSearchByText", $"%{usersFilter.GeneralSearchByText}%");
             }
 
+            var queryBuilder = new StringBuilder(queryTemplate);
+
             queryBuilder.Replace("--@WHERE", conditions.Any()
-                ? $"WHERE {string.Join(" AND ", conditions)}" 
+                ? $"WHERE {string.Join(" AND ", conditions)}"
                 : string.Empty);
 
-            queryBuilder.Replace("--@ORDERBYSUBQUERY", "ORDER BY Id");
-            queryBuilder.Replace("--@ORDERBY", "ORDER BY [JobOffer].Id"); // @TODO - Implement better sorting
-            queryBuilder.Replace("--@OFFSET", $"OFFSET {usersFilter.PageNumber} ROWS");
-            queryBuilder.Replace("--@FETCH", $"FETCH NEXT {usersFilter.GetNormalizedPageSize()} ROWS ONLY");
+            if (!buildParametersForTotalCount)
+            {
+                queryBuilder.Replace("--@SUBQUERYORDER", "ORDER BY Id");
+                queryBuilder.Replace("--@OFFSET", $"OFFSET {usersFilter.PageNumber} ROWS");
+                queryBuilder.Replace("--@FETCH", $"FETCH NEXT {usersFilter.GetNormalizedPageSize()} ROWS ONLY");
+                
+                queryBuilder.Replace("--@ORDERBY", "ORDER BY [JobOffer].Id"); // @TODO - Implement better sorting
+            }
 
-            return parameters;
+            return (parameters, queryBuilder.ToString());
         }
     }
     
