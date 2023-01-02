@@ -106,8 +106,11 @@ export default function LoginComponent()
                 Submit
               </button>
             </div>
+            
             <p className="forgot-password text-right mt-2">
               <Link to='/register'>Don't have an account yet?</Link>
+              <br />
+              <Link to='/activate-account'>Activate account</Link>
               <br />
               <Link to='/reset-password'>Reset password</Link>
               <div>
