@@ -28,8 +28,9 @@ export default function CreateTechnologyTypeComponent()
         });
     }
 
-    function cancel()
+    function cancel(event)
     {
+        event.preventDefault();
         navigate(`/technology-types`);
     }
 
@@ -48,7 +49,7 @@ export default function CreateTechnologyTypeComponent()
                                 </div>
 
                                 <button className="btn btn-success" onClick={saveTechnologyType()}>Save</button>
-                                <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
+                                <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
                             </form>
                         </div>
                     </div>

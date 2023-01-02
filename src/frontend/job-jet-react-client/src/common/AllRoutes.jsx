@@ -40,8 +40,11 @@ import HeaderComponent from '../pages/header/components/HeaderComponent';
 import FooterComponent from '../pages/footer/components/FooterComponent';
 import ActivateAccountComponent from '../pages/activateAccount/components/ActivateAccountComponent';
 import ResetPasswordComponent from '../pages/resetPassword/components/ResetPassword';
+import { AuthenticationContext } from './AuthenticationContext';
+import { useContext } from 'react';
 
-export const AllRoutes = () => {
+export const AllRoutes = () =>
+{
 	return (
         <div>
             <HeaderComponent />

@@ -137,8 +137,9 @@ export default function CreateJobOfferComponent()
     });
   };
 
-  function cancel()
+  function cancel(event)
   {
+    event.preventDefault();
     navigate(`/`);
   }
 

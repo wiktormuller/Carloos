@@ -1,29 +1,27 @@
 import "../header-styles.css";
-import { useContext, useState } from 'react';
-import { Link, Navigate } from "react-router-dom";
+import { useContext } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../../common/AuthenticationContext";
 
 export default function HeaderComponent()
 {
   const [ currentUser, setCurrentUser ] = useContext(AuthenticationContext);
 
-  const[redirect, setRedirect] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogOut = () => {
+  function handleLogOut()
+  {
     localStorage.removeItem('loginResponse');
-		setCurrentUser({});
+		setCurrentUser();
 		
-    setRedirect(true);
+    navigate("/");
   };
 
-  const renderRedirected = () => {
-    if (redirect) {
-      return <Navigate to='/' />
-    }
-  }
-
-  const loginOrRegisterButton = () => {
-    if (!currentUser) {
+  function loginOrRegisterButton()
+  {
+    if (currentUser === '' || currentUser === undefined) {
+      console.log(currentUser);
+      console.log('Empty User');
       return (
         <div className="custom-header">
           <Link className="custom-link" to="/login">
@@ -35,7 +33,9 @@ export default function HeaderComponent()
         </div>
       );
     }
-    else if (currentUser.accessToken) {
+    else if (currentUser !== '' || currentUser !== undefined) {
+      console.log(currentUser);
+      console.log('Not Empty user');
       return (
         <div className="custom-header">
           <Link to="/profile">
@@ -51,7 +51,6 @@ export default function HeaderComponent()
 
   return (
     <div className="header">
-      {renderRedirected()}
       <Link className="header-link" to="/">
         <p className="header-logo">JobJet</p>
       </Link>

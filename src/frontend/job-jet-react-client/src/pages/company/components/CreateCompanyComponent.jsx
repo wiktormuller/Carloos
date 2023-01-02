@@ -65,8 +65,9 @@ export default function CreateCompanyComponent()
         });
     }
 
-    function cancel()
+    function cancel(event)
     {
+        event.preventDefault();
         navigate('/companies');
     }
 

@@ -45,8 +45,9 @@ export default function ResetPasswordComponent()
         setPassword(event.target.value);
     }
 
-    function cancel()
+    function cancel(event)
     {
+        event.preventDefault();
         navigate(`/`);
     }
 
@@ -77,7 +78,7 @@ export default function ResetPasswordComponent()
                                 </div>
 
                                 <button className="btn btn-success" onClick={resetPassword()}>Reset</button>
-                                <button className="btn btn-danger" onClick={cancel()} style={{marginLeft: "10px"}}>Cancel</button>
+                                <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
                             </form>
                         </div>
                     </div>
