@@ -19,11 +19,11 @@ namespace JobJetRestApi.Domain.Entities
 
         public Company(string name, string shortName, string description, int numberOfPeople, string cityName)
         {
-            Name = name;
-            ShortName = shortName;
-            Description = description;
-            NumberOfPeople = numberOfPeople;
-            CityName = cityName;
+            Name = Guard.Against.NullOrEmpty(name, nameof(name));
+            ShortName = Guard.Against.NullOrEmpty(shortName, nameof(shortName));
+            Description = Guard.Against.NullOrEmpty(description, nameof(description));
+            NumberOfPeople = Guard.Against.NegativeOrZero(numberOfPeople, nameof(numberOfPeople));
+            CityName = Guard.Against.NullOrEmpty(cityName, nameof(cityName));
         }
         
         /// <exception cref="CannotDeleteJobOfferException"></exception>

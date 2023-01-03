@@ -18,8 +18,8 @@ namespace JobJetRestApi.Domain.Entities
         
         public User(string email, string username)
         {
-            Email = email;
-            UserName = username;
+            Email = Guard.Against.NullOrEmpty(email, nameof(email));
+            UserName = Guard.Against.NullOrEmpty(username, nameof(username));
         }
 
         public void AddRefreshToken(RefreshToken refreshToken)
@@ -29,16 +29,6 @@ namespace JobJetRestApi.Domain.Entities
             RefreshTokens.Add(refreshToken);
         }
 
-        public bool IsOwnerOfCompany(int companyId)
-        {
-            return Companies.Any(company => company.Id == companyId);
-        }
-
-        public bool IsOwnerOfJobOffer(int jobOfferId)
-        {
-            return Companies.Any(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId));
-        }
-        
         /// <exception cref="CannotDeleteJobOfferException"></exception>
         public void DeleteJobOffer(int jobOfferId)
         {
@@ -126,9 +116,19 @@ namespace JobJetRestApi.Domain.Entities
             Companies.Add(company);
         }
 
-        public void UpdateName(string name)
+        public void UpdateUsername(string username)
         {
-            UserName = name;
+            UserName = Guard.Against.NullOrEmpty(username, nameof(username));
+        }
+        
+        private bool IsOwnerOfCompany(int companyId)
+        {
+            return Companies.Any(company => company.Id == companyId);
+        }
+
+        private bool IsOwnerOfJobOffer(int jobOfferId)
+        {
+            return Companies.Any(company => company.JobOffers.Any(jobOffer => jobOffer.Id == jobOfferId));
         }
     }
 }

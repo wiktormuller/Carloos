@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Ardalis.GuardClauses;
 
 namespace JobJetRestApi.Domain.Entities
 {
@@ -14,12 +15,12 @@ namespace JobJetRestApi.Domain.Entities
         
         public EmploymentType(string name)
         {
-            Name = name;
+            Name = Guard.Against.NullOrEmpty(name, nameof(name));
         }
 
         public void UpdateName(string name)
         {
-            Name = name;
+            Name = Guard.Against.NullOrEmpty(name, nameof(name));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Ardalis.GuardClauses;
+using JobJetRestApi.Domain.Exceptions;
 
 namespace JobJetRestApi.Domain.Entities
 {
@@ -20,12 +22,34 @@ namespace JobJetRestApi.Domain.Entities
         
         public Address(Country country, string town, string street, string zipCode, decimal latitude, decimal longitude)
         {
-            Country = country;
-            Town = town;
-            Street = street;
-            ZipCode = zipCode;
-            Latitude = latitude;
-            Longitude = longitude;
+            Country = Guard.Against.Null(country, nameof(country));
+            Town = Guard.Against.NullOrEmpty(town, nameof(town));
+            Street = Guard.Against.NullOrEmpty(street, nameof(street));
+            ZipCode = Guard.Against.NullOrEmpty(zipCode, nameof(zipCode));
+            Latitude = ValidateLatitude(latitude);
+            Longitude = ValidateLongitude(longitude);
+        }
+        
+        /// <exception cref="IncorrectCoordsException"></exception>
+        private decimal ValidateLatitude(decimal latitude)
+        {
+            if (latitude < -90 || latitude > 90)
+            {
+                throw IncorrectCoordsException.ForLatitude();
+            }
+
+            return latitude;
+        }
+        
+        /// <exception cref="IncorrectCoordsException"></exception>
+        private decimal ValidateLongitude(decimal longitude)
+        {
+            if (longitude < -180 || longitude > 180)
+            {
+                throw IncorrectCoordsException.ForLongitude();
+            }
+
+            return longitude;
         }
     }
 }
