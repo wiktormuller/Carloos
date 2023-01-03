@@ -48,16 +48,16 @@ namespace JobJetRestApi.Domain.Entities
             Currency currency,
             WorkSpecification workSpecification) : this()
         {
-            Name = name;
-            Description = description;
-            SalaryFrom = salaryFrom;
-            SalaryTo = salaryTo;
-            Address = address;
-            TechnologyTypes = technologyTypes;
-            Seniority = seniority;
-            EmploymentType = employmentType;
-            Currency = currency;
-            WorkSpecification = workSpecification;
+            Name = Guard.Against.NullOrEmpty(name, nameof(name));
+            Description = Guard.Against.Null(description, nameof(description));
+            SalaryFrom = Guard.Against.NegativeOrZero(salaryFrom, nameof(salaryFrom));
+            SalaryTo = Guard.Against.NegativeOrZero(salaryTo, nameof(salaryTo));
+            Address = Guard.Against.Null(address, nameof(address));
+            TechnologyTypes = Guard.Against.Null(technologyTypes, nameof(technologyTypes));
+            Seniority = Guard.Against.Null(seniority, nameof(seniority));
+            EmploymentType = Guard.Against.Null(employmentType, nameof(employmentType));
+            Currency = Guard.Against.Null(currency, nameof(currency));
+            WorkSpecification = Guard.Against.EnumOutOfRange(workSpecification, nameof(workSpecification));
         }
 
         public void UpdateBasicInformation(string name, string description, decimal salaryFrom, decimal salaryTo)
