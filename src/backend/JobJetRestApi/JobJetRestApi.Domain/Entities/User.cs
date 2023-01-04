@@ -32,6 +32,8 @@ namespace JobJetRestApi.Domain.Entities
         /// <exception cref="CannotDeleteJobOfferException"></exception>
         public void DeleteJobOffer(int jobOfferId)
         {
+            Guard.Against.NegativeOrZero(jobOfferId, nameof(jobOfferId));
+            
             if (!IsOwnerOfJobOffer(jobOfferId))
             {
                 throw CannotDeleteJobOfferException.YouAreNotJobOfferOwner(jobOfferId);
@@ -46,8 +48,8 @@ namespace JobJetRestApi.Domain.Entities
             decimal salaryTo)
         {
             Guard.Against.NegativeOrZero(jobOfferId, nameof(jobOfferId));
-            Guard.Against.Null(name, nameof(name));
-            Guard.Against.Null(description, nameof(description));
+            Guard.Against.NullOrEmpty(name, nameof(name));
+            Guard.Against.NullOrEmpty(description, nameof(description));
             Guard.Against.NegativeOrZero(salaryFrom, nameof(salaryFrom));
             Guard.Against.NegativeOrZero(salaryTo, nameof(salaryTo));
 
@@ -63,7 +65,7 @@ namespace JobJetRestApi.Domain.Entities
         /// <exception cref="CannotDeleteCompanyInformationException"></exception>
         public void DeleteCompany(int companyId)
         {
-            Guard.Against.Null(companyId, nameof(companyId));
+            Guard.Against.NegativeOrZero(companyId, nameof(companyId));
             
             if (!IsOwnerOfCompany(companyId))
             {
@@ -76,7 +78,8 @@ namespace JobJetRestApi.Domain.Entities
         /// <exception cref="CannotUpdateCompanyInformationException"></exception>
         public void UpdateCompanyInformation(int companyId, string description, int numberOfPeople)
         {
-            Guard.Against.Null(description, nameof(description));
+            Guard.Against.NegativeOrZero(companyId, nameof(companyId));
+            Guard.Against.NullOrEmpty(description, nameof(description));
             Guard.Against.NegativeOrZero(numberOfPeople, nameof(numberOfPeople));
             
             if (!IsOwnerOfCompany(companyId))
