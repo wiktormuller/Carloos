@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4FAA64DD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Domain.Tests.Unit", "JobJetRestApi.Domain.Tests.Unit\JobJetRestApi.Domain.Tests.Unit.csproj", "{3994D07D-B467-4F74-AE2E-735549B44062}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobJetRestApi.Domain.Tests.Integration", "JobJetRestApi.Domain.Tests.Integration\JobJetRestApi.Domain.Tests.Integration.csproj", "{F1481D10-EBA3-4400-8BC4-59106E5FD244}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,8 +40,13 @@ Global
 		{3994D07D-B467-4F74-AE2E-735549B44062}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3994D07D-B467-4F74-AE2E-735549B44062}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3994D07D-B467-4F74-AE2E-735549B44062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1481D10-EBA3-4400-8BC4-59106E5FD244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1481D10-EBA3-4400-8BC4-59106E5FD244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1481D10-EBA3-4400-8BC4-59106E5FD244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1481D10-EBA3-4400-8BC4-59106E5FD244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3994D07D-B467-4F74-AE2E-735549B44062} = {4FAA64DD-423E-4CBF-A527-D85A4E52D9E5}
+		{F1481D10-EBA3-4400-8BC4-59106E5FD244} = {4FAA64DD-423E-4CBF-A527-D85A4E52D9E5}
 	EndGlobalSection
 EndGlobal
