@@ -1,6 +1,11 @@
-.landing-page {
+.job-offers-with-map {
     display: flex;
     flex-direction: row;
-    width: 1400px;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: center;
+}
+
+.landing-page {
+    width: calc(100% - 230px);
+    height: calc(100% - 50px);
 }
