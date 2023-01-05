@@ -54,7 +54,7 @@ export default function LandingPageComponent()
   }, [searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId]);
 
   return (
-    <div>
+    <div className="landing-page">
       <SearchBarComponent 
         setSearchText={setSearchTextProxy}
         setSelectedSeniorityLevel={setSelectedSeniorityLevelProxy}
@@ -68,7 +68,7 @@ export default function LandingPageComponent()
         searchText={searchText}
         />
 
-      <div className="landing-page">
+      <div className="job-offers-with-map">
         <JobOffersListComponent
           jobOffers={jobOffers}
         />

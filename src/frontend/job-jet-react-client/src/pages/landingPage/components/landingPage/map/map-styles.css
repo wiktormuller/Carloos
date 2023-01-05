@@ -1,4 +1,4 @@
 .map {
-  width: 650px;
-  height: 650px;
+  width: 50%;
+  height: calc(100vh - 300px);
 }
