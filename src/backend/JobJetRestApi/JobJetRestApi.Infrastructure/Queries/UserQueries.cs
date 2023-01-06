@@ -63,7 +63,7 @@ public class UserQueries : IUserQueries
         const string query = @"
             SELECT
                 [User].Id,
-                [User].Name,
+                [User].UserName,
                 [User].Email
             FROM [AspNetUsers] AS [User]
             WHERE [User].Id = @Id

@@ -44,8 +44,15 @@ class JobOfferService {
         return axios.get(resultUrl);
     }
 
-    createJobOffer(jobOffer){
-        return axios.post(JOB_OFFERS_API_BASE_URL, jobOffer);
+    createJobOffer(jobOffer)
+    {
+        var config = {
+            headers: {
+                'Authorization': `Bearer ${LoginService.getAuthenticatedUser().accessToken}`
+            }
+        }
+
+        return axios.post(JOB_OFFERS_API_BASE_URL, jobOffer, config);
     }
 
     getJobOfferById(jobOfferId){

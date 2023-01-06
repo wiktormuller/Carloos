@@ -1,4 +1,11 @@
 .users {
-    width: 1200px;
+    width: 800px;
     margin: 0 auto;
+    padding: 50px 0 50px 0;
+}
+
+.user-details {
+    width: 400px;
+    margin: 0 auto;
+    padding: 50px 0 50px 0;
 }
