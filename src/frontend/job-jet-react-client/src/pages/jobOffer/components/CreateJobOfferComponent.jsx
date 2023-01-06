@@ -210,7 +210,7 @@ export default function CreateJobOfferComponent()
 
   function selectWorkSpecification(event)
   {
-    setWorkSpecification(event.label) // *Here label is the value sent to the API
+    setWorkSpecification(event  .label) // *Here label is the value sent to the API
   }
 
   return (

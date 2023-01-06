@@ -5,8 +5,9 @@
     width: 100%;
 }
 
-.map {
-    height: calc(100vh - 220px) !important;
+.map { /*Needed refactor*/
+    height: 620px !important;
+    width: 45% !important;
 }
 
 @media only screen and (max-width: 1500px) {
