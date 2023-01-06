@@ -71,85 +71,84 @@ export default function LoginComponent()
   }
 
   return (
-    <div>
+    <div className="login">
       {renderRedirected()}
-      <div className="login">
-        <form className="Auth-form" onSubmit={handleLogin}>
-          <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign In</h3>
-            <div className="form-group mt-3">
-              <label>Email address</label>
-              <input
-                type="email"
-                className="form-control mt-1 email-input"
-                placeholder="Enter email"
-                required
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </div>
-            <div className="form-group mt-3">
-              <label>Password</label>
-              <input
-                type="password"
-                className="form-control mt-1 password-input"
-                placeholder="Enter password"
-                required
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-            </div>
-            <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </div>
-            
-            <p className="forgot-password text-right mt-2">
-              <Link to='/register'>Don't have an account yet?</Link>
-              <br />
-              <Link to='/activate-account'>Activate account</Link>
-              <br />
-              <Link to='/reset-password'>Reset password</Link>
-              <div>
-                <Link variant="warning" onClick={handleShow}>
-                    Send email for resetting password
-                </Link>
-
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>Sending email for resetting password</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-
-                        <Form onSubmit={handleTriggeringResetPassword}>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Email Address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" onChange={handleSetEmailToReset} />
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text>
-                            </Form.Group>
-
-                            <Button variant="primary" type="submit">
-                                Trigger
-                            </Button>
-                        </Form>
-                        
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
-              </div>
-            </p>
+      
+      <form className="Auth-form" onSubmit={handleLogin}>
+        <div className="Auth-form-content">
+          <h3 className="Auth-form-title">Sign In</h3>
+          <div className="form-group mt-3">
+            <label>Email address</label>
+            <input
+              type="email"
+              className="form-control mt-1 email-input"
+              placeholder="Enter email"
+              required
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </div>
-        </form>
-      </div>
+          <div className="form-group mt-3">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control mt-1 password-input"
+              placeholder="Enter password"
+              required
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </div>
+          <div className="d-grid gap-2 mt-3">
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+          
+          <p className="forgot-password text-right mt-2">
+            <Link to='/register'>Don't have an account yet?</Link>
+            <br />
+            <Link to='/activate-account'>Activate account</Link>
+            <br />
+            <Link to='/reset-password'>Reset password</Link>
+            <div>
+              <Link variant="warning" onClick={handleShow}>
+                  Send email for resetting password
+              </Link>
+
+              <Modal show={show} onHide={handleClose}>
+                  <Modal.Header closeButton>
+                  <Modal.Title>Sending email for resetting password</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+
+                      <Form onSubmit={handleTriggeringResetPassword}>
+                          <Form.Group className="mb-3" controlId="formBasicEmail">
+                              <Form.Label>Email Address</Form.Label>
+                              <Form.Control type="email" placeholder="Enter email" onChange={handleSetEmailToReset} />
+                              <Form.Text className="text-muted">
+                                  We'll never share your email with anyone else.
+                              </Form.Text>
+                          </Form.Group>
+
+                          <Button variant="primary" type="submit">
+                              Trigger
+                          </Button>
+                      </Form>
+                      
+                  </Modal.Body>
+                  <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                      Close
+                  </Button>
+                  </Modal.Footer>
+              </Modal>
+            </div>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }

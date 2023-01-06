@@ -1,5 +1,17 @@
 .view-job-offer {
     display: flex;
     justify-content: center;
-    width: 1400px;
+    margin: auto 0;
+    width: 100%;
 }
+
+.map { /*Needed refactor*/
+    height: 620px !important;
+    width: 45% !important;
+}
+
+@media only screen and (max-width: 1500px) {
+    .map {
+        display: none !important;
+    }
+  }

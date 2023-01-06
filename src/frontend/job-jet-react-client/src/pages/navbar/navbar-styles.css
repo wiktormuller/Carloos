@@ -4,12 +4,12 @@
   justify-content: flex-start;
   align-items: center;
   background: #212529;
-  position: static;
+  min-height: calc(100vh - 160px);
 }
 
 .navbar-content {
   width: 220px;
-  height: calc(100% - 80px)
+  min-height: calc(100vh - 160px);
 }
 
 .navbar-text {

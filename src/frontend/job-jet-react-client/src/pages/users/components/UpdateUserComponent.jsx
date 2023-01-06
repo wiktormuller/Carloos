@@ -55,23 +55,22 @@ export default function UpdateUserComponent(props)
     }
 
     return (
-        <div>
+        <div className = "update-user">
             {renderRedirected()}
-            <div className = "update-user">
-                <div className = "card col-md-6 offset-md-3 offset-md-3">
-                    <h3 className="text-center">Update User</h3>
-                    <div className = "card-body">
-                        <form onSubmit={updateUser}>
-                            <div className = "form-group">
-                                <label>Username</label>
-                                <input placeholder="Username" name="userName" className="form-control" 
-                                    value={user.userName} onChange={changeUserNameHandler} />
-                            </div>
+            
+            <div className = "card col-md-6 offset-md-3 offset-md-3">
+                <h3 className="text-center">Update User</h3>
+                <div className = "card-body">
+                    <form onSubmit={updateUser}>
+                        <div className = "form-group">
+                            <label>Username</label>
+                            <input placeholder="Username" name="userName" className="form-control" 
+                                value={user.userName} onChange={changeUserNameHandler} />
+                        </div>
 
-                            <button type="submit" className="btn btn-success">Save</button>
-                            <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
-                        </form>
-                    </div>
+                        <button type="submit" className="btn btn-success">Save</button>
+                        <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
+                    </form>
                 </div>
             </div>
         </div>

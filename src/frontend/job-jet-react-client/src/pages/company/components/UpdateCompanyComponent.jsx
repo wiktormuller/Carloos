@@ -70,48 +70,46 @@ export default function UpdateCompanyComponent()
     }
 
     return (
-        <div>
+        <div className="update-company">
             {renderRedirected()}
-            <div className = "update-company">
-                <div className = "card col-md-6 offset-md-3 offset-md-3">
-                    <h3 className="text-center">Update Company</h3>
-                    <div className = "card-body">
-                        <form onSubmit={updateCompany}>
-                            <div className = "form-group">
-                                <label>Id</label>
-                                <input placeholder="Id" name="id" className="form-control" 
-                                    value={company.id} disabled />
-                            </div>
-                            <div className = "form-group">
-                                <label>Name</label>
-                                <input placeholder="Name" name="name" className="form-control" 
-                                    value={company.name} disabled />
-                            </div>
-                            <div className = "form-group">
-                                <label>Short Name</label>
-                                <input placeholder="Short Name" name="shortName" className="form-control" 
-                                    value={company.shortName} disabled />
-                            </div>
-                            <div className = "form-group">
-                                <label>Description</label>
-                                <input placeholder="Description" name="description" className="form-control" 
-                                    value={company.description} onChange={changeDescriptionHandler} />
-                            </div>
-                            <div className = "form-group">
-                                <label>Number of People</label>
-                                <input placeholder="Number of People" name="numberOfPeople" className="form-control" 
-                                    value={company.numberOfPeople} onChange={changeNumberOfPeopleHandler} />
-                            </div>
-                            <div className = "form-group">
-                                <label>City Name</label>
-                                <input placeholder="City Name" name="city" className="form-control" 
-                                    value={company.cityName} disabled />
-                            </div>
+            <div className = "card col-md-6 offset-md-3 offset-md-3">
+                <h3 className="text-center">Update Company</h3>
+                <div className = "card-body">
+                    <form onSubmit={updateCompany}>
+                        <div className = "form-group">
+                            <label>Id</label>
+                            <input placeholder="Id" name="id" className="form-control" 
+                                value={company.id} disabled />
+                        </div>
+                        <div className = "form-group">
+                            <label>Name</label>
+                            <input placeholder="Name" name="name" className="form-control" 
+                                value={company.name} disabled />
+                        </div>
+                        <div className = "form-group">
+                            <label>Short Name</label>
+                            <input placeholder="Short Name" name="shortName" className="form-control" 
+                                value={company.shortName} disabled />
+                        </div>
+                        <div className = "form-group">
+                            <label>Description</label>
+                            <input placeholder="Description" name="description" className="form-control" 
+                                value={company.description} onChange={changeDescriptionHandler} />
+                        </div>
+                        <div className = "form-group">
+                            <label>Number of People</label>
+                            <input placeholder="Number of People" name="numberOfPeople" className="form-control" 
+                                value={company.numberOfPeople} onChange={changeNumberOfPeopleHandler} />
+                        </div>
+                        <div className = "form-group">
+                            <label>City Name</label>
+                            <input placeholder="City Name" name="city" className="form-control" 
+                                value={company.cityName} disabled />
+                        </div>
 
-                            <button type="submit" className="btn btn-success">Save</button>
-                            <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
-                        </form>
-                    </div>
+                        <button type="submit" className="btn btn-success">Save</button>
+                        <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
+                    </form>
                 </div>
             </div>
         </div>

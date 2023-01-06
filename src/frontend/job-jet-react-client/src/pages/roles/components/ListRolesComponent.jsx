@@ -37,7 +37,6 @@ export default function ListRolesComponent()
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>

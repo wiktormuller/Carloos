@@ -145,37 +145,37 @@ export default function CreateJobOfferComponent()
 
   function selectName(event)
   {
-    setName(event.value);
+    setName(event.target.value);
   }
 
   function selectDescription(event)
   {
-    setDescription(event.value);
+    setDescription(event.target.value);
   }
 
   function selectSalaryFrom(event)
   {
-    setSalaryFrom(event.value);
+    setSalaryFrom(event.target.value);
   }
 
   function selectSalaryTo(event)
   {
-    setSalaryTo(event.value);
+    setSalaryTo(event.target.value);
   }
 
   function selectTown(event)
   {
-    setTown(event.value);
+    setTown(event.target.value);
   }
 
   function selectStreet(event)
   {
-    setStreet(event.value);
+    setStreet(event.target.value);
   }
 
   function selectZipCode(event)
   {
-    setZipCode(event.value);
+    setZipCode(event.target.value);
   }
 
   function selectCompany(event)
@@ -210,7 +210,7 @@ export default function CreateJobOfferComponent()
 
   function selectWorkSpecification(event)
   {
-    setWorkSpecification(event.label) // *Here label is the value sent to the API
+    setWorkSpecification(event  .label) // *Here label is the value sent to the API
   }
 
   return (

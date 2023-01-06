@@ -53,6 +53,8 @@ namespace JobJetRestApi.Infrastructure.Repositories
         public async Task<User> GetByIdAsync(int id)
         {
             return await _context.Users
+                .Include(user => user.Companies)
+                    .ThenInclude(company => company.JobOffers)
                 .Include(user => user.RefreshTokens)
                 .FirstOrDefaultAsync();
         }
