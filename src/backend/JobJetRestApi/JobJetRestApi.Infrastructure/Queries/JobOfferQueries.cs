@@ -297,18 +297,18 @@ namespace JobJetRestApi.Infrastructure.Queries
             return jobOffer;
         }
 
-        private (DynamicParameters Parameters, string Query) BuildConditionsAndGetDynamicParameters(string queryTemplate, JobOffersFilter usersFilter, bool buildParametersForTotalCount = false)
+        private (DynamicParameters Parameters, string Query) BuildConditionsAndGetDynamicParameters(string queryTemplate, JobOffersFilter filter, bool buildParametersForTotalCount = false)
         {
             var conditions = new List<string>();
             var parameters = new DynamicParameters();
 
-            if (usersFilter.CountryId.HasValue)
+            if (filter.CountryId.HasValue)
             {
                 conditions.Add("[Address].CountryId = @CountryId");
-                parameters.Add("CountryId", usersFilter.CountryId.Value);
+                parameters.Add("CountryId", filter.CountryId.Value);
             }
 
-            if (usersFilter.TechnologyIds is not null && usersFilter.TechnologyIds.Any())
+            if (filter.TechnologyIds is not null && filter.TechnologyIds.Any())
             {
                 conditions.Add(@"
                     JobOfferTechnologyType.JobOffersId IN (SELECT JobOffer.Id 
@@ -316,44 +316,54 @@ namespace JobJetRestApi.Infrastructure.Queries
                             JOIN [JobOffers] AS JobOffer
                                 ON [JobOfferTechnologyType].JobOffersId = [JobOffer].Id
                         WHERE [JobOfferTechnologyType].TechnologyTypesId  IN @TechnologyTypeIds)"); 
-                parameters.Add("TechnologyTypeIds", usersFilter.TechnologyIds);
+                parameters.Add("TechnologyTypeIds", filter.TechnologyIds);
             }
 
-            if (usersFilter.EmploymentTypeId.HasValue)
+            if (filter.EmploymentTypeId.HasValue)
             {
                 conditions.Add("[EmploymentType].Id = @EmploymentTypeId");
-                parameters.Add("EmploymentTypeId", usersFilter.EmploymentTypeId.Value);
+                parameters.Add("EmploymentTypeId", filter.EmploymentTypeId.Value);
             }
 
-            if (usersFilter.SeniorityLevelId.HasValue)
+            if (filter.SeniorityLevelId.HasValue)
             {
                 conditions.Add("[Seniority].Id = @SeniorityLevelId");
-                parameters.Add("SeniorityLevelId", usersFilter.SeniorityLevelId.Value);
+                parameters.Add("SeniorityLevelId", filter.SeniorityLevelId.Value);
             }
 
-            if (! string.IsNullOrEmpty(usersFilter.WorkSpecification))
+            if (! string.IsNullOrEmpty(filter.WorkSpecification))
             {
                 conditions.Add("[JobOffer].WorkSpecification = @WorkSpecification");
-                parameters.Add("WorkSpecification", usersFilter.WorkSpecification);
+                parameters.Add("WorkSpecification", filter.WorkSpecification);
             }
 
-            if (usersFilter.SalaryFrom.HasValue)
+            if (filter.SalaryFrom.HasValue)
             {
                 conditions.Add("[JobOffer].SalaryFrom >= @SalaryFrom");
-                parameters.Add("SalaryFrom", usersFilter.SalaryFrom.Value);
+                parameters.Add("SalaryFrom", filter.SalaryFrom.Value);
             }
 
-            if (usersFilter.SalaryTo.HasValue)
+            if (filter.SalaryTo.HasValue)
             {
                 conditions.Add("[JobOffer].SalaryTo >= @SalaryTo");
-                parameters.Add("SalaryTo", usersFilter.SalaryTo.Value);
+                parameters.Add("SalaryTo", filter.SalaryTo.Value);
             }
 
-            if (!string.IsNullOrEmpty(usersFilter.GeneralSearchByText))
+            if (!string.IsNullOrEmpty(filter.GeneralSearchByText))
             {
                 conditions.Add(@"[JobOffer].Description LIKE @GeneralSearchByText
                     OR [JobOffer].Name LIKE @GeneralSearchByText");
-                parameters.Add("GeneralSearchByText", $"%{usersFilter.GeneralSearchByText}%");
+                parameters.Add("GeneralSearchByText", $"%{filter.GeneralSearchByText}%");
+            }
+
+            if (filter.RadiusInKilometers is not null)
+            {
+                // @TODO: Implement filtering
+                //conditions.Add(@"[Address].Longitude");
+                
+                parameters.Add("UserLongitude", filter.UserLongitude);
+                parameters.Add("UserLatitude", filter.UserLatitude);
+                parameters.Add("RadiusInKilometers", filter.RadiusInKilometers);
             }
 
             var queryBuilder = new StringBuilder(queryTemplate);
@@ -365,8 +375,8 @@ namespace JobJetRestApi.Infrastructure.Queries
             if (!buildParametersForTotalCount)
             {
                 queryBuilder.Replace("--@SUBQUERYORDER", "ORDER BY Id");
-                queryBuilder.Replace("--@OFFSET", $"OFFSET {usersFilter.PageNumber} ROWS");
-                queryBuilder.Replace("--@FETCH", $"FETCH NEXT {usersFilter.GetNormalizedPageSize()} ROWS ONLY");
+                queryBuilder.Replace("--@OFFSET", $"OFFSET {filter.PageNumber} ROWS");
+                queryBuilder.Replace("--@FETCH", $"FETCH NEXT {filter.GetNormalizedPageSize()} ROWS ONLY");
                 
                 queryBuilder.Replace("--@ORDERBY", "ORDER BY [JobOffer].Id"); // @TODO - Implement better sorting
             }
