@@ -19,9 +19,8 @@ export default function HeaderComponent()
 
   function loginOrRegisterButton()
   {
-    if (currentUser === '' || currentUser === undefined) {
-      console.log(currentUser);
-      console.log('Empty User');
+    if (currentUser === '' || currentUser === undefined)
+    {
       return (
         <div className="custom-header">
           <Link className="custom-link" to="/login">
@@ -34,8 +33,6 @@ export default function HeaderComponent()
       );
     }
     else if (currentUser !== '' || currentUser !== undefined) {
-      console.log(currentUser);
-      console.log('Not Empty user');
       return (
         <div className="custom-header">
           <Link to="/profile">

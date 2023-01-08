@@ -5,16 +5,9 @@ const REGISTER_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/auth/regis
 
 class RegisterService
 {
-    async register(credentials)
+    register(credentials)
     {
-        const response = axios.post(REGISTER_API_BASE_URL, credentials);
-
-        const id = response.data.id;
-        if (id) {
-            return response.data;
-        }
-
-        return response.data;
+        return axios.post(REGISTER_API_BASE_URL, credentials);
     }
 }
 

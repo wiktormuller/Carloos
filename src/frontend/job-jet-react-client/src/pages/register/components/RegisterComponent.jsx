@@ -1,6 +1,6 @@
 import "../register-styles.css";
 import { useState } from "react";
-import { Navigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import RegisterService from '../../../clients/RegisterService';
 
 export default function RegisterComponent()
@@ -9,34 +9,26 @@ export default function RegisterComponent()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [registerError, setRegisterError] = useState(''); // TODO: - How to use it at form
-  const[redirect, setRedirect] = useState(false);
 
-  const handleRegister = async () => {
-    try
-    {
-      const userId = RegisterService.register({
-        name: name,
-        email: email,
-        password: password
-      });
-      setRedirect(true);
-    }
-    catch (error) {
-      console.log('error', error);
-      setRegisterError(error);
-    }
+  const navigate = useNavigate();
+
+  function handleRegister(event)
+  {
+    event.preventDefault();
+
+    RegisterService.register({
+      name: name,
+      email: email,
+      password: password
+    }).then(response =>
+      {
+        navigate(`/activate-account`);;
+      }
+    );
   };
-
-  const renderRedirected = () => {
-    if (redirect) {
-      return <Navigate to='/login' />
-    }
-  }
 
   return (
     <div className="register">
-      {renderRedirected()}
-      
       <form className="Auth-form" onSubmit={handleRegister}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign In</h3>

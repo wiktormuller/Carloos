@@ -10,8 +10,10 @@ export default function ActivateAccountComponent()
 
     const navigate = useNavigate();
 
-    function activateAccount()
+    function activateAccount(event)
     {
+        event.preventDefault();
+        
         let activationRequest = {
             email: email,
             token: token
@@ -62,7 +64,7 @@ export default function ActivateAccountComponent()
                                         value={token} onChange={changeTokenHandler}/>
                                 </div>
 
-                                <button className="btn btn-success" onClick={activateAccount()}>Activate</button>
+                                <button className="btn btn-success" onClick={activateAccount}>Activate</button>
                                 <button className="btn btn-danger" onClick={cancel} style={{marginLeft: "10px"}}>Cancel</button>
                             </form>
                         </div>

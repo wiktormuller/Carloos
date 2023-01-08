@@ -34,4 +34,13 @@
       <Folder Include="Contracts\V1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="EmailTemplates\ActivateAccount\Activate.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="EmailTemplates\ResetPassword\Reset.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
