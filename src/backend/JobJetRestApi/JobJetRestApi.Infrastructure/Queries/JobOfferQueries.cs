@@ -356,10 +356,11 @@ namespace JobJetRestApi.Infrastructure.Queries
                 parameters.Add("GeneralSearchByText", $"%{filter.GeneralSearchByText}%");
             }
 
-            if (filter.RadiusInKilometers is not null)
+            if (filter.RadiusInKilometers is not null && filter.UserLatitude is not null && filter.UserLongitude is not null)
             {
-                // @TODO: Implement filtering
-                //conditions.Add(@"[Address].Longitude");
+                conditions.Add(@"
+                    GEOGRAPHY::Point(@UserLatitude, @UserLongitude, 4326).STDistance(GEOGRAPHY::Point([Address].Latitude, [Address].Longitude, 4326)) / 1000  <= @RadiusInKilometers
+                ");
                 
                 parameters.Add("UserLongitude", filter.UserLongitude);
                 parameters.Add("UserLatitude", filter.UserLatitude);
