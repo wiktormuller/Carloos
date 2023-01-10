@@ -80,6 +80,10 @@ export default function SearchBarComponent(props)
             "value": 0,
             "label": ''
           });
+
+        props.setSelectedRadiusInKilometers({
+            value: ''
+        });
     }
 
     return (
@@ -99,6 +103,10 @@ export default function SearchBarComponent(props)
 
                 <div className="form-group form-group-extended">
                     <Select className="form-control" options={availableWorkSpecifications} onChange={props.setSelectedWorkSpecification} value={availableWorkSpecifications.find(element => {return element.label === props.selectedWorkSpecification})} placeholder="Work Specification"/>
+                </div>
+
+                <div className="form-group form-group-extended" onChange={(event) => props.setSelectedRadiusInKilometers(event.target)}>
+                    <input type="number" className="form-control" id="name" value={props.selectedRadiusInKilometers} placeholder="Radius" />
                 </div>
 
                 <button type="button" className="btn btn-primary" onClick={clearAllFilters}>

@@ -6,7 +6,8 @@ const JOB_OFFERS_API_BASE_URL = `${Environment.getEnvironment()}/api/v1/job-offe
 
 class JobOfferService {
 
-    getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId)
+    getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, 
+        selectedEmploymentTypeId, selectedTechnologyTypesId, userGeoLocation, selectedRadiusInKilometers)
     {
         var query = new URLSearchParams();
 
@@ -33,6 +34,14 @@ class JobOfferService {
         if (selectedTechnologyTypesId !== undefined && selectedTechnologyTypesId > 0)
         {
             query.append("TechnologyIds", selectedTechnologyTypesId);
+        }
+
+        if (selectedRadiusInKilometers != null && selectedRadiusInKilometers != '')
+        {
+            query.append("RadiusInKilometers", selectedRadiusInKilometers);
+
+            query.append("UserLongitude", userGeoLocation.longitude);
+            query.append("UserLatitude", userGeoLocation.latitude);
         }
 
         var resultUrl = JOB_OFFERS_API_BASE_URL;
