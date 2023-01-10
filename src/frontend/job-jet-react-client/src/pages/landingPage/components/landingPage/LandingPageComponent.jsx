@@ -9,8 +9,7 @@ export default function LandingPageComponent()
 {
   const [jobOffers, setJobOffers] = useState([]);
 
-  // Get it from global context
-  const [selectedJobOfferGeoLocation, setSelectedJobOfferGeoLocation] = useState(
+  const [userGeoLocation, setUserGeolocation] = useState(
     {
       longitude: undefined,
       latitude: undefined
@@ -23,10 +22,15 @@ export default function LandingPageComponent()
   const [selectedWorkSpecification, setSelectedWorkSpecification] = useState();
   const [selectedEmploymentTypeId, setSelectedEmploymentTypeId] = useState();
   const [selectedTechnologyTypesId, setSelectedTechnologyTypesId] = useState();
+  const [selectedRadiusInKilometers, setSelectedRadiusInKilometers] = useState();
 
   function setSearchTextProxy(event) {
-    console.log(event);
     setSearchText(event.value);
+  }
+
+  function setSelectedRadiusInKilometersProxy(event) {
+    console.log(event.value);
+    setSelectedRadiusInKilometers(event.value);
   }
 
   function setSelectedSeniorityLevelProxy(event) {
@@ -47,11 +51,21 @@ export default function LandingPageComponent()
 
   // Similar to componentDidMount and componentDidUpdate
   useEffect(() => {
-    JobOfferService.getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId)
+    if (navigator.geolocation)
+    {
+        navigator.geolocation.getCurrentPosition(position => {
+            setUserGeolocation({
+                longitude: position.coords.longitude,
+                latitude: position.coords.latitude
+            });
+        });
+    }
+
+    JobOfferService.getJobOffers(searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId, userGeoLocation, selectedRadiusInKilometers)
     .then(res => {
       setJobOffers(res.data.response.data);
     });
-  }, [searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId]);
+  }, [searchText, selectedSeniorityLevelId, selectedWorkSpecification, selectedEmploymentTypeId, selectedTechnologyTypesId, selectedRadiusInKilometers]);
 
   return (
     <div className="landing-page">
@@ -61,11 +75,14 @@ export default function LandingPageComponent()
         setSelectedWorkSpecification={setSelectedWorkSpecificationProxy}
         setSelectedTechnologyType={setSelectedTechnologyTypeProxy}
         setSelectedEmploymentType={setSelectedEmploymentTypeProxy}
+        setSelectedRadiusInKilometers={setSelectedRadiusInKilometersProxy}
+
         selectedSeniorityLevelId={selectedSeniorityLevelId}
         selectedWorkSpecification={selectedWorkSpecification}
         selectedEmploymentTypeId={selectedEmploymentTypeId}
         selectedTechnologyTypesId={selectedTechnologyTypesId}
         searchText={searchText}
+        selectedRadiusInKilometers={selectedRadiusInKilometers}
         />
 
       <div className="job-offers-with-map">
@@ -75,6 +92,8 @@ export default function LandingPageComponent()
 
         <MapComponent
           jobOffers={jobOffers}
+          userGeoLocation={userGeoLocation}
+          radiusInKilometers={selectedRadiusInKilometers}
         />
       </div>
     </div>
