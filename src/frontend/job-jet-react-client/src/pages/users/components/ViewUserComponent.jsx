@@ -6,13 +6,12 @@ export default function ViewUserComponent(props)
 {
     const { id } = useParams();
     const[userState, setUserState] = useState({
-        id: id,
         user: {}
     });
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        UserService.getUserById(userState.id).then((res) => {
+        UserService.getUserById(id).then((res) => {
             setUserState({
                 user: res.data
             })
@@ -21,24 +20,22 @@ export default function ViewUserComponent(props)
 
     return (
         <div className="user-details">
-            <br></br>
+            <h3 className = "text-center"> View User Details</h3>
             <div className = "card col-md-6 offset-md-3">
-                <h3 className = "text-center"> View User Details</h3>
                 <div className = "card-body">
                     <div className = "row">
-                        <label>Id:</label>
-                        <div> { userState.user.id }</div>
+                        <label>Id</label>
+                        <p>{ userState.user.id }</p>
                     </div>
                     <div className = "row">
-                        <label>Username:</label>
-                        <div> { userState.user.userName }</div>
+                        <label>Username</label>
+                        <p>{ userState.user.userName }</p>
                     </div>
                     <div className = "row">
-                        <label>Email:</label>
-                        <div> { userState.user.email }</div>
+                        <label>Email</label>
+                        <p>{ userState.user.email }</p>
                     </div>
                 </div>
-
             </div>
         </div>
     );
