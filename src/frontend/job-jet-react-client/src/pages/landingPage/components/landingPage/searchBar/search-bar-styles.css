@@ -43,20 +43,26 @@
     height: 35px;
 }
 
-@media only screen and (max-width: 1270px) {
+@media only screen and (max-width: 1499px) {
     .search-bar {
-        height: 300px;
+        height: 250px;
     }
 }
 
-@media only screen and (max-width: 1045px) {
+@media only screen and (max-width: 1158px) {
     .search-bar {
-        height: 350px;
+        height: 270px;
     }
 }
 
-@media only screen and (max-width: 825px) {
+@media only screen and (max-width: 1041px) {
     .search-bar {
-        height: 450px;
+        height: 380px;
+    }
+}
+
+@media only screen and (max-width: 774px) {
+    .search-bar {
+        height: 520px;
     }
 }

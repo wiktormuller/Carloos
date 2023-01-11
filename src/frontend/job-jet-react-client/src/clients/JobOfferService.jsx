@@ -36,7 +36,7 @@ class JobOfferService {
             query.append("TechnologyIds", selectedTechnologyTypesId);
         }
 
-        if (selectedRadiusInKilometers != null && selectedRadiusInKilometers != '')
+        if (selectedRadiusInKilometers !== null && selectedRadiusInKilometers !== undefined && selectedRadiusInKilometers !== '')
         {
             query.append("RadiusInKilometers", selectedRadiusInKilometers);
 
