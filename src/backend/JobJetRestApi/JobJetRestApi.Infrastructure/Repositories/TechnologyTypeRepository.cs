@@ -48,7 +48,7 @@ namespace JobJetRestApi.Infrastructure.Repositories
             return await GetByIdAsync(id) is not null;
         }
 
-        public async Task<(bool Exists, IEnumerable<int> NonExistingIds)> ExistsAsync(IEnumerable<int> ids)
+        public async Task<(bool Exist, IEnumerable<int> NonExistingIds)> ExistsAsync(IEnumerable<int> ids)
         {
             var foundTechnologyTypes = await GetAllAsync(ids);
             var nonExistingIds = ids

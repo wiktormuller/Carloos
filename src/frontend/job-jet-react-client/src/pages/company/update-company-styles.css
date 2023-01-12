@@ -1,6 +1,6 @@
 .update-company {
     display: flex;
-    width: 100%;
+    width: 100vw;
     height: 650px;
     padding: 50px 0 50px 0;
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
@@ -66,10 +67,10 @@ namespace JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers
                 throw SeniorityLevelNotFoundException.ForId(request.SeniorityId);
             }
 
-            var technologyTypeExists = await _technologyTypeRepository.ExistsAsync(request.TechnologyTypeIds);
-            if (! technologyTypeExists.Exists)
+            var technologyTypesExists = await _technologyTypeRepository.ExistsAsync(request.TechnologyTypeIds);
+            if (! technologyTypesExists.Exist)
             {
-                throw TechnologyTypeNotFoundException.ForIds(technologyTypeExists.NonExistingIds);
+                throw TechnologyTypeNotFoundException.ForIds(technologyTypesExists.NonExistingIds);
             }
 
             if (! await _employmentTypeRepository.ExistsAsync(request.EmploymentTypeId))

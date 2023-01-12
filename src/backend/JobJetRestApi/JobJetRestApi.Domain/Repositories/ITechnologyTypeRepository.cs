@@ -11,7 +11,7 @@ namespace JobJetRestApi.Domain.Repositories
         Task<List<TechnologyType>> GetAllAsync();
         Task<List<TechnologyType>> GetAllAsync(IEnumerable<int> ids);
         Task<bool> ExistsAsync(int id);
-        Task<(bool Exists, IEnumerable<int> NonExistingIds)> ExistsAsync(IEnumerable<int> ids);
+        Task<(bool Exist, IEnumerable<int> NonExistingIds)> ExistsAsync(IEnumerable<int> ids);
         Task<bool> ExistsAsync(string name);
         Task<int> CreateAsync(TechnologyType technologyType);
         Task UpdateAsync();
