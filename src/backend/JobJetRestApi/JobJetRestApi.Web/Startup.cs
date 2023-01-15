@@ -58,10 +58,10 @@ namespace JobJetRestApi.Web
             {
                 endpoints.MapControllers();
 
-                endpoints.MapHealthChecks("/health-checks", new HealthCheckOptions()
-                {
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
+                 endpoints.MapHealthChecks("/health-checks", new HealthCheckOptions()
+                 {
+                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                 });
                 
                 endpoints.MapHealthChecksUI(config => config.UIPath = "/health-checks-ui");
             });
