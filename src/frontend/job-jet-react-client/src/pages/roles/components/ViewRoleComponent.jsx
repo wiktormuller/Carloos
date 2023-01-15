@@ -6,13 +6,12 @@ export default function ViewRoleComponent(props)
 {
     const { id } = useParams();
     const[roleState, setRoleState] = useState({
-        id: id,
         role: {}
     });
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        RoleService.getRoleById(roleState.id).then((res) => {
+        RoleService.getRoleById(id).then((res) => {
             setRoleState({
                 role: res.data
             })
@@ -20,21 +19,19 @@ export default function ViewRoleComponent(props)
     });
 
     return (
-        <div>
-            <br></br>
+        <div className="roles">
             <div className = "card col-md-6 offset-md-3">
                 <h3 className = "text-center"> View Role Details</h3>
                 <div className = "card-body">
                     <div className = "row">
-                        <label>Id:</label>
-                        <div> { roleState.id }</div>
+                        <label>Id</label>
+                        <p>{ roleState.role.id }</p>
                     </div>
                     <div className = "row">
-                        <label>Name:</label>
-                        <div> { roleState.role.name }</div>
+                        <label>Name</label>
+                        <p>{ roleState.role.name }</p>
                     </div>
                 </div>
-
             </div>
         </div>
     );

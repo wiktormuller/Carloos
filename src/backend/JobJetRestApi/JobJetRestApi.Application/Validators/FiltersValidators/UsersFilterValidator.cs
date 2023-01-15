@@ -21,5 +21,20 @@ public class UsersFilterValidator : AbstractValidator<JobOffersFilter>
 
         RuleFor(filter => filter.SeniorityLevelId)
             .GreaterThan(0);
+
+        RuleFor(filter => filter.RadiusInKilometers)
+            .GreaterThan(0)
+            .NotNull()
+                .When(x => x.UserLongitude != null && x.UserLatitude != null, ApplyConditionTo.CurrentValidator);
+
+        RuleFor(filter => filter.UserLongitude)
+            .InclusiveBetween(-180, 180)
+            .NotNull()
+                .When(x => x.RadiusInKilometers != null && x.UserLatitude != null, ApplyConditionTo.CurrentValidator);
+        
+        RuleFor(filter => filter.UserLatitude)
+            .InclusiveBetween(-90, 90)
+            .NotNull()
+                .When(x => x.RadiusInKilometers != null && x.UserLongitude != null, ApplyConditionTo.CurrentValidator);
     }
 }

@@ -6,13 +6,12 @@ export default function ViewTechnologyTypeComponent(props)
 {
     const { id } = useParams();
     const[technologyTypeState, setTechnologyTypeState] = useState({
-        id: id,
         technologyType: {}
     });
 
     // Similar to componentDidMount and componentDidUpdate
     useEffect(() => {
-        TechnologyTypeService.getTechnologyTypeById(technologyTypeState.id).then((res) => {
+        TechnologyTypeService.getTechnologyTypeById(id).then((res) => {
             setTechnologyTypeState({
                 technologyType: res.data
             })
@@ -20,18 +19,17 @@ export default function ViewTechnologyTypeComponent(props)
     });
 
     return (
-        <div>
-            <br></br>
+        <div className="technology-types">
+            <h3 className = "text-center"> View Technology Type Details</h3>
             <div className = "card col-md-6 offset-md-3">
-                <h3 className = "text-center"> View Technology Type Details</h3>
                 <div className = "card-body">
                     <div className = "row">
-                        <label>Id:</label>
-                        <div> { technologyTypeState.id }</div>
+                        <label>Id</label>
+                        <p> { technologyTypeState.technologyType.id }</p>
                     </div>
                     <div className = "row">
-                        <label>Name:</label>
-                        <div> { technologyTypeState.technologyType.name }</div>
+                        <label>Name</label>
+                        <p> { technologyTypeState.technologyType.name }</p>
                     </div>
                 </div>
 

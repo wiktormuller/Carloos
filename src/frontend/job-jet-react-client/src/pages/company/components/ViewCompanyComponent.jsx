@@ -21,34 +21,33 @@ export default function ViewCompanyComponent()
     });
 
     return (
-        <div>
-            <br></br>
+        <div className="companies">
+            <h3 className = "text-center"> View Company Details</h3>
             <div className = "card col-md-6 offset-md-3">
-                <h3 className = "text-center"> View Company Details</h3>
                 <div className = "card-body">
                     <div className = "row">
-                        <label>Id:</label>
-                        <div> { companyState.company.id }</div>
+                        <label>Id</label>
+                        <p>{ companyState.company.id }</p>
                     </div>
                     <div className = "row">
-                        <label>Name:</label>
-                        <div> { companyState.company.name }</div>
+                        <label>Name</label>
+                        <p>{ companyState.company.name }</p>
                     </div>
                     <div className = "row">
-                        <label>Short Name:</label>
-                        <div> { companyState.company.shortName }</div>
+                        <label>Short Name</label>
+                        <p>{ companyState.company.shortName }</p>
                     </div>
                     <div className = "row">
-                        <label>Description:</label>
-                        <div> { companyState.company.description }</div>
+                        <label>Description</label>
+                        <p>{ companyState.company.description }</p>
                     </div>
                     <div className = "row">
-                        <label>Number of People:</label>
-                        <div> { companyState.company.numberOfPeople }</div>
+                        <label>Number of People</label>
+                        <p>{ companyState.company.numberOfPeople }</p>
                     </div>
                     <div className = "row">
-                        <label>City Name:</label>
-                        <div> { companyState.company.city }</div>
+                        <label>City Name</label>
+                        <p>{ companyState.company.cityName }</p>
                     </div>
                 </div>
 

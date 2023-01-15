@@ -18,4 +18,8 @@ public class JobOffersFilter : PaginationFilter
     public decimal? SalaryFrom { get; set; }
     public decimal? SalaryTo { get; set; }
     [CanBeNull] public string GeneralSearchByText { get; set; }
+    
+    public decimal? UserLongitude { get; set; }
+    public decimal? UserLatitude { get; set; }
+    public int? RadiusInKilometers { get; set; }
 }

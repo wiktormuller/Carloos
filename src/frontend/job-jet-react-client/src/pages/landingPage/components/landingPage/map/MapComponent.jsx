@@ -54,8 +54,24 @@ export default function MapComponent(props)
     }
   }, []);
 
-  const FlyToCoords = () => {
 
+  const DrawRadiusCircle = () => {
+    const map = useMap();
+
+    map.eachLayer((layer) => {
+      if (layer.options.radius != undefined)
+      {
+        map.removeLayer(layer);
+      }
+    })
+    if(props.radiusInKilometers != null && props.radiusInKilometers != undefined)
+    {
+       L.circle([props.userGeoLocation.latitude, props.userGeoLocation.longitude], props.radiusInKilometers * 1000)
+        .addTo(map);
+    }
+  }
+
+  const FlyToCoords = () => {
     const map = useMap();
 
     // In a half way from user to job offer
@@ -64,7 +80,6 @@ export default function MapComponent(props)
         props.userGeoLocation.longitude !== undefined && 
         props.selectedJobOfferGeoLocation.longitude !== undefined)
     {
-      console.log(roadCoordinatesPoints);
       if (roadCoordinatesPoints.length !== 0) // Wait to get the coordinates from API
       {
         map.flyTo(
@@ -151,6 +166,8 @@ export default function MapComponent(props)
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
       />
+
+      <DrawRadiusCircle />
 
       {jobOffersMarkers}
 

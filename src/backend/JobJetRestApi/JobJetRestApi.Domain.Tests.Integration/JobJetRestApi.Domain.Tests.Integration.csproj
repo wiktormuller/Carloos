@@ -28,5 +28,4 @@
       <ProjectReference Include="..\JobJetRestApi.Infrastructure\JobJetRestApi.Infrastructure.csproj" />
       <ProjectReference Include="..\JobJetRestApi.Web\JobJetRestApi.Web.csproj" />
     </ItemGroup>
-
 </Project>
