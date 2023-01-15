@@ -26,8 +26,8 @@ namespace JobJetRestApi.Web.Installers
                 return new PageUriService(uri);
             });
             
-            services.AddScoped<IGeocodingService, GeocodingService>();
-            services.AddScoped<IRouteService, RouteService>();
+            services.AddHttpClient<IGeocodingService, GeocodingService>();
+            services.AddHttpClient<IRouteService, RouteService>();
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IEmailService, EmailService>();
