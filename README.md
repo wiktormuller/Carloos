@@ -24,7 +24,7 @@ This project is my production ready thesis project for University engineering pr
 ---
 
 ## Graphical presentation of most important parts
-https://imgur.com/a/XCSn3lK
+https://imgur.com/a/NhfDCcl
 
 ---
 
