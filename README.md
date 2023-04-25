@@ -14,12 +14,33 @@
 ---
 
 ## Project
-This repository is divided for two main projects. It is frontend Single Page Application made via React.js and backend REST API made via ASP.NET Core.
+This repository is divided for two main projects. It is frontend Single Page Application made in React.js and backend REST API made in ASP.NET Core.
 
 ---
 
 ## The reason for the creation
-This project is our final engineering project.
+This project is my production ready thesis project for University engineering project.
+
+---
+
+## Graphical presentation of most important parts
+https://imgur.com/a/XCSn3lK
+
+---
+
+## Healthchecks
+The local healthchecks are available at those addresses `http://localhost:5002/health-checks` and `http://localhost:5002/health-checks-ui#/healthchecks`<br />
+The production healthchecks are available at those addresses `https://jobjet.azurewebsites.net/health-checks` and `https://jobjet.azurewebsites.net/health-checks-ui#/healthchecks`
+
+## External dependencies
+We use APIs like those:<br />
+    - Google Geocoding API - https://developers.google.com/maps/documentation/geocoding/overview<br />
+    - Project OSRM - https://project-osrm.org/<br />
+    - Open Street Map - https://www.openstreetmap.org/#map=6/52.018/19.137<br />
+    
+The backend part of application was hosted on Azure App Services, the frontend part was hosted on Netflify.
+The building and publishing process was handled by GitHub Actions where the newest changes from main branch were instantly deployed to App Services/Netlify.
+Internally the app uses Azure SQL database.
 
 ---
 
@@ -52,16 +73,6 @@ Run `npm start`
 You can find the app at this address `http://localhost:3000/`
 
 ---
-
-## Healthchecks
-The local healthchecks are available at those addresses `http://localhost:5002/health-checks` and `http://localhost:5002/health-checks-ui#/healthchecks`<br />
-The production healthchecks are available at those addresses `https://jobjet.azurewebsites.net/health-checks` and `https://jobjet.azurewebsites.net/health-checks-ui#/healthchecks`
-
-## External dependencies
-We use APIs like those:<br />
-    - Google Geocoding API - https://developers.google.com/maps/documentation/geocoding/overview<br />
-    - Project OSRM - https://project-osrm.org/<br />
-    - Open Street Map - https://www.openstreetmap.org/#map=6/52.018/19.137<br />
 
 ## To add new database migrations
 Go to `JobJet/src/backend/JobJetRestApi.Web`<br />
