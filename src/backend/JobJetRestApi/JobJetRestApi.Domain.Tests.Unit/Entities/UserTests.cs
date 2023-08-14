@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
+using JobJetRestApi.Domain.Consts;
 using JobJetRestApi.Domain.Entities;
-using JobJetRestApi.Domain.Enums;
 using JobJetRestApi.Domain.Exceptions;
-using Xunit.Sdk;
 
 namespace JobJetRestApi.Domain.Tests.Unit.Entities;
 

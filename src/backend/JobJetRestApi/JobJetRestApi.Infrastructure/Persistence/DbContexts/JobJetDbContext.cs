@@ -1,5 +1,5 @@
-﻿using JobJetRestApi.Domain.Entities;
-using JobJetRestApi.Domain.Enums;
+﻿using JobJetRestApi.Domain.Consts;
+using JobJetRestApi.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;

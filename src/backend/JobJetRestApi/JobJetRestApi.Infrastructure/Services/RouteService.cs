@@ -6,8 +6,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using JobJetRestApi.Application.DTO;
 using JobJetRestApi.Application.Ports;
-using JobJetRestApi.Domain.Entities;
 using JobJetRestApi.Infrastructure.Dtos.RouteService;
 using JobJetRestApi.Infrastructure.Options;
 using Microsoft.Extensions.Options;
@@ -27,7 +27,7 @@ namespace JobJetRestApi.Infrastructure.Services
             _options = options.Value;
         }
 
-        public async Task<List<GeoPoint>> GetPointsBetweenTwoGeoPointsAsync(GeoPoint firstGeoPoint, GeoPoint secondGeoPoint)
+        public async Task<List<GeoPointDto>> GetPointsBetweenTwoGeoPointsAsync(GeoPointDto firstGeoPoint, GeoPointDto secondGeoPoint)
         {
             StringBuilder fullUriBuilder = new(_options.BaseUri);
             fullUriBuilder.Replace("{firstPointLongitude}", 
@@ -61,14 +61,14 @@ namespace JobJetRestApi.Infrastructure.Services
 
                     var geoPoints = results
                         .Select(result => 
-                            new GeoPoint(Convert.ToDecimal(result[0]), Convert.ToDecimal(result[1])))
+                            new GeoPointDto(Convert.ToDecimal(result[0]), Convert.ToDecimal(result[1])))
                         .ToList();
 
                     return geoPoints;
                 }
             }
 
-            return new List<GeoPoint>();
+            return new List<GeoPointDto>();
         }
     }
 }

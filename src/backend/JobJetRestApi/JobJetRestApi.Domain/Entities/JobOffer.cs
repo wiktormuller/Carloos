@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ardalis.GuardClauses;
-using JobJetRestApi.Domain.Enums;
+using JobJetRestApi.Domain.Consts;
 
 namespace JobJetRestApi.Domain.Entities
 {

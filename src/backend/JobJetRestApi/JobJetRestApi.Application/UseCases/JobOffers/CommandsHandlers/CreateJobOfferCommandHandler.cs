@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
+using JobJetRestApi.Domain.Consts;
 using JobJetRestApi.Domain.Entities;
-using JobJetRestApi.Domain.Enums;
 using JobJetRestApi.Domain.Repositories;
 using MediatR;
 

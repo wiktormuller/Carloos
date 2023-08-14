@@ -9,7 +9,7 @@ using JobJetRestApi.Application.Contracts.V1.Filters;
 using JobJetRestApi.Application.Contracts.V1.Responses;
 using JobJetRestApi.Application.Exceptions;
 using JobJetRestApi.Application.UseCases.JobOffers.Queries;
-using JobJetRestApi.Domain.Enums;
+using JobJetRestApi.Domain.Consts;
 using JobJetRestApi.Infrastructure.Factories;
 
 namespace JobJetRestApi.Infrastructure.Queries
