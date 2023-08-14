@@ -1,4 +1,4 @@
-﻿namespace JobJetRestApi.Domain.Enums
+﻿namespace JobJetRestApi.Domain.Consts
 {
     public enum WorkSpecification
     {

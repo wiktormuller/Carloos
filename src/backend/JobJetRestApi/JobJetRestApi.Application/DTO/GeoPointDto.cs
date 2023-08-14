@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace JobJetRestApi.Domain.Entities
+namespace JobJetRestApi.Application.DTO
 {
-    public class GeoPoint
+    public class GeoPointDto
     {
         public decimal Longitude { get; private set; }
         public decimal Latitude { get; private set; }
         
-        public GeoPoint(decimal longitude, decimal latitude)
+        public GeoPointDto(decimal longitude, decimal latitude)
         {
             if (longitude < -180 || longitude > 180) //<-180; 180°>
             {

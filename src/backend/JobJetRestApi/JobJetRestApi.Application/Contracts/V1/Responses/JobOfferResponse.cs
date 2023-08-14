@@ -1,6 +1,6 @@
-﻿using System;
+﻿using JobJetRestApi.Domain.Consts;
+using System;
 using System.Collections.Generic;
-using JobJetRestApi.Domain.Enums;
 
 namespace JobJetRestApi.Application.Contracts.V1.Responses
 {

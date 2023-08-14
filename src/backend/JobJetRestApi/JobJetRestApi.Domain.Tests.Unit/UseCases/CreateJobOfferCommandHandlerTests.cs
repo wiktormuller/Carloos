@@ -1,8 +1,8 @@
 ﻿using JobJetRestApi.Application.Ports;
 using JobJetRestApi.Application.UseCases.JobOffers.Commands;
 using JobJetRestApi.Application.UseCases.JobOffers.CommandsHandlers;
+using JobJetRestApi.Domain.Consts;
 using JobJetRestApi.Domain.Entities;
-using JobJetRestApi.Domain.Enums;
 using JobJetRestApi.Domain.Repositories;
 using Moq;
 
